@@ -7,8 +7,17 @@ class DigitalAudio {
      */
     String location
 
+    /**
+     * file belongs to a specific recording
+     */
+    static belongsTo = [recording: Recording]
 
     static constraints = {
         location nullable: false
+        recording nullable: true
+    }
+
+    String toString() {
+        return location
     }
 }
