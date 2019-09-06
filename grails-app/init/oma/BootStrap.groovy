@@ -14,7 +14,7 @@ class BootStrap {
         def amp1 = AbstractMusicPart.findOrSaveWhere(abstractMusic: am1, interpretation: i1, interpretationOrder: new Long(1), barNumberOffset: new Double(0.0), numberOfBars: new Double(-1.0))
 
         def da1 = DigitalAudio.findOrSaveWhere(location: "s3://someFile.wav")
-        def r1 = Recording.findOrSaveWhere(interpretation: i1, digitalAudio: da1)
+        def r1 = Recording.findOrSaveWhere(interpretation: i1, digitalAudio: da1, title: "First recording")
 
 
 

@@ -4,15 +4,14 @@ import oma.Recording
 
 class Annotation {
 
+
+
     /**
-     * annotations always relate to actual audible content and the time line within.
-     * in other words: no annotation can be added to interpretations without recording
-     */
-    /**
-     * Annotations may be grouped. many tappings in one go, session, listening, range of perception
+     * Annotations are grouped. many tappings in one go, session, listening
+     * Session: range of perception
      */
 
-    static belongsTo = [recording: Recording, session: Session]
+    static belongsTo = [session: Session]
 
     /**
      * Every annotation belongs to a certain perception of a certain event (e.g., perceiving a cadence)

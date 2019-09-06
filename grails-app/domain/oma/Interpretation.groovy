@@ -20,6 +20,6 @@ class Interpretation {
     }
 
     String toString() {
-        return title + "(" + tokenizeParts() + ")"
+        return title // + "(" + tokenizeParts() + ")"
     }
 }

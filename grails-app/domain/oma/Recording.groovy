@@ -2,6 +2,8 @@ package oma
 
 class Recording {
 
+    //Long id
+
     /**
      * title of the recording
      */
@@ -18,9 +20,10 @@ class Recording {
     DigitalAudio digitalAudio
 
     static constraints = {
-        title nullable: true
-        interpretation nullable: false
+        //id nullable: false
+        title nullable: false
         digitalAudio nullable: true
+        interpretation nullable: false
     }
 
     String toString() {
