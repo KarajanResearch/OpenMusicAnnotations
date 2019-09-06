@@ -13,6 +13,6 @@ class AbstractMusic {
 
 
     String toString() {
-        return title
+        return composer.toString() + ": " + title
     }
 }

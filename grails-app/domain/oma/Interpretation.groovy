@@ -15,7 +15,11 @@ class Interpretation {
         title nullable: false
     }
 
+    String tokenizeParts() {
+        return abstractMusicParts*.toString().toListString()
+    }
+
     String toString() {
-        return title
+        return title + "(" + tokenizeParts() + ")"
     }
 }
