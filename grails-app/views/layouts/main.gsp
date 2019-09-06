@@ -45,11 +45,11 @@
     </div>
 
     <div class="col">
-        <a href="https://github.com/KarajanResearch/OpenMusicAnnotations" target="_blank">
+        <a href="https://karajan-research.org/" target="_blank">
             <asset:image src="slack.svg" alt="Slack" class="float-left"/>
         </a>
-        <strong class="centered"><a href="https://grails-slack.cfapps.io" target="_blank">Join the Community</a></strong>
-        <p>Get feedback and share your experience with the community <a href="https://github.com/KarajanResearch/OpenMusicAnnotations" target="_blank">Github</a>.</p>
+        <strong class="centered"><a href="https://karajan-research.org/" target="_blank">Join the Community</a></strong>
+        <p>Get feedback and share your experience with the community <a href="https://karajan-research.org/" target="_blank">Github</a>.</p>
     </div>
 </div>
 
