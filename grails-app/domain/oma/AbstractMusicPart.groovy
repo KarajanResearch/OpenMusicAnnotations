@@ -3,6 +3,11 @@ package oma
 class AbstractMusicPart {
 
     /**
+     * parts can have optional names
+     */
+    String title
+
+    /**
      * where is the part taken from
      */
     AbstractMusic abstractMusic
@@ -30,6 +35,7 @@ class AbstractMusicPart {
     Long interpretationOrder
 
     static constraints = {
+        title nullable: true
         abstractMusic nullable: false
         interpretationOrder nullable: false
         interpretation nullable: false
@@ -38,6 +44,14 @@ class AbstractMusicPart {
     }
 
     String toString() {
-        return "Part " + interpretationOrder.toString() + ": " + abstractMusic.toString() + " starting at bar " + sprintf("%.2f", barNumberOffset != null ? barNumberOffset : 1.0 )
+        return interpretation.toString() + " pt. " + interpretationOrder.toString() + ", " + getTitle() + ", " + abstractMusic.toString() + ", starting at bar " + sprintf("%.2f", barNumberOffset != null ? barNumberOffset : 1.0 )
+    }
+
+    String getTitle() {
+        if (!title) {
+            return "Part " + interpretationOrder + " of " + interpretation.toString()
+        } else {
+            return title
+        }
     }
 }

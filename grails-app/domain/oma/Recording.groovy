@@ -12,7 +12,7 @@ class Recording {
     /**
      * what was recorded
      */
-    static belongsTo = [interpretation: Interpretation]
+    static belongsTo = [interpretation: Interpretation, abstractMusicPart: AbstractMusicPart]
 
     /**
      * manifestation of the recording
@@ -27,10 +27,10 @@ class Recording {
     }
 
     String toString() {
-        if (!title) {
-            return "Recording of " + interpretation.toString()
-        } else {
-            return title
-        }
+        //if (!title) {
+            return title + ": Recording of " + abstractMusicPart.toString()
+        //} else {
+        //    return title
+        //}
     }
 }
