@@ -7,6 +7,16 @@ class RecordingController {
 
     static scaffold = Recording
 
+/*
+    def show(Long id) {
+        def recording = Recording.get(id)
+
+
+        respond recording
+    }
+*/
+
+
     /*
 
     RecordingService recordingService
