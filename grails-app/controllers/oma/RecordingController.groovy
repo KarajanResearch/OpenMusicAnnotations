@@ -1,11 +1,45 @@
 package oma
 
+import grails.converters.JSON
 import grails.validation.ValidationException
+import oma.annotation.Annotation
+import oma.annotation.Session
+
 import static org.springframework.http.HttpStatus.*
 
 class RecordingController {
 
     static scaffold = Recording
+
+
+    def ajaxUploadTapData() {
+
+        println params
+
+        def recording = Recording.get(params.recording)
+        def sessionName = "Saved at " + new Date().toString()
+        def session = new Session(recording: recording, title: sessionName)
+
+        params["tapList"].tokenize(";").each { tapTime ->
+            Double t = Double.parseDouble(tapTime)
+            def a = new Annotation(type: "Tap", momentOfPerception: t, session: session)
+            if (!a.save()) {
+                println a.errors
+            }
+        }
+
+
+        if (!session.save(flush: true)) {
+            println session.errors
+        }
+
+
+
+        def result = [success: "Alright"]
+        render result as JSON
+
+
+    }
 
 /*
     def show(Long id) {

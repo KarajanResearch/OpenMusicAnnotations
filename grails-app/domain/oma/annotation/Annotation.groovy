@@ -18,6 +18,11 @@ class Annotation {
      */
     double momentOfPerception
 
+    /**
+     * type of the event
+     */
+    String type
+
 
 
     /**
@@ -25,7 +30,8 @@ class Annotation {
      */
 
     static constraints = {
-        recording nullable: false
+        session nullable: false
+        type nullable: false
         momentOfPerception nullable: false
     }
 }

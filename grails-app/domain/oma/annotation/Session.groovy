@@ -25,7 +25,7 @@ class Session {
 
 
     /**
-     * defines an optional temporal range for the range of perception
+     * defines an optional temporal range for the range of perception TODO: remove
      */
     Date startTimestamp
     Date endTimestamp

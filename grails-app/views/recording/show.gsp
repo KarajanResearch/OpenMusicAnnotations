@@ -28,7 +28,7 @@
             </g:form>
 
 
-            <h1>Score</h1>
+            <h1>Viz Player</h1>
 
 
 
@@ -37,7 +37,7 @@
 
 
 
-            <h1>Visual Data</h1>
+
 
 
 
