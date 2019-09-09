@@ -29,11 +29,19 @@
 
 
             <h1>Score</h1>
-            <g:sheetMusic recording="${this.recording}">Needs a body?</g:sheetMusic>
-            <g:sheetMusicPlayer recording="${this.recording}">Needs a body?</g:sheetMusicPlayer>
+
+
+
+            <g:render template="sheetMusicPlayerTemplate" model="${[recording: this.recording]}" />
+
+
 
 
             <h1>Visual Data</h1>
+
+
+
+
 
 
         </div>
