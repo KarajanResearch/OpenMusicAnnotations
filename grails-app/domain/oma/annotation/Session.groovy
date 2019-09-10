@@ -16,6 +16,12 @@ class Session {
      */
     static belongsTo = [recording: Recording]
 
+    /**
+     * bi-directional link to annotations
+     */
+    SortedSet annotations
+    static hasMany = [annotations: Annotation]
+
 
     /**
      * usually auto generated describing where session object is created. Introduce session factory, if

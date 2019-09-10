@@ -32,7 +32,7 @@
 
 
 
-            <g:render template="sheetMusicPlayerTemplate" model="${[recording: this.recording]}" />
+            <g:render template="sheetMusicPlayerTemplate" model="${this}" />
 
 
 

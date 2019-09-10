@@ -11,7 +11,10 @@ class RecordingController {
 
     static scaffold = Recording
 
-
+    /**
+     * called from recording.show view
+     * @return
+     */
     def ajaxUploadTapData() {
 
         println params
@@ -22,10 +25,10 @@ class RecordingController {
 
         params["tapList"].tokenize(";").each { tapTime ->
             Double t = Double.parseDouble(tapTime)
+
             def a = new Annotation(type: "Tap", momentOfPerception: t, session: session)
-            if (!a.save()) {
-                println a.errors
-            }
+            session.addToAnnotations(a)
+
         }
 
 
@@ -41,14 +44,25 @@ class RecordingController {
 
     }
 
-/*
+
     def show(Long id) {
         def recording = Recording.get(id)
 
+        def annotationSessions = Session.findAllByRecording(recording)
 
-        respond recording
+        JSON.use("deep")
+        def annotationSessionsJson = annotationSessions as JSON
+
+
+        def model = [recording: recording, annotationSessionsJson: annotationSessionsJson]
+
+        //render model as JSON
+
+        render view: "show", model: model
+
+
     }
-*/
+
 
 
     /*

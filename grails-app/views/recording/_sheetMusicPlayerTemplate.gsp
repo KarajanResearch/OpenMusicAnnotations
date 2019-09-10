@@ -43,7 +43,7 @@
 
 <script type="application/javascript">
 
-    // state
+    // state for event collection
     var timer = 0.0;
     var lastTap = 0.0;
     var tapList = [];
@@ -146,28 +146,35 @@
     });
 
 
+    var canvas; // html canvas element
+    var vizStartTime; // offset for visualization
+    var vizDuration; // seconds
+    var ctx; // context
+
     // init
-    var canvas = document.getElementById("viz");
-    var vizStartTime = 0.0;
-    var vizDuration = 30.0; // seconds
+    function initCanvas() {
+        canvas = document.getElementById("viz");
+        vizStartTime = 0.0;
+        vizDuration = 30.0; // seconds
+        canvas.width = window.innerWidth;
+        canvas.height = 200;
+        console.log(canvas.width);
+        ctx = canvas.getContext("2d");
+    }
 
-    canvas.width = window.innerWidth;
-    canvas.height = 200;
-
-    console.log(canvas.width);
-
-
-    var ctx = canvas.getContext("2d");
-
-
-    // first the thin lines
-    ctx.lineWidth = 1;
 
 
     // ten seconds frame...
     function clearCanvas(time) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         vizStartTime = time;
+
+        // existing data
+        <g:applyCodec encodeAs="none">
+        var annotationSessions = ${this.annotationSessionsJson};
+        </g:applyCodec>
+
+        console.log(annotationSessions);
     }
 
 
@@ -213,6 +220,9 @@
 
     }
 
+
+    initCanvas();
+    clearCanvas(0.0);
 
 
 </script>

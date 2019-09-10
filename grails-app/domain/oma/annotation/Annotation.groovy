@@ -2,7 +2,7 @@ package oma.annotation
 
 import oma.Recording
 
-class Annotation {
+class Annotation implements Comparable {
 
 
 
@@ -33,5 +33,11 @@ class Annotation {
         session nullable: false
         type nullable: false
         momentOfPerception nullable: false
+    }
+
+
+    int compareTo(obj) {
+        Annotation other = (Annotation)obj
+        momentOfPerception.compareTo(other.momentOfPerception)
     }
 }
