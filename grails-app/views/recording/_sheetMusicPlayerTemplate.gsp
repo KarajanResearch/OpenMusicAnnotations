@@ -45,7 +45,6 @@
 
     // state for event collection
     var timer = 0.0;
-    var lastTap = 0.0;
     var tapList = [];
 
 
@@ -140,7 +139,6 @@
 
     $(function() {
         $("#save_tap_list").on("click", function() {
-
             uploadTapData();
         });
     });
@@ -154,28 +152,59 @@
     // init
     function initCanvas() {
         canvas = document.getElementById("viz");
-        vizStartTime = 0.0;
-        vizDuration = 30.0; // seconds
-        canvas.width = window.innerWidth;
+        vizStartTime = 0.0; // offset. beginning of viz
+        vizDuration = 15.0; // length of viz in seconds
+        canvas.width = window.innerWidth; // todo: react to changing window size
         canvas.height = 200;
         console.log(canvas.width);
         ctx = canvas.getContext("2d");
     }
 
 
-
-    // ten seconds frame...
-    function clearCanvas(time) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        vizStartTime = time;
-
+    function drawAnnotations() {
         // existing data
         <g:applyCodec encodeAs="none">
         var annotationSessions = ${this.annotationSessionsJson};
         </g:applyCodec>
 
-        console.log(annotationSessions);
+        //console.log(annotationSessions);
+
+        // var sampleRate = 44100;
+        // var sampleLength = 1.0 / sampleRate;
+
+        for (var i = 0; i < annotationSessions.length; i++) {
+            for (var j = 0; j < annotationSessions[i].annotations.length; j++) {
+                var eventTime = annotationSessions[i].annotations[j].momentOfPerception;
+                var eventType = annotationSessions[i].annotations[j].type;
+
+                if (eventTime > vizStartTime && eventTime < (vizStartTime + vizDuration)) {
+                    // Assert: drawEvent will NEVER trigger clearCanvas, because start and endtime match
+                    drawEvent(eventType, eventTime);
+                }
+                if (eventTime > (vizStartTime + vizDuration)) {
+                    // break inner loop
+                    j = annotationSessions[i].annotations.length;
+                }
+            }
+        }
     }
+
+
+    /**
+     * when time moves on, the visualization needs to be refreshed to the
+     * right time window
+     * @param time
+     */
+    function clearCanvas(time) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        vizStartTime = time;
+
+        var t0 = performance.now();
+        drawAnnotations();
+        var t1 = performance.now();
+        console.log("Call to drawAnnotations took " + (t1 - t0) + " milliseconds.");
+    }
+
 
 
     // maps a time event (tap at second 5.67) to x coords in the canvas
@@ -195,29 +224,33 @@
         return (time - vizStartTime) * pixPerSec;
     }
 
-    function drawTapPoint(time) {
 
+    function drawEvent(type, time) {
+        var pointRadius = 4;
+        var x = mapTime(time);
+        var y = canvas.height - 10;
+        ctx.beginPath();
+        ctx.arc(x, y, pointRadius, 0, 2 * Math.PI);
+        ctx.stroke();
+    }
+
+
+    function drawTapPoint(time) {
         var pointRadius = 3;
         var x = mapTime(time);
         var y = canvas.height / 2;
-
         ctx.beginPath();
         ctx.arc(x, y, pointRadius, 0, 2 * Math.PI);
         ctx.stroke();
-
     }
 
     function drawPlayHead(time) {
-
-
         var pointRadius = 2;
         var x = mapTime(time);
         var y = canvas.height - 4;
-
         ctx.beginPath();
         ctx.arc(x, y, pointRadius, 0, 2 * Math.PI);
         ctx.stroke();
-
     }
 
 
