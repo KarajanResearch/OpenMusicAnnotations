@@ -24,12 +24,22 @@ class BootStrap {
 
 
         // we need to support partial compositions because no one is forced to play a whole piece
-        def amp1 = AbstractMusicPart.findOrSaveWhere(title: "3. Satz: Allegro vivace", abstractMusic: am1, interpretation: i1, interpretationOrder: new Long(1), barNumberOffset: new Double(0.0), numberOfBars: new Double(-1.0))
+        def amp1 = AbstractMusicPart.findOrSaveWhere(title: "3. Satz: Allegro vivace", abstractMusic: am1, interpretation: i1, interpretationOrder: new Long(3), barNumberOffset: new Double(0.0), numberOfBars: new Double(-1.0))
 
         def da1 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/28913")
         // connect recording to abstractMusicPart?
-        def r1 = Recording.findOrSaveWhere(interpretation: i1, abstractMusicPart: amp1, digitalAudio: da1, title: "First recording")
+        def r1 = Recording.findOrSaveWhere(interpretation: i1, abstractMusicPart: amp1, digitalAudio: da1, title: "Recorded 1962")
 
+
+
+        // https://kapi.cloud/kwvTrack/stream/12836
+        def i2 = Interpretation.findOrSaveWhere(title: "KWV 657")
+        def amp2 = AbstractMusicPart.findOrSaveWhere(title: "3. Satz: Allegro vivace", abstractMusic: am1, interpretation: i2, interpretationOrder: new Long(3), barNumberOffset: new Double(0.0), numberOfBars: new Double(-1.0))
+
+
+        def da2 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/12836")
+        // connect recording to abstractMusicPart?
+        def r2 = Recording.findOrSaveWhere(interpretation: i2, abstractMusicPart: amp2, digitalAudio: da2, title: "Recorded with BPO in 1977")
 
 
 
