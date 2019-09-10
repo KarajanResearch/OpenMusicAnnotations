@@ -19,7 +19,6 @@
             <source src="${recording.digitalAudio}"/> type="audio/mp3">
         Your browser does not support the audio element. </audio>
 
-        <div id="current_time">current_time</div>
     </div>
 
     <div>
@@ -28,7 +27,6 @@
         <button id="save_tap_list">Save 0 Samples</button>
 
         <div id="tap_ist"></div>
-        <div id="current_tempo">current_tempo</div>
 
     </div>
 
@@ -80,16 +78,11 @@
     // getter and setter
     function updateTimer(time) {
         timer = time;
-        //console.log("updated timer: " + time);
-        $("#current_time").text(time);
         drawPlayHead(time);
     }
 
     function updateTapTempo(time) {
-        //console.log("updated tempo: " + time);
-        $("#current_tempo").text(time);
         tapList.push(time);
-        //console.log(tapList);
         drawTapPoint(time);
 
         $("#tap_list").text(tapList.length);
@@ -118,8 +111,10 @@
             } else {
                 //audioPlayerLog("playing " + widget.currentTime);
                 updateTimer(widget.currentTime);
+                drawPlayHead(widget.currentTime);
             }
-            drawPlayHead(widget.currentTime);
+            clearCanvas(widget.currentTime);
+
         });
     });
 
@@ -153,7 +148,7 @@
     function initCanvas() {
         canvas = document.getElementById("viz");
         vizStartTime = 0.0; // offset. beginning of viz
-        vizDuration = 15.0; // length of viz in seconds
+        vizDuration = 30.0; // length of viz in seconds
         canvas.width = window.innerWidth; // todo: react to changing window size
         canvas.height = 200;
         console.log(canvas.width);
@@ -196,6 +191,11 @@
      * @param time
      */
     function clearCanvas(time) {
+        // necessary?
+        if (time > vizStartTime && time < (vizStartTime + vizDuration)) {
+            //console.log("unnecessary");
+            return;
+        }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         vizStartTime = time;
 
