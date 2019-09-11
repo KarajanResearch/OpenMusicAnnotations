@@ -1,6 +1,9 @@
 <asset:javascript src="jquery-3.3.1.min.js"/>
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 
+<script src="https://unpkg.com/wavesurfer.js"></script>
+
+
 <style type="text/css">
     #tap_tempo {
         position: relative;
@@ -36,6 +39,14 @@
     </div>
 
 
+    <div>
+        <canvas id="viz" style="border:1px solid #d3d3d3;"></canvas>
+    </div>
+<!--
+    <div>
+        <div id="waveform"></div>
+    </div>
+-->
 
     <div>
         <button id="tap_tempo">Tap Tempo</button>
@@ -45,9 +56,6 @@
 
 
 
-    <div>
-        <canvas id="viz" style="border:1px solid #d3d3d3;"></canvas>
-    </div>
 
 
     <div id="score">
@@ -66,6 +74,25 @@
 
 
 <!-- Script -->
+
+<script type="application/javascript">
+/*
+    var wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: 'violet',
+        progressColor: 'purple'
+    });
+
+    wavesurfer.on('ready', function () {
+        wavesurfer.play();
+        console.log("Play!");
+    });
+
+    //TODO: CORS issue!
+    wavesurfer.load('${recording.digitalAudio}');
+
+*/
+</script>
 
 <script type="application/javascript">
     // score pdf stuff
