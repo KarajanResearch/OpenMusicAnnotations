@@ -25,14 +25,28 @@
     }
 </style>
 
+
+<!-- HTML -->
 <div>
 
     <div>
-        <h1>Audio Player</h1>
         <audio id="audio_player" controls preload="auto">
             <source src="${recording.digitalAudio}"/> type="audio/mp3">
         Your browser does not support the audio element. </audio>
+    </div>
 
+
+
+    <div>
+        <button id="tap_tempo">Tap Tempo</button>
+        <button id="save_tap_list">Save 0 Samples</button>
+        <div id="tap_ist"></div>
+    </div>
+
+
+
+    <div>
+        <canvas id="viz" style="border:1px solid #d3d3d3;"></canvas>
     </div>
 
 
@@ -47,25 +61,14 @@
 
     </div>
 
-
-    <div>
-        <h1>Tap Tempo</h1>
-        <button id="tap_tempo">Tap Tempo</button>
-        <button id="save_tap_list">Save 0 Samples</button>
-        <div id="tap_ist"></div>
-    </div>
-
-
-
-    <div>
-        <h1>Visual Data</h1>
-        <canvas id="viz" style="border:1px solid #d3d3d3;"></canvas>
-    </div>
-
 </div>
 
+
+
+<!-- Script -->
+
 <script type="application/javascript">
-    // score stuff
+    // score pdf stuff
     var pdfjsLib = window['pdfjs-dist/build/pdf'];
     // The workerSrc property shall be specified.
     pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
@@ -197,21 +200,14 @@
             },
             success: function(resp){
                 console.log(resp);
-
-
-
                 if (resp["Error"]) {
                     console.log(resp["Error"]);
                     return;
                 }
-
                 tapList = [];
                 $("#save_tap_list").text("Saved!");
-
             }
         });
-
-
     }
 
     // getter and setter
@@ -223,7 +219,6 @@
     function updateTapTempo(time) {
         tapList.push(time);
         drawTapPoint(time);
-
         $("#tap_list").text(tapList.length);
         $("#save_tap_list").text("Save " + tapList.length + " Samples")
     }
@@ -289,7 +284,7 @@
         vizStartTime = 0.0; // offset. beginning of viz
         vizDuration = 30.0; // length of viz in seconds
         canvas.width = window.innerWidth; // todo: react to changing window size
-        canvas.height = 200;
+        canvas.height = 50;
         console.log(canvas.width);
         ctx = canvas.getContext("2d");
     }
