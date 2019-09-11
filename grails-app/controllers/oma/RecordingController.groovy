@@ -11,6 +11,9 @@ class RecordingController {
 
     static scaffold = Recording
 
+
+    def recordingService
+
     /**
      * called from recording.show view
      * @return
@@ -59,10 +62,55 @@ class RecordingController {
         //render model as JSON
 
         render view: "show", model: model
+    }
 
+
+    def upload(Recording recording) {
+
+        respond(recording, view: "uploadAudio")
 
     }
 
+
+    def stream(Long id) {
+
+        def recording = Recording.get(id)
+
+        if (!recording) return
+
+        def file = recordingService.getFile(recording)
+
+        if (!file) return
+
+        response.setContentType("APPLICATION/OCTET-STREAM")
+        response.setHeader("Content-Disposition", "Attachment;Filename=\"${f.name}\"")
+
+        def outputStream = response.getOutputStream()
+        outputStream << file.newInputStream()
+        outputStream.flush()
+        outputStream.close()
+    }
+
+
+    def uploadRecordingFile(RecordingFileCommand cmd) {
+
+
+
+
+        Recording recording = Recording.get(cmd.recordingId)
+        if (!recording) return null
+
+        recording = recordingService.uploadFile(recording, cmd)
+
+
+
+        flash.message = "File uploaded"
+
+        render recording as JSON
+
+
+        //render (model: recording, view: "show")
+    }
 
 
     /*

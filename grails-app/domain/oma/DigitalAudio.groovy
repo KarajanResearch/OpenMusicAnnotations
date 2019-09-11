@@ -6,6 +6,8 @@ class DigitalAudio {
      * url, where the oma server can access the digital audio file
      */
     String location
+    String contentType
+
 
     /**
      * file belongs to a specific recording
@@ -14,6 +16,7 @@ class DigitalAudio {
 
     static constraints = {
         location nullable: false
+        contentType nullable: false
         recording nullable: true
     }
 

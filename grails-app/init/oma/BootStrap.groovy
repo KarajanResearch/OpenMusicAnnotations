@@ -33,9 +33,10 @@ class BootStrap {
             barNumberOffset: new Double(0.0),
             numberOfBars: new Double(-1.0))
 
-        def da1 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/28913")
+        def da1 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/28913", contentType: "stream")
         // connect recording to abstractMusicPart?
-        def r1 = Recording.findOrSaveWhere(interpretation: i1, abstractMusicPart: amp1, digitalAudio: da1, title: "Recorded 1962")
+        def r1 = Recording.findOrSaveWhere(interpretation: i1, abstractMusicPart: amp1, title: "Recorded 1962")
+        r1.addToDigitalAudio(da1).save()
 
 
 
@@ -51,10 +52,11 @@ class BootStrap {
             numberOfBars: new Double(-1.0))
 
 
-        def da2 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/12836")
+        def da2 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/12836", contentType: "stream")
         // connect recording to abstractMusicPart?
-        def r2 = Recording.findOrSaveWhere(interpretation: i2, abstractMusicPart: amp2, digitalAudio: da2, title: "Recorded with BPO in 1977")
+        def r2 = Recording.findOrSaveWhere(interpretation: i2, abstractMusicPart: amp2, title: "Recorded with BPO in 1977")
 
+        r2.addToDigitalAudio(da2).save()
 
 
 

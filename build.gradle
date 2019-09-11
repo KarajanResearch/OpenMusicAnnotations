@@ -26,6 +26,14 @@ repositories {
 }
 
 dependencies {
+    // high-level AWS S3 support
+    // https://github.com/agorapulse/grails-aws-sdk/tree/master/grails-aws-sdk-s3
+    compile 'org.grails.plugins:aws-sdk-s3:2.2.12'
+
+    // HttpBuilder
+    compile 'org.grails.plugins:http-builder-helper:1.1.0'
+
+
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"

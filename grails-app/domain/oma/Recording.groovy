@@ -12,12 +12,14 @@ class Recording {
     /**
      * what was recorded
      */
-    static belongsTo = [interpretation: Interpretation, abstractMusicPart: AbstractMusicPart]
+    static belongsTo = [interpretation: Interpretation]
+
+    AbstractMusicPart abstractMusicPart
 
     /**
      * manifestation of the recording
      */
-    DigitalAudio digitalAudio
+    static hasMany = [digitalAudio: DigitalAudio]
 
     static constraints = {
         //id nullable: false
