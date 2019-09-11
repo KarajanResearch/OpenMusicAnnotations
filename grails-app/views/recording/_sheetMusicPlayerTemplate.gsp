@@ -1,12 +1,26 @@
 <asset:javascript src="jquery-3.3.1.min.js"/>
+<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 
 <style type="text/css">
     #tap_tempo {
+        position: relative;
         float: left;
         margin: 10px;
     }
     #save_tap_list {
         /* float: left; */
+        position: relative;
+
+        margin: 10px;
+    }
+    #prev_page {
+        margin: 10px;
+    }
+    #next_page {
+        margin: 10px;
+    }
+    #page_count {
+        float: left;
         margin: 10px;
     }
 </style>
@@ -21,13 +35,24 @@
 
     </div>
 
+
+    <div id="score">
+        <canvas id="score_canvas_left"></canvas>
+        <canvas id="score_canvas_right"></canvas>
+        <div>
+            <div id="page_count"></div>
+            <button id="prev_page"> prev. </button>
+            <button id="next_page"> next </button>
+        </div>
+
+    </div>
+
+
     <div>
         <h1>Tap Tempo</h1>
         <button id="tap_tempo">Tap Tempo</button>
         <button id="save_tap_list">Save 0 Samples</button>
-
         <div id="tap_ist"></div>
-
     </div>
 
 
@@ -40,6 +65,120 @@
 </div>
 
 <script type="application/javascript">
+    // score stuff
+    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+    // The workerSrc property shall be specified.
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+    var pdfDoc = null,
+        pageNum = 1,
+        pageRendering = {"left": false, "right": false},
+        pageNumPending = {"left": null, "right": null},
+        scale = 0.8,
+        score_canvas = {
+            "left": document.getElementById('score_canvas_left'),
+            "right": document.getElementById('score_canvas_right')
+        },
+        score_ctx = {
+            "left": score_canvas["left"].getContext('2d'),
+            "right": score_canvas["right"].getContext('2d')
+        };
+
+
+    function renderPage(canvas, num) {
+        pageRendering[canvas] = true;
+        // Using promise to fetch the page
+        pdfDoc.getPage(num).then(function (page) {
+            var viewport = page.getViewport({scale: scale});
+            score_canvas[canvas].height = viewport.height;
+            score_canvas[canvas].width = viewport.width;
+
+            // Render PDF page into canvas context
+            var renderContext = {
+                canvasContext: score_ctx[canvas],
+                viewport: viewport
+            };
+            console.log("rendering; " + num + " to the " + canvas);
+            var renderTask = page.render(renderContext);
+
+            // Wait for rendering to finish
+            renderTask.promise.then(function () {
+                pageRendering[canvas] = false;
+                if (pageNumPending[canvas] !== null) {
+                    // New page rendering is pending
+                    renderPage(canvas, pageNumPending);
+                    pageNumPending[canvas] = null;
+                }
+            });
+        });
+    }
+
+
+    /**
+     * If another page rendering in progress, waits until the rendering is
+     * finised. Otherwise, executes rendering immediately.
+     */
+    function queueRenderPage(canvas, num) {
+        if (pageRendering[canvas]) {
+            pageNumPending[canvas] = num;
+        } else {
+            renderPage(canvas, num);
+        }
+    }
+
+    /**
+     * Displays previous page.
+     */
+    $(function() {
+        $("#prev_page").on("click", function() {
+            onPrevPage();
+        });
+    });
+    function onPrevPage() {
+        if (pageNum <= 1) {
+            return;
+        }
+        pageNum--;
+        queueRenderPage("left", pageNum);
+        queueRenderPage("right", pageNum + 1);
+    }
+
+    /**
+     * Displays next page.
+     */
+    $(function() {
+        $("#next_page").on("click", function() {
+            onNextPage();
+        });
+    });
+    function onNextPage() {
+        if (pageNum >= pdfDoc.numPages) {
+            return;
+        }
+        pageNum++;
+        queueRenderPage("left", pageNum);
+        if (pageNum < pdfDoc.numPages) {
+            queueRenderPage("right", pageNum+1);
+        } else {
+            console.log("TODO: clear canvas");
+        }
+
+    }
+
+
+    pdfjsLib.getDocument("${this.recording.abstractMusicPart.pdfLocation}").promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page_count').textContent = pdfDoc.numPages + " pages";
+
+        // Initial/first page rendering
+        renderPage("left", pageNum);
+        renderPage("right", pageNum+1);
+    });
+
+</script>
+
+<script type="application/javascript">
+    // tap tempo and data viz
 
     // state for event collection
     var timer = 0.0;

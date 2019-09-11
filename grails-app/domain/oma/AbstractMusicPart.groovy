@@ -13,6 +13,11 @@ class AbstractMusicPart {
     AbstractMusic abstractMusic
 
     /**
+     *
+     */
+    String pdfLocation
+
+    /**
      * at what bar does it start (if available)
      * It is a double value to support crazy in between stuff, e.g., AbstractMusic can be something else
      * than sheet music. The value of barNumber
@@ -37,6 +42,7 @@ class AbstractMusicPart {
     static constraints = {
         title nullable: true
         abstractMusic nullable: false
+        pdfLocation nullable: true
         interpretationOrder nullable: false
         interpretation nullable: false
         barNumberOffset nullable: false
