@@ -34,7 +34,7 @@
 
     <div>
         <audio id="audio_player" controls preload="auto">
-            <source src="${recording.digitalAudio}"/> type="audio/mp3">
+            <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording.id) }"/> type="audio/wav">
         Your browser does not support the audio element. </audio>
     </div>
 
@@ -196,7 +196,9 @@
     }
 
 
-    pdfjsLib.getDocument("${this.recording.abstractMusicPart.pdfLocation}").promise.then(function(pdfDoc_) {
+
+
+    pdfjsLib.getDocument("${createLink(controller: 'abstractMusicPart', action: 'getScoreFile', id: recording.abstractMusicPart.id)}").promise.then(function(pdfDoc_) {
         pdfDoc = pdfDoc_;
         document.getElementById('page_count').textContent = pdfDoc.numPages + " pages";
 

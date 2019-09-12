@@ -12,51 +12,49 @@ class BootStrap {
         // musicians pick a composition and make music out of it.
         // here, our model starts. At first, an interpretation is vague. Only characterized by a title.
         // Could also be a working title.
-        def i1 = Interpretation.findOrSaveWhere(title: "KWV 663")
+        def i1 = Interpretation.findOrSaveWhere(title: "Maurice Abravanel, Utah Symphony Orchestra, 1977")
 
         // The next step describes the structure of the interpretation.
         // The interpretation could be mapped 1:1 to a single composition or to a set of partial compositions.
 
         // Our music model starts after the composition process, i.e., our first
         // assumption is an existing composition by some composer.
-        def c1 = Composer.findOrSaveWhere(name: "Ludwig van Beethoven")
-        def am1 = AbstractMusic.findOrSaveWhere(composer: c1, title: "Symphonie Nr. 4 B-Dur op. 60")
+        def c1 = Composer.findOrSaveWhere(name: "Jean Sibelius")
+        def am1 = AbstractMusic.findOrSaveWhere(composer: c1, title: "Symphony No.6, Op.104")
 
 
         // we need to support partial compositions because no one is forced to play a whole piece
         def amp1 = AbstractMusicPart.findOrSaveWhere(
-            title: "3. Satz: Allegro vivace",
-            pdfLocation: "http://hz.imslp.info/files/imglnks/usimg/c/c2/IMSLP09342-Beethoven_-_Symphony_No.4_Mvt.III_(ed._Unger).pdf",
+            title: "1. Allegro molto moderato",
             abstractMusic: am1,
             interpretation: i1,
-            interpretationOrder: new Long(3),
+            interpretationOrder: new Long(1),
             barNumberOffset: new Double(0.0),
             numberOfBars: new Double(-1.0))
 
-        def da1 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/28913", contentType: "stream")
+        //def da1 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/28913", contentType: "stream")
         // connect recording to abstractMusicPart?
-        def r1 = Recording.findOrSaveWhere(interpretation: i1, abstractMusicPart: amp1, title: "Recorded 1962")
-        r1.addToDigitalAudio(da1).save()
+        def r1 = Recording.findOrSaveWhere(interpretation: i1, abstractMusicPart: amp1, title: "Recorded 1977")
+        //r1.addToDigitalAudio(da1).save()
 
 
 
         // https://kapi.cloud/kwvTrack/stream/12836
-        def i2 = Interpretation.findOrSaveWhere(title: "KWV 657")
+        def i2 = Interpretation.findOrSaveWhere(title: "Vladimir Ashkenazy, Philharmonia Orchestra, 1984")
         def amp2 = AbstractMusicPart.findOrSaveWhere(
-            title: "3. Satz: Allegro vivace",
-            pdfLocation: "http://hz.imslp.info/files/imglnks/usimg/c/c2/IMSLP09342-Beethoven_-_Symphony_No.4_Mvt.III_(ed._Unger).pdf",
+            title: "1. Allegro molto moderato",
             abstractMusic: am1,
             interpretation: i2,
-            interpretationOrder: new Long(3),
+            interpretationOrder: new Long(1),
             barNumberOffset: new Double(0.0),
             numberOfBars: new Double(-1.0))
 
 
-        def da2 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/12836", contentType: "stream")
+        //def da2 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/12836", contentType: "stream")
         // connect recording to abstractMusicPart?
-        def r2 = Recording.findOrSaveWhere(interpretation: i2, abstractMusicPart: amp2, title: "Recorded with BPO in 1977")
+        def r2 = Recording.findOrSaveWhere(interpretation: i2, abstractMusicPart: amp2, title: "Recorded 1984")
 
-        r2.addToDigitalAudio(da2).save()
+        //r2.addToDigitalAudio(da2).save()
 
 
 

@@ -38,4 +38,20 @@ class StorageBackendService extends AmazonS3Service {
             .withClientConfiguration(AwsClientUtil.buildClientConfiguration(super.config, super.serviceConfig))
             .build()
     }
+
+
+    def getS3Key(String url) {
+        url = url.replace("https://s3.amazonaws.com/", "")
+        def parts = url.tokenize("/")
+        def keyPath = parts.subList(1, parts.size()).join("/")
+        return keyPath
+    }
+
+    def getS3Bucket(String url) {
+        url = url.replace("https://s3.amazonaws.com/", "")
+        def parts = url.tokenize("/")
+        url = parts[0]
+        def bucket = url.tokenize(".")[0]
+        return bucket
+    }
 }

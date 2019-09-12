@@ -2,6 +2,8 @@ buildscript {
     repositories {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
+        // aws S3 plugin
+        maven { url 'http://dl.bintray.com/agorapulse/libs' }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -31,7 +33,7 @@ dependencies {
     compile 'org.grails.plugins:aws-sdk-s3:2.2.12'
 
     // HttpBuilder
-    compile 'org.grails.plugins:http-builder-helper:1.1.0'
+    //compile 'org.grails.plugins:http-builder-helper:1.1.0'
 
 
     compile "org.springframework.boot:spring-boot-starter-logging"

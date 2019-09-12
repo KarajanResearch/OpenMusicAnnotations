@@ -1,9 +1,8 @@
 package oma
 
+import com.amazonaws.services.s3.model.CannedAccessControlList
 import grails.gorm.services.Service
 import grails.util.Environment
-import groovyx.net.http.HTTPBuilder
-import groovyx.net.http.Method
 
 @Service(Recording)
 class RecordingService {
@@ -26,18 +25,25 @@ class RecordingService {
     File getFile(Recording recording) {
 
 
-        println "getting file from: " + recording.digitalAudio.location
 
-        // check location for download
-        def uri = recording.digitalAudio.location
+        File file = File.createTempFile("temp",".mp3")
 
-        def http = new HTTPBuilder(uri)
+        def location = recording.digitalAudio[0].location
 
-        def result = http.request(Method.GET) {
-            println it
-        }
+        def keyPath = storageBackendService.getS3Key(location)
+        def bucket = storageBackendService.getS3Bucket(location)
 
-        return result
+        println keyPath
+        println bucket
+
+
+
+        def f = storageBackendService.getFile(bucket, keyPath, file.absolutePath)
+
+        println f
+
+        return file
+
 
     }
 
@@ -50,16 +56,18 @@ class RecordingService {
 
         println storageBackendService.BUCKET_NAME
         println path
-        
 
-        String s3FileUrl = storageBackendService.storeMultipartFile(path, cmd.recordingFile.originalFilename, cmd.recordingFile)
+        def bucket = "open-music-annotations-storage-backend"
+        String s3FileUrl = storageBackendService.storeMultipartFile(
+            bucket,
+            path,
+            cmd.recordingFile,
+            CannedAccessControlList.Private
+        )
 
-        println s3FileUrl
-
-        //TODO: does not work
+        println "S3: " + s3FileUrl
 
         if (!s3FileUrl) return recording
-
 
         return recordingGormService.updateRecordingFile(recording.id, cmd.version, s3FileUrl, cmd.recordingFile.contentType)
 

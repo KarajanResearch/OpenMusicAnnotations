@@ -92,6 +92,29 @@ class RecordingController {
     }
 
 
+    def getAudioFile(Long id) {
+
+
+        def recording = Recording.get(id)
+
+        if (!recording) return
+
+        def file = recordingService.getFile(recording)
+
+        if (!file) return
+
+        response.setContentType("APPLICATION/OCTET-STREAM")
+        response.setHeader("Content-Disposition", "Attachment;Filename=\"${file.name}\"")
+
+        def outputStream = response.getOutputStream()
+        outputStream << file.newInputStream()
+        outputStream.flush()
+        outputStream.close()
+
+    }
+
+
+
     def uploadRecordingFile(RecordingFileCommand cmd) {
 
 
@@ -106,11 +129,14 @@ class RecordingController {
 
         flash.message = "File uploaded"
 
-        render recording as JSON
+        //render recording as JSON
 
 
-        //render (model: recording, view: "show")
+        render (model: recording, view: "show")
     }
+
+
+
 
 
     /*

@@ -1,11 +1,59 @@
 package oma
 
+import grails.converters.JSON
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
 class AbstractMusicPartController {
 
     static scaffold = AbstractMusicPart
+
+    AbstractMusicPartService abstractMusicPartService
+
+
+    def upload(AbstractMusicPart abstractMusicPart) {
+
+        respond(abstractMusicPart, view: "uploadSheet")
+
+    }
+
+
+    def uploadScoreFile(AbstractMusicPartScoreFileCommand cmd) {
+
+
+
+
+        AbstractMusicPart abstractMusicPart = AbstractMusicPart.get(cmd.abstractMusicPartId)
+        if (!abstractMusicPart) return null
+
+        abstractMusicPart = abstractMusicPartService.uploadScoreFile(abstractMusicPart, cmd)
+
+
+        flash.message = "File uploaded"
+
+        //render abstractMusicPart as JSON
+
+
+        respond (abstractMusicPart, view: "show")
+    }
+
+    def getScoreFile(AbstractMusicPart abstractMusicPart) {
+
+
+
+        File file = abstractMusicPartService.getScoreFile(abstractMusicPart)
+
+        println "loaded File"
+
+        response.setContentType("APPLICATION/OCTET-STREAM")
+        response.setHeader("Content-Disposition", "Attachment;Filename=\"${file.name}\"")
+
+        def outputStream = response.getOutputStream()
+        outputStream << file.newInputStream()
+        outputStream.flush()
+        outputStream.close()
+
+    }
 
     /*
 

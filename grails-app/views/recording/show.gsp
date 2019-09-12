@@ -33,12 +33,16 @@
 
 
 
-
             <f:display bean="recording" />
             <g:form resource="${this.recording}" method="DELETE">
                 <fieldset class="buttons">
                     <g:link class="edit" action="edit" resource="${this.recording}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+
+                    <!--
                     <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+                    -->
+                    <g:link class="upload" action="upload" resource="${this.recording}">Upload Audio File (flac, wav, mp3)</g:link>
+
                 </fieldset>
             </g:form>
 
