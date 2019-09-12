@@ -42,6 +42,10 @@ class AbstractMusicPartService {
     File getScoreFile(AbstractMusicPart abstractMusicPart) {
 
 
+        if (!abstractMusicPart.pdfLocation) {
+            return null
+        }
+
         File file = File.createTempFile("temp",".pdf")
 
         def keyPath = storageBackendService.getS3Key(abstractMusicPart.pdfLocation)

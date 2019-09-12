@@ -24,7 +24,7 @@ class AbstractMusicPartController {
 
 
         AbstractMusicPart abstractMusicPart = AbstractMusicPart.get(cmd.abstractMusicPartId)
-        if (!abstractMusicPart) return null
+        if (!abstractMusicPart) return notFound()
 
         abstractMusicPart = abstractMusicPartService.uploadScoreFile(abstractMusicPart, cmd)
 
@@ -42,6 +42,7 @@ class AbstractMusicPartController {
 
 
         File file = abstractMusicPartService.getScoreFile(abstractMusicPart)
+        if (!file) return notFound()
 
         println "loaded File"
 
@@ -53,6 +54,16 @@ class AbstractMusicPartController {
         outputStream.flush()
         outputStream.close()
 
+    }
+
+    protected void notFound() {
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'abstractMusicPart.label', default: 'AbstractMusicPart'), params.id])
+                redirect action: "index", method: "GET"
+            }
+            '*'{ render status: NOT_FOUND }
+        }
     }
 
     /*

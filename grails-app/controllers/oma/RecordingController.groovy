@@ -71,7 +71,7 @@ class RecordingController {
 
     }
 
-
+/*
     def stream(Long id) {
 
         def recording = Recording.get(id)
@@ -90,18 +90,19 @@ class RecordingController {
         outputStream.flush()
         outputStream.close()
     }
-
+*/
 
     def getAudioFile(Long id) {
 
 
         def recording = Recording.get(id)
 
-        if (!recording) return
+        if (!recording) return notFound()
 
         def file = recordingService.getFile(recording)
 
-        if (!file) return
+        if (!file) return notFound()
+
 
         response.setContentType("APPLICATION/OCTET-STREAM")
         response.setHeader("Content-Disposition", "Attachment;Filename=\"${file.name}\"")
@@ -121,7 +122,7 @@ class RecordingController {
 
 
         Recording recording = Recording.get(cmd.recordingId)
-        if (!recording) return null
+        if (!recording) return notFound()
 
         recording = recordingService.uploadFile(recording, cmd)
 
@@ -135,6 +136,16 @@ class RecordingController {
         respond (recording, view: "show")
     }
 
+
+    protected void notFound() {
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'recording.label', default: 'Recording'), params.id])
+                redirect action: "index", method: "GET"
+            }
+            '*'{ render status: NOT_FOUND }
+        }
+    }
 
 
 

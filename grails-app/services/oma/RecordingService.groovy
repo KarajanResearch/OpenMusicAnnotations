@@ -28,6 +28,8 @@ class RecordingService {
 
         File file = File.createTempFile("temp",".mp3")
 
+        if (!recording.digitalAudio || !recording.digitalAudio[0] || !recording.digitalAudio[0].location) return null
+
         def location = recording.digitalAudio[0].location
 
         def keyPath = storageBackendService.getS3Key(location)
