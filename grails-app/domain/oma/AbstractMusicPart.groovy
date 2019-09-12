@@ -33,7 +33,7 @@ class AbstractMusicPart {
     /**
      * in which interpretation is that particular part used
      */
-    static belongsTo = [interpretation: Interpretation]
+    Interpretation interpretation
     /**
      * in which order is it used. total order per interpretation
      */

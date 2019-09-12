@@ -132,7 +132,7 @@ class RecordingController {
         //render recording as JSON
 
 
-        render (model: recording, view: "show")
+        respond (recording, view: "show")
     }
 
 
