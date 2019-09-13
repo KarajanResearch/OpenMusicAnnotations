@@ -1,6 +1,5 @@
 package oma.annotation
 
-import oma.Recording
 
 class Annotation implements Comparable {
 
@@ -23,6 +22,13 @@ class Annotation implements Comparable {
      */
     String type
 
+    /**
+     * For example. the third eighth note in bar 20 has: 20, 3, 8
+     */
+    Long barNumber
+    Long beatNumber
+    Long subdivision
+
 
 
     /**
@@ -33,6 +39,9 @@ class Annotation implements Comparable {
         session nullable: false
         type nullable: false
         momentOfPerception nullable: false
+        barNumber nullable: true
+        beatNumber nullable: true
+        subdivision nullable: true
     }
 
 
