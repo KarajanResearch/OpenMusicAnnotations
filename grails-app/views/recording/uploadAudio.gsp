@@ -23,7 +23,7 @@
         <g:hiddenField name="version" value="${this.recording?.version}" />
         <input type="file" name="recordingFile" />
         <fieldset class="buttons">
-            <input class="save" type="submit" value="${message(code: 'recording.recordingFile.upload.label', default: 'Upload')}" />
+            <input class="save" type="submit" value="${message(code: 'default.button.upload.label', default: 'Upload')}" />
         </fieldset>
     </g:uploadForm>
 

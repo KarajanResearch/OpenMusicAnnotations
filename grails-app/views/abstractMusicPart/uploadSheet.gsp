@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main" />
+    <g:set var="entityName" value="${message(code: 'abstractMusicPart.label', default: 'AbstractMusicPart')}" />
     <title>Upload Score (*.pdf)</title>
 </head>
 <body>
@@ -22,7 +23,7 @@
         <g:hiddenField name="version" value="${this.abstractMusicPart?.version}" />
         <input type="file" name="scoreFile" />
         <fieldset class="buttons">
-            <input class="save" type="submit" value="Upload" />
+            <input class="save" type="submit" value="${message(code: 'default.button.upload.label', default: 'Upload')}" />
         </fieldset>
     </g:uploadForm>
 

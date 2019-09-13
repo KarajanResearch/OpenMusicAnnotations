@@ -14,8 +14,8 @@ class BootStrap {
 
 
 
-        def data = "Herbert v. Karajan\tWPO\t1947\thttps://s3.amazonaws.com/open-music-annotations-storage-backend/development/abstractMusicPart/1/2019-09-12-12-53-332_IMSLP516488-PMLP1607-Beethoven_-_Symphony_No.9,_Op.125.pdf\thttps://s3.amazonaws.com/open-music-annotations-storage-backend/development/recording/1/2019-09-12-12-51-679_Karajan_WPO_1947_Bee_9-1_file_2403.flac\n" +
-            "Herbert v. Karajan\tRAI Orchestra\t1954\n" +
+        def data = "Herbert v. Karajan\tWPO\t1947\thttps://s3.amazonaws.com/open-music-annotations-storage-backend/development/abstractMusicPart/1/2019-09-13-09-41-488_Beethoven9-20Pages.pdf\thttps://s3.amazonaws.com/open-music-annotations-storage-backend/development/recording/1/2019-09-12-12-51-679_Karajan_WPO_1947_Bee_9-1_file_2403.flac\n" +
+            "Herbert v. Karajan\tRAI Orchestra\t1954\thttps://s3.amazonaws.com/open-music-annotations-storage-backend/development/abstractMusicPart/2/2019-09-13-09-38-703_Beethoven9-20Pages.pdf\thttps://s3.amazonaws.com/open-music-annotations-storage-backend/development/recording/2/2019-09-12-01-18-174_Karajan_RAI_1954_Bee_9-1_file_2282.flac\n" +
             "Herbert v. Karajan\tPhilharmonia Orchestra\t1955\n" +
             "Herbert v. Karajan\tBPO\t1957\n" +
             "Herbert v. Karajan\tBPO\t1962\n" +
@@ -73,61 +73,6 @@ class BootStrap {
         }
 
 
-        /*
-
-
-
-
-
-        // musicians pick a composition and make music out of it.
-        // here, our model starts. At first, an interpretation is vague. Only characterized by a title.
-        // Could also be a working title.
-        def i1 = Interpretation.findOrSaveWhere(title: "Maurice Abravanel, Utah Symphony Orchestra, 1977")
-
-        // The next step describes the structure of the interpretation.
-        // The interpretation could be mapped 1:1 to a single composition or to a set of partial compositions.
-
-        // Our music model starts after the composition process, i.e., our first
-        // assumption is an existing composition by some composer.
-        def c1 = Composer.findOrSaveWhere(name: "Jean Sibelius")
-        def am1 = AbstractMusic.findOrSaveWhere(composer: c1, title: "Symphony No.6, Op.104")
-
-
-        // we need to support partial compositions because no one is forced to play a whole piece
-        def amp1 = AbstractMusicPart.findOrSaveWhere(
-            title: "1. Allegro molto moderato",
-            abstractMusic: am1,
-            interpretation: i1,
-            interpretationOrder: new Long(1),
-            barNumberOffset: new Double(0.0),
-            numberOfBars: new Double(-1.0))
-
-        //def da1 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/28913", contentType: "stream")
-        // connect recording to abstractMusicPart?
-        def r1 = Recording.findOrSaveWhere(interpretation: i1, abstractMusicPart: amp1, title: "Recorded 1977")
-        //r1.addToDigitalAudio(da1).save()
-
-
-
-        // https://kapi.cloud/kwvTrack/stream/12836
-        def i2 = Interpretation.findOrSaveWhere(title: "Vladimir Ashkenazy, Philharmonia Orchestra, 1984")
-        def amp2 = AbstractMusicPart.findOrSaveWhere(
-            title: "1. Allegro molto moderato",
-            abstractMusic: am1,
-            interpretation: i2,
-            interpretationOrder: new Long(1),
-            barNumberOffset: new Double(0.0),
-            numberOfBars: new Double(-1.0))
-
-
-        //def da2 = DigitalAudio.findOrSaveWhere(location: "https://kapi.cloud/kwvTrack/stream/12836", contentType: "stream")
-        // connect recording to abstractMusicPart?
-        def r2 = Recording.findOrSaveWhere(interpretation: i2, abstractMusicPart: amp2, title: "Recorded 1984")
-
-        //r2.addToDigitalAudio(da2).save()
-
-
-*/
 
     }
     def destroy = {
