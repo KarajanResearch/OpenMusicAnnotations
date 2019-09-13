@@ -24,10 +24,14 @@ class Annotation implements Comparable {
 
     /**
      * For example. the third eighth note in bar 20 has: 20, 3, 8
+     * Note that this bars are not necessarily related to bars of existing scores,
+     * but rather a "virtual score" that describes the recording
      */
     Long barNumber
     Long beatNumber
     Long subdivision
+
+    // TODO: in audio-viz, drag and drop beat annotations to the score to map time
 
 
 
@@ -48,5 +52,9 @@ class Annotation implements Comparable {
     int compareTo(obj) {
         Annotation other = (Annotation)obj
         momentOfPerception.compareTo(other.momentOfPerception)
+    }
+
+    String toString() {
+        return "${type}: beat ${beatNumber} at bar ${barNumber} at ${momentOfPerception}"
     }
 }

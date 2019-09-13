@@ -2,9 +2,10 @@ package oma
 
 import com.amazonaws.services.s3.model.CannedAccessControlList
 import grails.gorm.services.Service
+import grails.gorm.transactions.Transactional
 import grails.util.Environment
 
-@Service(Recording)
+@Transactional
 class RecordingService {
 /*
     Recording get(Serializable id)

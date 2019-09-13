@@ -47,7 +47,7 @@ class AbstractMusicPartController {
         println "loaded File"
 
         response.setContentType("APPLICATION/OCTET-STREAM")
-        response.setHeader("Content-Disposition", "Attachment;Filename=\"${file.name}\"")
+        response.setHeader("Content-Disposition", "Attachment;Filename=\"score_${abstractMusicPart.id}.pdf\"")
 
         def outputStream = response.getOutputStream()
         outputStream << file.newInputStream()

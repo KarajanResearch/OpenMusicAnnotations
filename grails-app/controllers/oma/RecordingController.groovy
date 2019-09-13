@@ -13,6 +13,7 @@ class RecordingController {
 
 
     def recordingService
+    def tappingService
 
     /**
      * called from recording.show view
@@ -65,10 +66,14 @@ class RecordingController {
     }
 
 
-    def upload(Recording recording) {
+    def uploadAudio(Recording recording) {
 
         respond(recording, view: "uploadAudio")
 
+    }
+
+    def uploadTapping(Recording recording) {
+        respond(recording, view: "uploadTapping")
     }
 
 /*
@@ -105,7 +110,7 @@ class RecordingController {
 
 
         response.setContentType("APPLICATION/OCTET-STREAM")
-        response.setHeader("Content-Disposition", "Attachment;Filename=\"${file.name}\"")
+        response.setHeader("Content-Disposition", "Attachment;Filename=\"oma-recording-${recording.id}\"")
 
         def outputStream = response.getOutputStream()
         outputStream << file.newInputStream()
@@ -119,8 +124,6 @@ class RecordingController {
     def uploadRecordingFile(RecordingFileCommand cmd) {
 
 
-
-
         Recording recording = Recording.get(cmd.recordingId)
         if (!recording) return notFound()
 
@@ -132,6 +135,21 @@ class RecordingController {
 
         //render recording as JSON
 
+        respond (recording, view: "show")
+    }
+
+
+    def uploadTappingFile(TappingFileCommand cmd) {
+
+
+        Recording recording = Recording.get(cmd.recordingId)
+        if (!recording) return notFound()
+
+        recording = tappingService.uploadFile(recording, cmd)
+
+        flash.message = "File uploaded"
+
+        //render recording as JSON
 
         respond (recording, view: "show")
     }

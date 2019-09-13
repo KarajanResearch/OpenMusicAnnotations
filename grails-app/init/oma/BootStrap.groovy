@@ -1,5 +1,7 @@
 package oma
 
+import oma.annotation.Session
+
 class BootStrap {
 
     def init = { servletContext ->
