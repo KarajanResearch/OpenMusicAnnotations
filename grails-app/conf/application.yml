@@ -2,7 +2,7 @@
 grails:
     profile: web
     codegen:
-        defaultPackage: oma
+        defaultPackage: org.karajanresearch.oma
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events
