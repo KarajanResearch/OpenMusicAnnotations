@@ -6,7 +6,10 @@ import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
 
 import static org.springframework.http.HttpStatus.*
+import grails.plugin.springsecurity.annotation.Secured
 
+
+@Secured(["ROLE_USER"])
 class RecordingController {
 
     static scaffold = Recording

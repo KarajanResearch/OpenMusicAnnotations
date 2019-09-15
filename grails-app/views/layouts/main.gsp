@@ -39,7 +39,7 @@
         <a href="https://github.com/KarajanResearch/OpenMusicAnnotations" target="_blank">
             <asset:image src="documentation.svg" alt="Grails Documentation" class="float-left"/>
         </a>
-        <strong class="centered"><a href="http://docs.grails.org" target="_blank">Documentation</a></strong>
+        <strong class="centered"><a href="https://github.com/KarajanResearch/OpenMusicAnnotations" target="_blank">Documentation</a></strong>
         <p>Documentation for all the features <a href="https://github.com/KarajanResearch/OpenMusicAnnotations" target="_blank">Github</a>.</p>
 
     </div>

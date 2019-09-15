@@ -4,8 +4,36 @@ import org.karajanresearch.oma.annotation.Session
 
 class BootStrap {
 
+    def initSpringSecurity(servletContext) {
+
+
+        def adminRole = new Role(authority: 'ROLE_ADMIN').save()
+        def userRole = new Role(authority: 'ROLE_USER').save()
+
+        def testUser = new User(
+            username: 'oma',
+            password: '=PSe?sZ-ymp6mE>2',
+            email: "martin@maigner.net"
+        ).save()
+
+        UserRole.create testUser, adminRole, true
+        UserRole.create testUser, userRole, true
+
+        UserRole.withSession {
+            it.flush()
+            it.clear()
+        }
+
+        assert User.count() == 1
+        assert Role.count() == 2
+        assert UserRole.count() == 2
+
+
+    }
+
     def init = { servletContext ->
 
+        initSpringSecurity(servletContext)
 
         // ordering of component is important!
 
