@@ -70,9 +70,7 @@ class RecordingController {
 
 
     def uploadAudio(Recording recording) {
-
         respond(recording, view: "uploadAudio")
-
     }
 
     def uploadTapping(Recording recording) {
@@ -132,13 +130,8 @@ class RecordingController {
 
         recording = recordingService.uploadFile(recording, cmd)
 
-
-
-        flash.message = "File uploaded"
-
-        //render recording as JSON
-
-        respond (recording, view: "show")
+        flash.message = "Audio uploaded"
+        redirect(controllerName: "recording", action: "show", id: recording.id)
     }
 
 
@@ -150,11 +143,8 @@ class RecordingController {
 
         recording = tappingService.uploadFile(recording, cmd)
 
-        flash.message = "File uploaded"
-
-        //render recording as JSON
-
-        respond (recording, view: "show")
+        flash.message = "Tapping uploaded"
+        redirect(controllerName: "recording", action: "show", id: recording.id)
     }
 
 

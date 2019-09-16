@@ -9,6 +9,7 @@ buildscript {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.15.1"
+        classpath 'org.grails.plugins:database-migration:3.0.4'
     }
 }
 
@@ -37,6 +38,13 @@ dependencies {
 
     // Spring Security
     compile 'org.grails.plugins:spring-security-core:3.2.3'
+
+    // Postgres
+    runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+
+    // http://grails-plugins.github.io/grails-database-migration/3.0.x/index.html
+    compile 'org.grails.plugins:database-migration:3.0.3'
+    compile 'org.liquibase:liquibase-core:3.5.5'
 
 
 
@@ -92,4 +100,12 @@ tasks.withType(Test) {
 assets {
     minifyJs = true
     minifyCss = true
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'grails-app/migrations'
+        }
+    }
 }
