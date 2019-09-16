@@ -26,8 +26,53 @@
     <div class="collapse navbar-collapse" aria-expanded="false" style="height: 0.8px;" id="navbarContent">
         <ul class="nav navbar-nav ml-auto">
             <g:pageProperty name="page.nav"/>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    Debug-Menu
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
+                            <li class="controller">
+                            <g:link controller="${c.logicalPropertyName}">${c.logicalPropertyName}</g:link>
+                            </li>
+                        </g:each>
+                </ul>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    Menu
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <g:each var="c" in="${[
+                            [
+                                controller: "interpretation", action: "index",
+                                tag: message(code: 'default.menu.interpretation.label', default: 'Interpretations')
+                            ],
+                            [   controller: "recording",
+                                    action: "index",
+                                    tag: message(code: 'default.menu.recording.label', default: 'Recordings')
+                            ],
+                            [
+                                controller: "logout",
+                                    action: "index",
+                                    tag: message(code: 'default.menu.logout.label', default: 'Logout')
+                            ]] }">
+                        <li class="controller">
+                            <g:link controller="${c.controller}" action="${c.action}">${c.tag}</g:link>
+                        </li>
+                    </g:each>
+                </ul>
+            </li>
+
         </ul>
     </div>
+
+
 
 </nav>
 

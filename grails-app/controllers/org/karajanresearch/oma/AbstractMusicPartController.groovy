@@ -1,9 +1,11 @@
 package org.karajanresearch.oma
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
+@Secured(["ROLE_ADMIN"])
 class AbstractMusicPartController {
 
     static scaffold = AbstractMusicPart

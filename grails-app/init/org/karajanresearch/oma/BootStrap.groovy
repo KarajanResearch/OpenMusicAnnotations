@@ -7,8 +7,10 @@ class BootStrap {
     def initSpringSecurity(servletContext) {
 
 
+        def adminRoleGroup = new RoleGroup(name: "GROUP_ADMIN").save()
         def adminRole = new Role(authority: 'ROLE_ADMIN').save()
-        def userRole = new Role(authority: 'ROLE_USER').save()
+
+        RoleGroupRole.findOrSaveWhere(roleGroup: adminRoleGroup, role: adminRole)
 
         def testUser = new User(
             username: 'oma',
@@ -16,17 +18,25 @@ class BootStrap {
             email: "martin@maigner.net"
         ).save()
 
-        UserRole.create testUser, adminRole, true
-        UserRole.create testUser, userRole, true
+        UserRoleGroup.findOrSaveWhere(user: testUser, roleGroup: adminRoleGroup)
+
+        UserRoleGroup.withSession {
+            it.flush()
+            it.clear()
+        }
+
+        /*UserRole.create testUser, adminRole, true
 
         UserRole.withSession {
             it.flush()
             it.clear()
         }
+        */
 
         assert User.count() == 1
-        assert Role.count() == 2
-        assert UserRole.count() == 2
+        assert Role.count() == 1
+        assert RoleGroupRole.count() == 1
+        assert UserRoleGroup.count() == 1
 
 
     }
