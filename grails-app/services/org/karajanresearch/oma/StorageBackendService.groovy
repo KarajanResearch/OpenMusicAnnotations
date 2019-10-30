@@ -30,7 +30,7 @@ class StorageBackendService extends AmazonS3Service {
     void afterPropertiesSet() throws Exception {
 
         assert BUCKET_REGION?.isServiceSupported(super.SERVICE_NAME)
-
+        https://opendistro.github.io/for-elasticsearch/?sc_icampaign=Adoption_Campaign_open-es-smdupdate-csi-082019&sc_ichannel=ha&sc_icontent=awssm-2777&sc_ioutcome=PaaS_Digital_Marketing&sc_iplace=signin&trk=ha_a131L0000057yaJQAQ~ha_awssm-2777&trkCampaign=open-es-smdupdate-csi-082019
         // Create client
         super.client = AmazonS3ClientBuilder.standard()
             .withRegion(BUCKET_REGION.name)
