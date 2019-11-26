@@ -68,6 +68,22 @@ class RecordingController {
         render view: "show", model: model
     }
 
+    def vizPlay(Long id) {
+        def recording = Recording.get(id)
+
+        def annotationSessions = Session.findAllByRecording(recording)
+
+        JSON.use("deep")
+        def annotationSessionsJson = annotationSessions as JSON
+
+
+        def model = [recording: recording, annotationSessionsJson: annotationSessionsJson]
+
+        //render model as JSON
+
+        render view: "vizPlay", model: model
+    }
+
 
     def uploadAudio(Recording recording) {
         respond(recording, view: "uploadAudio")
