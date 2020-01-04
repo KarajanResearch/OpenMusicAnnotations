@@ -31,10 +31,12 @@
             margin-left: auto;
             margin-right: auto;
             width: 60em;
+            margin-top: 2em;
+            margin-bottom: 2em;
         }
 
         ul#recording-search-results li {
-            padding: 10px;
+            padding: 1em;
 
         }
 
@@ -60,7 +62,6 @@
                     showUrl = showUrl + "/" + id;
                     console.log(showUrl);
                     window.open(showUrl, "_self");
-
                 }
             </script>
 

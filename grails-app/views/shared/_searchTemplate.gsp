@@ -5,7 +5,7 @@
     <asset:javascript src="search/base.js" />
 
 <div>
-    <f:field property="${this.searchBean}-search" label="Search ${this.searchBean}">
+    <f:field property="${this.searchBean}-search" label="Search ${this.searchBean.capitalize()}">
 
         <g:textField id="${this.searchBean}-search" name="${this.searchBean}-search" />
 
