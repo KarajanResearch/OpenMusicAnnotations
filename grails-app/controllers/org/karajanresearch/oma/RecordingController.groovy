@@ -93,6 +93,25 @@ class RecordingController {
         respond(recording, view: "uploadTapping")
     }
 
+    /**
+     * fills JS search
+     * @return searchBase
+     */
+    def getSearchBase() {
+        def searchBase = []
+
+        Recording.findAllByDigitalAudioIsNotEmpty().each {recording ->
+            searchBase.add(
+                [
+                    id: recording.id,
+                    name: recording.toString()
+                ]
+            )
+        }
+        //println searchBase
+        render searchBase as JSON
+    }
+
 /*
     def stream(Long id) {
 
