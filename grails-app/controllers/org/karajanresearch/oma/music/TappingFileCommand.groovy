@@ -1,11 +1,11 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
 import grails.validation.Validateable
 import org.springframework.web.multipart.MultipartFile
 
-class RecordingFileCommand implements Validateable {
+class TappingFileCommand implements Validateable {
 
-    MultipartFile recordingFile
+    MultipartFile tappingFile
     Long recordingId
     Integer version
 
@@ -13,7 +13,7 @@ class RecordingFileCommand implements Validateable {
     static constraints = {
         recordingId nullable: false
         version nullable: false
-        recordingFile  validator: { val, obj ->
+        tappingFile  validator: { val, obj ->
             if ( val == null ) {
                 return false
             }
@@ -21,7 +21,7 @@ class RecordingFileCommand implements Validateable {
                 return false
             }
 
-            ['wav', 'flac', 'mp3'].any { extension ->
+            ['txt', 'csv', 'tsv'].any { extension ->
                 val.originalFilename?.toLowerCase()?.endsWith(extension)
             }
         }

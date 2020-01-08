@@ -1,6 +1,7 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
 import grails.gorm.services.Service
+import org.karajanresearch.oma.music.Composer
 
 @Service(Composer)
 interface ComposerService {

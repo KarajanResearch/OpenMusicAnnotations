@@ -1,6 +1,8 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
 import grails.gorm.transactions.Transactional
+import org.karajanresearch.oma.music.DigitalAudio
+import org.karajanresearch.oma.music.Recording
 
 @Transactional
 class RecordingGormService {

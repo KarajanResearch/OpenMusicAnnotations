@@ -81,6 +81,10 @@ grails:
                 scriptlets: html
                 taglib: none
                 staticparts: none
+    plugin:
+        springsecurity: # https://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/#_configuration
+            rest.token.storage.jwt.secret: "bjejkkvgIfrtSDnUgFCh3Fa6GWEvfgjS6734cgh"
+            # ui.gsp.layoutUi: main
 endpoints:
     jmx:
         unique-names: true

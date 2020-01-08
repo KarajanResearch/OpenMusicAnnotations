@@ -1,8 +1,8 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
-import grails.converters.JSON
+
 import grails.plugin.springsecurity.annotation.Secured
-import grails.validation.ValidationException
+
 import static org.springframework.http.HttpStatus.*
 
 @Secured(["ROLE_ADMIN"])

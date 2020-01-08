@@ -1,7 +1,6 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
 import grails.converters.JSON
-import grails.validation.ValidationException
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
 

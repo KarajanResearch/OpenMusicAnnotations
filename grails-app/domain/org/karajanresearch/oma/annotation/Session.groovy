@@ -1,6 +1,6 @@
 package org.karajanresearch.oma.annotation
 
-import org.karajanresearch.oma.Recording
+import org.karajanresearch.oma.music.Recording
 
 /**
  * groups Annotations, e.g., upload, one listening, one range of perception, anything that draws a meaningful plane in the

@@ -1,4 +1,4 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
 import grails.validation.Validateable
 import org.springframework.web.multipart.MultipartFile

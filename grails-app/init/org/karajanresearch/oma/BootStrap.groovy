@@ -1,6 +1,12 @@
 package org.karajanresearch.oma
 
-import org.karajanresearch.oma.annotation.Session
+
+import org.karajanresearch.oma.music.AbstractMusic
+import org.karajanresearch.oma.music.AbstractMusicPart
+import org.karajanresearch.oma.music.Composer
+import org.karajanresearch.oma.music.DigitalAudio
+import org.karajanresearch.oma.music.Interpretation
+import org.karajanresearch.oma.music.Recording
 
 class BootStrap {
 
@@ -18,7 +24,14 @@ class BootStrap {
             email: "martin@maigner.net"
         ).save()
 
+        def apiUser = new User(
+            username: 'omaapi',
+            password: '623esZ46m6mEl',
+            email: "martin@maigner.net"
+        ).save()
+
         UserRoleGroup.findOrSaveWhere(user: testUser, roleGroup: adminRoleGroup)
+        UserRoleGroup.findOrSaveWhere(user: apiUser, roleGroup: adminRoleGroup)
 
         UserRoleGroup.withSession {
             it.flush()
@@ -33,10 +46,10 @@ class BootStrap {
         }
         */
 
-        assert User.count() == 1
+        assert User.count() == 2
         assert Role.count() == 1
         assert RoleGroupRole.count() == 1
-        assert UserRoleGroup.count() == 1
+        assert UserRoleGroup.count() == 2
 
 
     }
@@ -45,13 +58,13 @@ class BootStrap {
 
         initSpringSecurity(servletContext)
 
+        /*
         // ordering of component is important!
 
         // beethoven 9
 
         def c1 = Composer.findOrSaveWhere(name: "Ludwig van Beethoven")
         def am1 = AbstractMusic.findOrSaveWhere(composer: c1, title: "Symphony No.9, Op.125")
-
 
 
         def data = "Herbert v. Karajan\tWPO\t1947\thttps://s3.amazonaws.com/open-music-annotations-storage-backend/development/abstractMusicPart/1/2019-09-13-09-41-488_Beethoven9-20Pages.pdf\thttps://s3.amazonaws.com/open-music-annotations-storage-backend/development/recording/1/2019-09-12-12-51-679_Karajan_WPO_1947_Bee_9-1_file_2403.flac\n" +
@@ -107,11 +120,9 @@ class BootStrap {
                 r1.addToDigitalAudio(da1)
                 r1.save(flush: true)
             }
-
-
-
         }
 
+         */
 
 
     }

@@ -1,8 +1,7 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
 import grails.plugin.springsecurity.annotation.Secured
-import grails.validation.ValidationException
-import static org.springframework.http.HttpStatus.*
+import org.karajanresearch.oma.music.Composer
 
 @Secured(["ROLE_ADMIN"])
 class ComposerController {

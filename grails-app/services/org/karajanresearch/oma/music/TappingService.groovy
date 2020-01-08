@@ -1,10 +1,13 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
-import com.amazonaws.services.s3.model.CannedAccessControlList
+
 import grails.gorm.transactions.Transactional
 import grails.util.Environment
+import org.karajanresearch.oma.StorageBackendService
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
+import org.karajanresearch.oma.music.Recording
+import org.karajanresearch.oma.music.TappingFileCommand
 
 
 @Transactional

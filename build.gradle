@@ -38,6 +38,8 @@ dependencies {
 
     // Spring Security
     compile 'org.grails.plugins:spring-security-core:3.2.3'
+    compile "org.grails.plugins:spring-security-rest:2.0.0.RC1"
+
 
     // Postgres
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.4'

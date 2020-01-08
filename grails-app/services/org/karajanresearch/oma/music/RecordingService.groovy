@@ -1,9 +1,9 @@
-package org.karajanresearch.oma
+package org.karajanresearch.oma.music
 
 import com.amazonaws.services.s3.model.CannedAccessControlList
-import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
 import grails.util.Environment
+import org.karajanresearch.oma.StorageBackendService
 
 @Transactional
 class RecordingService {

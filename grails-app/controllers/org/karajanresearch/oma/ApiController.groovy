@@ -4,14 +4,18 @@ import grails.converters.JSON
 import grails.gorm.transactions.ReadOnly
 import grails.plugin.springsecurity.annotation.Secured
 import org.karajanresearch.oma.api.AnnotationApiService
+import org.karajanresearch.oma.music.Recording
 
 /**
  * oma.cloud/api/
   */
-@Secured(["ROLE_ADMIN"])
+@Secured("ROLE_ADMIN")
 class ApiController {
 
 
+    // TODO: add api call to add recordings.
+    // apply to spreadsheet!
+    // perform import in jupyter
 
     AnnotationApiService annotationApiService
 
@@ -22,12 +26,7 @@ class ApiController {
         println params
 
         //def r = annotationApiService.serviceMethod(params)
-
-
         def result = [error: "Not implemented"]
-
-
-
 
         switch (params.id) {
             case "annotation":
@@ -36,8 +35,20 @@ class ApiController {
 
 
         }
+        render result as JSON
+    }
 
+
+    def addRecording() {
+        println params
+
+
+        def result = [:]
+
+        result.status = 200
+        result.recording = null
 
         render result as JSON
+
     }
 }
