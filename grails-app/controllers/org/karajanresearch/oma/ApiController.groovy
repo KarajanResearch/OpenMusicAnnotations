@@ -5,6 +5,7 @@ import grails.gorm.transactions.ReadOnly
 import grails.plugin.springsecurity.annotation.Secured
 import org.karajanresearch.oma.api.AnnotationApiService
 import org.karajanresearch.oma.api.ComposerApiService
+import org.karajanresearch.oma.api.InterpretationApiService
 
 /**
  * oma.cloud/api/
@@ -18,6 +19,7 @@ class ApiController {
     // perform import in jupyter
 
     ComposerApiService composerApiService
+    InterpretationApiService interpretationApiService
 
     /**
      * requires param.method to select what to call in composerApiService
@@ -32,6 +34,43 @@ class ApiController {
         switch (params["method"]) {
             case "add":
                 r = composerApiService.addComposer(params)
+                break
+        }
+
+        render r as JSON
+    }
+
+    /**
+     * requires param.method to select what to call in composerApiService
+     * @return
+     */
+    def composition() {
+        println "composition"
+        println params
+
+        def r = [error: "not implemented"]
+
+        switch (params["method"]) {
+            case "add":
+                r = composerApiService.addComposition(params)
+                break
+        }
+
+        render r as JSON
+    }
+
+    def interpretation() {
+        println "interpretation"
+        println params
+
+        def r = [error: "not implemented"]
+
+        switch (params["method"]) {
+            case "add":
+                r = interpretationApiService.addInterpretation(params)
+                break
+            case "addAbstractMusicPart":
+                r = interpretationApiService.addAbstractMusicPart(params)
                 break
         }
 

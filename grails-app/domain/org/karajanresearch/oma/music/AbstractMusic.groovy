@@ -1,5 +1,8 @@
 package org.karajanresearch.oma.music
 
+/**
+ * aka Work
+ */
 class AbstractMusic {
 
     String title

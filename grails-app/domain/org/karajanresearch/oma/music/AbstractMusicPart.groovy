@@ -1,5 +1,8 @@
 package org.karajanresearch.oma.music
 
+/**
+ * the sheet music representation of the interpretation
+ */
 class AbstractMusicPart {
 
     /**
@@ -50,7 +53,8 @@ class AbstractMusicPart {
     }
 
     String toString() {
-        return interpretation.toString() + " pt. " + interpretationOrder.toString() + ", " + getTitle() + ", " + abstractMusic.toString() + ", starting at bar " + sprintf("%.2f", barNumberOffset != null ? barNumberOffset : 1.0 )
+
+        return abstractMusic.toString() + ", starting at bar " + sprintf("%.0f", barNumberOffset != null ? barNumberOffset : 1.0 ) + ", " + getTitle()
     }
 
     String getTitle() {

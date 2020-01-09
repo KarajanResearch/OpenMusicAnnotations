@@ -15,10 +15,10 @@ Anton Bruckner,Symphonie No. 9,3,,,tappings/Bruckner_sym_9_3,,Hans Knappertsbusc
 Anton Bruckner,Symphonie No. 9,3,,,tappings/Bruckner_sym_9_3,,Herbert von Karajan,Wiener Philharmoniker,1978,963,,,,,150,243,,Viertelnoten
 Anton Bruckner,Symphonie No. 9,3,,"Bruckner_9-3_Bernstein_WPh_1990_A1_converted.txt,Bruckner_9-3_Bernstein_WPh_1990_A4.txt
 ",tappings/Bruckner_sym_9_3,BRUCKNER_Sym9-3_-_BERNSTEIN_WPh_1990_LIVE_DG_[435 350-2]/,Leonard Bernstein,Wiener Philharmoniker,1990,,,x,LL,DG,150,243,,Viertelnoten
-Anton Webern,Symphonie Op. 21,2,,,,,Herbert von Karajan,Berliner Philharmoniker,1974,1448,1059_14,x,KI,,ganzer Satz,,,Viertelnoten
-Anton Webern,Symphonie Op. 21,2,,,,,Pierre Boulez,Berliner Philharmoniker,1994,,,x,LL,,ganzer Satz,,,Viertelnoten
-Anton Webern,Symphonie Op. 21,2,,,,,Pierre Boulez,LSO,1969,,,x,LL,,ganzer Satz,,,Viertelnoten
-Anton Webern,Symphonie Op. 21,2,,,,,Giuseppe Sinopoli,SKD,1996,,,x,LL,,ganzer Satz,,,Viertelnoten
+Anton Webern,Symphonie Op. 21,2,,,,,Herbert von Karajan,Berliner Philharmoniker,1974,1448,1059_14,x,KI,,,,,Viertelnoten
+Anton Webern,Symphonie Op. 21,2,,,,,Pierre Boulez,Berliner Philharmoniker,1994,,,x,LL,,,,,Viertelnoten
+Anton Webern,Symphonie Op. 21,2,,,,,Pierre Boulez,LSO,1969,,,x,LL,,,,,Viertelnoten
+Anton Webern,Symphonie Op. 21,2,,,,,Giuseppe Sinopoli,SKD,1996,,,x,LL,,,,,Viertelnoten
 Jean Sibelius,Symphonie No. 6,1,,,,,John Storgards,BBC Philharmonic,2012,,,nein,,1,,,,
 Jean Sibelius,Symphonie No. 6,1,,,,,Leif Segerstam,BBC Scottish Symphony Orchestra,2006,,,nein,,1,,,,
 Jean Sibelius,Symphonie No. 6,1,,,,,Herbert von Karajan,Berliner Philharmoniker,1967,,,nein,,1,,,,
@@ -43,27 +43,27 @@ Jean Sibelius,Symphonie No. 6,1,,,,,Vladimir Ashkenazy,Philharmonia Orchestra,19
 Jean Sibelius,Symphonie No. 6,1,,,,,Thomas Beecham,Royal Philharmonic Orchestra,1947,,,nein,,1,,,,
 Jean Sibelius,Symphonie No. 6,1,,,,,Maurice Abravanel,Utah Symphony Orchestra,1977,,,nein,TW (CD),[Sätze:] 1,,,,
 Jean Sibelius,Symphonie No. 6,1,,,,,Lorin Maazel,Wiener Philharmoniker,1968,,,nein,,1,,,,
-Ludwig van Beethoven,Symphonie No. 9,1,,Karajan_BPO_1957_Bee_9-1_file_2092_A1_converted.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_BPO_1957_kipid_2092/,Herbert von Karajan,Berliner Philharmoniker,1957,841,2092,x,KI,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,"Karajan_BPO_1962_Bee_9-1_file_356_A1.txt,Karajan_BPO_1962_Bee_9-1_file_356_A2.csv,Karajan_BPO_1962_Bee_9-1_file_356_A3.csv",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_BPO_1962_kipid_356/,Herbert von Karajan,Berliner Philharmoniker,1962,848,356,x,KI,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,Karajan_BPO_1976_Bee_9-1_file_352_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_BPO_1977_kipid_352/,Herbert von Karajan,Berliner Philharmoniker,1977,847,352,x,KI,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,"Karajan_BPO_1983_Bee_9-1_file_357_A1.txt,Karajan_BPO_1983_Bee_9-1_file_357_A3.csv,Karajan_BPO_1983_Bee_9-1_file_357_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_BPO_1983_kipid_357/,Herbert von Karajan,Berliner Philharmoniker,1983,844,357,x,KI,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,Fried_BSOO_1929_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Fried_BSOO_1929/,Oskar Fried,BSOO,1929,,,x,LL,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,,,,Georg Solti,Chicago Symphony Orchestra,1990,,,x,TW (CD),,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,,,,Willem Mengelberg,Concertgebouw Orkest,1926,,,x,TW (CD),,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,,,,Hans Rosbaud,Kölner Rundfunk-Sinfonieorchester ,1951,,,x,TW (CD),,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,,,,Klaus Tennstedt,London Philharmonic Orchestra,1978,,,x,TW (CD),,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,"Toscanini_NBCSO_1952_Bee_9-1_A1.txt,Toscanini_NBCSO_1952_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Toscanini_NBCSO_1952/,Arturo Toscanini,NBCSO,1952,,,x,LL,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,,,,Bruno Walter,New York Phiharmonic Orchestra,1947,,,x,TW (CD),,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,Furtwängler_OBF_1951_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Furtwängler_OBF_1951/,Wilhelm Furtwängler,OBF,1951,,,x,LL,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,Gardiner_ORR_1992_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Gardiner_ORR_1992/,John Eliot Gardiner,ORR,1992,,,x,PR,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,,,,Hermann Scherchen,Philadelphia Orchestra,1964,,,x,TW (CD),,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,Karajan_PO_1955_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_PO_1955_kipid_1223/,Herbert von Karajan,Philharmonia Orchestra,1955,1484,1223,x,KI,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,"Klemperer_PO_1957_Bee_9-1_A1.txt,Klemperer_PO_1957_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Klemperer_PO_1957/,Otto Klemperer,Philharmonia Orchestra,1957,,,x,LL,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,Karajan_RAI_1954_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_RAI_1954_kipid_2282/,Herbert von Karajan,RAI Orchestra,1954,1482,2282,x,KI,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,"Mengelberg_COA_1940_Bee_9-1_A1.txt,Mengelberg_COA_1940_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Mengelberg_RCO_1940/,Willem Mengelberg,RCO,1940,,,x,LL,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,"Norrington_SWRSO_2002_Bee_9-1_A1.txt,Norrington_SWRSO_2002_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Norrington_SWRSO_2002/,Roger Norrington,SWRSO,2002,,,x,LL,,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,,,,Georg Solti,Tonhalle-Orchester Zürich,1997,,,x,TW (CD),,ganzer Satz,,,Viertelnoten
-Ludwig van Beethoven,Symphonie No. 9,1,,"Karajan_WPO_1947_Bee_9-1_A1.txt,Karajan_WPO_1947_Bee_9-1_A3.csv,Karajan_WPO_1947_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_WPO_1947_kipid_2403/,Herbert von Karajan,Wiener Philharmoniker,1947,905,2403,x,KI,,ganzer Satz,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,Karajan_BPO_1957_Bee_9-1_file_2092_A1_converted.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_BPO_1957_kipid_2092/,Herbert von Karajan,Berliner Philharmoniker,1957,841,2092,x,KI,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,"Karajan_BPO_1962_Bee_9-1_file_356_A1.txt,Karajan_BPO_1962_Bee_9-1_file_356_A2.csv,Karajan_BPO_1962_Bee_9-1_file_356_A3.csv",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_BPO_1962_kipid_356/,Herbert von Karajan,Berliner Philharmoniker,1962,848,356,x,KI,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,Karajan_BPO_1976_Bee_9-1_file_352_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_BPO_1977_kipid_352/,Herbert von Karajan,Berliner Philharmoniker,1977,847,352,x,KI,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,"Karajan_BPO_1983_Bee_9-1_file_357_A1.txt,Karajan_BPO_1983_Bee_9-1_file_357_A3.csv,Karajan_BPO_1983_Bee_9-1_file_357_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_BPO_1983_kipid_357/,Herbert von Karajan,Berliner Philharmoniker,1983,844,357,x,KI,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,Fried_BSOO_1929_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Fried_BSOO_1929/,Oskar Fried,BSOO,1929,,,x,LL,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,,,,Georg Solti,Chicago Symphony Orchestra,1990,,,x,TW (CD),,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,,,,Willem Mengelberg,Concertgebouw Orkest,1926,,,x,TW (CD),,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,,,,Hans Rosbaud,Kölner Rundfunk-Sinfonieorchester ,1951,,,x,TW (CD),,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,,,,Klaus Tennstedt,London Philharmonic Orchestra,1978,,,x,TW (CD),,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,"Toscanini_NBCSO_1952_Bee_9-1_A1.txt,Toscanini_NBCSO_1952_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Toscanini_NBCSO_1952/,Arturo Toscanini,NBCSO,1952,,,x,LL,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,,,,Bruno Walter,New York Phiharmonic Orchestra,1947,,,x,TW (CD),,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,Furtwängler_OBF_1951_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Furtwängler_OBF_1951/,Wilhelm Furtwängler,OBF,1951,,,x,LL,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,Gardiner_ORR_1992_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Gardiner_ORR_1992/,John Eliot Gardiner,ORR,1992,,,x,PR,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,,,,Hermann Scherchen,Philadelphia Orchestra,1964,,,x,TW (CD),,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,Karajan_PO_1955_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_PO_1955_kipid_1223/,Herbert von Karajan,Philharmonia Orchestra,1955,1484,1223,x,KI,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,"Klemperer_PO_1957_Bee_9-1_A1.txt,Klemperer_PO_1957_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Klemperer_PO_1957/,Otto Klemperer,Philharmonia Orchestra,1957,,,x,LL,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,Karajan_RAI_1954_Bee_9-1_A1.txt,tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_RAI_1954_kipid_2282/,Herbert von Karajan,RAI Orchestra,1954,1482,2282,x,KI,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,"Mengelberg_COA_1940_Bee_9-1_A1.txt,Mengelberg_COA_1940_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Mengelberg_RCO_1940/,Willem Mengelberg,RCO,1940,,,x,LL,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,"Norrington_SWRSO_2002_Bee_9-1_A1.txt,Norrington_SWRSO_2002_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Norrington_SWRSO_2002/,Roger Norrington,SWRSO,2002,,,x,LL,,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,,,,Georg Solti,Tonhalle-Orchester Zürich,1997,,,x,TW (CD),,,,,Viertelnoten
+Ludwig van Beethoven,Symphonie No. 9,1,,"Karajan_WPO_1947_Bee_9-1_A1.txt,Karajan_WPO_1947_Bee_9-1_A3.csv,Karajan_WPO_1947_Bee_9-1_A4.txt",tappings/Beethoven_sym_9_1,Beethoven_Sym9-1_Karajan_WPO_1947_kipid_2403/,Herbert von Karajan,Wiener Philharmoniker,1947,905,2403,x,KI,,,,,Viertelnoten
 Ludwig van Beethoven,Symphonie No. 1,0,,,,,Herbert von Karajan,,1963,,,x,,,,,,
 Ludwig van Beethoven,Symphonie No. 1,0,,,,,Wilhelm Furtwängler,,1952,,,x,,,,,,
 Ludwig van Beethoven,Symphonie No. 2,0,,,,,Herbert von Karajan,,1963,,,x,,,,,,
