@@ -20,7 +20,17 @@ class TappingService {
 
         def env = Environment.current.name.replace(" ", "-")
         def prefix = "${env}/recording/${recording.id}/${new Date().format("yyyy-MM-dd-hh-mm-SS")}"
-        def path = "${prefix}_tapping_${cmd.tappingFile.originalFilename}"
+
+        def fileName = cmd.tappingFile.originalFilename
+        fileName = fileName.replace('[', "_")
+        fileName = fileName.replace("]", "_")
+        fileName = fileName.replace(" ", "_")
+        fileName = fileName.replace("\\", "/")
+        def fileNameParts = fileName.split("/")
+        //println fileNameParts
+        fileName = fileNameParts[fileNameParts.size()-1]
+
+        def path = "${prefix}_tapping_${fileName}"
 
         println storageBackendService.BUCKET_NAME
         println path
@@ -51,30 +61,34 @@ class TappingService {
 
             def parts = line.tokenize("\t")
 
-            def timestamp = Double.parseDouble(parts[0])
-            def beatbar = parts[1].tokenize(".")  // the comma is no comma
-            Long bar = Long.parseLong(beatbar[0])
-            Long beat = Long.parseLong(beatbar[1])
+            try {
+                def timestamp = Double.parseDouble(parts[0])
+                def beatbar = parts[1].tokenize(".")  // the comma is no comma
+                Long bar = Long.parseLong(beatbar[0])
+                Long beat = Long.parseLong(beatbar[1])
 
-            def a = new Annotation(
-                momentOfPerception: timestamp,
-                type: "Tap",
-                barNumber: bar,
-                beatNumber: beat
-            )
-            session.addToAnnotations(a)
+                def a = new Annotation(
+                    momentOfPerception: timestamp,
+                    type: "Tap",
+                    barNumber: bar,
+                    beatNumber: beat
+                )
+                session.addToAnnotations(a)
 
-            println a
+                println a
+            } catch (Exception ex) {
+                println ex.message
+
+            }
+
 
 
         }
 
-        session.save()
+        session.save(flush: true)
 
 
-
-
-        return recording
+        return session
 
     }
 }

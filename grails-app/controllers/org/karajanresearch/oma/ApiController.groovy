@@ -100,10 +100,25 @@ class ApiController {
     }
 
 
-
-
-
     AnnotationApiService annotationApiService
+
+    def session() {
+        println "session"
+        println params
+
+        def r = [error: "not implemented"]
+
+        switch (params["method"]) {
+            case "add":
+                // r = recordingApiService.addRecording(params)
+                r = annotationApiService.addSession(params)
+                break
+        }
+
+        render r as JSON
+    }
+
+
 
     @ReadOnly
     def get() {

@@ -3,6 +3,11 @@ package org.karajanresearch.oma.api
 // import grails.gorm.transactions.Transactional
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
+import org.karajanresearch.oma.music.Recording
+import org.karajanresearch.oma.music.RecordingFileCommand
+import org.karajanresearch.oma.music.TappingFileCommand
+import org.karajanresearch.oma.music.TappingService
+import org.springframework.web.multipart.MultipartFile
 
 // @Transactional
 class AnnotationApiService {
@@ -21,6 +26,32 @@ class AnnotationApiService {
 
         // returns a sorted Set of annotations for some session
         return Session.findByTitleIsNotNull().annotations
+    }
+
+
+    TappingService tappingService
+    def addSession(params) {
+
+        Recording recording = Recording.get(params.recording)
+        if (!recording) {
+            return ["error": "No Recording for id: " + params.recording]
+        }
+
+
+        MultipartFile f = params.file
+        println f.originalFilename
+
+
+
+        TappingFileCommand cmd = new TappingFileCommand(
+            version: 1,
+            recordingId: recording.id,
+            tappingFile: f
+        )
+
+        return tappingService.uploadFile(recording, cmd)
+
+        //return []
     }
 
 
