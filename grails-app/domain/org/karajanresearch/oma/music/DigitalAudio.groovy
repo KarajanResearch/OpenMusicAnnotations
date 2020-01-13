@@ -1,6 +1,15 @@
 package org.karajanresearch.oma.music
 
-class DigitalAudio {
+import grails.gorm.MultiTenant
+import org.karajanresearch.oma.Role
+import org.karajanresearch.oma.User
+
+class DigitalAudio implements MultiTenant<DigitalAudio> {
+    /**
+     * the tenantId is the id (Long) of the currently logged in user
+     */
+    Long tenantId
+
 
     /**
      * url, where the org.karajanresearch.oma server can access the digital audio file

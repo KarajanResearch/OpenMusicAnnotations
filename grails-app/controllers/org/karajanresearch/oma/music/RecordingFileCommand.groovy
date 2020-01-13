@@ -21,7 +21,7 @@ class RecordingFileCommand implements Validateable {
                 return false
             }
 
-            ['wav', 'flac', 'mp3'].any { extension ->
+            ['wav', "mp3"].any { extension ->
                 val.originalFilename?.toLowerCase()?.endsWith(extension)
             }
         }

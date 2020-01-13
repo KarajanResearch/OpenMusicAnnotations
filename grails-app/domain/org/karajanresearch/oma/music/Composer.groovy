@@ -1,10 +1,21 @@
 package org.karajanresearch.oma.music
 
-import org.karajanresearch.oma.music.AbstractMusic
+import grails.gorm.MultiTenant
+import org.karajanresearch.oma.User
 
-class Composer {
+
+class Composer implements MultiTenant<Composer> {
+    /**
+     * the tenantId is the id (Long) of the currently logged in user
+     */
+    Long tenantId
 
     String name
+
+
+    static mapping = {
+        //tenantId name: "tenant"
+    }
 
     static hasMany = [compositions: AbstractMusic]
 

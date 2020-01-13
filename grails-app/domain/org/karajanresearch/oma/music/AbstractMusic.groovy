@@ -1,9 +1,17 @@
 package org.karajanresearch.oma.music
 
+import grails.gorm.MultiTenant
+import org.karajanresearch.oma.Role
+import org.karajanresearch.oma.User
+
 /**
  * aka Work
  */
-class AbstractMusic {
+class AbstractMusic implements MultiTenant<AbstractMusic> {
+    /**
+     * the tenantId is the id (Long) of the currently logged in user
+     */
+    Long tenantId
 
     String title
 

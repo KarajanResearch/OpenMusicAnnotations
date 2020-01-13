@@ -1,6 +1,15 @@
 package org.karajanresearch.oma.music
 
-class Recording {
+import grails.gorm.MultiTenant
+import org.karajanresearch.oma.Role
+import org.karajanresearch.oma.User
+
+class Recording implements MultiTenant<Recording> {
+    /**
+     * the tenantId is the id (Long) of the currently logged in user
+     */
+    Long tenantId
+
 
     //Long id
 
@@ -8,6 +17,14 @@ class Recording {
      * title of the recording
      */
     String title
+
+
+    /**
+     * unstructured meta data for later normalization
+     *
+     * example: recordingData.year = 1978
+     */
+    Map recordingData = [:]
 
     /**
      * what was recorded
@@ -30,7 +47,7 @@ class Recording {
 
     String toString() {
         //if (!title) {
-            return title + ": Recording of " + abstractMusicPart.toString()
+            return title + ": Recording of " + interpretation.toString() + ": " + abstractMusicPart.toString()
         //} else {
         //    return title
         //}

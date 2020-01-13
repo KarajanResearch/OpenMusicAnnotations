@@ -11,6 +11,7 @@ class RecordingGormService {
 
         Recording recording =  Recording.get(recordingId)
         if (!recording) {
+            println "recording not found. id: " + recordingId
             return null
         }
 

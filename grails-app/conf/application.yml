@@ -85,6 +85,11 @@ grails:
         springsecurity: # https://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/#_configuration
             rest.token.storage.jwt.secret: "bjejkkvgIfrtSDnUgFCh3Fa6GWEvfgjS6734cgh"
             # ui.gsp.layoutUi: main
+    gorm:
+        multiTenancy:
+            mode: DISCRIMINATOR
+            tenantResolverClass: org.karajanresearch.oma.CurrentUserTenantResolver
+
 endpoints:
     jmx:
         unique-names: true
@@ -106,12 +111,19 @@ environments:
     development:
         dataSource:
             # dbCreate: create-drop
-            dbCreate: create-drop
-            url: jdbc:h2:./devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            # dbCreate: create-drop
+            # url: jdbc:h2:./devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            dbCreate: none
+            username: oma
+            password: Xx7%nbpS9>y$4x2<
+            driverClassName: org.postgresql.Driver
+            dialect: PostgreSQLDialect
+            url: jdbc:postgresql://oma-karajan-research-test.cvspe32jrws5.eu-central-1.rds.amazonaws.com:5432/oma
 
     test:
         dataSource:
             dbCreate: none
+            // dbCreate: create-drop
             username: oma
             password: Xx7%nbpS9>y$4x2<
             driverClassName: org.postgresql.Driver

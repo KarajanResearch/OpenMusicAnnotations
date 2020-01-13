@@ -8,6 +8,12 @@ class ComposerController {
 
     static scaffold = Composer
 
+    ComposerDataService composerDataService
+
+    def show(Long id) {
+        respond composerDataService.get(id)
+    }
+
     /*
 
     ComposerService composerService

@@ -1,5 +1,6 @@
 package org.karajanresearch.oma.annotation
 
+import grails.gorm.MultiTenant
 import org.karajanresearch.oma.music.Recording
 
 /**
@@ -7,8 +8,11 @@ import org.karajanresearch.oma.music.Recording
  * annotation vector room.
  * If we need a more general term than session, then refactor parent Group abstraction
  */
-class Session {
-
+class Session implements MultiTenant<Session> {
+    /**
+     * the tenantId is the id (Long) of the currently logged in user
+     */
+    Long tenantId
 
     /**
      * annotations always relate to actual audible content and the time line within.

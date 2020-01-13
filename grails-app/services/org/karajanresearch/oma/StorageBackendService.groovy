@@ -1,9 +1,12 @@
 package org.karajanresearch.oma
 
 import agorapulse.libs.awssdk.util.AwsClientUtil
+import com.amazonaws.AmazonClientException
 import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
+import com.amazonaws.services.s3.model.AmazonS3Exception
+import com.amazonaws.services.s3.model.ObjectMetadata
 import grails.gorm.transactions.Transactional
 import grails.plugin.awssdk.s3.AmazonS3Service
 
@@ -30,13 +33,38 @@ class StorageBackendService extends AmazonS3Service {
     void afterPropertiesSet() throws Exception {
 
         assert BUCKET_REGION?.isServiceSupported(super.SERVICE_NAME)
-        https://opendistro.github.io/for-elasticsearch/?sc_icampaign=Adoption_Campaign_open-es-smdupdate-csi-082019&sc_ichannel=ha&sc_icontent=awssm-2777&sc_ioutcome=PaaS_Digital_Marketing&sc_iplace=signin&trk=ha_a131L0000057yaJQAQ~ha_awssm-2777&trkCampaign=open-es-smdupdate-csi-082019
+
         // Create client
         super.client = AmazonS3ClientBuilder.standard()
             .withRegion(BUCKET_REGION.name)
             .withCredentials(AwsClientUtil.buildCredentials(super.config, super.serviceConfig))
             .withClientConfiguration(AwsClientUtil.buildClientConfiguration(super.config, super.serviceConfig))
             .build()
+    }
+
+    /**
+     *
+     * @param bucketName
+     * @param path
+     * @param input
+     * @param metadata
+     * @return
+     */
+    String storeInputStream(String bucketName,
+                            String path,
+                            InputStream input,
+                            ObjectMetadata metadata) {
+        try {
+            client.putObject(bucketName, path, input, metadata)
+        } catch (AmazonS3Exception exception) {
+            println 'An amazon S3 exception was caught while storing input stream' +  exception.message
+            return ''
+        } catch (AmazonClientException exception) {
+            println 'An amazon S3 client exception was caught while storing input stream' +  exception.message
+            return ''
+        }
+
+        buildAbsoluteUrl(bucketName, path)
     }
 
 

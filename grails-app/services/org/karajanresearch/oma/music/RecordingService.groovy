@@ -55,12 +55,22 @@ class RecordingService {
 
         def env = Environment.current.name.replace(" ", "-")
         def prefix = "${env}/recording/${recording.id}/${new Date().format("yyyy-MM-dd-hh-mm-SS")}"
-        def path = "${prefix}_${cmd.recordingFile.originalFilename}"
+        def fileName = cmd.recordingFile.originalFilename
+        fileName = fileName.replace('[', "_")
+        fileName = fileName.replace("]", "_")
+        fileName = fileName.replace(" ", "_")
+        fileName = fileName.replace("\\", "/")
+        def fileNameParts = fileName.split("/")
+        //println fileNameParts
+        fileName = fileNameParts[fileNameParts.size()-1]
+
+        def path = "${prefix}_${fileName}"
 
         println storageBackendService.BUCKET_NAME
         println path
 
         def bucket = "open-music-annotations-storage-backend"
+
         String s3FileUrl = storageBackendService.storeMultipartFile(
             bucket,
             path,

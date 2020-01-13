@@ -6,6 +6,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import org.karajanresearch.oma.api.AnnotationApiService
 import org.karajanresearch.oma.api.ComposerApiService
 import org.karajanresearch.oma.api.InterpretationApiService
+import org.karajanresearch.oma.api.RecordingApiService
 
 /**
  * oma.cloud/api/
@@ -20,6 +21,7 @@ class ApiController {
 
     ComposerApiService composerApiService
     InterpretationApiService interpretationApiService
+    RecordingApiService recordingApiService
 
     /**
      * requires param.method to select what to call in composerApiService
@@ -72,6 +74,26 @@ class ApiController {
             case "addAbstractMusicPart":
                 r = interpretationApiService.addAbstractMusicPart(params)
                 break
+        }
+
+        render r as JSON
+    }
+
+
+    def recording() {
+        println "recording"
+        println params
+
+        def r = [error: "not implemented"]
+
+        switch (params["method"]) {
+            case "add":
+                r = recordingApiService.addRecording(params)
+                break
+        }
+
+        if (!r) {
+            r = ["error": "recording"]
         }
 
         render r as JSON
