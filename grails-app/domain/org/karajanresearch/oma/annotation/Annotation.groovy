@@ -13,7 +13,7 @@ class Annotation implements Comparable {
     static belongsTo = [session: Session]
 
     /**
-     * Every annotation belongs to a certain perception of a certain event (e.g., perceiving a cadence)
+     * Every annotation belongs to a certain perception of a certain event (e.g., perceiving a cadence) in seconds
      */
     double momentOfPerception
 

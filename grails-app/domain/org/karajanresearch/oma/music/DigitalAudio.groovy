@@ -30,6 +30,7 @@ class DigitalAudio implements MultiTenant<DigitalAudio> {
     }
 
     String toString() {
-        return location
+        def pathParts = location.split("/")
+        return pathParts[pathParts.length - 1]
     }
 }

@@ -51,7 +51,13 @@ class TappingService {
 
         // process data
 
-        Session session = new Session(recording: recording, title: "Upload of " + cmd.tappingFile.name)
+        Session session = Session.findOrSaveWhere(recording: recording, title: "Upload of " + fileName)
+
+        if (session.annotations) {
+            session.annotations.each {
+                session.removeFromAnnotations(it)
+            }
+        }
 
         cmd.tappingFile.inputStream.readLines().each { line ->
 
