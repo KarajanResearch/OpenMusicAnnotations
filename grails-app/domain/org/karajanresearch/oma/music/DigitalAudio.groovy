@@ -10,6 +10,11 @@ class DigitalAudio implements MultiTenant<DigitalAudio> {
      */
     Long tenantId
 
+    /**
+     * used for updates from user, in case the name is the same as an existing one
+     */
+    String originalFileName
+
 
     /**
      * url, where the org.karajanresearch.oma server can access the digital audio file
@@ -24,6 +29,7 @@ class DigitalAudio implements MultiTenant<DigitalAudio> {
     static belongsTo = [recording: Recording]
 
     static constraints = {
+        originalFileName nullable: false
         location nullable: false
         contentType nullable: false
         recording nullable: true

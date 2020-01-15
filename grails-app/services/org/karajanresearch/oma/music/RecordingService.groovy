@@ -53,17 +53,28 @@ class RecordingService {
 
     Recording uploadFile(Recording recording, RecordingFileCommand cmd) {
 
-        def env = Environment.current.name.replace(" ", "-")
-        def prefix = "${env}/recording/${recording.id}/${new Date().format("yyyy-MM-dd-hh-mm-SS")}"
+        // parse filename
         def fileName = cmd.recordingFile.originalFilename
-        fileName = fileName.replace('[', "_")
-        fileName = fileName.replace("]", "_")
-        fileName = fileName.replace(" ", "_")
+        //fileName = fileName.replace('[', "_")
+        //fileName = fileName.replace("]", "_")
+        //fileName = fileName.replace(" ", "_")
         fileName = fileName.replace("\\", "/")
         def fileNameParts = fileName.split("/")
         //println fileNameParts
         fileName = fileNameParts[fileNameParts.size()-1]
 
+        DigitalAudio exists = DigitalAudio.findByRecordingAndOriginalFileName(
+            recording, fileName
+        )
+
+        if (exists) {
+            println "File exists"
+            return recording
+        }
+
+        // store to s3 if it is a new file
+        def env = Environment.current.name.replace(" ", "-")
+        def prefix = "${env}/recording/${recording.id}/"
         def path = "${prefix}_${fileName}"
 
         println storageBackendService.BUCKET_NAME
@@ -80,9 +91,25 @@ class RecordingService {
 
         println "S3: " + s3FileUrl
 
-        if (!s3FileUrl) return recording
+        if (!s3FileUrl) {
+            println "S3 save error: Recording"
+            return recording
+        }
 
-        return recordingGormService.updateRecordingFile(recording.id, cmd.version, s3FileUrl, cmd.recordingFile.contentType)
+        def digitalAudio = new DigitalAudio(recording: recording)
+        digitalAudio.location = s3FileUrl
+        digitalAudio.originalFileName = fileName
+        digitalAudio.contentType = cmd.recordingFile.contentType
+        recording.addToDigitalAudio(digitalAudio)
+        recording.version = cmd.version
 
+        //statement.statementDocumentUrl = statementDocumentUrl
+        //statement.statementDocumentContentType = contentType
+        if (!recording.save(flush: true)) {
+            println recording.errors
+            return null
+        }
+
+        return recording
     }
 }

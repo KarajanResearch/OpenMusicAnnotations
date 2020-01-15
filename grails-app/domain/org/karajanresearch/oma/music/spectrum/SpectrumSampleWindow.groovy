@@ -5,7 +5,7 @@ class SpectrumSampleWindow {
 
     double sampleRate
     Long numberOfSamples
-    byte[] 
+    // byte[] or file link? explore in notebooks first
 
 
     static constraints = {

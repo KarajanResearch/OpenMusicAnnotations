@@ -22,9 +22,9 @@ class TappingService {
         def prefix = "${env}/recording/${recording.id}/${new Date().format("yyyy-MM-dd-hh-mm-SS")}"
 
         def fileName = cmd.tappingFile.originalFilename
-        fileName = fileName.replace('[', "_")
-        fileName = fileName.replace("]", "_")
-        fileName = fileName.replace(" ", "_")
+        //fileName = fileName.replace('[', "_")
+        //fileName = fileName.replace("]", "_")
+        //fileName = fileName.replace(" ", "_")
         fileName = fileName.replace("\\", "/")
         def fileNameParts = fileName.split("/")
         //println fileNameParts
@@ -49,7 +49,7 @@ class TappingService {
         if (!s3FileUrl) return recording
 */
 
-        // process data
+        // process data. overwrite existing annotations from same-named file
 
         Session session = Session.findOrSaveWhere(recording: recording, title: "Upload of " + fileName)
 
