@@ -51,6 +51,10 @@ class RecordingController {
 
     }
 
+    /**
+     * called from sheetMusicPlayer
+     * @return
+     */
     def ajaxResetSheetMusicPageSelection() {
 
 
@@ -68,6 +72,10 @@ class RecordingController {
 
     }
 
+    /**
+     * called from sheetMusicPlayer
+     * @return
+     */
     def ajaxUploadSheetMusicPageSelection() {
         println "ajaxUploadSheetMusicPageSelection"
         println params
@@ -114,15 +122,15 @@ class RecordingController {
             println "no a"
         }
 
-        recording.abstractMusicPart.pdfPageChangeAnnotationSession.addToAnnotations(a)
+        if (!recording.abstractMusicPart.pdfPageChangeAnnotationSession.annotations.contains(a)) {
+            recording.abstractMusicPart.pdfPageChangeAnnotationSession.addToAnnotations(a)
+        }
         recording.abstractMusicPart.pdfPageChangeAnnotationSession.save()
 
 
         if (!recording.abstractMusicPart.save(flush: true)) {
             println recording.abstractMusicPart.errors
         }
-
-
 
 
         def result = [success: "Alright"]

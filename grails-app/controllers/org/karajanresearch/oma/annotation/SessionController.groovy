@@ -28,7 +28,10 @@ class SessionController {
             it.pdfPageChangeAnnotationSession = null
             it.save()
         }
-        s.delete()
+        if (!s.delete()) {
+            println s.errors
+
+        }
 
 
         redirect(controllerName: "recording", actionName: "show", id: r.id)
