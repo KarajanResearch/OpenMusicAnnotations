@@ -3,6 +3,7 @@ package org.karajanresearch.oma.music
 import grails.converters.JSON
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
+import org.karajanresearch.oma.api.AnnotationApiService
 
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
@@ -48,6 +49,84 @@ class RecordingController {
         render result as JSON
 
 
+    }
+
+    def ajaxResetSheetMusicPageSelection() {
+
+
+        def recording = Recording.get(params.recording)
+        if (!recording) {
+            result = [error: "No recording"]
+            render result as JSON
+            return
+        }
+
+        recording.abstractMusicPart.pdfPageChangeAnnotationSession.delete()
+
+        def result = [success: "Alright"]
+        render result as JSON
+
+    }
+
+    def ajaxUploadSheetMusicPageSelection() {
+        println "ajaxUploadSheetMusicPageSelection"
+        println params
+
+        Double t = Double.parseDouble(params.playheadLocation)
+        Integer pageNumber = Integer.parseInt(params.pageNumber)
+
+        def recording = Recording.get(params.recording)
+        if (!recording) {
+            result = [error: "No recording"]
+        }
+
+        def session = recording.abstractMusicPart.pdfPageChangeAnnotationSession
+
+        if (!recording.abstractMusicPart.pdfPageChangeAnnotationSession) {
+            recording.abstractMusicPart.pdfPageChangeAnnotationSession = new Session(
+                title: "Page change annotations",
+                recording: recording,
+                annotations: []
+            ).save()
+        }
+
+        if (!recording.abstractMusicPart.pdfPageChangeAnnotationSession.annotations) {
+            println "no anno"
+            //def result = [error: "no annotations"]
+            //render result as JSON
+            //return
+        }
+
+        def a = Annotation.findOrSaveWhere(type: "PdfPageChangeEvent",
+            intValue: pageNumber,
+            session: recording.abstractMusicPart.pdfPageChangeAnnotationSession
+        )
+        a.momentOfPerception = t
+
+        if (!a.save()) {
+            println "a.errors"
+            println a.errors
+        }
+
+        println(a)
+
+        if (!a) {
+            println "no a"
+        }
+
+        recording.abstractMusicPart.pdfPageChangeAnnotationSession.addToAnnotations(a)
+        recording.abstractMusicPart.pdfPageChangeAnnotationSession.save()
+
+
+        if (!recording.abstractMusicPart.save(flush: true)) {
+            println recording.abstractMusicPart.errors
+        }
+
+
+
+
+        def result = [success: "Alright"]
+        render result as JSON
     }
 
 

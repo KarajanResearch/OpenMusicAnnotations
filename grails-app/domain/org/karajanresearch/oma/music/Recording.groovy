@@ -3,6 +3,7 @@ package org.karajanresearch.oma.music
 import grails.gorm.MultiTenant
 import org.karajanresearch.oma.Role
 import org.karajanresearch.oma.User
+import org.karajanresearch.oma.annotation.Session
 
 class Recording implements MultiTenant<Recording> {
     /**

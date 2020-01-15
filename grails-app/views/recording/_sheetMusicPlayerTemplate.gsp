@@ -166,6 +166,28 @@
         } else {
             audioPlayerLog("page selection at play head pos " + widget.currentTime);
             console.log(pageNumber);
+
+            // ajaxUploadSheetMusicPageSelection
+            var ajaxUrl="${createLink(controller:'recording',action:'ajaxUploadSheetMusicPageSelection')}";
+
+            $.ajax({
+                url:ajaxUrl,
+                data: {
+                    pageNumber: pageNumber,
+                    playheadLocation: widget.currentTime,
+                    recording: "${recording.id}"
+                },
+                success: function(resp){
+                    console.log(resp);
+                    if (resp["Error"]) {
+                        console.log(resp["Error"]);
+                        return;
+                    }
+                    tapList = [];
+                    $("#save_tap_list").text("Saved!");
+                    $("#discard_tap_list").text("Discard 0 Samples");
+                }
+            });
         }
     }
 

@@ -22,6 +22,8 @@ class Annotation implements Comparable {
      */
     String type
 
+    Integer intValue
+
     /**
      * For example. the third eighth note in bar 20 has: 20, 3, 8
      * Note that this bars are not necessarily related to bars of existing scores,
@@ -46,6 +48,7 @@ class Annotation implements Comparable {
         barNumber nullable: true
         beatNumber nullable: true
         subdivision nullable: true
+        intValue nullable: true
     }
 
 
@@ -55,6 +58,13 @@ class Annotation implements Comparable {
     }
 
     String toString() {
-        return "${type}: beat ${beatNumber} at bar ${barNumber} at ${momentOfPerception}"
+        switch (type) {
+            case "PdfPageChangeEvent":
+                return "${type}: page ${intValue} at at ${momentOfPerception}"
+            break
+            default:
+                return "${type}: beat ${beatNumber} at bar ${barNumber} at ${momentOfPerception}"
+        }
+
     }
 }

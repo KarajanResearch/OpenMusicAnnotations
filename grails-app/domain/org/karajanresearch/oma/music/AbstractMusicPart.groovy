@@ -3,6 +3,7 @@ package org.karajanresearch.oma.music
 import grails.gorm.MultiTenant
 import org.karajanresearch.oma.Role
 import org.karajanresearch.oma.User
+import org.karajanresearch.oma.annotation.Session
 
 /**
  * the sheet music representation of the interpretation
@@ -27,6 +28,8 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
      * file url of the sheet pdf // TODO: support multiple different files
      */
     String pdfLocation
+
+    Session pdfPageChangeAnnotationSession
 
     /**
      * at what bar does it start (if available)
@@ -58,6 +61,7 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
         interpretation nullable: false
         barNumberOffset nullable: false
         numberOfBars nullable: false
+        pdfPageChangeAnnotationSession nullable: true
     }
 
     String toString() {

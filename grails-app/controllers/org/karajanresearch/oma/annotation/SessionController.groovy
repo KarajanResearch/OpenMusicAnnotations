@@ -2,12 +2,37 @@ package org.karajanresearch.oma.annotation
 
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
+import org.karajanresearch.oma.music.AbstractMusicPart
+import org.karajanresearch.oma.music.Recording
+
 import static org.springframework.http.HttpStatus.*
 
 @Secured(["ROLE_ADMIN"])
 class SessionController {
 
     static scaffold = Session
+
+
+    def delete(Long id) {
+        if (id == null) {
+            //notFound()
+            return
+        }
+
+        Session s = Session.get(id)
+        if (!s) return
+
+        Recording r = s.recording
+
+        AbstractMusicPart.findAllByPdfPageChangeAnnotationSession(s).each {
+            it.pdfPageChangeAnnotationSession = null
+            it.save()
+        }
+        s.delete()
+
+
+        redirect(controllerName: "recording", actionName: "show", id: r.id)
+    }
 
 /*
     SessionService sessionService
