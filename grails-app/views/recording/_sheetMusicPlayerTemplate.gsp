@@ -50,6 +50,7 @@
 
     <div>
         <button id="tap_tempo">Tap Tempo</button>
+        <button id="discard_tap_list">Discard 0 Samples</button>
         <button id="save_tap_list">Save 0 Samples</button>
         <div id="tap_ist"></div>
     </div>
@@ -116,6 +117,7 @@
 
 
     function renderPage(canvas, num) {
+        if (!pdfDoc) return;
         pageRendering[canvas] = true;
         // Using promise to fetch the page
         pdfDoc.getPage(num).then(function (page) {
@@ -156,6 +158,17 @@
         }
     }
 
+    function recordUserPageSelection(pageNumber) {
+
+        let widget = document.getElementById("audio_player");
+        if (widget.paused) {
+            // no action
+        } else {
+            audioPlayerLog("page selection at play head pos " + widget.currentTime);
+            console.log(pageNumber);
+        }
+    }
+
     /**
      * Displays previous page.
      */
@@ -169,6 +182,7 @@
             return;
         }
         pageNum--;
+        recordUserPageSelection(pageNum);
         queueRenderPage("left", pageNum);
         queueRenderPage("right", pageNum + 1);
     }
@@ -182,12 +196,15 @@
         });
     });
     function onNextPage() {
-        if (pageNum >= pdfDoc.numPages) {
+
+        if (pdfDoc != null && pageNum >= pdfDoc.numPages) {
             return;
         }
+
         pageNum++;
+        recordUserPageSelection(pageNum);
         queueRenderPage("left", pageNum);
-        if (pageNum < pdfDoc.numPages) {
+        if (pdfDoc != null && pageNum < pdfDoc.numPages) {
             queueRenderPage("right", pageNum+1);
         } else {
             console.log("TODO: clear canvas");
@@ -217,6 +234,12 @@
     var tapList = [];
 
 
+    function discardTapData() {
+        tapList = [];
+        $("#save_tap_list").text("Save " + tapList.length + " Samples");
+        $("#discard_tap_list").text("Discard " + tapList.length + " Samples");
+    }
+
     function uploadTapData() {
 
         var ajaxUrl="${createLink(controller:'recording',action:'ajaxUploadTapData')}";
@@ -235,6 +258,7 @@
                 }
                 tapList = [];
                 $("#save_tap_list").text("Saved!");
+                $("#discard_tap_list").text("Discard 0 Samples");
             }
         });
     }
@@ -249,7 +273,8 @@
         tapList.push(time);
         drawTapPoint(time);
         $("#tap_list").text(tapList.length);
-        $("#save_tap_list").text("Save " + tapList.length + " Samples")
+        $("#save_tap_list").text("Save " + tapList.length + " Samples");
+        $("#discard_tap_list").text("Discard " + tapList.length + " Samples");
     }
 
     function audioPlayerLog(msg) {
@@ -298,6 +323,9 @@
     $(function() {
         $("#save_tap_list").on("click", function() {
             uploadTapData();
+        });
+        $("#discard_tap_list").on("click", function() {
+            discardTapData();
         });
     });
 

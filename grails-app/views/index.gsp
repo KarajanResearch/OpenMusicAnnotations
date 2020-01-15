@@ -23,7 +23,7 @@
     <section class="row colset-2-its">
         <h1>Open Music Annotations</h1>
 
-        Welcome. Here goes some text...
+        Welcome. This is the Open Music Annotation Cloud.
 
         <style>
         #search-form {

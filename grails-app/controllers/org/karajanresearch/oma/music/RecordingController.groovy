@@ -26,7 +26,7 @@ class RecordingController {
         println params
 
         def recording = Recording.get(params.recording)
-        def sessionName = "Saved at " + new Date().toString()
+        def sessionName = "ajaxUploadTapData at " + new Date().toString()
         def session = new Session(recording: recording, title: sessionName)
 
         params["tapList"].tokenize(";").each { tapTime ->

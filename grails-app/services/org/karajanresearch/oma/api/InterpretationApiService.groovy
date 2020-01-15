@@ -3,11 +3,16 @@ package org.karajanresearch.oma.api
 import grails.gorm.transactions.Transactional
 import org.karajanresearch.oma.music.AbstractMusic
 import org.karajanresearch.oma.music.AbstractMusicPart
+import org.karajanresearch.oma.music.AbstractMusicPartScoreFileCommand
+import org.karajanresearch.oma.music.AbstractMusicPartService
 import org.karajanresearch.oma.music.Composer
 import org.karajanresearch.oma.music.Interpretation
+import org.springframework.web.multipart.MultipartFile
 
 @Transactional
 class InterpretationApiService {
+
+    AbstractMusicPartService abstractMusicPartService
 
     @Transactional
     def addInterpretation(params) {
@@ -20,6 +25,7 @@ class InterpretationApiService {
 
         def c = AbstractMusic.get(params["composition"])
         def i = Interpretation.get(params["interpretation"])
+
 
         Double numBars
         try {
@@ -45,8 +51,7 @@ class InterpretationApiService {
             partNo = 0.0
         }
 
-
-        def p = AbstractMusicPart.findOrSaveWhere(
+        def p = AbstractMusicPart.findWhere(
             title: params["title"],
             abstractMusic: c,
             interpretation: i,
@@ -55,8 +60,39 @@ class InterpretationApiService {
             numberOfBars: numBars
         )
 
+        if (p) {
+            if (p.pdfLocation) {
+                println "exists"
+                return p
+            }
+        } else {
+            p = new AbstractMusicPart(
+                title: params["title"],
+                abstractMusic: c,
+                interpretation: i,
+                interpretationOrder: partNo,
+                barNumberOffset: barOffset,
+                numberOfBars: numBars
+            )
+            if (!p.save(flush: true)) {
+                println p.errors
+                return [error: p.errors]
+            }
+        }
 
-        return p
+        if (!params.file) {
+            return ["error": "please provide a file"]
+        }
+        MultipartFile f = params.file
+        println f.originalFilename
+
+        AbstractMusicPartScoreFileCommand cmd = new AbstractMusicPartScoreFileCommand(
+            version: 1,
+            abstractMusicPartId: p.id,
+            scoreFile: f
+        )
+
+        return abstractMusicPartService.uploadScoreFile(p, cmd)
     }
 
 

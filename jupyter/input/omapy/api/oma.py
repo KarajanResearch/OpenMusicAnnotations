@@ -63,11 +63,21 @@ def interpretation_add(params):
     return content
 
 
-def interpretation_add_abstract_music_part(params):
+def interpretation_add_abstract_music_part(params, files):
     params["method"] = "addAbstractMusicPart"
     url = _endpoint["uri"] + _config["api_path"] + "interpretation"
     response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
     content = json.loads(response.content.decode())
+    
+    if "error" in content:
+        if content["error"] == "please provide a file":
+            print("providing a file")
+            ## TODO: at upload time, also do python based audio extraction and uploat as static results
+            response = requests.post(
+                url, headers=_headers, data=params, files=files, verify=_config["verify_certificate"])
+            # response = requests.post(url, headers=_headers, data = params, _config["verify_certificate"])
+            content = json.loads(response.content.decode())
+    
     return content
 
 
@@ -82,6 +92,7 @@ def recording_add(params, files):
     if "error" in content:
         if content["error"] == "please provide a file":
             print("providing a file")
+            ## TODO: at upload time, also do python based audio extraction and uploat as static results
             response = requests.post(
                 url, headers=_headers, data=params, files=files, verify=_config["verify_certificate"])
             # response = requests.post(url, headers=_headers, data = params, _config["verify_certificate"])

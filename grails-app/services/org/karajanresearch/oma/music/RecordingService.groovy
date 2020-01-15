@@ -74,8 +74,8 @@ class RecordingService {
 
         // store to s3 if it is a new file
         def env = Environment.current.name.replace(" ", "-")
-        def prefix = "${env}/recording/${recording.id}/"
-        def path = "${prefix}_${fileName}"
+        def prefix = "${env}/recording/${recording.id}"
+        def path = "${prefix}/${fileName}"
 
         println storageBackendService.BUCKET_NAME
         println path

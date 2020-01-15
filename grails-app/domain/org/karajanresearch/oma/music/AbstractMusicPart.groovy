@@ -24,7 +24,7 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
     AbstractMusic abstractMusic
 
     /**
-     *
+     * file url of the sheet pdf // TODO: support multiple different files
      */
     String pdfLocation
 

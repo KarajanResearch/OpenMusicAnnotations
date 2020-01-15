@@ -72,9 +72,15 @@ class AbstractMusicPartService {
 
         def env = Environment.current.name.replace(" ", "-")
 
-        def prefix = "${env}/abstractMusicPart/${abstractMusicPart.id}/${new Date().format("yyyy-MM-dd-hh-mm-SS")}"
+        def prefix = "${env}/abstractMusicPart/${abstractMusicPart.id}"
 
-        def path = "${prefix}_${cmd.scoreFile.originalFilename}"
+        def fileName = cmd.scoreFile.originalFilename
+        fileName = fileName.replace("\\", "/")
+        def fileNameParts = fileName.split("/")
+        fileName = fileNameParts[fileNameParts.size()-1]
+
+
+        def path = "${prefix}/${fileName}"
 
         println storageBackendService.BUCKET_NAME
         println path
@@ -93,9 +99,9 @@ class AbstractMusicPartService {
 
         abstractMusicPart.pdfLocation = s3FileUrl
 
-        if (!abstractMusicPart.save()) {
+        if (!abstractMusicPart.save(flush: true)) {
             println abstractMusicPart.errors
-
+            return [error: abstractMusicPart.errors]
         }
 
         return abstractMusicPart

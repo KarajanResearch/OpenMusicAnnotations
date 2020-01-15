@@ -7,6 +7,7 @@ import org.karajanresearch.oma.api.AnnotationApiService
 import org.karajanresearch.oma.api.ComposerApiService
 import org.karajanresearch.oma.api.InterpretationApiService
 import org.karajanresearch.oma.api.RecordingApiService
+import org.karajanresearch.oma.api.ScoreApiService
 
 /**
  * oma.cloud/api/
@@ -112,6 +113,24 @@ class ApiController {
             case "add":
                 // r = recordingApiService.addRecording(params)
                 r = annotationApiService.addSession(params)
+                break
+        }
+
+        render r as JSON
+    }
+
+    ScoreApiService scoreApiService
+
+    def score() {
+        println "score"
+        println params
+
+        def r = [error: "not implemented"]
+
+        switch (params["method"]) {
+            case "add":
+                // r = recordingApiService.addRecording(params)
+                r = scoreApiService.addScore(params)
                 break
         }
 
