@@ -48,7 +48,7 @@
     </div>
 -->
 
-    <div>
+    <div class="buttons">
         <button id="tap_tempo">Tap Tempo</button>
         <button id="discard_tap_list">Discard 0 Samples</button>
         <button id="save_tap_list">Save 0 Samples</button>
@@ -62,7 +62,9 @@
     <div id="score">
         <canvas id="score_canvas_left"></canvas>
         <canvas id="score_canvas_right"></canvas>
-        <div>
+        <div class="buttons">
+            <button id="score_zoom_in"> + </button>
+            <button id="score_zoom_out"> - </button>
             <div id="page_count"></div>
             <button id="prev_page"> prev. </button>
             <button id="next_page"> next </button>
@@ -97,15 +99,15 @@
 
 <script type="application/javascript">
     // score pdf stuff
-    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+    let pdfjsLib = window['pdfjs-dist/build/pdf'];
     // The workerSrc property shall be specified.
     pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
-    var pdfDoc = null,
+    let pdfDoc = null,
         pageNum = 1,
         pageRendering = {"left": false, "right": false},
         pageNumPending = {"left": null, "right": null},
-        scale = 0.8,
+        scale = 0.9,
         score_canvas = {
             "left": document.getElementById('score_canvas_left'),
             "right": document.getElementById('score_canvas_right')
@@ -235,6 +237,28 @@
     }
 
 
+    let zoomStep = 0.25;
+
+    function scoreZoomIn() {
+        scale += zoomStep;
+        queueRenderPage("left", pageNum);
+        queueRenderPage("right", pageNum + 1);
+    }
+
+    function scoreZoomOut() {
+        scale -= zoomStep;
+        queueRenderPage("left", pageNum);
+        queueRenderPage("right", pageNum + 1);
+    }
+
+    $(function() {
+        $("#score_zoom_in").on("click", function() {
+            scoreZoomIn();
+        });
+        $("#score_zoom_out").on("click", function() {
+            scoreZoomOut();
+        });
+    });
 
 
     pdfjsLib.getDocument("${createLink(controller: 'abstractMusicPart', action: 'getScoreFile', id: recording.abstractMusicPart.id)}").promise.then(function(pdfDoc_) {
