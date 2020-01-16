@@ -7,7 +7,7 @@
 <style type="text/css">
     #tap_tempo {
         position: relative;
-        float: left;
+        /* float: left; */
         margin: 10px;
     }
     #save_tap_list {
@@ -23,7 +23,7 @@
         margin: 10px;
     }
     #page_count {
-        float: left;
+        /* float: left; */
         margin: 10px;
     }
 </style>
@@ -52,7 +52,16 @@
         <button id="tap_tempo">Tap Tempo</button>
         <button id="discard_tap_list">Discard 0 Samples</button>
         <button id="save_tap_list">Save 0 Samples</button>
-        <div id="tap_ist"></div>
+
+        Zoom Score
+        <button id="score_zoom_out"> - </button>
+        <button id="score_zoom_in"> + </button>
+
+        <span id="page_count"></span>
+        <button id="prev_page"> prev. </button>
+        <button id="next_page"> next </button>
+
+    <div id="tap_ist"></div>
     </div>
 
 
@@ -63,11 +72,8 @@
         <canvas id="score_canvas_left"></canvas>
         <canvas id="score_canvas_right"></canvas>
         <div class="buttons">
-            <button id="score_zoom_in"> + </button>
-            <button id="score_zoom_out"> - </button>
-            <div id="page_count"></div>
-            <button id="prev_page"> prev. </button>
-            <button id="next_page"> next </button>
+
+
         </div>
 
     </div>
@@ -237,7 +243,7 @@
     }
 
 
-    let zoomStep = 0.25;
+    let zoomStep = 0.1;
 
     function scoreZoomIn() {
         scale += zoomStep;

@@ -12,6 +12,8 @@ import grails.plugin.awssdk.s3.AmazonS3Service
 
 import javax.annotation.PostConstruct
 
+import static com.amazonaws.SDKGlobalConfiguration.ACCESS_KEY_ENV_VAR
+
 @Transactional
 class StorageBackendService extends AmazonS3Service {
 
@@ -33,6 +35,10 @@ class StorageBackendService extends AmazonS3Service {
     void afterPropertiesSet() throws Exception {
 
         assert BUCKET_REGION?.isServiceSupported(super.SERVICE_NAME)
+
+        println "create AWS client"
+        println AwsClientUtil.buildCredentials(super.config, super.serviceConfig)
+        println System.getenv(ACCESS_KEY_ENV_VAR)
 
         // Create client
         super.client = AmazonS3ClientBuilder.standard()

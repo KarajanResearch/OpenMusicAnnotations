@@ -141,6 +141,10 @@ class RecordingController {
     def show(Long id) {
         def recording = Recording.get(id)
 
+        if (!recording) {
+            return notFound()
+        }
+
         def annotationSessions = Session.findAllByRecording(recording)
 
         JSON.use("deep")

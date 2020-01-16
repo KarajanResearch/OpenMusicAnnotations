@@ -19,6 +19,7 @@ class Session implements MultiTenant<Session> {
      * in other words: no annotation can be added to interpretations without recording
      */
     static belongsTo = [recording: Recording]
+    //Recording recording
 
     /**
      * bi-directional link to annotations
@@ -42,6 +43,7 @@ class Session implements MultiTenant<Session> {
 
     static constraints = {
         title nullable: false
+        recording nullable: false
         startTimestamp nullable: true
         endTimestamp nullable: true
     }

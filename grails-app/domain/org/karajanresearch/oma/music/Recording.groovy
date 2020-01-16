@@ -32,18 +32,27 @@ class Recording implements MultiTenant<Recording> {
      */
     static belongsTo = [interpretation: Interpretation]
 
+    /**
+     * abstract music (sheet) that represents that recording
+     */
     AbstractMusicPart abstractMusicPart
 
     /**
-     * manifestation of the recording
+     * the computed, final, actually used annotation session for beats and bars
      */
-    static hasMany = [digitalAudio: DigitalAudio]
+    Session beats
+
+    /**
+     * manifestation of the recording and annotation sessions
+     */
+    static hasMany = [digitalAudio: DigitalAudio, annotationSessions: Session]
 
     static constraints = {
         //id nullable: false
         title nullable: false
         digitalAudio nullable: true
         interpretation nullable: false
+        beats nullable: true
     }
 
     String toString() {
