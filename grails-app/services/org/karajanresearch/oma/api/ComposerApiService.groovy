@@ -1,6 +1,7 @@
 package org.karajanresearch.oma.api
 
 import grails.gorm.transactions.Transactional
+import groovy.transform.CompileStatic
 import org.karajanresearch.oma.music.AbstractMusic
 import org.karajanresearch.oma.music.Composer
 import org.karajanresearch.oma.music.ComposerDataService
@@ -26,4 +27,18 @@ class ComposerApiService {
         def comp = AbstractMusic.findOrSaveWhere(composer: c, title: params.title)
         return comp
     }
+
+
+    def listComposer(params) {
+        return Composer.list(params)
+    }
+
+    def findByName(params) {
+        return Composer.findByName(params.name)
+    }
+
+    def findCompositionByComposer(params) {
+        return AbstractMusic.findAllByComposer(Composer.get(params.composer))
+    }
+
 }

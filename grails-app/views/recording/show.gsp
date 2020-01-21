@@ -17,14 +17,12 @@
         <div id="show-recording" class="content scaffold-show" role="main">
 
 
-            <h1>Viz Player</h1>
+            <h1>Recording and Annotations</h1>
 
 
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
-
-
 
 
 

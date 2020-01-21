@@ -46,6 +46,20 @@ def composer_add(params):
     content = json.loads(response.content.decode())
     return content
 
+def composer_list(params):
+    params["method"] = "list"
+    url = _endpoint["uri"] + _config["api_path"] + "composer"
+    response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
+    content = json.loads(response.content.decode())
+    return content
+
+def composer_find(params):
+    params["method"] = "findBy"
+    url = _endpoint["uri"] + _config["api_path"] + "composer"
+    response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
+    content = json.loads(response.content.decode())
+    return content
+
 
 def composition_add(params):
     params["method"] = "add"
@@ -54,6 +68,19 @@ def composition_add(params):
     content = json.loads(response.content.decode())
     return content
 
+def composition_list(params):
+    params["method"] = "list"
+    url = _endpoint["uri"] + _config["api_path"] + "composition"
+    response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
+    content = json.loads(response.content.decode())
+    return content
+
+def composition_find(params):
+    params["method"] = "findBy"
+    url = _endpoint["uri"] + _config["api_path"] + "composition"
+    response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
+    content = json.loads(response.content.decode())
+    return content
 
 def interpretation_add(params):
     params["method"] = "add"
@@ -65,6 +92,25 @@ def interpretation_add(params):
 
 def interpretation_add_abstract_music_part(params, files):
     params["method"] = "addAbstractMusicPart"
+    url = _endpoint["uri"] + _config["api_path"] + "interpretation"
+    response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
+    content = json.loads(response.content.decode())
+    
+    if "error" in content:
+        if content["error"] == "please provide a file":
+            print("providing a file")
+            ## TODO: at upload time, also do python based audio extraction and uploat as static results
+            response = requests.post(
+                url, headers=_headers, data=params, files=files, verify=_config["verify_certificate"])
+            # response = requests.post(url, headers=_headers, data = params, _config["verify_certificate"])
+            content = json.loads(response.content.decode())
+    
+    return content
+
+# findByComposition
+def interpretation_find(params):
+    params["method"] = "find"
+    # params["findBy"] = "composition"
     url = _endpoint["uri"] + _config["api_path"] + "interpretation"
     response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
     content = json.loads(response.content.decode())
@@ -107,3 +153,14 @@ def session_add(params, files):
     response = requests.post(url, headers=_headers, data=params, files=files, verify=_config["verify_certificate"])
     content = json.loads(response.content.decode())
     return content
+
+
+def annotation_find(params):
+    params["method"] = "findBy"
+    url = _endpoint["uri"] + _config["api_path"] + "annotation"
+    response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
+    content = json.loads(response.content.decode())
+    return content
+
+    
+    

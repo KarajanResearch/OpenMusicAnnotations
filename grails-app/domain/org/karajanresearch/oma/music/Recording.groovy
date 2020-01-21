@@ -33,8 +33,10 @@ class Recording implements MultiTenant<Recording> {
     static belongsTo = [interpretation: Interpretation]
 
     /**
-     * abstract music (sheet) that represents that recording
+     * abstract music (sheet) that represents that recording.
+     * deprecated. use abstractmusicpart in interpretations
      */
+    @Deprecated
     AbstractMusicPart abstractMusicPart
 
     /**

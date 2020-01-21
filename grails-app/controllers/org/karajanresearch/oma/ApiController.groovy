@@ -8,6 +8,7 @@ import org.karajanresearch.oma.api.ComposerApiService
 import org.karajanresearch.oma.api.InterpretationApiService
 import org.karajanresearch.oma.api.RecordingApiService
 import org.karajanresearch.oma.api.ScoreApiService
+import org.karajanresearch.oma.music.AbstractMusic
 
 /**
  * oma.cloud/api/
@@ -15,10 +16,6 @@ import org.karajanresearch.oma.api.ScoreApiService
 @Secured("ROLE_ADMIN")
 class ApiController {
 
-
-    // TODO: add api call to add recordings.
-    // apply to spreadsheet!
-    // perform import in jupyter
 
     ComposerApiService composerApiService
     InterpretationApiService interpretationApiService
@@ -37,6 +34,16 @@ class ApiController {
         switch (params["method"]) {
             case "add":
                 r = composerApiService.addComposer(params)
+                break
+            case "list":
+                r = composerApiService.listComposer(params)
+                break
+            case "findBy":
+                switch (params["findBy"]) {
+                    case "name":
+                        r = composerApiService.findByName(params)
+                        break
+                }
                 break
         }
 
@@ -57,6 +64,16 @@ class ApiController {
             case "add":
                 r = composerApiService.addComposition(params)
                 break
+            case "list":
+                r = AbstractMusic.list(params)
+                break
+            case "findBy":
+                switch (params["findBy"]) {
+                    case "composer":
+                        r = composerApiService.findCompositionByComposer(params)
+                        break
+                }
+                break
         }
 
         render r as JSON
@@ -75,6 +92,16 @@ class ApiController {
             case "addAbstractMusicPart":
                 r = interpretationApiService.addAbstractMusicPart(params)
                 break
+            case "find":
+                if (!params["findBy"]) break
+                switch (params["findBy"]) {
+                    case "composition":
+                        r = interpretationApiService.findByComposition(params)
+                        break
+                }
+                break
+
+
         }
 
         render r as JSON
@@ -118,6 +145,30 @@ class ApiController {
 
         render r as JSON
     }
+
+
+    def annotation() {
+        println "annotation"
+        println params
+
+        def r = [error: "not implemented"]
+
+        switch (params["method"]) {
+            case "findBy":
+                if (!params["findBy"]) break
+                switch (params["findBy"]) {
+                    case "recording":
+                        r = annotationApiService.findByRecording(params)
+                        break
+                }
+                break
+
+        }
+
+        render r as JSON
+    }
+
+
 
     ScoreApiService scoreApiService
 

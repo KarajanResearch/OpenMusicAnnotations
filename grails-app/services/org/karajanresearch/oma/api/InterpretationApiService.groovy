@@ -7,6 +7,7 @@ import org.karajanresearch.oma.music.AbstractMusicPartScoreFileCommand
 import org.karajanresearch.oma.music.AbstractMusicPartService
 import org.karajanresearch.oma.music.Composer
 import org.karajanresearch.oma.music.Interpretation
+import org.karajanresearch.oma.music.Recording
 import org.springframework.web.multipart.MultipartFile
 
 @Transactional
@@ -93,6 +94,37 @@ class InterpretationApiService {
         )
 
         return abstractMusicPartService.uploadScoreFile(p, cmd)
+    }
+
+    def findByComposition(params) {
+
+        // interpretation overview
+        def result = []
+
+        def c = AbstractMusic.get(params["composition"])
+
+        AbstractMusicPart.findAllByAbstractMusic(c).each { AbstractMusicPart abstractMusicPart ->
+
+            def resultEntry = [:]
+
+            abstractMusicPart.getProperties().each { k, v ->
+                resultEntry[k] = v
+            }
+
+            //resultEntry["compositionId"] = abstractMusicPart.abstractMusic.id
+            resultEntry["compositionString"] = abstractMusicPart.abstractMusic.toString()
+            //resultEntry["interpretation"] = abstractMusicPart.interpretation.toString()
+            resultEntry["interpretationString"] = abstractMusicPart.interpretation.toString()
+
+            resultEntry["recordings"] = Recording.findAllByInterpretation(abstractMusicPart.interpretation)
+
+            result.add(resultEntry)
+        }
+
+
+
+        return result
+
     }
 
 
