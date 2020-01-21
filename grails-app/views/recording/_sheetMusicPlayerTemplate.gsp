@@ -49,6 +49,10 @@
 -->
 
     <div class="buttons">
+        <input type="text" id="new_annotation" placeholder="Type any Annotation" />
+        <button id="add_new_annotation"> Add Now </button>
+
+
         <button id="tap_tempo">Tap Tempo</button>
         <button id="discard_tap_list">Discard 0 Samples</button>
         <button id="save_tap_list">Save 0 Samples</button>
@@ -58,8 +62,9 @@
         <button id="score_zoom_in"> + </button>
 
         <span id="page_count"></span>
-        <button id="prev_page"> prev. </button>
-        <button id="next_page"> next </button>
+        <button id="prev_page"> Prev. </button>
+        <button id="next_page"> Next </button>
+
 
     <div id="tap_ist"></div>
     </div>
@@ -199,6 +204,13 @@
         }
     }
 
+    $(function () {
+        $("#viz").on("click", function(event) {
+            console.log(event.pageX);
+            console.log(event.pageY);
+        });
+    });
+
     /**
      * Displays previous page.
      */
@@ -315,10 +327,17 @@
         });
     }
 
+    function timerToHumanReadable(timer) {
+        let minutes = Math.round(timer / 60);
+        let r = timer % 60;
+        return "mm:ss " + minutes + ":" + r.toFixed(2)
+    }
+
     // getter and setter
     function updateTimer(time) {
         timer = time;
         drawPlayHead(time);
+        $("#add_new_annotation").text("Add now: " + timerToHumanReadable(timer));
     }
 
     function updateTapTempo(time) {
