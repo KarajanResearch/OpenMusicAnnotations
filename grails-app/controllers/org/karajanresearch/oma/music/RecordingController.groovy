@@ -283,6 +283,28 @@ class RecordingController {
         }
     }
 
+    def index(Integer max) {
+        def namedParams = [:]
+        def options  = [:]
+
+        if (max) {
+            options.max = max
+        }
+
+        def recordingList = Recording.executeQuery("""
+            select r.id, r.title, i.title, am.title, c.name, count(s)
+            from Recording r
+            left join r.interpretation as i
+            left join i.abstractMusicParts as amp
+            left join amp.abstractMusic as am
+            left join am.composer as c
+            left join r.annotationSessions as s
+            group by r.id, i.id, amp.id, am.id, c.id
+            """, namedParams, options
+        )
+        render(view: "index", model:[recordingList: recordingList])
+    }
+
 
 
 

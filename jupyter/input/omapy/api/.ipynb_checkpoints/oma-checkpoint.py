@@ -147,6 +147,24 @@ def recording_add(params, files):
     return content
 
 
+def recording_get(params):
+    params["method"] = "get"
+    url = _endpoint["uri"] + _config["api_path"] + "recording"
+    # response = requests.post(url, headers=_headers, data = params, files = files, _config["verify_certificate"])
+    # upload without a file first. if recording exists, no upload necessary
+    response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
+    # first get the recording object
+    content = json.loads(response.content.decode())
+    return content
+    # bytes in response.content
+    
+    # check cache
+    
+    # update cache
+    
+    # return recording object
+    
+
 def session_add(params, files):
     params["method"] = "add"
     url = _endpoint["uri"] + _config["api_path"] + "session"
