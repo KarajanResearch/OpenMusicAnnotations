@@ -5,8 +5,6 @@
         <g:set var="entityName" value="${message(code: 'recording.label', default: 'Recording')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
 
-        <asset:javascript src="jquery-3.3.1.min.js" />
-
         <!-- LOAD AFTER jquery -->
         <asset:stylesheet src="datatables.css" />
         <asset:javascript src="datatables.js" />
@@ -67,10 +65,7 @@
 
             <script type="application/javascript">
                 $(document).ready( function () {
-
-                    console.log("ready");
-
-                    // change html table to DataTable after! preparing the mouseover event handler
+                    // change html table to DataTable
                     $('#recordingList').DataTable( {
                             "scrollX": false
                         }

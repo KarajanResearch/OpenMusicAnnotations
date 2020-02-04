@@ -204,12 +204,7 @@
         }
     }
 
-    $(function () {
-        $("#viz").on("click", function(event) {
-            console.log(event.pageX);
-            console.log(event.pageY);
-        });
-    });
+
 
     /**
      * Displays previous page.
@@ -363,16 +358,17 @@
 
     $(function () {
         $('#audio_player').on('timeupdate', function () {
-            //audioPlayerLog("ontimeupdate");
+            audioPlayerLog("ontimeupdate");
             var widget = document.getElementById("audio_player");
             if (widget.paused) {
                 audioPlayerLog("prepared to play " + widget.currentTime);
             } else {
                 //audioPlayerLog("playing " + widget.currentTime);
                 updateTimer(widget.currentTime);
-                drawPlayHead(widget.currentTime);
+                //drawPlayHead(widget.currentTime);
             }
-            clearCanvas(widget.currentTime);
+            mapTime(widget.currentTime);
+            // clearCanvas(widget.currentTime);
 
         });
     });
@@ -454,10 +450,12 @@
      */
     function clearCanvas(time) {
         // necessary?
+        /*
         if (time > vizStartTime && time < (vizStartTime + vizDuration)) {
             //console.log("unnecessary");
             return;
         }
+        */
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         vizStartTime = time;
 
@@ -471,6 +469,7 @@
 
     // maps a time event (tap at second 5.67) to x coords in the canvas
     // depending on width and viz duration
+    // also moves the whole canvas when we map something outside the current canvas
     function mapTime(time) {
 
         if (time > vizStartTime + vizDuration) {
@@ -484,6 +483,28 @@
 
         var pixPerSec = canvas.width / vizDuration;
         return (time - vizStartTime) * pixPerSec;
+    }
+
+    function mapPixel(x, y) {
+        // x means time
+        // y means "line" in the canvas
+
+        // get the position and size of the canvas
+        var vizPosition = $("#viz").position();
+        // console.log("left: " + vizPosition.left);
+        // console.log("top: " + vizPosition.top);
+
+        // map x, y
+        // remove x-offset from canvas
+        x = x - vizPosition.left;
+        var pixelPerSec = canvas.width / vizDuration;
+        var clickedTime = (x / pixelPerSec) + vizStartTime;
+
+
+        // switch y to event
+
+        return {"time": clickedTime};
+
     }
 
 
@@ -514,6 +535,49 @@
         ctx.arc(x, y, pointRadius, 0, 2 * Math.PI);
         ctx.stroke();
     }
+
+    function clearPlayHead() {
+        // temporary workaround: redraw the whole thing. TODO: layers for different viz types
+        clearCanvas(vizStartTime);
+    }
+
+
+
+    $(function () {
+        /**
+         * define event handlers for mouse events
+         */
+        $("#viz").on("click", function(event) {
+
+            console.log("click");
+            console.log(event.pageX);
+            console.log(event.pageY);
+
+            var pixelInViz = mapPixel(event.pageX, event.pageY);
+            if (typeof pixelInViz["time"] !== "undefined") {
+                console.log(pixelInViz["time"]);
+            }
+
+        });
+        $("#viz").on("dblclick", function(event) {
+            /*
+            console.log("dblclick");
+            console.log(event.pageX);
+            console.log(event.pageY);
+             */
+            var pixelInViz = mapPixel(event.pageX, event.pageY);
+            if (typeof pixelInViz["time"] !== "undefined") {
+                // redraw viz with old time to get rid of previous progress bar
+                clearPlayHead();
+
+                var t = pixelInViz["time"];
+                var widget = document.getElementById("audio_player");
+                widget.currentTime = t;
+                updateTimer(t);
+            }
+        });
+
+    });
 
 
     initCanvas();
