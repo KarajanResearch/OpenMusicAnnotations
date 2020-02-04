@@ -1,4 +1,13 @@
-<asset:javascript src="jquery-3.3.1.min.js"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 
 <script src="https://unpkg.com/wavesurfer.js"></script>
@@ -584,5 +593,57 @@
     clearCanvas(0.0);
 
 
+    /** context menu
+     *
+     */
+    $.contextMenu({
+        selector: '#viz',
+
+        build: function($trigger, e) {
+            // this callback is executed every time the menu is to be shown
+            // its results are destroyed every time the menu is hidden
+            // e is the original contextmenu event, containing e.pageX and e.pageY (amongst other data)
+            // console.log(e.originalEvent.target.parentElement.id );
+
+            return {
+                callback: function(key, options) {
+                    // console.log(e);
+                    // get x and y clicked in canvas
+                    var x = e.originalEvent.x;
+                    var y = e.originalEvent.y;
+
+                    var clickTarget = mapPixel(x, y);
+
+                    var m = "clicked: " + key;
+                    console.log(m);
+                    console.log(clickTarget);
+
+                    var parts = key.split("-");
+                    var command = parts[0];
+                    switch (command) {
+                        case "addToTrackList":
+                            // addTrackToTrackList(sourceTrackId, parts[1]);
+                            break;
+                        case "addNewTrackList":
+                            // addTrackToNewTrackList(sourceTrackId);
+                            break;
+                        default:
+                            console.log("click command not implemented");
+                    }
+
+                },
+                items: {
+                    "show": {name: "show", icon: "fa-external-link"},
+                    
+                }
+            };
+        }
+    });
+
+
 </script>
+
+
+
+
 
