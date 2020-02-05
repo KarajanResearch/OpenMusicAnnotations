@@ -41,6 +41,7 @@
 <!-- HTML -->
 <div>
 
+    <!-- TODO: not seekable in chrome -->
     <div>
         <audio id="audio_player" controls preload="auto">
             <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording.id) }"/> type="audio/wav">
@@ -367,7 +368,7 @@
 
     $(function () {
         $('#audio_player').on('timeupdate', function () {
-            audioPlayerLog("ontimeupdate");
+            // audioPlayerLog("ontimeupdate");
             var widget = document.getElementById("audio_player");
             if (widget.paused) {
                 audioPlayerLog("prepared to play " + widget.currentTime);
@@ -445,7 +446,8 @@
                 }
                 if (eventTime > (vizStartTime + vizDuration)) {
                     // break inner loop
-                    j = annotationSessions[i].annotations.length;
+                    // j = annotationSessions[i].annotations.length;
+                    break;
                 }
             }
         }
@@ -557,7 +559,7 @@
          * define event handlers for mouse events
          */
         $("#viz").on("click", function(event) {
-
+/*
             console.log("click");
             console.log(event.pageX);
             console.log(event.pageY);
@@ -566,22 +568,27 @@
             if (typeof pixelInViz["time"] !== "undefined") {
                 console.log(pixelInViz["time"]);
             }
-
+*/
         });
         $("#viz").on("dblclick", function(event) {
-            /*
+
             console.log("dblclick");
             console.log(event.pageX);
             console.log(event.pageY);
-             */
+
             var pixelInViz = mapPixel(event.pageX, event.pageY);
+            console.log(pixelInViz);
             if (typeof pixelInViz["time"] !== "undefined") {
                 // redraw viz with old time to get rid of previous progress bar
                 clearPlayHead();
 
                 var t = pixelInViz["time"];
+                console.log(t);
                 var widget = document.getElementById("audio_player");
                 widget.currentTime = t;
+
+                console.log(widget);
+
                 updateTimer(t);
             }
         });
@@ -634,7 +641,7 @@
                 },
                 items: {
                     "show": {name: "show", icon: "fa-external-link"},
-                    
+
                 }
             };
         }

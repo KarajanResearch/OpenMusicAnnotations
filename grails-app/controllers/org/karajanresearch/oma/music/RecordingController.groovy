@@ -236,7 +236,10 @@ class RecordingController {
 
 
         response.setContentType("APPLICATION/OCTET-STREAM")
-        response.setHeader("Content-Disposition", "Attachment;Filename=\"oma-recording-${recording.id}\"")
+        response.setHeader("Content-Disposition", "inline;Filename=\"oma-recording-${recording.id}\"")
+        response.setHeader("Content-Transfer-Encoding", "binary")
+        response.setHeader("Content-Length", file.size().toString())
+
 
         def outputStream = response.getOutputStream()
         outputStream << file.newInputStream()

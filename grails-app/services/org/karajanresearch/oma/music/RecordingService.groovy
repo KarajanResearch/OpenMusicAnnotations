@@ -40,14 +40,11 @@ class RecordingService {
         println bucket
 
 
-
         def f = storageBackendService.getFile(bucket, keyPath, file.absolutePath)
 
         println f
 
         return file
-
-
     }
 
 

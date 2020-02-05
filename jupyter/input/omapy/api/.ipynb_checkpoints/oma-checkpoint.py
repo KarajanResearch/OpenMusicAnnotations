@@ -12,7 +12,8 @@ _endpoint = {
 
 _config = {
     "api_path": "api/",
-    "verify_certificate": True
+    "verify_certificate": True,
+    "cache_dir": "omacache"
 }
 
 
@@ -157,6 +158,42 @@ def recording_get(params):
     content = json.loads(response.content.decode())
     return content
     # bytes in response.content
+    
+    # check cache
+    
+    # update cache
+    
+    # return recording object
+    
+    
+def recording_get_audio(params):
+    params["method"] = "getAudio"
+    url = _endpoint["uri"] + _config["api_path"] + "recording"
+
+
+    # bytes in response.content
+    # TODO: get extension from response. all mp3 for not
+    output_file_name = _config["cache_dir"] + "/recording/" + str(params["recording"]) + ".mp3"
+    # exists in cache?
+    try:
+        with open(output_file_name, "rb") as output_file:
+            print("opened")
+            return output_file
+    except FileNotFoundError:
+        print("not found")
+        
+        # response = requests.post(url, headers=_headers, data = params, files = files, _config["verify_certificate"])
+        # upload without a file first. if recording exists, no upload necessary
+        response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
+        # first get the recording object
+        print(response)
+        with open(output_file_name, "wb") as output_file:
+            print("creating")
+            output_file.write(response.content)
+            return output_file
+            
+    
+    
     
     # check cache
     

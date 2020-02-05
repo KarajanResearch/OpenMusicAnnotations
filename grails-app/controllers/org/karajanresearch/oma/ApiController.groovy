@@ -118,6 +118,24 @@ class ApiController {
             case "add":
                 r = recordingApiService.addRecording(params)
                 break
+            case "get":
+                r = recordingApiService.getRecording(params)
+                break
+            case "getAudio":
+                def file = recordingApiService.getRecordingAudio(params)
+                if (file) {
+                    println "loaded File"
+
+                    response.setContentType("APPLICATION/OCTET-STREAM")
+                    response.setHeader("Content-Disposition", "Attachment;Filename=\"${file.name}\"")
+
+                    def outputStream = response.getOutputStream()
+                    outputStream << file.newInputStream()
+                    outputStream.flush()
+                    outputStream.close()
+                    return
+                }
+                break
         }
 
         if (!r) {

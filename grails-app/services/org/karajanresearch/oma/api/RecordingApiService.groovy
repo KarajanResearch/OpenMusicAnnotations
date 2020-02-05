@@ -4,6 +4,7 @@ import grails.gorm.transactions.Transactional
 
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.music.AbstractMusicPart
+import org.karajanresearch.oma.music.DigitalAudio
 import org.karajanresearch.oma.music.Interpretation
 import org.karajanresearch.oma.music.Recording
 import org.karajanresearch.oma.music.RecordingFileCommand
@@ -61,5 +62,19 @@ class RecordingApiService {
         r = recordingService.uploadFile(r, cmd)
 
         return r
+    }
+
+    def getRecording(params) {
+        return Recording.get(params.recording)
+    }
+
+
+    def getRecordingAudio(params) {
+
+        def recording = Recording.get(params.recording)
+
+        return recordingService.getFile(recording)
+
+
     }
 }
