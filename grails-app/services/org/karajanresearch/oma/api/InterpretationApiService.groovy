@@ -98,32 +98,16 @@ class InterpretationApiService {
 
     def findByComposition(params) {
 
-        // interpretation overview
-        def result = []
-
         def c = AbstractMusic.get(params["composition"])
 
-        AbstractMusicPart.findAllByAbstractMusic(c).each { AbstractMusicPart abstractMusicPart ->
-
-            def resultEntry = [:]
-
-            abstractMusicPart.getProperties().each { k, v ->
-                resultEntry[k] = v
-            }
-
-            //resultEntry["compositionId"] = abstractMusicPart.abstractMusic.id
-            resultEntry["compositionString"] = abstractMusicPart.abstractMusic.toString()
-            //resultEntry["interpretation"] = abstractMusicPart.interpretation.toString()
-            resultEntry["interpretationString"] = abstractMusicPart.interpretation.toString()
-
-            resultEntry["recordings"] = Recording.findAllByInterpretation(abstractMusicPart.interpretation)
-
-            result.add(resultEntry)
+        return AbstractMusicPart.findAllByAbstractMusic(c).collect {
+            [
+                interpretation: it.interpretation.toString(),
+                recordingId: it.interpretation.recordings[0].id,
+            ]
         }
 
 
-
-        return result
 
     }
 

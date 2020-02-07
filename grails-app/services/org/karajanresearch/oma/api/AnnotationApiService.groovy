@@ -63,10 +63,25 @@ class AnnotationApiService {
 
 
         r.annotationSessions.each {Session session ->
-            result.addAll(session.annotations)
+
+            result.addAll(session.annotations.collect{ Annotation annotation ->
+                [
+                    type: annotation.type,
+                    annotationId: annotation.id,
+                    recordingId: annotation.session.recording.id,
+                    barNumber: annotation.barNumber,
+                    beatNumber: annotation.beatNumber,
+                    intValue: annotation.intValue,
+                    subDivision: annotation.subdivision,
+                    annotationSession: annotation.session.id,
+                    momentOfPerception: annotation.momentOfPerception
+                ]
+            })
+
         }
 
         return  result
+
 
     }
 

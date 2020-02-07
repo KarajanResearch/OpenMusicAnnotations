@@ -30,15 +30,37 @@ class ComposerApiService {
 
 
     def listComposer(params) {
-        return Composer.list(params)
+        return Composer.list(params).collect {
+            [
+                composerId: it.id,
+                name: it.name
+            ]
+        }
     }
 
     def findByName(params) {
-        return Composer.findByName(params.name)
+        return Composer.findByName(params.name).collect {
+            [
+                composerId: it.id,
+                name: it.name,
+                compositions: it.compositions.collect { c ->
+                    [
+                        compositionId: c.id,
+                        compositionTitle: c.title
+                    ]
+                }
+            ]
+        }
     }
 
     def findCompositionByComposer(params) {
-        return AbstractMusic.findAllByComposer(Composer.get(params.composer))
+        return AbstractMusic.findAllByComposer(Composer.get(params.composer)).collect { c ->
+            [
+                compositionId: c.id,
+                compositionTitle: c.title,
+                composerId: c.composer.id
+            ]
+        }
     }
 
 }
