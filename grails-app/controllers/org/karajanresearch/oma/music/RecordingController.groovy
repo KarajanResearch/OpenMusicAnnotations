@@ -225,18 +225,25 @@ class RecordingController {
 
     def getAudioFile(Long id) {
 
+        println "getAudioFile"
+        println params
+
 
         def recording = Recording.get(id)
 
         if (!recording) return notFound()
 
-        def file = recordingService.getFile(recording)
+        if (!params.type) {
+            params.type = "mp3"
+        }
+
+        def file = recordingService.getFile(recording, params.type)
 
         if (!file) return notFound()
 
 
         response.setContentType("APPLICATION/OCTET-STREAM")
-        response.setHeader("Content-Disposition", "inline;Filename=\"oma-recording-${recording.id}\"")
+        response.setHeader("Content-Disposition", "inline;Filename=\"${file.name}\"")
         response.setHeader("Content-Transfer-Encoding", "binary")
         response.setHeader("Content-Length", file.size().toString())
 

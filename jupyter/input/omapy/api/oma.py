@@ -99,7 +99,7 @@ def interpretation_add_abstract_music_part(params, files):
     
     if "error" in content:
         if content["error"] == "please provide a file":
-            print("providing a file")
+            print("providing a amp file")
             ## TODO: at upload time, also do python based audio extraction and uploat as static results
             response = requests.post(
                 url, headers=_headers, data=params, files=files, verify=_config["verify_certificate"])
@@ -132,19 +132,9 @@ def recording_add(params, files):
     params["method"] = "add"
     url = _endpoint["uri"] + _config["api_path"] + "recording"
     # response = requests.post(url, headers=_headers, data = params, files = files, _config["verify_certificate"])
-    # upload without a file first. if recording exists, no upload necessary
-    response = requests.post(url, headers=_headers, data=params, verify=_config["verify_certificate"])
-    content = json.loads(response.content.decode())
-
-    if "error" in content:
-        if content["error"] == "please provide a file":
-            print("providing a file")
-            ## TODO: at upload time, also do python based audio extraction and uploat as static results
-            response = requests.post(
+    response = requests.post(
                 url, headers=_headers, data=params, files=files, verify=_config["verify_certificate"])
-            # response = requests.post(url, headers=_headers, data = params, _config["verify_certificate"])
-            content = json.loads(response.content.decode())
-
+    content = json.loads(response.content.decode())
     return content
 
 
@@ -173,7 +163,7 @@ def recording_get_audio(params):
 
     # bytes in response.content
     # TODO: get extension from response. all mp3 for not
-    output_file_name = _config["cache_dir"] + "/recording/" + str(params["recording"]) + ".mp3"
+    output_file_name = _config["cache_dir"] + "/recording/" + str(params["recording"]) + "." + params["type"]
     # exists in cache?
     try:
         with open(output_file_name, "rb") as output_file:

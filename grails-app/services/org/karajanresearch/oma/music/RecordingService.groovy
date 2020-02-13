@@ -23,15 +23,30 @@ class RecordingService {
     RecordingGormService recordingGormService
 
 
-    File getFile(Recording recording) {
+    /**
+     *
+     * @param recording
+     * @param type wav, mp3, flac, ...
+     * @return
+     */
+    File getFile(Recording recording, String type) {
 
 
 
-        File file = File.createTempFile("temp",".mp3")
+        File file = File.createTempFile("recording-" + recording.id.toString() + "-","."+type)
+
 
         if (!recording.digitalAudio || !recording.digitalAudio[0] || !recording.digitalAudio[0].location) return null
 
-        def location = recording.digitalAudio[0].location
+
+        def audioFile = recording.digitalAudio.find { DigitalAudio digitalAudio ->
+            digitalAudio.originalFileName.endsWith(type)
+        }
+
+        def location = audioFile.location
+
+        println "location: " + location
+
 
         def keyPath = storageBackendService.getS3Key(location)
         def bucket = storageBackendService.getS3Bucket(location)

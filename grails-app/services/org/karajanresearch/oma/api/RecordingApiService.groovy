@@ -33,13 +33,24 @@ class RecordingApiService {
 
 
         Interpretation i = Interpretation.get(params.interpretation)
-        AbstractMusicPart a = AbstractMusicPart.get(params.abstract_music_part)
 
-        Recording exists = Recording.findByTitleAndInterpretationAndAbstractMusicPart(
+        if (!i) {
+            return ["error": "no interpretation"]
+        }
+
+
+        AbstractMusicPart a = AbstractMusicPart.get(params.abstract_music_part)
+        if (!a) {
+            return ["error": "no interpretation"]
+        }
+
+        Recording r = Recording.findByTitleAndInterpretationAndAbstractMusicPart(
             params.title, i, a
         )
 
-        if (exists) return exists
+        println "exising recording: " + r
+
+        //if (exists) return exists
 
         if (!params.file) {
             return ["error": "please provide a file"]
@@ -47,11 +58,18 @@ class RecordingApiService {
         MultipartFile f = params.file
         println f.originalFilename
 
-        def r = new Recording(
-            title: params.title,
-            interpretation: i,
-            abstractMusicPart: a
-        ).save(flush: true)
+        if (!r) {
+            println "creating new recording"
+            r = new Recording(
+                title: params.title,
+                interpretation: i,
+                abstractMusicPart: a
+            )
+            if (!r.save(flush: true)) {
+                println r.errors
+            }
+        }
+
 
         RecordingFileCommand cmd = new RecordingFileCommand(
             version: 1,
@@ -73,7 +91,10 @@ class RecordingApiService {
 
         def recording = Recording.get(params.recording)
 
-        return recordingService.getFile(recording)
+        if (!params.type)
+            params.type = "mp3"
+
+        return recordingService.getFile(recording, params.type)
 
 
     }

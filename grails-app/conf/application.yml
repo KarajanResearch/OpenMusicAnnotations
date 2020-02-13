@@ -114,7 +114,7 @@ environments:
             # dbCreate: create-drop
             # dbCreate: create-drop
             #url: jdbc:h2:./devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-            dbCreate: none
+            dbCreate: update
             username: oma
             password: Xx7%nbpS9>y$4x2<
             driverClassName: org.postgresql.Driver
