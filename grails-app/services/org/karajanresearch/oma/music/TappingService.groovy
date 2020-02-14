@@ -86,7 +86,7 @@ class TappingService {
                 )
                 session.addToAnnotations(a)
 
-                println a
+                // println a
             } catch (Exception ex) {
                 println ex.message
 

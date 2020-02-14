@@ -158,6 +158,7 @@ class RecordingController {
         render view: "show", model: model
     }
 
+
     def vizPlay(Long id) {
         def recording = Recording.get(id)
 
