@@ -36,7 +36,7 @@ class SheetMusic {
                 this.scoreZoomOut();
             }).bind(this));
         }).bind(this));
-
+        // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
 
 
 
@@ -192,6 +192,32 @@ class SheetMusic {
 }
 
 
+class AnnotationIconView {
+
+    constructor(annotationSessions) {
+        this.annotationSessions = annotationSessions;
+
+        this.canvas = document.getElementById("annotationIconView");
+        this.vizStartTime = 0.0; // offset. beginning of viz
+        this.vizDuration = 30.0; // length of viz in seconds
+        this.canvas.width = window.innerWidth; // todo: react to changing window size
+        this.canvas.height = 50;
+        console.log(this.canvas.width);
+        this.ctx = this.canvas.getContext("2d");
+
+        // testing draw first session
+        this.drawSession(this.annotationSessions[0]);
+    }
+
+
+    drawSession(session) {
+        console.log(session);
+    }
+
+
+}
+
+
 /**
  * Data Model of Recording and all UI related Data
  */
@@ -203,6 +229,12 @@ class RecordingViz {
 
     openSheetMusic(pdfUrl) {
         this.sheetMusic = new SheetMusic(pdfUrl);
+        return this.sheetMusic;
+    }
+
+    openAnnotationIconView(annotationSessions) {
+        this.annotationIconView = new AnnotationIconView(annotationSessions);
+        return this.annotationIconView;
     }
 
 }

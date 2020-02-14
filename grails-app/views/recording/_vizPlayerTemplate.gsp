@@ -9,9 +9,22 @@
 
 
 
+<div>
+    <audio id="audio_player" controls preload="auto">
+        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording.id) }"/> type="audio/wav">
+    Your browser does not support the audio element. </audio>
+</div>
+
+
+<div>
+    <h1>Annotation Icons</h1>
+    <canvas id="annotationIconView" style="border:1px solid #d3d3d3;"></canvas>
+</div>
+
 
 <div id="score">
     <h1>Score</h1>
+
     Zoom Score
     <button id="score_zoom_out"> - </button>
     <button id="score_zoom_in"> + </button>
@@ -31,16 +44,14 @@
     // load UI
     let recordingViz = new RecordingViz();
 
+    <g:applyCodec encodeAs="none">
+    let annotationSessions = ${annotationSessionsJson};
+    let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions);
+    </g:applyCodec>
+
     // set pdf file for sheet music
     let sheetMusic = recordingViz.openSheetMusic("${createLink(controller: 'abstractMusicPart', action: 'getScoreFile', id: recording.abstractMusicPart.id)}");
 
 
 </script>
-
-
-
-
-${recording}
-
-<!-- ${annotationSessionsJson} -->
 
