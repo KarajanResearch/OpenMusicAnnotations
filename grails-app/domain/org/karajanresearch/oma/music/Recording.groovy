@@ -44,22 +44,29 @@ class Recording implements MultiTenant<Recording> {
      */
     Session beats
 
+
+    /**
+     * reference to pre-rendered wav forms
+     */
+    RenderedWaveForm renderedWaveForm
+
+
     /**
      * manifestation of the recording and annotation sessions
      */
     static hasMany = [digitalAudio: DigitalAudio, annotationSessions: Session]
 
     static constraints = {
-        //id nullable: false
         title nullable: false
         digitalAudio nullable: true
         interpretation nullable: false
         beats nullable: true
+        renderedWaveForm nullable: true
     }
 
     String toString() {
         //if (!title) {
-            return title + ": Recording of " + interpretation.toString() + ": " + abstractMusicPart.toString()
+            return title + ": Recording of " + interpretation.toString() + ": " + abstractMusicPart?.toString()
         //} else {
         //    return title
         //}

@@ -1,8 +1,6 @@
 package org.karajanresearch.oma.music
 
 import grails.gorm.MultiTenant
-import org.karajanresearch.oma.Role
-import org.karajanresearch.oma.User
 
 class DigitalAudio implements MultiTenant<DigitalAudio> {
     /**
@@ -27,6 +25,8 @@ class DigitalAudio implements MultiTenant<DigitalAudio> {
      * file belongs to a specific recording
      */
     static belongsTo = [recording: Recording]
+
+
 
     static constraints = {
         originalFileName nullable: false

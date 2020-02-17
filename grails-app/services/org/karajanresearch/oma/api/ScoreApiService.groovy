@@ -10,6 +10,9 @@ import org.springframework.web.multipart.MultipartFile
 @Transactional
 class ScoreApiService {
 
+
+    def recordingService
+
     def addScore(params) {
 
 

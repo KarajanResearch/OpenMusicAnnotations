@@ -47,4 +47,8 @@ class Session implements MultiTenant<Session> {
         startTimestamp nullable: true
         endTimestamp nullable: true
     }
+
+    String toString() {
+        return title
+    }
 }

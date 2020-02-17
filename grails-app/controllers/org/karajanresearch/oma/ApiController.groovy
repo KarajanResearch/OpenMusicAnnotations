@@ -9,6 +9,7 @@ import org.karajanresearch.oma.api.InterpretationApiService
 import org.karajanresearch.oma.api.RecordingApiService
 import org.karajanresearch.oma.api.ScoreApiService
 import org.karajanresearch.oma.music.AbstractMusic
+import org.karajanresearch.oma.api.RenderedImageApiService
 
 /**
  * oma.cloud/api/
@@ -107,6 +108,8 @@ class ApiController {
         render r as JSON
     }
 
+    RenderedImageApiService renderedImageApiService
+
 
     def recording() {
         println "recording"
@@ -135,6 +138,9 @@ class ApiController {
                     outputStream.close()
                     return
                 }
+                break
+            case "addImage":
+                r = renderedImageApiService.addToRecording(params)
                 break
         }
 
@@ -185,6 +191,9 @@ class ApiController {
 
         render r as JSON
     }
+
+
+
 
 
 

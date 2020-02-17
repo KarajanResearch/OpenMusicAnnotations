@@ -98,42 +98,6 @@ class SheetMusic {
         }
     }
 
-    /*
-    recordUserPageSelection(pageNumber) {
-
-        let widget = document.getElementById("audio_player");
-        if (widget.paused) {
-            // no action
-        } else {
-            console.log("page selection at play head pos " + widget.currentTime);
-            console.log(pageNumber);
-
-            // ajaxUploadSheetMusicPageSelection
-            let ajaxUrl="${createLink(controller:'recording',action:'ajaxUploadSheetMusicPageSelection')}";
-
-            $.ajax({
-                url:ajaxUrl,
-                data: {
-                    pageNumber: pageNumber,
-                    playheadLocation: widget.currentTime,
-                    recording: "${recording.id}"
-                },
-                success: function(resp){
-                    console.log(resp);
-                    if (resp["Error"]) {
-                        console.log(resp["Error"]);
-                        return;
-                    }
-                    tapList = [];
-                    $("#save_tap_list").text("Saved!");
-                    $("#discard_tap_list").text("Discard 0 Samples");
-                }
-            });
-        }
-    }
-
-     */
-
 
 
     /**
@@ -191,13 +155,22 @@ class SheetMusic {
 
 }
 
-
+/**
+ * a timeline-kind-of visualization of annotations
+ */
 class AnnotationIconView {
 
     constructor(annotationSessions) {
+        /**
+         * hold gorm-result from recording/show.
+         * Ajax-callbacks update local data structure as well
+         */
         this.annotationSessions = annotationSessions;
 
+        /** ui elements
+         */
         this.canvas = document.getElementById("annotationIconView");
+        this.sessionList = document.getElementById("sessionList");
         this.vizStartTime = 0.0; // offset. beginning of viz
         this.vizDuration = 30.0; // length of viz in seconds
         this.canvas.width = window.innerWidth; // todo: react to changing window size
@@ -207,10 +180,25 @@ class AnnotationIconView {
 
         // testing draw first session
         this.drawSession(this.annotationSessions[0]);
+
+        this.updateSessionList();
+    }
+
+    updateSessionList() {
+
+        $("#sessionList").empty();
+        for(let i = 0; i < this.annotationSessions.length; i++) {
+            let title = this.annotationSessions[i].title.replace("Upload of ", "");
+            $("#sessionList").append('<li><button>' + title + '</button></li>');
+        }
+        //TODO: add actions to buttons
     }
 
 
+
+
     drawSession(session) {
+        console.log("drawSession");
         console.log(session);
     }
 
@@ -227,14 +215,16 @@ class RecordingViz {
 
     }
 
-    openSheetMusic(pdfUrl) {
-        this.sheetMusic = new SheetMusic(pdfUrl);
-        return this.sheetMusic;
-    }
 
     openAnnotationIconView(annotationSessions) {
         this.annotationIconView = new AnnotationIconView(annotationSessions);
         return this.annotationIconView;
     }
+
+    openSheetMusic(pdfUrl) {
+        this.sheetMusic = new SheetMusic(pdfUrl);
+        return this.sheetMusic;
+    }
+
 
 }

@@ -28,7 +28,7 @@
 
 
 
-            <g:render template="vizPlayerTemplate" model="${this}" />
+            <g:render template="vizPlayTemplate" model="${this}" />
 
 
 

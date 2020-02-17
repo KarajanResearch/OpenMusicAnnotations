@@ -128,6 +128,16 @@ def interpretation_find(params):
     return content
 
 
+def recording_add_image(params, files):
+    params["method"] = "addImage"
+    url = _endpoint["uri"] + _config["api_path"] + "recording"
+    # response = requests.post(url, headers=_headers, data = params, files = files, _config["verify_certificate"])
+    response = requests.post(
+                url, headers=_headers, data=params, files=files, verify=_config["verify_certificate"])
+    content = json.loads(response.content.decode())
+    return content
+
+
 def recording_add(params, files):
     params["method"] = "add"
     url = _endpoint["uri"] + _config["api_path"] + "recording"
