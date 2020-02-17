@@ -35,6 +35,7 @@
     </div>
     <h3>Timeline</h3>
     <canvas id="annotationIconView" style="border:1px solid #d3d3d3;"></canvas>
+    <div id="waveForm"></div>
 </div>
 
 
@@ -55,14 +56,19 @@
     </div>
 </div>
 
+
 <script type="application/javascript">
 
     // load UI
-    let recordingViz = new RecordingViz();
+    let recordingViz = new RecordingViz(${recording.id});
 
     <g:applyCodec encodeAs="none">
     let annotationSessions = ${annotationSessionsJson};
-    let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions);
+
+    let waveFormUrl = "${createLink(controller:'renderedWaveForm',action:'ajaxGetWaveForm')}";
+    let imageSampleUrl = "${createLink(controller:'renderedImageSample',action:'getImage')}";
+
+    let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions, waveFormUrl, imageSampleUrl);
     </g:applyCodec>
 
     // set pdf file for sheet music

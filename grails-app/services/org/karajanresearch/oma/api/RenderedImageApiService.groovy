@@ -4,21 +4,37 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import grails.gorm.transactions.Transactional
 import grails.util.Environment
 import org.karajanresearch.oma.StorageBackendService
-import org.karajanresearch.oma.music.AbstractMusicPart
 import org.karajanresearch.oma.music.DigitalAudio
-import org.karajanresearch.oma.music.Interpretation
 import org.karajanresearch.oma.music.Recording
-import org.karajanresearch.oma.music.RecordingFileCommand
 import org.karajanresearch.oma.music.RenderedImageSample
-import org.karajanresearch.oma.music.RenderedImageSampleFileCommand
+
 import org.karajanresearch.oma.music.RenderedWaveForm
-import org.springframework.web.multipart.MultipartFile
 
 @Transactional
 class RenderedImageApiService {
 
 
     StorageBackendService storageBackendService
+
+
+    File getFile(RenderedImageSample sample) {
+
+        File file = File.createTempFile("image-" + sample.id.toString() + "-",".png")
+
+        if (!sample.location) return null
+
+        println "location: " + sample.location
+
+
+        def keyPath = storageBackendService.getS3Key(location)
+        def bucket = storageBackendService.getS3Bucket(location)
+
+        println keyPath
+        println bucket
+        def f = storageBackendService.getFile(bucket, keyPath, file.absolutePath)
+        return file
+    }
+
 
 
     def addToRecording(params) {
