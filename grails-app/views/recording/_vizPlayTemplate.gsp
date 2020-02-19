@@ -5,21 +5,31 @@
 
 <style type="text/css">
 
-#sessionList > li {
-    display: inline-block;
-    /* You can also add some margins here to make it look prettier */
-    zoom:1;
-    *display:inline;
-    /* this fix is needed for IE7- */
-}
+    #sessionList > li {
+        display: inline-block;
+        /* You can also add some margins here to make it look prettier */
+        zoom:1;
+        *display:inline;
+        /* this fix is needed for IE7- */
+    }
+
+    .waveFormSample {
+        width: 30px;
+        height: 200px;
+    }
 
 </style>
+
+<!-- dependency injection ;) -->
+<input type="hidden" id="recordingId" value="${recording?.id}">
+<input type="hidden" id="waveFormUrl" value="${createLink(controller:'renderedWaveForm',action:'ajaxGetWaveForm')}">
+<input type="hidden" id="imageSampleUrl" value="${createLink(controller:'renderedImageSample',action:'getImage')}">
 
 
 
 <div>
     <audio id="audio_player" controls preload="auto">
-        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording.id) }"/> type="audio/wav">
+        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id) }"/> type="audio/wav">
     Your browser does not support the audio element. </audio>
 </div>
 
@@ -59,20 +69,33 @@
 
 <script type="application/javascript">
 
-    // load UI
-    let recordingViz = new RecordingViz(${recording.id});
 
-    <g:applyCodec encodeAs="none">
-    let annotationSessions = ${annotationSessionsJson};
+    $(document).ready(function(){
 
-    let waveFormUrl = "${createLink(controller:'renderedWaveForm',action:'ajaxGetWaveForm')}";
-    let imageSampleUrl = "${createLink(controller:'renderedImageSample',action:'getImage')}";
+        console.log("ready");
 
-    let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions, waveFormUrl, imageSampleUrl);
-    </g:applyCodec>
 
-    // set pdf file for sheet music
-    //let sheetMusic = recordingViz.openSheetMusic("${createLink(controller: 'abstractMusicPart', action: 'getScoreFile', id: recording.abstractMusicPart.id)}");
+
+        let recordingId = $("#recordingId").val();
+
+        // load UI
+        let recordingViz = new RecordingViz(recordingId);
+
+        <g:applyCodec encodeAs="none">
+        let annotationSessions = ${annotationSessionsJson};
+
+
+
+        let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions);
+        </g:applyCodec>
+
+        // set pdf file for sheet music
+        //let sheetMusic = recordingViz.openSheetMusic("${createLink(controller: 'abstractMusicPart', action: 'getScoreFile', id: 21287)}");
+
+
+    });
+
+
 
 
 </script>

@@ -33,6 +33,8 @@ class RenderedWaveFormController {
             [sort: "fromSample"]
         )
 
+        println images
+
         render images as JSON
 
     }

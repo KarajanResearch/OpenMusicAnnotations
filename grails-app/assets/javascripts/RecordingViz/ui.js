@@ -160,15 +160,16 @@ class SheetMusic {
  */
 class AnnotationIconView {
 
-    constructor(recording, annotationSessions, waveFormUrl, imageSampleUrl) {
+
+    constructor(recording, annotationSessions) {
         /**
          * hold gorm-result from recording/show.
          * Ajax-callbacks update local data structure as well
          */
         this.recording = recording; // form recordingId
         this.annotationSessions = annotationSessions;
-        this.waveFormUrl = waveFormUrl;
-        this.imageSampleUrl = imageSampleUrl;
+        this.waveFormUrl = $("#waveFormUrl").val();
+        this.imageSampleUrl = $("#imageSampleUrl").val();
 
         /** ui elements
          */
@@ -208,6 +209,7 @@ class AnnotationIconView {
         // ajaxUploadSheetMusicPageSelection
         let sampleRate=44100;
 
+        // update local image buffer
 
         $.ajax({
             url:this.waveFormUrl,
@@ -216,7 +218,7 @@ class AnnotationIconView {
                 from_sample: this.vizStartTime * sampleRate,
                 to_sample: (this.vizStartTime + this.vizDuration) * sampleRate
             },
-            success: function(resp){
+            success: (function(resp){
                 //console.log(resp);
                 if (resp["Error"]) {
                     console.log(resp["Error"]);
@@ -225,20 +227,26 @@ class AnnotationIconView {
 
                 for (let i = 0; i < resp.length; i++) {
                     console.log(resp[i]);
-                    $("#waveForm").append("<img id='img' src='.png'/>");
-
+                    let sampleId = resp[i].id;
+                    $("#waveForm").append("<img class='waveFormSample' id='sample-" + sampleId + "' src='" + this.imageSampleUrl + "/" + sampleId + "'/>");
                 }
 
 
-            },
+            }).bind(this),
             error: function (resp) {
-                console.log(resp);
+                // console.log(resp);
                 if (resp["Error"]) {
                     console.log(resp["Error"]);
                     return;
                 }
             }
         });
+
+
+
+        // draw from local image buffer
+
+
 
 
     }
@@ -261,12 +269,13 @@ class AnnotationIconView {
 class RecordingViz {
 
     constructor(recording) {
-        this.recording = recording
+        this.recording = recording;
+        console.log(recording);
     }
 
 
-    openAnnotationIconView(annotationSessions, waveFormUrl, imageSampleUrl) {
-        this.annotationIconView = new AnnotationIconView(this.recording, annotationSessions, waveFormUrl, imageSampleUrl);
+    openAnnotationIconView(annotationSessions) {
+        this.annotationIconView = new AnnotationIconView(this.recording, annotationSessions);
         return this.annotationIconView;
     }
 

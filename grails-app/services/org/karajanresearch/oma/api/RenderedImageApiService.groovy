@@ -26,8 +26,8 @@ class RenderedImageApiService {
         println "location: " + sample.location
 
 
-        def keyPath = storageBackendService.getS3Key(location)
-        def bucket = storageBackendService.getS3Bucket(location)
+        def keyPath = storageBackendService.getS3Key(sample.location)
+        def bucket = storageBackendService.getS3Bucket(sample.location)
 
         println keyPath
         println bucket
@@ -100,7 +100,8 @@ class RenderedImageApiService {
             renderedWaveForm: recording.renderedWaveForm,
             fromSample: Integer.parseInt(params.from_sample),
             toSample: Integer.parseInt(params.to_sample),
-            sampleRate: Integer.parseInt(params.sample_rate)
+            sampleRate: Integer.parseInt(params.sample_rate),
+            location: s3FileUrl
         )
 
 

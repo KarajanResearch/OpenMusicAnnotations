@@ -29,4 +29,8 @@ class RenderedImageSample implements Comparable {
         return fromSample.compareTo(obj.fromSample)
     }
 
+    String toString() {
+        return location
+    }
+
 }
