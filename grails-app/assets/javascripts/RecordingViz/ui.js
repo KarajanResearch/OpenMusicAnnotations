@@ -193,7 +193,7 @@ class AnnotationIconView {
         this.vizStartTime = 0.0; // offset. beginning of viz
         this.currentTime = 0.0;
         this.microTimer = 0.0;
-        this.vizDuration = 30.0; // length of viz in seconds
+        this.vizDuration = 10.0; // length of viz in seconds
         this.canvas.width = window.innerWidth; // todo: react to changing window size
         this.canvas.height = 400;
         console.log(this.canvas.width);
@@ -216,7 +216,7 @@ class AnnotationIconView {
 
         this.updateWaveBackground();
 
-
+/*
         $((function() {
 
             $('#audio_player').on('timeupdate', (function () {
@@ -238,6 +238,21 @@ class AnnotationIconView {
 
         }).bind(this));
         // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
+*/
+
+        this.renderingDelay = 20; // ms
+        this.audioPlayer = document.getElementById("audio_player");
+
+        setInterval((function () {
+            if (this.audioPlayer.paused) {
+                // console.log("prepared to play " + widget.currentTime);
+            } else {
+                //updateTimer(widget.currentTime);
+                this.updatePlayHead(this.audioPlayer.currentTime);
+                //drawPlayHead(widget.currentTime);
+                //console.log("timer: " + widget.currentTime);
+            }
+        }).bind(this), this.renderingDelay)
 
     }
 
@@ -257,11 +272,19 @@ class AnnotationIconView {
         let pointRadius = 2;
         let x = this.mapTime(this.currentTime);
         let y = 4; //;this.canvas.height - 4;
+
+        this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
         this.playHeadCanvasContext.clearRect(0, 0, this.playHeadCanvas.width, this.playHeadCanvas.height);
+
         this.playHeadCanvasContext.beginPath();
         this.playHeadCanvasContext.arc(x, y, pointRadius, 0, 2 * Math.PI);
         this.playHeadCanvasContext.stroke();
-
+/*
+        this.playHeadCanvasContext.beginPath();
+        this.playHeadCanvasContext.moveTo(x, y);
+        this.playHeadCanvasContext.lineTo(x, y + this.playHeadCanvas.height);
+        this.playHeadCanvasContext.stroke();
+*/
         // draw playhead layer on canvas
         this.ctx.drawImage(this.playHeadCanvas, 0, 0, this.canvas.width, this.canvas.height);
     }
@@ -366,7 +389,7 @@ class AnnotationIconView {
                 $("#waveFormRight").empty();
 
                 for (let i = 0; i < resp.length; i++) {
-                    console.log(resp[i]);
+                    // console.log(resp[i]);
                     let sampleId = resp[i][0];
                     let sampleType = resp[i][1];
 
@@ -376,7 +399,7 @@ class AnnotationIconView {
 
                     let imageSrc = localStorage.getItem(image.id);
 
-                    console.log("local image");
+                    // console.log("local image");
                     // console.log(imageSrc);
 
                     // TODO: local storage
