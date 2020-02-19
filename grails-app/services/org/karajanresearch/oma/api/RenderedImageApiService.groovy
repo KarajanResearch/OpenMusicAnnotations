@@ -54,8 +54,6 @@ class RenderedImageApiService {
             return ["error": "type not supportet"]
         }
 
-
-
         println recording
 
         if (!recording.renderedWaveForm) {
@@ -64,22 +62,13 @@ class RenderedImageApiService {
             ).save()
         }
 
-
-        println recording.renderedWaveForm
-
-
         // store to s3 if it is a new file
         def env = Environment.current.name.replace(" ", "-")
         def prefix = "${env}/recording/${recording.id}/waveform"
         def fileName = "${params.type}-${recording.renderedWaveForm.id}-${params.from_sample}-${params.to_sample}.png"
 
         def path = prefix + "/" + fileName
-
-        println storageBackendService.BUCKET_NAME
-        println path
-
         def bucket = "open-music-annotations-storage-backend"
-
 
         String s3FileUrl = storageBackendService.storeMultipartFile(
             bucket,

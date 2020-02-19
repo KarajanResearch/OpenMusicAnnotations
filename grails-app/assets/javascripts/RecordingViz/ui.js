@@ -209,6 +209,18 @@ class AnnotationIconView {
         // ajaxUploadSheetMusicPageSelection
         let sampleRate=44100;
 
+        let numberOfImages = this.vizDuration;
+        let containerWidth = $("#timelineContainer").css("width").replace("px", "");
+
+        let imageWidth = Math.floor(containerWidth / numberOfImages);
+
+        // resize to avoid rounding errors
+        console.log(imageWidth);
+        containerWidth = (imageWidth * numberOfImages);
+        $("#timelineContainer").css("width", "" + containerWidth + "px");
+
+
+
         // update local image buffer
 
         $.ajax({
@@ -235,7 +247,11 @@ class AnnotationIconView {
                     } else if (sampleType === "wave-right") {
                         $("#waveFormRight").append("<img class='waveFormSample' id='sample-" + sampleId + "' src='" + this.imageSampleUrl + "/" + sampleId + "'/>");
                     }
+
+                    $("#sample-"+sampleId).css("width", "" + imageWidth + "px");
                 }
+
+                // TODO: maybe put images in local storage?
 
 
             }).bind(this),

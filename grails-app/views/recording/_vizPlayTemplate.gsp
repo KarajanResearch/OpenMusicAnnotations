@@ -14,8 +14,22 @@
     }
 
     .waveFormSample {
-        width: 30px;
+        width: 32px;
         height: 200px;
+    }
+
+    #timelineContainer {
+        display:inline-block;
+        width: fit-content;
+        height:400px;
+        margin: 0 auto;
+        background: black;
+        position:relative;
+
+    }
+    #annotationIconView {
+        position:relative;
+        z-index:20;
     }
 
 </style>
@@ -44,11 +58,19 @@
         </ul>
     </div>
     <h3>Timeline</h3>
-    <canvas id="annotationIconView" style="border:1px solid #d3d3d3;"></canvas>
-    <div id="waveForm">
-        <div id="waveFormLeft"></div>
-        <div id="waveFormRight"></div>
+
+    <div id="timelineContainer">
+        <div id="waveForm">
+            <div id="waveFormLeft"></div>
+            <div id="waveFormRight"></div>
+        </div>
+
+        <canvas id="annotationIconView" style="border:1px solid #d3d3d3;"></canvas>
+
+
     </div>
+
+
 </div>
 
 
