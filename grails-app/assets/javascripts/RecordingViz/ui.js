@@ -226,9 +226,15 @@ class AnnotationIconView {
                 }
 
                 for (let i = 0; i < resp.length; i++) {
-                    console.log(resp[i]);
+                    //console.log(resp[i]);
                     let sampleId = resp[i].id;
-                    $("#waveForm").append("<img class='waveFormSample' id='sample-" + sampleId + "' src='" + this.imageSampleUrl + "/" + sampleId + "'/>");
+                    let sampleType = resp[i].type;
+
+                    if (sampleType === "wave-left") {
+                        $("#waveFormLeft").append("<img class='waveFormSample' id='sample-" + sampleId + "' src='" + this.imageSampleUrl + "/" + sampleId + "'/>");
+                    } else if (sampleType === "wave-right") {
+                        $("#waveFormRight").append("<img class='waveFormSample' id='sample-" + sampleId + "' src='" + this.imageSampleUrl + "/" + sampleId + "'/>");
+                    }
                 }
 
 

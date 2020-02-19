@@ -16,6 +16,11 @@ class RenderedImageSample implements Comparable {
      */
     String location
 
+    /**
+     * kind of image
+     */
+    String type
+
 
 
     static constraints = {
@@ -23,6 +28,7 @@ class RenderedImageSample implements Comparable {
         toSample nullable: false
         location nullable: false
         sampleRate nullable: false
+        type nullable: true
     }
 
     int compareTo(obj) {

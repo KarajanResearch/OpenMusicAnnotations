@@ -101,7 +101,8 @@ class RenderedImageApiService {
             fromSample: Integer.parseInt(params.from_sample),
             toSample: Integer.parseInt(params.to_sample),
             sampleRate: Integer.parseInt(params.sample_rate),
-            location: s3FileUrl
+            location: s3FileUrl,
+            type: params.type
         )
 
 

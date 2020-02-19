@@ -45,7 +45,10 @@
     </div>
     <h3>Timeline</h3>
     <canvas id="annotationIconView" style="border:1px solid #d3d3d3;"></canvas>
-    <div id="waveForm"></div>
+    <div id="waveForm">
+        <div id="waveFormLeft"></div>
+        <div id="waveFormRight"></div>
+    </div>
 </div>
 
 
