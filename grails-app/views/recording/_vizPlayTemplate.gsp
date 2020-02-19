@@ -23,9 +23,13 @@
         width: fit-content;
         height:400px;
         margin: 0 auto;
-        background: black;
+        background: antiquewhite;
         position:relative;
 
+    }
+    #waveForm {
+        position: absolute;
+        z-index: 1;
     }
     #annotationIconView {
         position:relative;

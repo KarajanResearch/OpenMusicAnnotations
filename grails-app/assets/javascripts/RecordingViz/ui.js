@@ -176,9 +176,11 @@ class AnnotationIconView {
         this.canvas = document.getElementById("annotationIconView");
         this.sessionList = document.getElementById("sessionList");
         this.vizStartTime = 0.0; // offset. beginning of viz
+        this.currentTime = 0.0;
+        this.microTimer = 0.0;
         this.vizDuration = 30.0; // length of viz in seconds
         this.canvas.width = window.innerWidth; // todo: react to changing window size
-        this.canvas.height = 50;
+        this.canvas.height = 800;
         console.log(this.canvas.width);
         this.ctx = this.canvas.getContext("2d");
 
@@ -188,7 +190,94 @@ class AnnotationIconView {
         this.updateSessionList();
 
         this.updateWaveBackground();
+
+
+        $((function() {
+
+            $('#audio_player').on('timeupdate', (function () {
+
+
+                // audioPlayerLog("ontimeupdate");
+                var widget = document.getElementById("audio_player");
+                if (widget.paused) {
+                    console.log("prepared to play " + widget.currentTime);
+                } else {
+                    //updateTimer(widget.currentTime);
+                    this.updatePlayHead(widget.currentTime);
+                    //drawPlayHead(widget.currentTime);
+                }
+                //mapTime(widget.currentTime);
+                // clearCanvas(widget.currentTime);
+
+            }).bind(this));
+
+        }).bind(this));
+        // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
+
     }
+
+    updateMicroTimer(currentTime) {
+        // TODO: average timer intervals to control the pace of faster events
+    }
+
+    updatePlayHead(currentTime) {
+        //console.log("playing " + currentTime);
+        this.currentTime = currentTime;
+        this.updateMicroTimer(currentTime);
+        this.drawPlayHead();
+    }
+
+
+    drawPlayHead() {
+        let pointRadius = 2;
+        let x = this.mapTime(this.currentTime);
+        let y = 4; //;this.canvas.height - 4;
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, pointRadius, 0, 2 * Math.PI);
+        this.ctx.stroke();
+    }
+
+
+    // maps a time event (tap at second 5.67) to x coords in the canvas
+    // depending on width and viz duration
+    // also moves the whole canvas when we map something outside the current canvas
+    mapTime(time) {
+
+        if (time > this.vizStartTime + this.vizDuration) {
+            // redraw canvas and update startTime
+            this.clearCanvas(time);
+        }
+        if (time < this.vizStartTime) {
+            // redraw canvas and update startTime
+            this.clearCanvas(time);
+        }
+
+        let pixPerSec = this.canvas.width / this.vizDuration;
+        return (time - this.vizStartTime) * pixPerSec;
+    }
+
+    clearCanvas(time) {
+        // necessary?
+        /*
+        if (time > vizStartTime && time < (vizStartTime + vizDuration)) {
+            //console.log("unnecessary");
+            return;
+        }
+        */
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.vizStartTime = time;
+
+        let t0 = performance.now();
+        //drawAnnotations();
+        let t1 = performance.now();
+        console.log("Call to drawAnnotations took " + (t1 - t0) + " milliseconds.");
+
+        let t2 = performance.now();
+        this.updateWaveBackground();
+        let t3 = performance.now();
+        console.log("Call to waveForm took " + (t3 - t2) + " milliseconds.");
+    }
+
 
     updateSessionList() {
 
@@ -218,6 +307,11 @@ class AnnotationIconView {
         console.log(imageWidth);
         containerWidth = (imageWidth * numberOfImages);
         $("#timelineContainer").css("width", "" + containerWidth + "px");
+        $("#waveForm").css("width", "" + containerWidth + "px");
+        $("#waveFormLeft").css("width", "" + containerWidth + "px");
+        $("#waveFormRight").css("width", "" + containerWidth + "px");
+        $("#annotationIconView").css("width", "" + containerWidth + "px");
+
 
 
 
@@ -227,8 +321,8 @@ class AnnotationIconView {
             url:this.waveFormUrl,
             data: {
                 recording: this.recording,
-                from_sample: this.vizStartTime * sampleRate,
-                to_sample: (this.vizStartTime + this.vizDuration) * sampleRate
+                from_sample: Math.floor(this.vizStartTime) * sampleRate,
+                to_sample: Math.floor(this.vizStartTime + this.vizDuration) * sampleRate
             },
             success: (function(resp){
                 //console.log(resp);
@@ -236,6 +330,9 @@ class AnnotationIconView {
                     console.log(resp["Error"]);
                     return;
                 }
+
+                $("#waveFormLeft").empty();
+                $("#waveFormRight").empty();
 
                 for (let i = 0; i < resp.length; i++) {
                     //console.log(resp[i]);
