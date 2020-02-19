@@ -155,6 +155,21 @@ class SheetMusic {
 
 }
 
+function getBase64Image(img) {
+    let canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    let ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    let dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
+
+
+
 /**
  * a timeline-kind-of visualization of annotations
  */
@@ -180,9 +195,19 @@ class AnnotationIconView {
         this.microTimer = 0.0;
         this.vizDuration = 30.0; // length of viz in seconds
         this.canvas.width = window.innerWidth; // todo: react to changing window size
-        this.canvas.height = 800;
+        this.canvas.height = 400;
         console.log(this.canvas.width);
         this.ctx = this.canvas.getContext("2d");
+
+
+        /**
+         * different canvases for different "layers"
+         */
+        this.playHeadCanvas = document.createElement('canvas');
+        this.playHeadCanvas.height = this.canvas.height;
+        this.playHeadCanvas.width = this.canvas.width;
+        this.playHeadCanvasContext = this.playHeadCanvas.getContext("2d");
+
 
         // testing draw first session
         this.drawSession(this.annotationSessions[0]);
@@ -232,9 +257,13 @@ class AnnotationIconView {
         let pointRadius = 2;
         let x = this.mapTime(this.currentTime);
         let y = 4; //;this.canvas.height - 4;
-        this.ctx.beginPath();
-        this.ctx.arc(x, y, pointRadius, 0, 2 * Math.PI);
-        this.ctx.stroke();
+        this.playHeadCanvasContext.clearRect(0, 0, this.playHeadCanvas.width, this.playHeadCanvas.height);
+        this.playHeadCanvasContext.beginPath();
+        this.playHeadCanvasContext.arc(x, y, pointRadius, 0, 2 * Math.PI);
+        this.playHeadCanvasContext.stroke();
+
+        // draw playhead layer on canvas
+        this.ctx.drawImage(this.playHeadCanvas, 0, 0, this.canvas.width, this.canvas.height);
     }
 
 
@@ -290,6 +319,8 @@ class AnnotationIconView {
     }
 
 
+
+
     updateWaveBackground() {
 
         console.log("updateWaveBackground");
@@ -325,7 +356,7 @@ class AnnotationIconView {
                 to_sample: Math.floor(this.vizStartTime + this.vizDuration) * sampleRate
             },
             success: (function(resp){
-                //console.log(resp);
+                console.log("got image list");
                 if (resp["Error"]) {
                     console.log(resp["Error"]);
                     return;
@@ -335,14 +366,41 @@ class AnnotationIconView {
                 $("#waveFormRight").empty();
 
                 for (let i = 0; i < resp.length; i++) {
-                    //console.log(resp[i]);
-                    let sampleId = resp[i].id;
-                    let sampleType = resp[i].type;
+                    console.log(resp[i]);
+                    let sampleId = resp[i][0];
+                    let sampleType = resp[i][1];
+
+                    let image = document.createElement("img");
+                    image.id = "sample-" + sampleId;
+                    image.className = "waveFormSample";
+
+                    let imageSrc = localStorage.getItem(image.id);
+
+                    console.log("local image");
+                    // console.log(imageSrc);
+
+                    // TODO: local storage
+                    //if (imageSrc == null) {
+                        image.src = this.imageSampleUrl + "/" + sampleId;
+                        //$(image).ready(function () {
+
+                            // console.log("Image ready: " + image.id);
+                            //let i = document.getElementById(image.id);
+                            //localStorage.setItem(image.id, getBase64Image(i));
+
+
+                        //});
+                    //} else {
+                    //    image.src = "data:image/png;base64," + imageSrc;
+                    //    console.log("Hit");
+                    //}
+
+
 
                     if (sampleType === "wave-left") {
-                        $("#waveFormLeft").append("<img class='waveFormSample' id='sample-" + sampleId + "' src='" + this.imageSampleUrl + "/" + sampleId + "'/>");
+                        $("#waveFormLeft").append(image);
                     } else if (sampleType === "wave-right") {
-                        $("#waveFormRight").append("<img class='waveFormSample' id='sample-" + sampleId + "' src='" + this.imageSampleUrl + "/" + sampleId + "'/>");
+                        $("#waveFormRight").append(image);
                     }
 
                     $("#sample-"+sampleId).css("width", "" + imageWidth + "px");

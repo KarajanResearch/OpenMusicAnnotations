@@ -26,12 +26,43 @@ class RenderedWaveFormController {
             render "no wave form"
         }
 
+        println new Date();
+
+        /*
         def images = RenderedImageSample.findAllByRenderedWaveFormAndFromSampleGreaterThanEqualsAndToSampleLessThanEquals(
             renderedWaveForm,
             Integer.parseInt(params.from_sample),
             Integer.parseInt(params.to_sample),
             [sort: "fromSample"]
         )
+
+*/
+        def namedParams = [
+            renderedWaveFormId: recording.renderedWaveForm.id,
+            fromSample: Integer.parseInt(params.from_sample),
+            toSample: Integer.parseInt(params.to_sample)
+        ]
+        def options  = [:]
+
+        if (params.max) {
+            options.max = params.max
+        }
+
+        def images = RenderedImageSample.executeQuery("""
+            select r.id, r.type
+            from RenderedImageSample r
+            where r.renderedWaveForm.id = :renderedWaveFormId
+            and r.fromSample >= :fromSample
+            and r.toSample <= :toSample
+            order by r.fromSample
+            """, namedParams, options
+        )
+        // render(view: "index", model:[recordingList: recordingList])
+
+
+
+        println new Date();
+
 
         render images as JSON
 
