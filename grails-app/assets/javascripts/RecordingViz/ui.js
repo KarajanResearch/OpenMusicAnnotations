@@ -19,6 +19,7 @@ class SheetMusic {
             "right": this.score_canvas["right"].getContext('2d')
         };
 
+
         this.zoomStep = 0.1;
 
 
@@ -155,20 +156,6 @@ class SheetMusic {
 
 }
 
-function getBase64Image(img) {
-    let canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    let ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-
-    let dataURL = canvas.toDataURL("image/png");
-
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
-
-
 
 /**
  * a timeline-kind-of visualization of annotations
@@ -186,27 +173,29 @@ class AnnotationIconView {
         this.waveFormUrl = $("#waveFormUrl").val();
         this.imageSampleUrl = $("#imageSampleUrl").val();
 
-        /** ui elements
-         */
-        this.canvas = document.getElementById("annotationIconView");
-        this.sessionList = document.getElementById("sessionList");
         this.vizStartTime = 0.0; // offset. beginning of viz
         this.currentTime = 0.0;
-        this.microTimer = 0.0;
-        this.vizDuration = 10.0; // length of viz in seconds
-        this.canvas.width = window.innerWidth; // todo: react to changing window size
-        this.canvas.height = 400;
-        console.log(this.canvas.width);
-        this.ctx = this.canvas.getContext("2d");
+        this.vizDuration = 5.0; // length of viz in seconds
+
+
+        /** ui elements
+         */
+        this.sessionList = document.getElementById("sessionList");
+
 
 
         /**
-         * different canvases for different "layers"
+         * concrete UI timeline rendering
          */
-        this.playHeadCanvas = document.createElement('canvas');
-        this.playHeadCanvas.height = this.canvas.height;
-        this.playHeadCanvas.width = this.canvas.width;
-        this.playHeadCanvasContext = this.playHeadCanvas.getContext("2d");
+        this.timelineViewport = new Concrete.Viewport({
+            container: document.getElementById('timelineViewport'),
+            width: window.innerWidth, // todo: react to changing window size
+            height: 400
+        });
+        this.playHeadLayer = new Concrete.Layer();
+        this.annotationLayer = new Concrete.Layer();
+
+        this.timelineViewport.add(this.playHeadLayer);
 
 
         // testing draw first session
@@ -232,7 +221,7 @@ class AnnotationIconView {
                     //drawPlayHead(widget.currentTime);
                 }
                 //mapTime(widget.currentTime);
-                // clearCanvas(widget.currentTime);
+                // moveTimeline(widget.currentTime);
 
             }).bind(this));
 
@@ -273,12 +262,32 @@ class AnnotationIconView {
         let x = this.mapTime(this.currentTime);
         let y = 4; //;this.canvas.height - 4;
 
-        this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
-        this.playHeadCanvasContext.clearRect(0, 0, this.playHeadCanvas.width, this.playHeadCanvas.height);
+        // this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
+        // this.playHeadCanvasContext.clearRect(0, 0, this.playHeadCanvas.width, this.playHeadCanvas.height);
 
-        this.playHeadCanvasContext.beginPath();
-        this.playHeadCanvasContext.arc(x, y, pointRadius, 0, 2 * Math.PI);
-        this.playHeadCanvasContext.stroke();
+
+
+        this.playHeadLayer.visible = true;
+
+        this.playHeadLayer.scene.clear();
+
+        let context = this.playHeadLayer.scene.context;
+
+        //console.log(context);
+
+
+
+        context.beginPath();
+        context.arc(x, y, pointRadius, 0, 2 * Math.PI);
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(x, y + this.playHeadLayer.height);
+        context.stroke();
+
+        let r = this.timelineViewport.render();
+        // console.log(r);
 /*
         this.playHeadCanvasContext.beginPath();
         this.playHeadCanvasContext.moveTo(x, y);
@@ -286,7 +295,8 @@ class AnnotationIconView {
         this.playHeadCanvasContext.stroke();
 */
         // draw playhead layer on canvas
-        this.ctx.drawImage(this.playHeadCanvas, 0, 0, this.canvas.width, this.canvas.height);
+        //this.ctx.drawImage(this.playHeadCanvas, 0, 0, this.canvas.width, this.canvas.height);
+
     }
 
 
@@ -297,27 +307,27 @@ class AnnotationIconView {
 
         if (time > this.vizStartTime + this.vizDuration) {
             // redraw canvas and update startTime
-            this.clearCanvas(time);
+            this.moveTimeline(time);
         }
         if (time < this.vizStartTime) {
             // redraw canvas and update startTime
-            this.clearCanvas(time);
+            this.moveTimeline(time);
         }
 
-        let pixPerSec = this.canvas.width / this.vizDuration;
+        let pixPerSec = this.timelineViewport.width / this.vizDuration;
         return (time - this.vizStartTime) * pixPerSec;
     }
 
-    clearCanvas(time) {
+    moveTimeline(time) {
         // necessary?
         /*
         if (time > vizStartTime && time < (vizStartTime + vizDuration)) {
             //console.log("unnecessary");
             return;
         }
-        */
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.vizStartTime = time;
+
 
         let t0 = performance.now();
         //drawAnnotations();
@@ -328,6 +338,10 @@ class AnnotationIconView {
         this.updateWaveBackground();
         let t3 = performance.now();
         console.log("Call to waveForm took " + (t3 - t2) + " milliseconds.");
+
+         */
+        this.vizStartTime = time;
+        this.updateWaveBackground();
     }
 
 
@@ -353,13 +367,15 @@ class AnnotationIconView {
         let sampleRate=44100;
 
         let numberOfImages = this.vizDuration;
-        let containerWidth = $("#timelineContainer").css("width").replace("px", "");
+        let containerWidth = this.timelineViewport.width;
+        //let containerWidth = $("#timelineContainer").css("width").replace("px", "");
 
         let imageWidth = Math.floor(containerWidth / numberOfImages);
 
         // resize to avoid rounding errors
-        console.log(imageWidth);
+        // console.log(imageWidth);
         containerWidth = (imageWidth * numberOfImages);
+        this.timelineViewport.width = containerWidth;
         $("#timelineContainer").css("width", "" + containerWidth + "px");
         $("#waveForm").css("width", "" + containerWidth + "px");
         $("#waveFormLeft").css("width", "" + containerWidth + "px");
@@ -379,7 +395,7 @@ class AnnotationIconView {
                 to_sample: Math.floor(this.vizStartTime + this.vizDuration) * sampleRate
             },
             success: (function(resp){
-                console.log("got image list");
+                // console.log("got image list");
                 if (resp["Error"]) {
                     console.log(resp["Error"]);
                     return;
@@ -457,6 +473,8 @@ class AnnotationIconView {
     drawSession(session) {
         console.log("drawSession");
         console.log(session);
+
+
     }
 
 

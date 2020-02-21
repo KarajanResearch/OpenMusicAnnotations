@@ -2,6 +2,7 @@
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 <asset:javascript src="RecordingViz/ui.js"/>
 
+<asset:javascript src="concrete.js"/>
 
 <style type="text/css">
 
@@ -31,9 +32,9 @@
         position: absolute;
         z-index: 1;
     }
-    #annotationIconView {
+    #timelineViewport {
         position:relative;
-        z-index:20;
+        z-index: 2;
     }
 
 </style>
@@ -63,16 +64,22 @@
     </div>
     <h3>Timeline</h3>
 
+
     <div id="timelineContainer">
         <div id="waveForm">
             <div id="waveFormLeft"></div>
             <div id="waveFormRight"></div>
         </div>
+        <div id="timelineViewport"></div>
 
-        <canvas id="annotationIconView" style="border:1px solid #d3d3d3;"></canvas>
 
-
+<!--
+        <canvas id="playHeadCanvas"></canvas>
+        <canvas id="annotationIconView"></canvas>
+        -->
     </div>
+
+
 
 
 </div>
