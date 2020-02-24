@@ -73,7 +73,7 @@ class SheetMusic {
                 canvasContext: this.score_ctx[canvas],
                 viewport: viewport
             };
-            console.log("rendering; " + num + " to the " + canvas);
+            // console.log("rendering; " + num + " to the " + canvas);
             let renderTask = page.render(renderContext);
 
             // Wait for rendering to finish
@@ -167,7 +167,7 @@ class AnnotationIconView {
 
     constructor(recording, annotationSessions) {
         /**
-         * hold gorm-result from recording/show.
+         * hold gorm-result from recording/show. TODO: check, why ${} doesn't work
          * Ajax-callbacks update local data structure as well
          */
         this.recording = recording; // form recordingId
@@ -314,11 +314,7 @@ class AnnotationIconView {
 
 
 
-
     updateWaveBackground() {
-
-        console.log("updateWaveBackground");
-
 
         // ajaxUploadSheetMusicPageSelection
         let sampleRate=44100;
@@ -338,8 +334,6 @@ class AnnotationIconView {
         $("#waveFormLeft").css("width", "" + containerWidth + "px");
         $("#waveFormRight").css("width", "" + containerWidth + "px");
         $("#annotationIconView").css("width", "" + containerWidth + "px");
-
-
 
 
         // update local image buffer
@@ -432,29 +426,6 @@ class AnnotationIconView {
     }
 
     drawAnnotations(session) {
-        console.log("drawSession");
-        console.log(session);
-
-/*
-        this.playHeadLayer.scene.clear();
-
-        let context = this.playHeadLayer.scene.context;
-
-        context.beginPath();
-        context.arc(x, y, pointRadius, 0, 2 * Math.PI);
-        context.stroke();
-
-        context.beginPath();
-        context.moveTo(x, y);
-        context.lineTo(x, y + this.playHeadLayer.height);
-        context.stroke();
-
-        this.timelineViewport.render();
-
-                this.playHeadLayer = new Concrete.Layer();
-        this.annotationLayers = {}; // new Concrete.Layer();
-        this.timelineViewport.add(this.playHeadLayer);
-*/
 
         if (typeof(this.annotationLayers[session.id]) === "undefined") {
             this.annotationLayers[session.id] = new Concrete.Layer();
@@ -475,9 +446,6 @@ class AnnotationIconView {
         this.timelineViewport.render();
 
 
-
-
-
     }
 
 
@@ -491,7 +459,6 @@ class RecordingViz {
 
     constructor(recording) {
         this.recording = recording;
-        console.log(recording);
     }
 
 
