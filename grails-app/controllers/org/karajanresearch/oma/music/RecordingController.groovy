@@ -155,7 +155,8 @@ class RecordingController {
 
         //render model as JSON
 
-        render view: "show", model: model
+        //render view: "show", model: model
+        render view: "vizPlay", model: model
     }
 
 
@@ -303,14 +304,15 @@ class RecordingController {
         }
 
         def recordingList = Recording.executeQuery("""
-            select r.id, r.title, i.title, am.title, c.name, count(s)
+            select r.id, r.title, i.title, am.title, c.name, count(s), rw.id
             from Recording r
             left join r.interpretation as i
+            left join r.renderedWaveForm as rw
             left join i.abstractMusicParts as amp
             left join amp.abstractMusic as am
             left join am.composer as c
             left join r.annotationSessions as s
-            group by r.id, i.id, amp.id, am.id, c.id
+            group by r.id, i.id, amp.id, am.id, c.id, rw.id
             """, namedParams, options
         )
         render(view: "index", model:[recordingList: recordingList])

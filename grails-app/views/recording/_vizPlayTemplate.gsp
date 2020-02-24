@@ -41,14 +41,17 @@
 
 <!-- dependency injection ;) -->
 <input type="hidden" id="recordingId" value="${recording?.id}">
+<input type="hidden" id="abstractMusicPartId" value="${recording?.abstractMusicPart?.id}">
+
 <input type="hidden" id="waveFormUrl" value="${createLink(controller:'renderedWaveForm',action:'ajaxGetWaveForm')}">
 <input type="hidden" id="imageSampleUrl" value="${createLink(controller:'renderedImageSample',action:'getImage')}">
+<input type="hidden" id="scoreUrl" value="${createLink(controller:'abstractMusicPart',action:'getScoreFile')}">
 
 
 
 <div>
     <audio id="audio_player" controls preload="auto">
-        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id) }"/> type="audio/wav">
+        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }"/> type="audio/wav">
     Your browser does not support the audio element. </audio>
 </div>
 
@@ -87,19 +90,21 @@
 
 <div id="score">
     <h2>Score</h2>
+    <div class="buttons">
+        Zoom Score
+        <button id="score_zoom_out"> - </button>
+        <button id="score_zoom_in"> + </button>
 
-    Zoom Score
-    <button id="score_zoom_out"> - </button>
-    <button id="score_zoom_in"> + </button>
+        <span id="page_count"></span>
+        <button id="prev_page"> Prev. </button>
+        <button id="next_page"> Next </button>
+    </div>
 
-    <span id="page_count"></span>
-    <button id="prev_page"> Prev. </button>
-    <button id="next_page"> Next </button>
 
     <canvas id="score_canvas_left"></canvas>
     <canvas id="score_canvas_right"></canvas>
-    <div class="buttons">
-    </div>
+
+
 </div>
 
 
@@ -110,23 +115,17 @@
 
         console.log("ready");
 
-
-
+        /** get data from gsp rendering **/
         let recordingId = $("#recordingId").val();
+        let abstractMusicPartId = $("#abstractMusicPartId").val();
+        <g:applyCodec encodeAs="none">
+        let annotationSessions = ${annotationSessionsJson};
+        </g:applyCodec>
 
         // load UI
         let recordingViz = new RecordingViz(recordingId);
-
-        <g:applyCodec encodeAs="none">
-        let annotationSessions = ${annotationSessionsJson};
-
-
-
         let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions);
-        </g:applyCodec>
-
-        // set pdf file for sheet music
-        //let sheetMusic = recordingViz.openSheetMusic("${createLink(controller: 'abstractMusicPart', action: 'getScoreFile', id: 21287)}");
+        let sheetMusic = recordingViz.openSheetMusic(abstractMusicPartId);
 
 
     });

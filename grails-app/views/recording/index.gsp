@@ -33,6 +33,7 @@
                     <th>Composition</th>
                     <th>Composer</th>
                     <th>Annotations</th>
+                    <th>Waveform</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,6 +54,9 @@
                         </td>
                         <td>
                             ${recording[5]}
+                        </td>
+                        <td>
+                            ${recording[6]}
                         </td>
 
                     </tr>

@@ -1,7 +1,9 @@
 class SheetMusic {
 
-    constructor(pdfUrl) {
-        this.pdfUrl = pdfUrl;
+    constructor(abstractMusicPartId) {
+
+        this.pdfUrl = $("#scoreUrl").val() + "/" + abstractMusicPartId;
+
         this.pdfjsLib = window['pdfjs-dist/build/pdf'];
         this.pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
@@ -42,7 +44,7 @@ class SheetMusic {
 
 
 
-        this.pdfjsLib.getDocument(pdfUrl).promise.then((function(pdfDoc_) {
+        this.pdfjsLib.getDocument(this.pdfUrl).promise.then((function(pdfDoc_) {
             this.pdfDoc = pdfDoc_;
 
             document.getElementById('page_count').textContent = this.pdfDoc.numPages + " pages";
@@ -175,10 +177,11 @@ class AnnotationIconView {
 
         this.vizStartTime = 0.0; // offset. beginning of viz
         this.currentTime = 0.0;
-        this.vizDuration = 5.0; // length of viz in seconds
+        this.vizDuration = 10.0; // length of viz in seconds
 
 
-        /** ui elements
+        /**
+         * ui elements
          */
         this.sessionList = document.getElementById("sessionList");
 
@@ -193,45 +196,31 @@ class AnnotationIconView {
             height: 400
         });
         this.playHeadLayer = new Concrete.Layer();
-        this.annotationLayer = new Concrete.Layer();
-
+        this.annotationLayers = {}; // new Concrete.Layer();
         this.timelineViewport.add(this.playHeadLayer);
 
 
         // testing draw first session
-        this.drawSession(this.annotationSessions[0]);
+        //this.drawSession(this.annotationSessions[0]);
 
         this.updateSessionList();
 
         this.updateWaveBackground();
 
-/*
-        $((function() {
 
-            $('#audio_player').on('timeupdate', (function () {
+        this.drawSessions();
 
 
-                // audioPlayerLog("ontimeupdate");
-                var widget = document.getElementById("audio_player");
-                if (widget.paused) {
-                    console.log("prepared to play " + widget.currentTime);
-                } else {
-                    //updateTimer(widget.currentTime);
-                    this.updatePlayHead(widget.currentTime);
-                    //drawPlayHead(widget.currentTime);
-                }
-                //mapTime(widget.currentTime);
-                // moveTimeline(widget.currentTime);
-
-            }).bind(this));
-
-        }).bind(this));
-        // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
-*/
-
+        /**
+         * interaction between audio element and rendering engine
+         */
         this.renderingDelay = 20; // ms
         this.audioPlayer = document.getElementById("audio_player");
 
+
+        /**
+         * set regular updates of renderer on time intervals and audio widget time updates
+         */
         setInterval((function () {
             if (this.audioPlayer.paused) {
                 // console.log("prepared to play " + widget.currentTime);
@@ -242,17 +231,21 @@ class AnnotationIconView {
                 //console.log("timer: " + widget.currentTime);
             }
         }).bind(this), this.renderingDelay)
+        // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
+
+        $('#audio_player').on('timeupdate', (function () {
+            // audioPlayerLog("ontimeupdate");
+            this.updatePlayHead(this.audioPlayer.currentTime);
+        }).bind(this));
+
 
     }
 
-    updateMicroTimer(currentTime) {
-        // TODO: average timer intervals to control the pace of faster events
-    }
+
 
     updatePlayHead(currentTime) {
         //console.log("playing " + currentTime);
         this.currentTime = currentTime;
-        this.updateMicroTimer(currentTime);
         this.drawPlayHead();
     }
 
@@ -260,22 +253,13 @@ class AnnotationIconView {
     drawPlayHead() {
         let pointRadius = 2;
         let x = this.mapTime(this.currentTime);
-        let y = 4; //;this.canvas.height - 4;
+        let y = 0; //;this.canvas.height - 4;
 
-        // this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
-        // this.playHeadCanvasContext.clearRect(0, 0, this.playHeadCanvas.width, this.playHeadCanvas.height);
-
-
-
-        this.playHeadLayer.visible = true;
+        //this.playHeadLayer.visible = true;
 
         this.playHeadLayer.scene.clear();
 
         let context = this.playHeadLayer.scene.context;
-
-        //console.log(context);
-
-
 
         context.beginPath();
         context.arc(x, y, pointRadius, 0, 2 * Math.PI);
@@ -286,17 +270,7 @@ class AnnotationIconView {
         context.lineTo(x, y + this.playHeadLayer.height);
         context.stroke();
 
-        let r = this.timelineViewport.render();
-        // console.log(r);
-/*
-        this.playHeadCanvasContext.beginPath();
-        this.playHeadCanvasContext.moveTo(x, y);
-        this.playHeadCanvasContext.lineTo(x, y + this.playHeadCanvas.height);
-        this.playHeadCanvasContext.stroke();
-*/
-        // draw playhead layer on canvas
-        //this.ctx.drawImage(this.playHeadCanvas, 0, 0, this.canvas.width, this.canvas.height);
-
+        this.timelineViewport.render();
     }
 
 
@@ -319,32 +293,15 @@ class AnnotationIconView {
     }
 
     moveTimeline(time) {
-        // necessary?
-        /*
-        if (time > vizStartTime && time < (vizStartTime + vizDuration)) {
-            //console.log("unnecessary");
-            return;
-        }
-
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-
-        let t0 = performance.now();
-        //drawAnnotations();
-        let t1 = performance.now();
-        console.log("Call to drawAnnotations took " + (t1 - t0) + " milliseconds.");
-
-        let t2 = performance.now();
-        this.updateWaveBackground();
-        let t3 = performance.now();
-        console.log("Call to waveForm took " + (t3 - t2) + " milliseconds.");
-
-         */
         this.vizStartTime = time;
         this.updateWaveBackground();
+        this.drawSessions();
     }
 
 
+    /**
+     * creates session selection UI based on this.annotationSessions
+     */
     updateSessionList() {
 
         $("#sessionList").empty();
@@ -417,7 +374,6 @@ class AnnotationIconView {
 
                     // console.log("local image");
                     // console.log(imageSrc);
-
                     // TODO: local storage
                     //if (imageSrc == null) {
                         image.src = this.imageSampleUrl + "/" + sampleId;
@@ -426,15 +382,11 @@ class AnnotationIconView {
                             // console.log("Image ready: " + image.id);
                             //let i = document.getElementById(image.id);
                             //localStorage.setItem(image.id, getBase64Image(i));
-
-
                         //});
                     //} else {
                     //    image.src = "data:image/png;base64," + imageSrc;
                     //    console.log("Hit");
                     //}
-
-
 
                     if (sampleType === "wave-left") {
                         $("#waveFormLeft").append(image);
@@ -457,22 +409,73 @@ class AnnotationIconView {
                 }
             }
         });
-
-
-
-        // draw from local image buffer
-
-
-
-
+        // draw from local image buffer?
     }
 
 
 
+    drawEvent(context, type, time) {
+        let pointRadius = 4;
+        let x = this.mapTime(time);
+        let y = this.timelineViewport.height / 2;
+        context.beginPath();
+        context.arc(x, y, pointRadius, 0, 2 * Math.PI);
+        context.stroke();
+    }
 
-    drawSession(session) {
+
+    drawSessions() {
+        // TODO: filter active sessions
+        for(let i = 0; i < this.annotationSessions.length; i++) {
+            this.drawAnnotations(this.annotationSessions[i]);
+        }
+    }
+
+    drawAnnotations(session) {
         console.log("drawSession");
         console.log(session);
+
+/*
+        this.playHeadLayer.scene.clear();
+
+        let context = this.playHeadLayer.scene.context;
+
+        context.beginPath();
+        context.arc(x, y, pointRadius, 0, 2 * Math.PI);
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(x, y + this.playHeadLayer.height);
+        context.stroke();
+
+        this.timelineViewport.render();
+
+                this.playHeadLayer = new Concrete.Layer();
+        this.annotationLayers = {}; // new Concrete.Layer();
+        this.timelineViewport.add(this.playHeadLayer);
+*/
+
+        if (typeof(this.annotationLayers[session.id]) === "undefined") {
+            this.annotationLayers[session.id] = new Concrete.Layer();
+            this.timelineViewport.add(this.annotationLayers[session.id]);
+        }
+
+        this.annotationLayers[session.id].scene.clear();
+        let context = this.annotationLayers[session.id].scene.context;
+
+        // TODO: better time filtering
+        for (let i = 0; i < session.annotations.length; i++) {
+            let annotation = session.annotations[i];
+            if (annotation.momentOfPerception >= this.vizStartTime && annotation.momentOfPerception <=(this.vizStartTime + this.vizDuration)) {
+                this.drawEvent(context, annotation.type, annotation.momentOfPerception);
+            }
+        }
+
+        this.timelineViewport.render();
+
+
+
 
 
     }
@@ -497,8 +500,8 @@ class RecordingViz {
         return this.annotationIconView;
     }
 
-    openSheetMusic(pdfUrl) {
-        this.sheetMusic = new SheetMusic(pdfUrl);
+    openSheetMusic(abstractMusicPartId) {
+        this.sheetMusic = new SheetMusic(abstractMusicPartId);
         return this.sheetMusic;
     }
 
