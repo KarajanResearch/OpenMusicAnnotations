@@ -307,7 +307,7 @@ class AnnotationIconView {
         $("#sessionList").empty();
         for(let i = 0; i < this.annotationSessions.length; i++) {
             let title = this.annotationSessions[i].title.replace("Upload of ", "");
-            $("#sessionList").append('<li><button>' + title + '</button></li>');
+            $("#sessionList").append('<li><button class="buttons vizPlay">' + title + '</button></li>');
         }
         //TODO: add actions to buttons
     }

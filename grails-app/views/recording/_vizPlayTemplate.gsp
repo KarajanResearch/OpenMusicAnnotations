@@ -37,6 +37,21 @@
         z-index: 2;
     }
 
+    .vizPlay.buttons {
+        border-radius: 4px;
+        padding: 4px 8px;
+        margin: 4px;
+    }
+    .vizPlay.buttons:hover {
+        background-color: #999999;
+        color: white;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    }
+
+
+
+
+
 </style>
 
 <!-- dependency injection ;) -->
@@ -92,12 +107,12 @@
     <h2>Score</h2>
     <div class="buttons">
         Zoom Score
-        <button id="score_zoom_out"> - </button>
-        <button id="score_zoom_in"> + </button>
+        <button class="buttons vizPlay" id="score_zoom_out"> - </button>
+        <button class="buttons vizPlay" id="score_zoom_in"> + </button>
 
         <span id="page_count"></span>
-        <button id="prev_page"> Prev. </button>
-        <button id="next_page"> Next </button>
+        <button class="buttons vizPlay" id="prev_page"> Prev. </button>
+        <button class="buttons vizPlay" id="next_page"> Next </button>
     </div>
 
 
