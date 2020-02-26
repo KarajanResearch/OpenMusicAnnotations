@@ -13,7 +13,7 @@ class RenderedWaveFormController {
 
     def ajaxGetWaveForm() {
 
-        println params
+        // println params
 
         def recording = Recording.get(Integer.parseInt(params.recording))
         if (!recording) {
@@ -23,10 +23,11 @@ class RenderedWaveFormController {
         def renderedWaveForm = recording.renderedWaveForm
 
         if (!renderedWaveForm) {
-            render "no wave form"
+            def error = [error: "no rendered waveform"]
+            render error as JSON
+            return
         }
 
-        println new Date();
 
         /*
         def images = RenderedImageSample.findAllByRenderedWaveFormAndFromSampleGreaterThanEqualsAndToSampleLessThanEquals(
@@ -61,7 +62,6 @@ class RenderedWaveFormController {
 
 
 
-        println new Date();
 
 
         render images as JSON

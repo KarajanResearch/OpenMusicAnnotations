@@ -3,6 +3,7 @@ package org.karajanresearch.oma.music
 import grails.converters.JSON
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
+import org.karajanresearch.oma.annotation.desc.AnnotationStatisticsService
 import org.karajanresearch.oma.api.AnnotationApiService
 
 import static org.springframework.http.HttpStatus.*
@@ -175,6 +176,35 @@ class RecordingController {
 
         render view: "vizPlay", model: model
     }
+
+
+    AnnotationStatisticsService annotationStatisticsService
+    def describe(Long id) {
+
+        def recording = Recording.get(id)
+
+        def d = annotationStatisticsService.describeSessions(recording.annotationSessions)
+
+        render d as JSON
+
+    }
+
+
+    def getBeatDescription() {
+        println params
+
+        // TODO: filtering of sessions. default: all sessions
+
+        def recording = Recording.get(params.recording)
+
+        def d = annotationStatisticsService.describeSessions(recording.annotationSessions)
+
+        // println d
+
+        render d as JSON
+
+    }
+
 
 
     def uploadAudio(Recording recording) {

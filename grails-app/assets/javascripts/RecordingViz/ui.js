@@ -172,8 +172,13 @@ class AnnotationIconView {
          */
         this.recording = recording; // form recordingId
         this.annotationSessions = annotationSessions;
+
+        // gethered statistics
+        this.beatDescription = {};
+
         this.waveFormUrl = $("#waveFormUrl").val();
         this.imageSampleUrl = $("#imageSampleUrl").val();
+        this.beatDescriptionUrl = $("#beatDescriptionUrl").val();
 
         this.vizStartTime = 0.0; // offset. beginning of viz
         this.currentTime = 0.0;
@@ -196,8 +201,10 @@ class AnnotationIconView {
             height: 400
         });
         this.playHeadLayer = new Concrete.Layer();
+        this.beatDescriptionLayer = new Concrete.Layer();
         this.annotationLayers = {}; // new Concrete.Layer();
         this.timelineViewport.add(this.playHeadLayer);
+        this.timelineViewport.add(this.beatDescriptionLayer);
 
 
         // testing draw first session
@@ -296,6 +303,7 @@ class AnnotationIconView {
         this.vizStartTime = time;
         this.updateWaveBackground();
         this.drawSessions();
+        this.drawBeatDescription();
     }
 
 
@@ -310,6 +318,104 @@ class AnnotationIconView {
             $("#sessionList").append('<li><button class="buttons vizPlay">' + title + '</button></li>');
         }
         //TODO: add actions to buttons
+
+        this.updateBeatDescription();
+    }
+
+
+
+    drawBeatDescription() {
+
+        console.log("drawBeatDescription");
+
+        let pointRadius = 8;
+
+        let y = this.timelineViewport.height / 2;
+        this.beatDescriptionLayer.scene.clear();
+
+        let context = this.beatDescriptionLayer.scene.context;
+
+
+        for (let bar in this.beatDescription) {
+            for (let beat in this.beatDescription[bar]) {
+                let sample = this.beatDescription[bar][beat];
+                if (sample["avg"] >= this.vizStartTime && sample["avg"] <= (this.vizStartTime + this.vizDuration) ) {
+                    console.log(bar);
+                    console.log(beat);
+                    console.log(sample);
+
+                    let r = pointRadius; // * sample["std"];
+                    let x = this.mapTime(sample["avg"]);
+                    context.beginPath();
+                    context.arc(x, y, r, 0, 2 * Math.PI);
+                    context.stroke();
+
+
+                }
+            }
+        }
+
+        this.timelineViewport.render();
+
+
+        /*
+
+        let pointRadius = 4;
+        let x = this.mapTime(time);
+        let y = this.timelineViewport.height / 2;
+
+
+
+
+
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(x, y + this.beatDescriptionLayer.height);
+        context.stroke();
+
+
+*/
+
+
+
+    }
+
+
+
+    updateBeatDescription() {
+
+        console.log("updateBeatDescription");
+
+        $.ajax({
+            url:this.beatDescriptionUrl,
+            data: {
+                recording: this.recording
+            },
+            success: (function(resp){
+                console.log("got beat description");
+
+                // console.log(resp);
+
+                if (resp["Error"]) {
+                    console.log(resp["Error"]);
+                    return;
+                }
+
+                this.beatDescription = resp;
+                this.drawBeatDescription();
+
+
+
+            }).bind(this),
+            error: function (resp) {
+                console.log(resp);
+                if (resp["Error"]) {
+                    console.log(resp["Error"]);
+                    return;
+                }
+            }
+        });
+
     }
 
 
