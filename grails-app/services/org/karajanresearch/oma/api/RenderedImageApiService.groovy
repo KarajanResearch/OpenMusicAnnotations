@@ -29,8 +29,8 @@ class RenderedImageApiService {
         def keyPath = storageBackendService.getS3Key(sample.location)
         def bucket = storageBackendService.getS3Bucket(sample.location)
 
-        println keyPath
-        println bucket
+        // println keyPath
+        // println bucket
         def f = storageBackendService.getFile(bucket, keyPath, file.absolutePath)
         return file
     }

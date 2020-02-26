@@ -39,7 +39,7 @@
 
     .vizPlay.buttons {
         border-radius: 4px;
-        padding: 4px 8px;
+        padding: 2px 8px;
         margin: 4px;
     }
     .vizPlay.buttons:hover {
@@ -48,7 +48,10 @@
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     }
 
-
+    #audio_player {
+        border-radius: 4px;
+        margin: 4px;
+    }
 
 
 
