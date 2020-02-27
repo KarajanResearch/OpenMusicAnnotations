@@ -202,20 +202,15 @@ class AnnotationIconView {
         });
         this.playHeadLayer = new Concrete.Layer();
         this.beatDescriptionLayer = new Concrete.Layer();
+        this.timeMarkers = new Concrete.Layer();
+
         this.annotationLayers = {}; // new Concrete.Layer();
         this.timelineViewport.add(this.playHeadLayer);
         this.timelineViewport.add(this.beatDescriptionLayer);
+        this.timelineViewport.add(this.timeMarkers);
 
 
-        // testing draw first session
-        //this.drawSession(this.annotationSessions[0]);
 
-        this.updateSessionList();
-
-        this.updateWaveBackground();
-
-
-        this.drawSessions();
 
 
         /**
@@ -244,6 +239,16 @@ class AnnotationIconView {
             // audioPlayerLog("ontimeupdate");
             this.updatePlayHead(this.audioPlayer.currentTime);
         }).bind(this));
+
+
+
+
+        // testing draw first session
+        //this.drawSession(this.annotationSessions[0]);
+
+        // draw everything from the start
+        this.updateBeatDescription();
+        this.moveTimeline(0);
 
 
     }
@@ -302,8 +307,17 @@ class AnnotationIconView {
     moveTimeline(time) {
         this.vizStartTime = time;
         this.updateWaveBackground();
+        this.drawTimeMarkers();
         this.drawSessions();
         this.drawBeatDescription();
+    }
+
+
+    timeToMMSS(timeInSeconds) {
+        let m = Math.floor(timeInSeconds / 60);
+        let s = timeInSeconds % 60;
+
+        return "" + m + ":" + s;
     }
 
 
@@ -324,13 +338,45 @@ class AnnotationIconView {
 
 
 
+    drawTimeMarkers() {
+
+        // at the bottom
+        let y = this.timelineViewport.height;
+
+        this.timeMarkers.scene.clear();
+
+        let context = this.timeMarkers.scene.context;
+
+        for (let t = this.vizStartTime; t <= (this.vizStartTime + this.vizDuration); t = t+1) {
+
+            t = Math.floor(t);
+
+            let x = this.mapTime(t);
+            context.beginPath();
+            context.moveTo(x, y);
+            context.lineTo(x, y - 8);
+            context.stroke();
+
+            let label = this.timeToMMSS(Math.round(t));
+            context.font = "12px Arial";
+            context.fillText(label, x+2, y-2);
+
+        }
+
+        this.timelineViewport.render();
+
+
+    }
+
+
+
     drawBeatDescription() {
 
         console.log("drawBeatDescription");
 
         let pointRadius = 8;
 
-        let y = this.timelineViewport.height / 2;
+        let y = (this.timelineViewport.height / 2) - pointRadius;
         this.beatDescriptionLayer.scene.clear();
 
         let context = this.beatDescriptionLayer.scene.context;
@@ -344,11 +390,15 @@ class AnnotationIconView {
                     console.log(beat);
                     console.log(sample);
 
-                    let r = pointRadius; // * sample["std"];
+                    let r = pointRadius - 2; // * sample["std"];
                     let x = this.mapTime(sample["avg"]);
                     context.beginPath();
                     context.arc(x, y, r, 0, 2 * Math.PI);
                     context.stroke();
+
+                    context.font = "12px Arial";
+                    let labelText = "" + bar + "-" + beat;
+                    context.fillText(labelText, x - pointRadius, y - pointRadius);
 
 
                 }
@@ -356,28 +406,6 @@ class AnnotationIconView {
         }
 
         this.timelineViewport.render();
-
-
-        /*
-
-        let pointRadius = 4;
-        let x = this.mapTime(time);
-        let y = this.timelineViewport.height / 2;
-
-
-
-
-
-        context.beginPath();
-        context.moveTo(x, y);
-        context.lineTo(x, y + this.beatDescriptionLayer.height);
-        context.stroke();
-
-
-*/
-
-
-
     }
 
 
@@ -517,7 +545,7 @@ class AnnotationIconView {
     drawEvent(context, type, time) {
         let pointRadius = 4;
         let x = this.mapTime(time);
-        let y = this.timelineViewport.height / 2;
+        let y = (this.timelineViewport.height / 2) + pointRadius;
         context.beginPath();
         context.arc(x, y, pointRadius, 0, 2 * Math.PI);
         context.stroke();

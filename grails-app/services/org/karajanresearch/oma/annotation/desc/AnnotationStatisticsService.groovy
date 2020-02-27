@@ -23,6 +23,31 @@ class AnnotationStatisticsService {
         def boundBeats = [:]
         def describedBeats = [:]
 
+
+        sessions.each { Session session ->
+            // checking the counting for this session
+            def countUntil = 0
+
+            session.annotations.each { Annotation annotation ->
+
+                switch (annotation.type) {
+                    case "Tap":
+                        if(annotation.barNumber && annotation.beatNumber) {
+                            // check counting. find max beatNumber within a bar
+                            if (annotation.beatNumber > countUntil) {
+                                countUntil = annotation.beatNumber
+                            }
+                        }
+                        break
+
+                    default:
+                        println "describeSessions: not implemented"
+                }
+            }
+            println "we count until " + countUntil + " in this session: " + session
+        }
+
+
         sessions.each { Session session ->
 
             session.annotations.each { Annotation annotation ->
@@ -30,6 +55,7 @@ class AnnotationStatisticsService {
                 switch (annotation.type) {
                     case "Tap":
                         if(annotation.barNumber && annotation.beatNumber) {
+
                             // beat bound to logical score
                             if (!boundBeats[annotation.barNumber]) {
                                 boundBeats[annotation.barNumber] = [:]
@@ -52,6 +78,12 @@ class AnnotationStatisticsService {
                 }
             }
         }
+
+        // align the "1" a.k.a. find the common rhythmical feel. apply half-time and double-time transformations
+
+        // first approach: vote for majority. the largest number of sessions sharing the same way to count determine
+        // the way to count for the others.
+
 
 
         // TODO: make floating beats bound to score by alignment based on momentOfPerception

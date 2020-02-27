@@ -23,7 +23,7 @@ class RenderedImageApiService {
 
         if (!sample.location) return null
 
-        println "location: " + sample.location
+        // println "location: " + sample.location
 
 
         def keyPath = storageBackendService.getS3Key(sample.location)

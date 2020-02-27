@@ -16,8 +16,8 @@ class RenderedImageSampleController {
 
 
     def getImage(Long id) {
-        println "getImage"
-        println params
+        // println "getImage"
+        // println params
 
         def sample = RenderedImageSample.get(id)
         if (!sample) return notFound()

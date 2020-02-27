@@ -9,6 +9,39 @@ class AnnotationController {
 
     static scaffold = Annotation
 
+
+
+    def quickFix() {
+
+        return
+
+        Session session = Session.get()
+
+        session.annotations.each { Annotation annotation ->
+
+            def newBeat = 0
+            def newBar = 0
+
+            if (annotation.beatNumber <= 2) {
+                newBar = (annotation.barNumber * 2) - 1
+                newBeat = annotation.beatNumber
+
+            } else {
+                newBar = annotation.barNumber * 2
+                newBeat = annotation.beatNumber - 2
+            }
+
+            annotation.beatNumber = newBeat
+            annotation.barNumber = newBar
+
+            annotation.save()
+
+        }
+        session.save(flush: true)
+
+    }
+
+
     /*
 
     AnnotationService annotationService
