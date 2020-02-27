@@ -4,6 +4,9 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import grails.gorm.transactions.Transactional
 import grails.util.Environment
 import org.karajanresearch.oma.StorageBackendService
+import org.karajanresearch.oma.annotation.Annotation
+import org.karajanresearch.oma.annotation.Session
+import org.karajanresearch.oma.annotation.desc.AnnotationStatisticsService
 
 @Transactional
 class RecordingService {
@@ -21,6 +24,68 @@ class RecordingService {
 
     StorageBackendService storageBackendService
     RecordingGormService recordingGormService
+
+
+    AnnotationStatisticsService annotationStatisticsService
+
+    Session getBeats(Recording recording) {
+
+        def averageBeats = annotationStatisticsService.describeSessions(recording.annotationSessions)
+
+        Session session = new Session( title: "averageBeats", annotations: [])
+
+        /**
+         * describedBeats[barNum][beatNum]["avg"] = average
+         *                 describedBeats[barNum][beatNum]["std"] = stddev
+         */
+        averageBeats.each { bar, beats ->
+            //println bar
+            beats.each { beat, stat ->
+                //println beat
+
+                session.addToAnnotations(
+                    new Annotation(type: "beat",
+                        momentOfPerception: stat["avg"],
+                        barNumber: bar,
+                        beatNumber: beat
+                    )
+                )
+            }
+        }
+
+        return session
+    }
+
+    Session getTempo(Recording recording) {
+
+
+        Session beatBars = getBeats(recording)
+
+        def lastTime = 0.0
+
+        Session tempo = new Session(title: "Tempo", annotations: [])
+
+        beatBars.annotations.each { Annotation beat ->
+            //println beat.momentOfPerception
+
+            def diff = beat.momentOfPerception - lastTime
+            lastTime = beat.momentOfPerception
+
+            def currentTempo = 60 / diff
+
+            // println currentTempo
+            tempo.addToAnnotations(new Annotation(
+                type: "CurrentTempo",
+                momentOfPerception: beat.momentOfPerception,
+                doubleValue: currentTempo
+            ))
+
+        }
+
+
+        return tempo
+    }
+
 
 
     /**

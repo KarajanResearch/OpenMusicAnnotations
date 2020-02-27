@@ -4,7 +4,6 @@ package org.karajanresearch.oma.annotation
 class Annotation implements Comparable {
 
 
-
     /**
      * Annotations are grouped. many tappings in one go, session, listening
      * Session: range of perception
@@ -23,6 +22,7 @@ class Annotation implements Comparable {
     String type
 
     Integer intValue
+    Double doubleValue
 
     /**
      * For example. the third eighth note in bar 20 has: 20, 3, 8
@@ -49,6 +49,7 @@ class Annotation implements Comparable {
         beatNumber nullable: true
         subdivision nullable: true
         intValue nullable: true
+        doubleValue nullable: true
     }
 
 

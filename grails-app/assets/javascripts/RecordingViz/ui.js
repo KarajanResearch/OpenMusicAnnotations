@@ -373,6 +373,7 @@ class AnnotationIconView {
     drawBeatDescription() {
 
         console.log("drawBeatDescription");
+        return;
 
         let pointRadius = 8;
 
@@ -542,13 +543,57 @@ class AnnotationIconView {
 
 
 
-    drawEvent(context, type, time) {
-        let pointRadius = 4;
-        let x = this.mapTime(time);
-        let y = (this.timelineViewport.height / 2) + pointRadius;
-        context.beginPath();
-        context.arc(x, y, pointRadius, 0, 2 * Math.PI);
-        context.stroke();
+    drawEvent(context, annotation) {
+
+        let type = annotation.type;
+        let time = annotation.momentOfPerception;
+
+        console.log("drawing: " + type);
+
+        let pointRadius = 0;
+        let x = 0;
+        let y = 0;
+
+        switch (type) {
+
+
+            case "Tap":
+                pointRadius = 3;
+                x = this.mapTime(time);
+                y = (this.timelineViewport.height / 2) + pointRadius;
+                context.beginPath();
+                context.arc(x, y, pointRadius, 0, 2 * Math.PI);
+                context.stroke();
+                break;
+            case "beat":
+                pointRadius = 4; // * sample["std"];
+                x = this.mapTime(time);
+                y = (this.timelineViewport.height / 2) - pointRadius;
+                context.beginPath();
+                context.arc(x, y, pointRadius, 0, 2 * Math.PI);
+                context.stroke();
+
+                context.font = "12px Arial";
+                let labelText = "" + annotation.barNumber + "-" + annotation.beatNumber;
+                context.fillText(labelText, x - pointRadius, y - pointRadius);
+
+                break;
+            case "CurrentTempo":
+
+                x = this.mapTime(time);
+                y = this.timelineViewport.height - 20;
+
+                context.font = "12px Arial";
+                let bpm = annotation.doubleValue.toFixed(1) + " bpm";
+                context.fillText(bpm, x, y);
+
+                break;
+
+
+
+        }
+
+
     }
 
 
@@ -573,7 +618,7 @@ class AnnotationIconView {
         for (let i = 0; i < session.annotations.length; i++) {
             let annotation = session.annotations[i];
             if (annotation.momentOfPerception >= this.vizStartTime && annotation.momentOfPerception <=(this.vizStartTime + this.vizDuration)) {
-                this.drawEvent(context, annotation.type, annotation.momentOfPerception);
+                this.drawEvent(context, annotation);
             }
         }
 

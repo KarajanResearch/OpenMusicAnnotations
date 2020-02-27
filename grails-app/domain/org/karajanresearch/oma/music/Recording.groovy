@@ -43,6 +43,7 @@ class Recording implements MultiTenant<Recording> {
      * the computed, final, actually used annotation session for beats and bars
      */
     Session beats
+    Session tempo
 
 
     /**
@@ -61,6 +62,7 @@ class Recording implements MultiTenant<Recording> {
         digitalAudio nullable: true
         interpretation nullable: false
         beats nullable: true
+        tempo nullable: true
         renderedWaveForm nullable: true
     }
 

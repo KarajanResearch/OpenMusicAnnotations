@@ -179,14 +179,30 @@ class RecordingController {
 
 
     AnnotationStatisticsService annotationStatisticsService
-    def describe(Long id) {
+    def getBeats(Long id) {
 
         def recording = Recording.get(id)
+        if (!recording.beats) {
+            recording.beats = recordingService.getBeats(recording)
+            if (!recording.save(flush: true)) {
+                println recording.errors
+                return null
+            }
+        }
+        render recording.beats as JSON
+    }
 
-        def d = annotationStatisticsService.describeSessions(recording.annotationSessions)
+    def getTempo(Long id) {
 
-        render d as JSON
-
+        def recording = Recording.get(id)
+        if (!recording.tempo) {
+            recording.tempo = recordingService.getTempo(recording)
+            if (!recording.save(flush: true)) {
+                println recording.errors
+                return null
+            }
+        }
+        render recording.tempo as JSON
     }
 
 

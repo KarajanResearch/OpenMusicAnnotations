@@ -6,6 +6,14 @@ import org.karajanresearch.oma.annotation.Session
 class AnnotationStatisticsService {
 
 
+
+
+
+
+
+
+
+
     /**
      * takes a set of annotation sessions and calculates average and stddev of beats
      * @param sessions
@@ -42,6 +50,8 @@ class AnnotationStatisticsService {
 
                     default:
                         println "describeSessions: not implemented"
+                        println session
+                        return
                 }
             }
             println "we count until " + countUntil + " in this session: " + session
@@ -75,6 +85,8 @@ class AnnotationStatisticsService {
 
                     default:
                         println "describeSessions: not implemented"
+                        println session
+                        return
                 }
             }
         }
