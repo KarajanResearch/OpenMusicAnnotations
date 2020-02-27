@@ -23,6 +23,10 @@ class SessionController {
         if (!s) return
 
         Recording r = s.recording
+        r.removeFromAnnotationSessions(s)
+        if (!r.save(flush: true)) {
+            println r.errors
+        }
 
         AbstractMusicPart.findAllByPdfPageChangeAnnotationSession(s).each {
             it.pdfPageChangeAnnotationSession = null

@@ -13,9 +13,9 @@ class AnnotationController {
 
     def quickFix() {
 
-        return
+        //return
 
-        Session session = Session.get()
+        Session session = Session.get(5499)
 
         session.annotations.each { Annotation annotation ->
 

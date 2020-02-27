@@ -247,7 +247,6 @@ class AnnotationIconView {
         //this.drawSession(this.annotationSessions[0]);
 
         // draw everything from the start
-        this.updateBeatDescription();
         this.moveTimeline(0);
 
 
@@ -333,7 +332,7 @@ class AnnotationIconView {
         }
         //TODO: add actions to buttons
 
-        this.updateBeatDescription();
+        // this.updateBeatDescription();
     }
 
 
@@ -548,7 +547,7 @@ class AnnotationIconView {
         let type = annotation.type;
         let time = annotation.momentOfPerception;
 
-        console.log("drawing: " + type);
+        // console.log("drawing: " + type);
 
         let pointRadius = 0;
         let x = 0;
@@ -575,7 +574,7 @@ class AnnotationIconView {
 
                 context.font = "12px Arial";
                 let labelText = "" + annotation.barNumber + "-" + annotation.beatNumber;
-                context.fillText(labelText, x - pointRadius, y - pointRadius);
+                context.fillText(labelText, x - 8, y - 8);
 
                 break;
             case "CurrentTempo":

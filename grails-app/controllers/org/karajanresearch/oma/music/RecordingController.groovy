@@ -19,6 +19,23 @@ class RecordingController {
     def recordingService
     def tappingService
 
+    def updateAllBeatsAndTempo() {
+
+
+        Recording.list().each {
+            def b = getBeats(it.id)
+
+            println b
+
+            def t = getTempo(it.id)
+
+            println t
+
+        }
+
+
+    }
+
     /**
      * called from recording.show view
      * @return
@@ -182,27 +199,82 @@ class RecordingController {
     def getBeats(Long id) {
 
         def recording = Recording.get(id)
-        if (!recording.beats) {
-            recording.beats = recordingService.getBeats(recording)
+
+        def beats = recording.annotationSessions.find {
+            it.title == "averageBeats"
+        }
+
+        if (!beats) {
+            beats = recordingService.getBeats(recording)
+            recording.addToAnnotationSessions(beats)
             if (!recording.save(flush: true)) {
                 println recording.errors
                 return null
             }
         }
-        render recording.beats as JSON
+        render beats as JSON
     }
 
     def getTempo(Long id) {
 
         def recording = Recording.get(id)
-        if (!recording.tempo) {
-            recording.tempo = recordingService.getTempo(recording)
+
+        def tempo = recording.annotationSessions.find {
+            it.title == "Tempo"
+        }
+
+        if (!tempo) {
+            tempo = recordingService.getTempo(recording)
+            recording.addToAnnotationSessions(tempo)
             if (!recording.save(flush: true)) {
                 println recording.errors
                 return null
             }
         }
-        render recording.tempo as JSON
+        render tempo as JSON
+    }
+
+    def deleteTempo(Long id) {
+        def recording = Recording.get(id)
+
+
+        def tempo = recording.annotationSessions.find {
+            it.title == "Tempo"
+        }
+
+        if (tempo) {
+            recording.removeFromAnnotationSessions(tempo)
+            recording.tempo = null
+            tempo.delete()
+        }
+        if (!recording.save(flush: true)) {
+            println recording.errors
+        }
+        redirect(action: "show", id: id)
+    }
+
+    def deleteBeats(Long id) {
+
+        println "deleteBeats"
+
+        def recording = Recording.get(id)
+
+        def beats = recording.annotationSessions.find {
+            it.title == "averageBeats"
+        }
+
+        println beats
+
+        if (beats) {
+            def r = recording.removeFromAnnotationSessions(beats)
+            recording.beats = null
+            beats.delete()
+            if (!recording.save(flush: true)) {
+                println recording.errors
+            }
+        }
+
+        redirect(action: "show", id: id)
     }
 
 
