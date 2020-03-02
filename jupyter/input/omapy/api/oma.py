@@ -17,27 +17,20 @@ _config = {
 }
 
 
-def login(endpoint, username, password, verify_certificate):
+def login(endpoint, access_token, verify_certificate):
     """
     Authenticates to oma and sets the Authorization
     header field.
     :param endpoint:
     :param verify_certificate:
-    :param username: a valid username for oma
-    :param password: the password
+    :param access_token
     :return: http response
     """
     _endpoint["uri"] = endpoint
     _config["verify_certificate"] = verify_certificate
-    data = {
-        'username': username,
-        "password": password
-    }
-    url = _endpoint["uri"] + _config["api_path"] + "login"
-    response = requests.post(url, json=data, verify=_config["verify_certificate"])
-    content = json.loads(response.content.decode())
-    _headers['Authorization'] = content['token_type'] + " " + content['access_token']
-    return response
+    _headers['Authorization'] = "Bearer " + access_token
+    print(_headers['Authorization'])
+    return _headers
 
 
 def composer_add(params):

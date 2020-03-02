@@ -83,8 +83,17 @@ grails:
                 staticparts: none
     plugin:
         springsecurity: # https://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/#_configuration
-            rest.token.storage.jwt.secret: "bjejkkvgIfrtSDnUgFCh3Fa6GWEvfgjS6734cgh"
-            # ui.gsp.layoutUi: main
+            # https://stackoverflow.com/questions/34641681/grails-rest-spring-security-plugin-does-not-store-generated-token-using-gorm-in
+
+            rest.token.storage.useGorm: true
+            # rest.login.active: false
+            # rest.token.storage.jwt.secret: "bjae4tagysdrgsdbaertaEvfgj5e6hst34cgh"
+            # rest.token.generation.useUUID: true
+
+            rest.token.storage.gorm.tokenDomainClassName: "org.karajanresearch.oma.AuthenticationToken"
+            rest.token.storage.gorm.tokenValuePropertyName: "tokenValue"
+            rest.token.storage.gorm.usernamePropertyName: "username"
+
 
     gorm:
         multiTenancy:

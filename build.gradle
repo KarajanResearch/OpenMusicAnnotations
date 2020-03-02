@@ -28,6 +28,8 @@ repositories {
     maven { url "https://repo.grails.org/grails/core" }
 }
 
+ext.springSecurityRestVersion = '3.0.0'
+
 dependencies {
     // high-level AWS S3 support
     // https://github.com/agorapulse/grails-aws-sdk/tree/master/grails-aws-sdk-s3
@@ -38,7 +40,8 @@ dependencies {
 
     // Spring Security
     compile 'org.grails.plugins:spring-security-core:3.2.3'
-    compile "org.grails.plugins:spring-security-rest:2.0.0.RC1"
+    compile "org.grails.plugins:spring-security-rest:${springSecurityRestVersion}"
+    compile "org.grails.plugins:spring-security-rest-gorm:${springSecurityRestVersion}"
 
 
     // Postgres

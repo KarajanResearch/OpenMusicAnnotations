@@ -1,16 +1,23 @@
 databaseChangeLog = {
 
+    changeSet(author: "martin (generated)", id: "1583142926176-1") {
+        createTable(tableName: "authentication_token") {
+            column(autoIncrement: "true", name: "id", type: "BIGINT") {
+                constraints(primaryKey: "true", primaryKeyName: "authentication_tokenPK")
+            }
 
+            column(name: "token_value", type: "VARCHAR(255)") {
+                constraints(nullable: "false")
+            }
 
-    changeSet(author: "martin (generated)", id: "1582806369966-2") {
-        addColumn(tableName: "recording") {
-            column(name: "tempo_id", type: "int8")
+            column(name: "username", type: "VARCHAR(255)") {
+                constraints(nullable: "false")
+            }
         }
     }
 
-    changeSet(author: "martin (generated)", id: "1582806369966-3") {
-        addForeignKeyConstraint(baseColumnNames: "tempo_id", baseTableName: "recording", constraintName: "FKakg9bj8fgfb894wmg7q7ing7y", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "id", referencedTableName: "session")
-    }
+
+
 
 
 }
