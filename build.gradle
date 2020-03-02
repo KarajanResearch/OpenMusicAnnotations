@@ -28,7 +28,7 @@ repositories {
     maven { url "https://repo.grails.org/grails/core" }
 }
 
-ext.springSecurityRestVersion = '3.0.0'
+ext.springSecurityRestVersion = '2.0.0.RC1'
 
 dependencies {
     // high-level AWS S3 support

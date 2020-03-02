@@ -16,6 +16,8 @@ class UserPasswordEncoderListener {
 
     @Listener(User)
     void onPreInsertEvent(PreInsertEvent event) {
+        println "event"
+        println event
         encodePasswordForEvent(event)
     }
 

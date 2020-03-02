@@ -24,14 +24,8 @@ class BootStrap {
             email: "martin@maigner.net"
         ).save()
 
-        def apiUser = new User(
-            username: 'omaapi',
-            password: '623esZ46m6mEl',
-            email: "martin@maigner.net"
-        ).save()
 
         UserRoleGroup.findOrSaveWhere(user: testUser, roleGroup: adminRoleGroup)
-        UserRoleGroup.findOrSaveWhere(user: apiUser, roleGroup: adminRoleGroup)
 
         UserRoleGroup.withSession {
             it.flush()

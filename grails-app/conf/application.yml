@@ -94,6 +94,9 @@ grails:
             rest.token.storage.gorm.tokenValuePropertyName: "tokenValue"
             rest.token.storage.gorm.usernamePropertyName: "username"
 
+    #grails.plugin.springsecurity.rememberMe.persistent = true
+    #grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'org.karajanresearch.oma.PersistentLogin'
+
 
     gorm:
         multiTenancy:

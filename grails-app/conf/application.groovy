@@ -45,6 +45,4 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 ]
 
 
-grails.plugin.springsecurity.rememberMe.persistent = true
-grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'org.karajanresearch.oma.PersistentLogin'
 
