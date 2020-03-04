@@ -17,6 +17,8 @@ _config = {
 }
 
 
+
+
 def login(endpoint, access_token, verify_certificate):
     """
     Authenticates to oma and sets the Authorization

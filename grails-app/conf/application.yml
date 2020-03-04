@@ -82,13 +82,12 @@ grails:
                 taglib: none
                 staticparts: none
     plugin:
+
         springsecurity: # https://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/#_configuration
             # https://stackoverflow.com/questions/34641681/grails-rest-spring-security-plugin-does-not-store-generated-token-using-gorm-in
-
+            useSecurityEventListener: true
             rest.token.storage.useGorm: true
-            # rest.login.active: false
-            # rest.token.storage.jwt.secret: "bjae4tagysdrgsdbaertaEvfgj5e6hst34cgh"
-            # rest.token.generation.useUUID: true
+
 
             rest.token.storage.gorm.tokenDomainClassName: "org.karajanresearch.oma.AuthenticationToken"
             rest.token.storage.gorm.tokenValuePropertyName: "tokenValue"

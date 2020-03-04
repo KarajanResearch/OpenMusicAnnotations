@@ -44,5 +44,24 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 	]
 ]
 
+grails.plugin.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx ->
+	// handle InteractiveAuthenticationSuccessEvent
+}
+
+grails.plugin.springsecurity.onAbstractAuthenticationFailureEvent = { e, appCtx ->
+	// handle AbstractAuthenticationFailureEvent
+}
+
+grails.plugin.springsecurity.onAuthenticationSuccessEvent = { e, appCtx ->
+	// handle AuthenticationSuccessEvent
+}
+
+grails.plugin.springsecurity.onAuthenticationSwitchUserEvent = { e, appCtx ->
+	// handle AuthenticationSwitchUserEvent
+}
+
+grails.plugin.springsecurity.onAuthorizationEvent = { e, appCtx ->
+	// handle AuthorizationEvent
+}
 
 

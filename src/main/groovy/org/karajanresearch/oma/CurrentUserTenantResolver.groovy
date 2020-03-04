@@ -14,6 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails
 @CompileStatic
 class CurrentUserTenantResolver implements AllTenantsResolver {
 
+    /**
+     * https://stackoverflow.com/questions/54829342/grails-retrieve-an-object-from-another-tenant
+     */
+
 
     @Autowired
     @Lazy
