@@ -102,6 +102,7 @@ class RecordingController {
         Integer pageNumber = Integer.parseInt(params.pageNumber)
 
         def recording = Recording.get(params.recording)
+        def result
         if (!recording) {
             result = [error: "No recording"]
         }
@@ -151,7 +152,7 @@ class RecordingController {
         }
 
 
-        def result = [success: "Alright"]
+        result = [success: "Alright"]
         render result as JSON
     }
 

@@ -71,7 +71,9 @@
                 $(document).ready( function () {
                     // change html table to DataTable
                     $('#recordingList').DataTable( {
-                            "scrollX": false
+                            "scrollX": false,
+                            stateSave: true,
+                            select: true
                         }
                     );
                 });

@@ -4,6 +4,9 @@
 
 <asset:javascript src="concrete.js"/>
 
+
+<asset:javascript src="wavesurfer.js"/>
+
 <style type="text/css">
 
     #sessionList > li {
@@ -102,6 +105,8 @@
     </div>
 
 
+    <div id="wavesurfer"></div>
+
 
 
 </div>
@@ -146,6 +151,19 @@
         let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions);
         let sheetMusic = recordingViz.openSheetMusic(abstractMusicPartId);
 
+
+        // wavesurfer test
+
+        let wavesurfer = WaveSurfer.create({
+            container: '#wavesurfer',
+            waveColor: 'violet',
+            progressColor: 'purple'
+        });
+
+        let wavePath = "${createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "wav"])}";
+
+        console.log(wavePath);
+        wavesurfer.load(wavePath);
 
     });
 
