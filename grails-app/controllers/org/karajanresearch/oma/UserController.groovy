@@ -24,7 +24,14 @@ class UserController {
      */
     def show() {
         def user  = (User)springSecurityService.getCurrentUser()
-        respond(user)
+
+        def model = [
+            user: user,
+            tokenList: AuthenticationToken.findAllByUsername(user.username)
+        ]
+
+
+        render(view: "show", model: model)
     }
 
     /**

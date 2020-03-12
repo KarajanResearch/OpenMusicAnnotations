@@ -18,7 +18,18 @@
         <div class="message" role="status">${flash.message}</div>
     </g:if>
     <f:display bean="user" order="username, email"/>
+</div>
+
+<div id="show-user-token" class="content scaffold-show" role="main">
+    <h1>API Token</h1>
+
+
+    <f:table collection="${tokenList}" order="tokenValue, dateCreated" />
+
+
 
 </div>
+
+
 </body>
 </html>

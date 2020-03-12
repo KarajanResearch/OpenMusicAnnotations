@@ -53,23 +53,27 @@
                 </a>
                 <ul class="dropdown-menu">
                     <g:each var="c" in="${[
+                            [   controller: "recording",
+                                action: "index",
+                                tag: message(code: 'default.menu.recording.label', default: 'Recordings')
+                            ],
+
                             [
                                     controller: "user", action: "help",
                                     tag: message(code: 'default.menu.api.label', default: 'API')
                             ],
+
                             [
                                 controller: "user", action: "show",
                                 tag: message(code: 'default.menu.user.label', default: 'My Account')
                             ],
-                            [   controller: "recording",
-                                    action: "index",
-                                    tag: message(code: 'default.menu.recording.label', default: 'Recordings')
-                            ],
+
                             [
                                 controller: "logout",
                                     action: "index",
                                     tag: message(code: 'default.menu.logout.label', default: 'Logout')
-                            ]] }">
+                            ]
+                    ] }">
                         <li class="controller">
                             <g:link controller="${c.controller}" action="${c.action}">${c.tag}</g:link>
                         </li>
