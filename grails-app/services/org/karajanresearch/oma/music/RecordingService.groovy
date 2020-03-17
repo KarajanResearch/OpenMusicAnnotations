@@ -7,6 +7,7 @@ import org.karajanresearch.oma.StorageBackendService
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.annotation.desc.AnnotationStatisticsService
+import org.springframework.web.multipart.MultipartFile
 
 @Transactional
 class RecordingService {
@@ -125,6 +126,30 @@ class RecordingService {
         println f
 
         return file
+    }
+
+    def storePeaksFile(Recording recording, File peaksFile) {
+
+        // store to s3 if it is a new file
+        def env = Environment.current.name.replace(" ", "-")
+        def prefix = "${env}/recording/${recording.id}"
+        String path = "${prefix}/peaks.json"
+
+        String s3FileUrl = storageBackendService.storeFile(
+            storageBackendService.BUCKET_NAME,
+            path,
+            peaksFile,
+            CannedAccessControlList.Private
+        )
+
+        println "S3: " + s3FileUrl
+
+        if (!s3FileUrl) {
+            println "S3 save error: Recording"
+            return [error: "S3 save error: Recording"]
+        }
+
+        return [success: s3FileUrl]
     }
 
 

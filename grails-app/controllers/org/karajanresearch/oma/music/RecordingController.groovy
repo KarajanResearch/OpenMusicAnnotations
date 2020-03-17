@@ -5,6 +5,7 @@ import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.annotation.desc.AnnotationStatisticsService
 import org.karajanresearch.oma.api.AnnotationApiService
+import org.springframework.web.multipart.MultipartFile
 
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
@@ -291,6 +292,64 @@ class RecordingController {
         // println d
 
         render d as JSON
+
+    }
+
+
+    def allAudioWaveForms() {
+
+        Recording.list().each { recording ->
+            if (!recording.recordingData.peaksFile) {
+                println audioWaveForm(recording.id)
+            }
+        }
+
+    }
+
+    def audioWaveForm(Long id) {
+        def recording = Recording.get(id)
+        if (!recording) return notFound()
+
+        // load audio
+        if (!params.type) {
+            params.type = "wav"
+        }
+
+        def file = recordingService.getFile(recording, params.type)
+
+        if (!file) return notFound()
+
+        println file.absolutePath
+
+        // feed to audiowaveform
+        // https://github.com/bbc/audiowaveform
+
+
+        def outputFileName = "/tmp/${recording.id}.peaks.json"
+
+        def command = "audiowaveform -i ${file.absolutePath} -o ${outputFileName} -z 256 -b 8 --split-channels"
+
+        def process = command.execute()
+        def sout = new StringBuilder()
+        def serr = new StringBuilder()
+        process.consumeProcessOutput(sout, serr)
+        process.waitForOrKill(60000)
+
+        println "out> $sout err> $serr"
+
+
+        // save .dat and .json files containing waveform
+
+        def result = recordingService.storePeaksFile(recording, new File(outputFileName))
+        if (result.success) {
+            recording.recordingData["peaksFile"] = result.success
+            if (!recording.save(flush: true)) {
+                println recording.errors
+            }
+        }
+
+        return result
+
 
     }
 
