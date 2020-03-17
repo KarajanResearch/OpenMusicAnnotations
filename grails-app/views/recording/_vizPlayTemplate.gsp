@@ -5,7 +5,8 @@
 <asset:javascript src="concrete.js"/>
 
 
-<asset:javascript src="wavesurfer.js"/>
+
+<asset:javascript src="node_modules/peaks.js/peaks.js"/>
 
 <style type="text/css">
 
@@ -73,7 +74,7 @@
 
 <div>
     <audio id="audio_player" controls preload="auto">
-        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }"/> type="audio/wav">
+        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }"/> type="audio/mpeg">
     Your browser does not support the audio element. </audio>
 </div>
 
@@ -105,7 +106,10 @@
     </div>
 
 
-    <div id="wavesurfer"></div>
+    <div id="peaks-container">
+        <div id="zoomview-container"></div>
+        <div id="overview-container"></div>
+    </div>
 
 
 
@@ -152,18 +156,25 @@
         let sheetMusic = recordingViz.openSheetMusic(abstractMusicPartId);
 
 
-        // wavesurfer test
 
-        let wavesurfer = WaveSurfer.create({
-            container: '#wavesurfer',
-            waveColor: 'violet',
-            progressColor: 'purple'
-        });
+        //var peaks = require()
 
-        let wavePath = "${createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "wav"])}";
 
-        console.log(wavePath);
-        wavesurfer.load(wavePath);
+        (function(Peaks) {
+
+            const options = {
+                containers: {
+                    overview: document.getElementById('overview-container'),
+                    zoomview: document.getElementById('zoomview-container')
+                },
+                mediaElement: document.querySelector('audio'),
+                dataUri: "${  createLink(controller: 'recording', action: 'getPeaksFile', id: recording?.id) }"
+            };
+
+            Peaks.init(options, function(err, peaks) {
+                // ...
+            });
+        })(peaks);
 
     });
 

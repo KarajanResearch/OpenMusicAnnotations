@@ -88,6 +88,28 @@ class RecordingService {
     }
 
 
+    File getPeaksFile(Recording recording) {
+
+        def location = recording.recordingData["peaksFile"]
+        if (!location) return null
+
+        File file = File.createTempFile("peaks-" + recording.id.toString(), ".json")
+
+
+        def keyPath = storageBackendService.getS3Key(location)
+        def bucket = storageBackendService.getS3Bucket(location)
+
+        println keyPath
+        println bucket
+
+
+        def f = storageBackendService.getFile(bucket, keyPath, file.absolutePath)
+
+        println f
+
+        return f
+
+    }
 
     /**
      *

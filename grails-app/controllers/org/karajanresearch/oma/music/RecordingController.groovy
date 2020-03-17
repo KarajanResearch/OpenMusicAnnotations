@@ -306,6 +306,30 @@ class RecordingController {
 
     }
 
+    def getPeaksFile(Long id) {
+
+        def recording = Recording.get(id)
+        if (!recording) return notFound()
+
+
+        def file = recordingService.getPeaksFile(recording)
+
+
+        response.setContentType("application/json")
+        response.setHeader("Content-Disposition", "inline;Filename=\"${file.name}\"")
+        //response.setHeader("Content-Transfer-Encoding", "binary")
+        //response.setHeader("Content-Length", file.size().toString())
+
+
+        def outputStream = response.getOutputStream()
+        outputStream << file.newInputStream()
+        outputStream.flush()
+        outputStream.close()
+
+
+
+    }
+
     def audioWaveForm(Long id) {
         def recording = Recording.get(id)
         if (!recording) return notFound()
