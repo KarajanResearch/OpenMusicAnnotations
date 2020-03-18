@@ -210,7 +210,7 @@ class AnnotationIconView {
 
 
         // todo: refactor
-        this.drawAnnotations(this.annotationSessions[0]);
+        this.drawAnnotations(this.annotationSessions["averageBeats"]);
 
     }
 

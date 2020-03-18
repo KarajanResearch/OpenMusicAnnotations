@@ -20,22 +20,6 @@ class RecordingController {
     def recordingService
     def tappingService
 
-    def updateAllBeatsAndTempo() {
-
-
-        Recording.list().each {
-            def b = getBeats(it.id)
-
-            println b
-
-            def t = getTempo(it.id)
-
-            println t
-
-        }
-
-
-    }
 
     /**
      * called from recording.show view
@@ -166,12 +150,23 @@ class RecordingController {
         }
 
 
-        def annotationSessions = Session.findAllByRecordingAndTitle(recording, "averageBeats")
+        def annotationSessions = [:]
+
+        def averageBeats = Session.findByRecordingAndTitle(recording, "averageBeats")
+
+        if (!averageBeats) {
+            println "No beats stats. crating..."
+            averageBeats = recordingService.getBeats(recording)
+            recording.annotationSessions.add(averageBeats)
+            if (!recording.save(flush: true)) {
+                println recording.errors
+            }
+        }
+
+        annotationSessions["averageBeats"] = averageBeats
 
         JSON.use("deep")
         def annotationSessionsJson = annotationSessions as JSON
-
-        println annotationSessionsJson
 
 
         def model = [recording: recording, annotationSessionsJson: annotationSessionsJson]

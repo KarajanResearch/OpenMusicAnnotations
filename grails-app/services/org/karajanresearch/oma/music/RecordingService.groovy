@@ -33,7 +33,9 @@ class RecordingService {
 
         def averageBeats = annotationStatisticsService.describeSessions(recording.annotationSessions)
 
-        Session session = new Session( title: "averageBeats", annotations: [])
+
+
+        Session session = new Session( title: "averageBeats", annotations: [], recording: recording)
 
         /**
          * describedBeats[barNum][beatNum]["avg"] = average
