@@ -3,7 +3,7 @@
     <head>
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'recording.label', default: 'Recording')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <title>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</title>
     </head>
     <body>
         <a href="#show-recording" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -17,7 +17,7 @@
         <div id="show-recording" class="content scaffold-show" role="main">
 
 
-            <h1>Viz Player</h1>
+            <h1>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</h1>
 
 
             <g:if test="${flash.message}">

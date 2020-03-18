@@ -67,28 +67,14 @@
 
 
 
+
+
 <div>
     <audio id="audio_player" controls preload="auto">
         <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }"/> type="audio/mpeg">
     Your browser does not support the audio element. </audio>
 </div>
-
-
 <div>
-    <h2>Annotations</h2>
-    <h3>Available Sessions</h3>
-    <div id="sessionListContainer">
-        <ul id="sessionList">
-            <li>Session 1</li>
-            <li>Session 2</li>
-        </ul>
-    </div>
-    <h3>Timeline</h3>
-
-
-
-
-
     <div id="peaks-container">
         <div id="zoomview-container"></div>
         <div id="overview-container"></div>
@@ -96,6 +82,18 @@
 
 
 
+
+
+<!--
+    <h3>Available Sessions</h3>
+    <div id="sessionListContainer">
+        <ul id="sessionList">
+            <li>Session 1</li>
+            <li>Session 2</li>
+        </ul>
+    </div>
+    -->
+    
 </div>
 
 
