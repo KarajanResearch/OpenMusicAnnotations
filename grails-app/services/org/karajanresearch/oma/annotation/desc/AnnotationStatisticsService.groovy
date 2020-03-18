@@ -49,8 +49,8 @@ class AnnotationStatisticsService {
                         break
 
                     default:
-                        println "describeSessions: not implemented"
-                        println session
+                        //println "describeSessions: not implemented"
+                        //println session
                         return
                 }
             }
@@ -84,8 +84,8 @@ class AnnotationStatisticsService {
                         break
 
                     default:
-                        println "describeSessions: not implemented"
-                        println session
+                        //println "describeSessions: not implemented"
+                        //println session
                         return
                 }
             }

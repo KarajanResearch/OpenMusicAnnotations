@@ -152,18 +152,16 @@ class RecordingController {
 
         def annotationSessions = [:]
 
-        def averageBeats = Session.findByRecordingAndTitle(recording, "averageBeats")
 
-        if (!averageBeats) {
+        if (!recording.beats) {
             println "No beats stats. crating..."
-            averageBeats = recordingService.getBeats(recording)
-            recording.annotationSessions.add(averageBeats)
+            recording.beats = recordingService.getBeats(recording)
             if (!recording.save(flush: true)) {
                 println recording.errors
             }
         }
 
-        annotationSessions["averageBeats"] = averageBeats
+        annotationSessions["averageBeats"] = recording.beats
 
         JSON.use("deep")
         def annotationSessionsJson = annotationSessions as JSON
