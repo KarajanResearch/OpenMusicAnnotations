@@ -18,15 +18,10 @@
         /* this fix is needed for IE7- */
     }
 
-    .waveFormSample {
-        width: 32px;
-        height: 200px;
-    }
-
     #timelineContainer {
         display:inline-block;
         width: fit-content;
-        height:400px;
+        height:40px;
         margin: 0 auto;
         background: antiquewhite;
         position:relative;
@@ -173,6 +168,7 @@
 
             Peaks.init(options, function(err, peaks) {
                 // ...
+                console.log("init peaks: loading annotations");
             });
         })(peaks);
 

@@ -178,6 +178,7 @@ class AnnotationIconView {
 
         this.waveFormUrl = $("#waveFormUrl").val();
         this.imageSampleUrl = $("#imageSampleUrl").val();
+
         this.beatDescriptionUrl = $("#beatDescriptionUrl").val();
 
         this.vizStartTime = 0.0; // offset. beginning of viz
@@ -198,7 +199,7 @@ class AnnotationIconView {
         this.timelineViewport = new Concrete.Viewport({
             container: document.getElementById('timelineViewport'),
             width: window.innerWidth, // todo: react to changing window size
-            height: 400
+            height: 40
         });
         this.playHeadLayer = new Concrete.Layer();
         this.beatDescriptionLayer = new Concrete.Layer();
@@ -228,7 +229,7 @@ class AnnotationIconView {
                 // console.log("prepared to play " + widget.currentTime);
             } else {
                 //updateTimer(widget.currentTime);
-                this.updatePlayHead(this.audioPlayer.currentTime);
+                // this.updatePlayHead(this.audioPlayer.currentTime);
                 //drawPlayHead(widget.currentTime);
                 //console.log("timer: " + widget.currentTime);
             }
@@ -237,7 +238,7 @@ class AnnotationIconView {
 
         $('#audio_player').on('timeupdate', (function () {
             // audioPlayerLog("ontimeupdate");
-            this.updatePlayHead(this.audioPlayer.currentTime);
+            // this.updatePlayHead(this.audioPlayer.currentTime);
         }).bind(this));
 
 
@@ -253,14 +254,15 @@ class AnnotationIconView {
     }
 
 
-
+/*
     updatePlayHead(currentTime) {
         //console.log("playing " + currentTime);
         this.currentTime = currentTime;
-        this.drawPlayHead();
+        // this.drawPlayHead();
     }
+*/
 
-
+    /*
     drawPlayHead() {
         let pointRadius = 2;
         let x = this.mapTime(this.currentTime);
@@ -284,6 +286,8 @@ class AnnotationIconView {
         this.timelineViewport.render();
     }
 
+     */
+
 
     // maps a time event (tap at second 5.67) to x coords in the canvas
     // depending on width and viz duration
@@ -305,8 +309,8 @@ class AnnotationIconView {
 
     moveTimeline(time) {
         this.vizStartTime = time;
-        this.updateWaveBackground();
-        this.drawTimeMarkers();
+        // this.updateWaveBackground();
+        // this.drawTimeMarkers();
         this.drawSessions();
         this.drawBeatDescription();
     }
@@ -336,7 +340,7 @@ class AnnotationIconView {
     }
 
 
-
+/*
     drawTimeMarkers() {
 
         // at the bottom
@@ -366,7 +370,7 @@ class AnnotationIconView {
 
 
     }
-
+*/
 
 
     drawBeatDescription() {
@@ -447,7 +451,7 @@ class AnnotationIconView {
     }
 
 
-
+/*
     updateWaveBackground() {
 
         // ajaxUploadSheetMusicPageSelection
@@ -539,7 +543,7 @@ class AnnotationIconView {
         });
         // draw from local image buffer?
     }
-
+*/
 
 
     drawEvent(context, annotation) {
