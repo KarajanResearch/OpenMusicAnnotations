@@ -49,6 +49,7 @@ class Recording implements MultiTenant<Recording> {
     /**
      * reference to pre-rendered wav forms
      */
+    @Deprecated // use recordingData.peaksFile instead
     RenderedWaveForm renderedWaveForm
 
 

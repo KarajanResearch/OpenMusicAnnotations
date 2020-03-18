@@ -165,10 +165,13 @@ class RecordingController {
             return notFound()
         }
 
-        def annotationSessions = Session.findAllByRecording(recording)
+
+        def annotationSessions = Session.findAllByRecordingAndTitle(recording, "averageBeats")
 
         JSON.use("deep")
         def annotationSessionsJson = annotationSessions as JSON
+
+        println annotationSessionsJson
 
 
         def model = [recording: recording, annotationSessionsJson: annotationSessionsJson]

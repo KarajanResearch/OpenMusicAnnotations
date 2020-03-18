@@ -86,19 +86,7 @@
     <h3>Timeline</h3>
 
 
-    <div id="timelineContainer">
-        <div id="waveForm">
-            <div id="waveFormLeft"></div>
-            <div id="waveFormRight"></div>
-        </div>
-        <div id="timelineViewport"></div>
 
-
-<!--
-        <canvas id="playHeadCanvas"></canvas>
-        <canvas id="annotationIconView"></canvas>
-        -->
-    </div>
 
 
     <div id="peaks-container">
@@ -145,16 +133,19 @@
         let annotationSessions = ${annotationSessionsJson};
         </g:applyCodec>
 
+
         // load UI
         let recordingViz = new RecordingViz(recordingId);
-        let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions);
         let sheetMusic = recordingViz.openSheetMusic(abstractMusicPartId);
 
 
 
         //var peaks = require()
 
-
+        /**
+         * adding peaks.js
+         * after init, we overlay annotations to peaks waveform
+         */
         (function(Peaks) {
 
             const options = {
@@ -163,14 +154,16 @@
                     zoomview: document.getElementById('zoomview-container')
                 },
                 mediaElement: document.querySelector('audio'),
-                dataUri: "${  createLink(controller: 'recording', action: 'getPeaksFile', id: recording?.id) }"
+                dataUri: {
+                    json: "${  createLink(controller: 'recording', action: 'getPeaksFile', id: recording?.id) }"
+                },
+                emitCueEvents: true, /* https://github.com/bbc/peaks.js#events */
             };
 
             Peaks.init(options, function(err, peaks) {
-                // ...
-                console.log("init peaks: loading annotations");
+                let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions, peaks);
             });
-        })(peaks);
+        })(peaks, recordingViz);
 
     });
 

@@ -165,7 +165,7 @@ class SheetMusic {
 class AnnotationIconView {
 
 
-    constructor(recording, annotationSessions) {
+    constructor(recording, annotationSessions, peaks) {
         /**
          * hold gorm-result from recording/show. TODO: check, why ${} doesn't work
          * Ajax-callbacks update local data structure as well
@@ -173,11 +173,13 @@ class AnnotationIconView {
         this.recording = recording; // form recordingId
         this.annotationSessions = annotationSessions;
 
+
+
         // gethered statistics
         this.beatDescription = {};
 
-        this.waveFormUrl = $("#waveFormUrl").val();
-        this.imageSampleUrl = $("#imageSampleUrl").val();
+        // this.waveFormUrl = $("#waveFormUrl").val();
+        // this.imageSampleUrl = $("#imageSampleUrl").val();
 
         this.beatDescriptionUrl = $("#beatDescriptionUrl").val();
 
@@ -192,25 +194,10 @@ class AnnotationIconView {
         this.sessionList = document.getElementById("sessionList");
 
 
-
         /**
-         * concrete UI timeline rendering
+         * peaks.js canvas container to add annotations
          */
-        this.timelineViewport = new Concrete.Viewport({
-            container: document.getElementById('timelineViewport'),
-            width: window.innerWidth, // todo: react to changing window size
-            height: 40
-        });
-        this.playHeadLayer = new Concrete.Layer();
-        this.beatDescriptionLayer = new Concrete.Layer();
-        this.timeMarkers = new Concrete.Layer();
-
-        this.annotationLayers = {}; // new Concrete.Layer();
-        this.timelineViewport.add(this.playHeadLayer);
-        this.timelineViewport.add(this.beatDescriptionLayer);
-        this.timelineViewport.add(this.timeMarkers);
-
-
+        this.peaks = peaks;
 
 
 
@@ -221,72 +208,13 @@ class AnnotationIconView {
         this.audioPlayer = document.getElementById("audio_player");
 
 
-        /**
-         * set regular updates of renderer on time intervals and audio widget time updates
-         */
-        setInterval((function () {
-            if (this.audioPlayer.paused) {
-                // console.log("prepared to play " + widget.currentTime);
-            } else {
-                //updateTimer(widget.currentTime);
-                // this.updatePlayHead(this.audioPlayer.currentTime);
-                //drawPlayHead(widget.currentTime);
-                //console.log("timer: " + widget.currentTime);
-            }
-        }).bind(this), this.renderingDelay)
-        // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
 
-        $('#audio_player').on('timeupdate', (function () {
-            // audioPlayerLog("ontimeupdate");
-            // this.updatePlayHead(this.audioPlayer.currentTime);
-        }).bind(this));
-
-
-
-
-        // testing draw first session
-        //this.drawSession(this.annotationSessions[0]);
-
-        // draw everything from the start
-        this.moveTimeline(0);
-
+        // todo: refactor
+        this.drawAnnotations(this.annotationSessions[0]);
 
     }
 
 
-/*
-    updatePlayHead(currentTime) {
-        //console.log("playing " + currentTime);
-        this.currentTime = currentTime;
-        // this.drawPlayHead();
-    }
-*/
-
-    /*
-    drawPlayHead() {
-        let pointRadius = 2;
-        let x = this.mapTime(this.currentTime);
-        let y = 0; //;this.canvas.height - 4;
-
-        //this.playHeadLayer.visible = true;
-
-        this.playHeadLayer.scene.clear();
-
-        let context = this.playHeadLayer.scene.context;
-
-        context.beginPath();
-        context.arc(x, y, pointRadius, 0, 2 * Math.PI);
-        context.stroke();
-
-        context.beginPath();
-        context.moveTo(x, y);
-        context.lineTo(x, y + this.playHeadLayer.height);
-        context.stroke();
-
-        this.timelineViewport.render();
-    }
-
-     */
 
 
     // maps a time event (tap at second 5.67) to x coords in the canvas
@@ -340,292 +268,57 @@ class AnnotationIconView {
     }
 
 
-/*
-    drawTimeMarkers() {
 
-        // at the bottom
-        let y = this.timelineViewport.height;
 
-        this.timeMarkers.scene.clear();
 
-        let context = this.timeMarkers.scene.context;
-
-        for (let t = this.vizStartTime; t <= (this.vizStartTime + this.vizDuration); t = t+1) {
-
-            t = Math.floor(t);
-
-            let x = this.mapTime(t);
-            context.beginPath();
-            context.moveTo(x, y);
-            context.lineTo(x, y - 8);
-            context.stroke();
-
-            let label = this.timeToMMSS(Math.round(t));
-            context.font = "12px Arial";
-            context.fillText(label, x+2, y-2);
-
-        }
-
-        this.timelineViewport.render();
-
-
-    }
-*/
-
-
-    drawBeatDescription() {
-
-        console.log("drawBeatDescription");
-        return;
-
-        let pointRadius = 8;
-
-        let y = (this.timelineViewport.height / 2) - pointRadius;
-        this.beatDescriptionLayer.scene.clear();
-
-        let context = this.beatDescriptionLayer.scene.context;
-
-
-        for (let bar in this.beatDescription) {
-            for (let beat in this.beatDescription[bar]) {
-                let sample = this.beatDescription[bar][beat];
-                if (sample["avg"] >= this.vizStartTime && sample["avg"] <= (this.vizStartTime + this.vizDuration) ) {
-                    console.log(bar);
-                    console.log(beat);
-                    console.log(sample);
-
-                    let r = pointRadius - 2; // * sample["std"];
-                    let x = this.mapTime(sample["avg"]);
-                    context.beginPath();
-                    context.arc(x, y, r, 0, 2 * Math.PI);
-                    context.stroke();
-
-                    context.font = "12px Arial";
-                    let labelText = "" + bar + "-" + beat;
-                    context.fillText(labelText, x - pointRadius, y - pointRadius);
-
-
-                }
-            }
-        }
-
-        this.timelineViewport.render();
-    }
-
-
-
-    updateBeatDescription() {
-
-        console.log("updateBeatDescription");
-
-        $.ajax({
-            url:this.beatDescriptionUrl,
-            data: {
-                recording: this.recording
-            },
-            success: (function(resp){
-                console.log("got beat description");
-
-                // console.log(resp);
-
-                if (resp["Error"]) {
-                    console.log(resp["Error"]);
-                    return;
-                }
-
-                this.beatDescription = resp;
-                this.drawBeatDescription();
-
-
-
-            }).bind(this),
-            error: function (resp) {
-                console.log(resp);
-                if (resp["Error"]) {
-                    console.log(resp["Error"]);
-                    return;
-                }
-            }
-        });
-
-    }
-
-
-/*
-    updateWaveBackground() {
-
-        // ajaxUploadSheetMusicPageSelection
-        let sampleRate=44100;
-
-        let numberOfImages = this.vizDuration;
-        let containerWidth = this.timelineViewport.width;
-        //let containerWidth = $("#timelineContainer").css("width").replace("px", "");
-
-        let imageWidth = Math.floor(containerWidth / numberOfImages);
-
-        // resize to avoid rounding errors
-        // console.log(imageWidth);
-        containerWidth = (imageWidth * numberOfImages);
-        this.timelineViewport.width = containerWidth;
-        $("#timelineContainer").css("width", "" + containerWidth + "px");
-        $("#waveForm").css("width", "" + containerWidth + "px");
-        $("#waveFormLeft").css("width", "" + containerWidth + "px");
-        $("#waveFormRight").css("width", "" + containerWidth + "px");
-        $("#annotationIconView").css("width", "" + containerWidth + "px");
-
-
-        // update local image buffer
-
-        $.ajax({
-            url:this.waveFormUrl,
-            data: {
-                recording: this.recording,
-                from_sample: Math.floor(this.vizStartTime) * sampleRate,
-                to_sample: Math.floor(this.vizStartTime + this.vizDuration) * sampleRate
-            },
-            success: (function(resp){
-                // console.log("got image list");
-                if (resp["Error"]) {
-                    console.log(resp["Error"]);
-                    return;
-                }
-
-                $("#waveFormLeft").empty();
-                $("#waveFormRight").empty();
-
-                for (let i = 0; i < resp.length; i++) {
-                    // console.log(resp[i]);
-                    let sampleId = resp[i][0];
-                    let sampleType = resp[i][1];
-
-                    let image = document.createElement("img");
-                    image.id = "sample-" + sampleId;
-                    image.className = "waveFormSample";
-
-                    let imageSrc = localStorage.getItem(image.id);
-
-                    // console.log("local image");
-                    // console.log(imageSrc);
-                    // TODO: local storage
-                    //if (imageSrc == null) {
-                        image.src = this.imageSampleUrl + "/" + sampleId;
-                        //$(image).ready(function () {
-
-                            // console.log("Image ready: " + image.id);
-                            //let i = document.getElementById(image.id);
-                            //localStorage.setItem(image.id, getBase64Image(i));
-                        //});
-                    //} else {
-                    //    image.src = "data:image/png;base64," + imageSrc;
-                    //    console.log("Hit");
-                    //}
-
-                    if (sampleType === "wave-left") {
-                        $("#waveFormLeft").append(image);
-                    } else if (sampleType === "wave-right") {
-                        $("#waveFormRight").append(image);
-                    }
-
-                    $("#sample-"+sampleId).css("width", "" + imageWidth + "px");
-                }
-
-                // TODO: maybe put images in local storage?
-
-
-            }).bind(this),
-            error: function (resp) {
-                // console.log(resp);
-                if (resp["Error"]) {
-                    console.log(resp["Error"]);
-                    return;
-                }
-            }
-        });
-        // draw from local image buffer?
-    }
-*/
-
-
-    drawEvent(context, annotation) {
-
-        let type = annotation.type;
-        let time = annotation.momentOfPerception;
-
-        // console.log("drawing: " + type);
-
-        let pointRadius = 0;
-        let x = 0;
-        let y = 0;
-
-        switch (type) {
-
-
-            case "Tap":
-                pointRadius = 3;
-                x = this.mapTime(time);
-                y = (this.timelineViewport.height / 2) + pointRadius;
-                context.beginPath();
-                context.arc(x, y, pointRadius, 0, 2 * Math.PI);
-                context.stroke();
-                break;
-            case "beat":
-                pointRadius = 4; // * sample["std"];
-                x = this.mapTime(time);
-                y = (this.timelineViewport.height / 2) - pointRadius;
-                context.beginPath();
-                context.arc(x, y, pointRadius, 0, 2 * Math.PI);
-                context.stroke();
-
-                context.font = "12px Arial";
-                let labelText = "" + annotation.barNumber + "-" + annotation.beatNumber;
-                context.fillText(labelText, x - 8, y - 8);
-
-                break;
-            case "CurrentTempo":
-
-                x = this.mapTime(time);
-                y = this.timelineViewport.height - 20;
-
-                context.font = "12px Arial";
-                let bpm = annotation.doubleValue.toFixed(1) + " bpm";
-                context.fillText(bpm, x, y);
-
-                break;
-
-
-
-        }
-
+    annotationCueEvent(annotation) {
 
     }
 
 
     drawSessions() {
         // TODO: filter active sessions
+
         for(let i = 0; i < this.annotationSessions.length; i++) {
+
+
+
             this.drawAnnotations(this.annotationSessions[i]);
         }
     }
 
+    drawAnnotation(annotation) {
+
+        /*
+        Object { id: 29430, intValue: null, session: {…}, doubleValue: null, type: "Tap", subdivision: null, momentOfPerception: 1412.697120181, barNumber: 220, beatNumber: 4 }
+         */
+
+        this.peaks.points.add(
+            {
+                time: annotation.momentOfPerception,
+                editable: true,
+                color: '#AAAAAA',
+                id: annotation.id,
+                labelText: "" + annotation.barNumber + ":" + annotation.beatNumber
+            }
+        );
+
+    }
+
     drawAnnotations(session) {
-
-        if (typeof(this.annotationLayers[session.id]) === "undefined") {
-            this.annotationLayers[session.id] = new Concrete.Layer();
-            this.timelineViewport.add(this.annotationLayers[session.id]);
-        }
-
-        this.annotationLayers[session.id].scene.clear();
-        let context = this.annotationLayers[session.id].scene.context;
 
         // TODO: better time filtering
         for (let i = 0; i < session.annotations.length; i++) {
             let annotation = session.annotations[i];
+
+            this.drawAnnotation(annotation);
+
+            /*
             if (annotation.momentOfPerception >= this.vizStartTime && annotation.momentOfPerception <=(this.vizStartTime + this.vizDuration)) {
                 this.drawEvent(context, annotation);
             }
+            */
         }
-
-        this.timelineViewport.render();
 
 
     }
@@ -644,8 +337,14 @@ class RecordingViz {
     }
 
 
-    openAnnotationIconView(annotationSessions) {
-        this.annotationIconView = new AnnotationIconView(this.recording, annotationSessions);
+    /**
+     * renders annotations after peaks.js has initialized
+     * @param annotationSessions json encoded annotations
+     * @param peaks instance of peaks.js
+     * @returns {AnnotationIconView}
+     */
+    openAnnotationIconView(annotationSessions, peaks) {
+        this.annotationIconView = new AnnotationIconView(this.recording, annotationSessions, peaks);
         return this.annotationIconView;
     }
 
