@@ -10,12 +10,15 @@ class AnnotationController {
     static scaffold = Annotation
 
 
-
+    /**
+     * changed accidential 4/4 to 2/4 time signature
+     * @return
+     */
     def quickFix() {
 
-        //return
+        return
 
-        Session session = Session.get(5499)
+        //Session session = Session.get(14)
 
         session.annotations.each { Annotation annotation ->
 
