@@ -297,7 +297,7 @@ class AnnotationIconView {
             {
                 time: annotation.momentOfPerception,
                 editable: true,
-                color: '#AAAAAA',
+                // color: '#AAAAAA',
                 id: annotation.id,
                 labelText: "" + annotation.barNumber + ":" + annotation.beatNumber
             }

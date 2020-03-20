@@ -103,8 +103,19 @@ tasks.withType(Test) {
 }
 
 assets {
-    minifyJs = true
-    minifyCss = true
+
+    minifyJs = false
+    minifyCss = false
+    enableSourceMaps = true
+
+    minifyOptions = [
+        languageMode: 'ES6',
+        targetLanguage: 'ES6', //Can go from ES6 to ES5 for those bleeding edgers
+        // optimizationLevel: 'SIMPLE',
+        // angularPass: true // Can use @ngInject annotation for Angular Apps
+    ]
+
+
 }
 
 sourceSets {

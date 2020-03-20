@@ -292,11 +292,15 @@ class RecordingController {
     }
 
 
-    def allAudioWaveForms() {
+    /**
+     * create all missing peaks.json files for waveform rendering
+     * @return
+     */
+    def createAllPeaksFiles() {
 
         Recording.list().each { recording ->
             if (!recording.recordingData.peaksFile) {
-                println audioWaveForm(recording.id)
+                println createPeaksFile(recording.id)
             }
         }
 
@@ -326,7 +330,7 @@ class RecordingController {
 
     }
 
-    def audioWaveForm(Long id) {
+    def createPeaksFile(Long id) {
         def recording = Recording.get(id)
         if (!recording) return notFound()
 

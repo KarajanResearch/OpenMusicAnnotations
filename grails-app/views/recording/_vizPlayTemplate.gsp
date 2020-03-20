@@ -146,6 +146,7 @@
          */
         (function(Peaks) {
 
+            // https://github.com/bbc/peaks.js#configuration
             const options = {
                 containers: {
                     overview: document.getElementById('overview-container'),
@@ -156,6 +157,16 @@
                     json: "${  createLink(controller: 'recording', action: 'getPeaksFile', id: recording?.id) }"
                 },
                 emitCueEvents: true, /* https://github.com/bbc/peaks.js#events */
+                // Color for the zoomable waveform
+                zoomWaveformColor: 'rgba(0, 225, 128, 1)',
+                // Color for the overview waveform
+                overviewWaveformColor: 'rgba(0,150,0,1)',
+                // Color for the overview waveform rectangle
+                // that shows what the zoomable view shows
+                overviewHighlightColor: 'rgb(200,42,0)',
+
+                // the color of a point marker
+                pointMarkerColor: '#CCCCCC',
             };
 
             Peaks.init(options, function(err, peaks) {

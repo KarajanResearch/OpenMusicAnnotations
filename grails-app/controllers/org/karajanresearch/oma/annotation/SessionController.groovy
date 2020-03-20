@@ -32,7 +32,8 @@ class SessionController {
             it.pdfPageChangeAnnotationSession = null
             it.save()
         }
-        if (!s.delete()) {
+        if (!s.delete(flush: true)) {
+            println "not deleted"
             println s.errors
 
         }
