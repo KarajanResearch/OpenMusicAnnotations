@@ -316,7 +316,7 @@ class RecordingController {
 
 
         response.setContentType("application/json")
-        response.setHeader("Content-Disposition", "inline;Filename=\"${file.name}\"")
+        response.setHeader("Content-Disposition", "inline;Filename=\"${recording.id}.peaks.json\"")
         //response.setHeader("Content-Transfer-Encoding", "binary")
         //response.setHeader("Content-Length", file.size().toString())
 
@@ -351,7 +351,8 @@ class RecordingController {
 
         def outputFileName = "/tmp/${recording.id}.peaks.json"
 
-        def command = "audiowaveform -i ${file.absolutePath} -o ${outputFileName} -z 256 -b 8 --split-channels"
+        // z factor limits
+        def command = "audiowaveform -i ${file.absolutePath} -o ${outputFileName} -z 32 -b 8 --split-channels"
 
         def process = command.execute()
         def sout = new StringBuilder()

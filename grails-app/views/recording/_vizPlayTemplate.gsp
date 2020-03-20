@@ -2,8 +2,6 @@
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 <asset:javascript src="RecordingViz/ui.js"/>
 
-<asset:javascript src="concrete.js"/>
-
 
 
 <asset:javascript src="node_modules/peaks.js/peaks.js"/>
@@ -50,8 +48,16 @@
     #audio_player {
         border-radius: 4px;
         margin: 4px;
+        float: left;
     }
 
+    #toolMenu {
+        padding-bottom: 10px;
+    }
+
+    #toolMenuButtons {
+        padding-top: 5px;
+    }
 
 
 </style>
@@ -69,10 +75,19 @@
 
 
 
-<div>
+<div id="toolMenu">
     <audio id="audio_player" controls preload="auto">
         <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }"/> type="audio/mpeg">
     Your browser does not support the audio element. </audio>
+
+    <div id="toolMenuButtons">
+        <button class="buttons vizPlay" id="peaksZoomIn"> Zoom In </button>
+        <button class="buttons vizPlay" id="peaksZoomOut"> Zoom Out </button>
+    </div>
+
+
+
+
 </div>
 <div>
     <div id="peaks-container">
@@ -156,6 +171,7 @@
                 dataUri: {
                     json: "${  createLink(controller: 'recording', action: 'getPeaksFile', id: recording?.id) }"
                 },
+                zoomLevels: [32, 64, 128, 256, 512, 1024, 2048, 4096],
                 emitCueEvents: true, /* https://github.com/bbc/peaks.js#events */
                 // Color for the zoomable waveform
                 zoomWaveformColor: 'rgba(0, 225, 128, 1)',
@@ -167,6 +183,10 @@
 
                 // the color of a point marker
                 pointMarkerColor: '#CCCCCC',
+
+                keyboard: true,
+                // Keyboard nudge increment in seconds (left arrow/right arrow)
+                nudgeIncrement: 0.01,
             };
 
             Peaks.init(options, function(err, peaks) {

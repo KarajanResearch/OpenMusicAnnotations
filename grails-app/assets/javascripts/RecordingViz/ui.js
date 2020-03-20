@@ -199,6 +199,10 @@ class AnnotationIconView {
          */
         this.peaks = peaks;
 
+        /**
+         * Application default Zoom Level
+         */
+        this.peaks.zoom.setZoom(4);
 
 
         /**
@@ -212,9 +216,30 @@ class AnnotationIconView {
         // todo: refactor
         this.drawAnnotations(this.annotationSessions["averageBeats"]);
 
+
+        $((function() {
+            $("#peaksZoomIn").on("click", (function() {
+                this.zoomIn();
+            }).bind(this));
+            $("#peaksZoomOut").on("click", (function() {
+                this.zoomOut();
+            }).bind(this));
+
+        }).bind(this));
+        // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
+
     }
 
 
+    /**
+     * https://github.com/bbc/peaks.js#zoom-api
+     */
+    zoomIn() {
+        this.peaks.zoom.zoomIn();
+    }
+    zoomOut() {
+        this.peaks.zoom.zoomOut();
+    }
 
 
     // maps a time event (tap at second 5.67) to x coords in the canvas
@@ -243,13 +268,6 @@ class AnnotationIconView {
         this.drawBeatDescription();
     }
 
-
-    timeToMMSS(timeInSeconds) {
-        let m = Math.floor(timeInSeconds / 60);
-        let s = timeInSeconds % 60;
-
-        return "" + m + ":" + s;
-    }
 
 
     /**
