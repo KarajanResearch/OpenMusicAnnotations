@@ -77,7 +77,7 @@
 
 <div id="toolMenu">
     <audio id="audio_player" controls preload="auto">
-        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }"/> type="audio/mpeg">
+        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "wav"]) }"/> type="audio/mpeg">
     Your browser does not support the audio element. </audio>
 
     <div id="toolMenuButtons">

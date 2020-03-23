@@ -50,11 +50,15 @@
                     url: "/recording/addDigitalAudio/${this.recording.id}",
                     acceptedFiles: "audio/wave,audio/wav,audio/x-wav,audio/x-pn-wav",
                     accept: function(file, done) {
-
                         console.log("accept");
                         console.log(file);
                         done();
+                    },
+                    success: function (file) {
+                        console.log("accept");
+                        console.log(file);
 
+                        window.location("/recording/show/${this.recording.id}");
                     }
                 });
 

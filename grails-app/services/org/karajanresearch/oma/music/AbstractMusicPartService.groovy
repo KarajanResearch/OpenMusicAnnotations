@@ -44,7 +44,7 @@ class AbstractMusicPartService {
     File getScoreFile(AbstractMusicPart abstractMusicPart) {
 
 
-        if (!abstractMusicPart.pdfLocation) {
+        if (!abstractMusicPart?.pdfLocation) {
             return null
         }
 
