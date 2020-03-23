@@ -9,6 +9,8 @@ import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.annotation.desc.AnnotationStatisticsService
 import org.springframework.web.multipart.MultipartFile
 
+import java.nio.file.Files
+
 @Transactional
 class RecordingService {
 /*
@@ -177,6 +179,105 @@ class RecordingService {
     }
 
 
+    /**
+     * wav files via dropzone
+     * @param recording
+     * @param digitalAudioCommand
+     * @return
+     */
+    Recording storeDigitalAudio(Recording recording, DigitalAudioCommand digitalAudioCommand) {
+
+        def tempFile = File.createTempFile("digitalAudio", ".wav")
+
+        println tempFile.absolutePath
+
+        digitalAudioCommand.file.transferTo(tempFile)
+
+
+
+        def fileName = digitalAudioCommand.file.originalFilename
+        fileName = fileName.replace("\\", "/")
+        def fileNameParts = fileName.split("/")
+        fileName = fileNameParts[fileNameParts.size()-1]
+
+        println fileName
+
+        // create beats file
+        def tempPeaksFile = File.createTempFile("peaks", ".json")
+        println tempPeaksFile.absolutePath
+
+        // z factor limits zoom level
+        def command = "audiowaveform -i ${tempFile.absolutePath} -o ${tempPeaksFile.absolutePath} -z 32 -b 8 --split-channels"
+
+        def process = command.execute()
+        def sout = new StringBuilder()
+        def serr = new StringBuilder()
+        process.consumeProcessOutput(sout, serr)
+        process.waitForOrKill(60000)
+
+        println "out> $sout err> $serr"
+
+
+        // save .dat and .json files containing waveform
+
+        def result = storePeaksFile(recording, tempPeaksFile)
+        if (result.success) {
+            recording.recordingData["peaksFile"] = result.success
+            if (!recording.save(flush: true)) {
+                println recording.errors
+            }
+        }
+
+
+
+        // save to S3
+        // store to s3 if it is a new file
+        def env = Environment.current.name.replace(" ", "-")
+        def prefix = "${env}/recording/${recording.id}"
+        def path = "${prefix}/${fileName}"
+
+        println storageBackendService.BUCKET_NAME
+        println path
+
+        def bucket = "open-music-annotations-storage-backend"
+
+        String s3FileUrl = storageBackendService.storeFile(
+            bucket,
+            path,
+            tempFile,
+            CannedAccessControlList.Private
+        )
+
+        println "S3: " + s3FileUrl
+
+        if (!s3FileUrl) {
+            println "S3 save error: Recording"
+            return recording
+        }
+
+        def digitalAudio = new DigitalAudio(recording: recording)
+        digitalAudio.location = s3FileUrl
+        digitalAudio.originalFileName = fileName
+        digitalAudio.contentType = digitalAudioCommand.file.contentType
+        recording.addToDigitalAudio(digitalAudio)
+        // recording.version = cmd.version
+
+        //statement.statementDocumentUrl = statementDocumentUrl
+        //statement.statementDocumentContentType = contentType
+        if (!recording.save(flush: true)) {
+            println recording.errors
+            return null
+        }
+
+        return recording
+    }
+
+    /**
+     * Deprecated
+     * @param recording
+     * @param cmd
+     * @return
+     */
     Recording uploadFile(Recording recording, RecordingFileCommand cmd) {
 
         // parse filename

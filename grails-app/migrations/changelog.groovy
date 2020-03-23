@@ -1,13 +1,8 @@
 databaseChangeLog = {
 
-    changeSet(author: "martin (generated)", id: "1583317130895-1") {
-        addColumn(tableName: "authentication_token") {
-            column(name: "date_created", type: "timestamp")
-        }
+    changeSet(author: "martin (generated)", id: "1584959239422-1") {
+        dropNotNullConstraint(columnDataType: "bigint", columnName: "abstract_music_part_id", tableName: "recording")
     }
 
-    changeSet(author: "martin (generated)", id: "1583317130895-2") {
-        dropTable(tableName: "persistent_login")
-    }
 
 }

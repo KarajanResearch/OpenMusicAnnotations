@@ -1,0 +1,27 @@
+
+
+
+#kwv-image-dropzone, #track-dropzone {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: lightskyblue;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 1px solid;
+    font-weight: bold;
+}
+
+#track-dropzone {
+
+}
+
+#audioFile {
+    width: 300px;
+}
+
+.dz-preview {
+    position: relative;
+}

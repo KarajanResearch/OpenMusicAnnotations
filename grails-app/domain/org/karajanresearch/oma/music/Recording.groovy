@@ -30,7 +30,7 @@ class Recording implements MultiTenant<Recording> {
     /**
      * what was recorded
      */
-    static belongsTo = [interpretation: Interpretation]
+    Interpretation interpretation
 
     /**
      * abstract music (sheet) that represents that recording.
@@ -61,7 +61,8 @@ class Recording implements MultiTenant<Recording> {
     static constraints = {
         title nullable: false
         digitalAudio nullable: true
-        interpretation nullable: false
+        interpretation nullable: true
+        abstractMusicPart nullable: true
         beats nullable: true
         tempo nullable: true
         renderedWaveForm nullable: true

@@ -22,6 +22,32 @@ class RecordingController {
 
 
     /**
+     * AJAX call from dropzone in create.gsp
+     */
+    def addDigitalAudio(DigitalAudioCommand cmd) {
+
+
+        println "addDigitalAudio: " + params
+
+        if (cmd.hasErrors()) {
+            println cmd.errors
+            //respond(cmd.errors, model: [:], view: 'create')
+            render (status: 500, "command has errors")
+            return
+        }
+
+        Recording recording = Recording.get(cmd.id)
+
+        println recording
+
+        recordingService.storeDigitalAudio(recording, cmd)
+
+
+        render (status: 200, "WAV file added")
+    }
+
+
+    /**
      * called from recording.show view
      * @return
      */
@@ -299,9 +325,9 @@ class RecordingController {
     def createAllPeaksFiles() {
 
         Recording.list().each { recording ->
-            if (!recording.recordingData.peaksFile) {
+            //if (!recording.recordingData.peaksFile) {
                 println createPeaksFile(recording.id)
-            }
+            //}
         }
 
     }
@@ -521,6 +547,17 @@ class RecordingController {
     }
 
 
+    def create() {
+
+        Recording dummyRecording = new Recording(title: "dummy")
+
+
+        if (!dummyRecording.save(flush: true)) {
+            println dummyRecording.errors
+        }
+
+        respond dummyRecording
+    }
 
 
     /*

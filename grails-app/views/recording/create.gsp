@@ -4,6 +4,13 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'recording.label', default: 'Recording')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
+
+
+        <asset:javascript src="jquery-3.3.1.min.js" />
+        <asset:javascript src="dropzone.js" />
+        <asset:stylesheet src="dropzone.css" />
+        <asset:stylesheet src="custom-dropzone.css" />
+
     </head>
     <body>
         <a href="#create-recording" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -18,6 +25,7 @@
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
+
             <g:hasErrors bean="${this.recording}">
             <ul class="errors" role="alert">
                 <g:eachError bean="${this.recording}" var="error">
@@ -25,14 +33,50 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
+
+            <div id="recording-dropzone" class="dropzone">
+
+
+
+
+            </div>
+            ${this.recording.id}
+
+
+            <script type="application/javascript">
+
+
+                $("#recording-dropzone").dropzone({
+                    url: "/recording/addDigitalAudio/${this.recording.id}",
+                    acceptedFiles: "audio/wave,audio/wav,audio/x-wav,audio/x-pn-wav",
+                    accept: function(file, done) {
+
+                        console.log("accept");
+                        console.log(file);
+                        done();
+
+                    }
+                });
+
+
+                //console.log(Dropzone.options);
+            </script>
+
             <g:form resource="${this.recording}" method="POST">
+
+                <!--
                 <fieldset class="form">
                     <f:all bean="recording"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
                 </fieldset>
+                -->
+
+
             </g:form>
+
+
         </div>
     </body>
 </html>
