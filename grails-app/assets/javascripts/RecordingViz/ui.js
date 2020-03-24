@@ -228,6 +228,23 @@ class AnnotationIconView {
         }).bind(this));
         // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
 
+
+
+        // override space bar behaviour. play/pause
+        $(window).keypress((function(e) {
+
+            if (e.which === 32) {
+                // no scrolling
+                e.preventDefault();
+
+                if (this.audioPlayer.paused) {
+                    this.peaks.player.play();
+                } else {
+                    this.peaks.player.pause();
+                }
+            }
+        }).bind(this));
+
     }
 
 
