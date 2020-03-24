@@ -233,6 +233,9 @@ class AnnotationIconView {
         // override space bar behaviour. play/pause
         $(window).keypress((function(e) {
 
+            // record timestamp before doing any processing
+            const momentOfPerception = this.peaks.player.getCurrentTime();
+
             if (e.which === 32) {
                 // no scrolling
                 e.preventDefault();
@@ -243,7 +246,66 @@ class AnnotationIconView {
                     this.peaks.player.pause();
                 }
             }
+
+
+
+            // pressing numbers to tap beats
+            if (e.which === 49 || e.which === 97) {
+                // "1" || numpad 1
+                this.beatTyped(1, momentOfPerception);
+            }
+            if (e.which === 50 || e.which === 98) {
+                // "2" || numpad 2
+                this.beatTyped(2, momentOfPerception);
+            }
+            if (e.which === 51 || e.which === 99) {
+                // "3" || numpad 3
+                this.beatTyped(3, momentOfPerception);
+            }
+            if (e.which === 52 || e.which === 100) {
+                // "4" || numpad 4
+                this.beatTyped(4, momentOfPerception);
+            }
+            if (e.which === 53 || e.which === 101) {
+                // "5" || numpad 5
+                this.beatTyped(5, momentOfPerception);
+            }
+            if (e.which === 54 || e.which === 102) {
+                // "6" || numpad 6
+                this.beatTyped(6, momentOfPerception);
+            }
+            if (e.which === 55 || e.which === 103) {
+                // "7" || numpad 7
+                this.beatTyped(7, momentOfPerception);
+            }
+            if (e.which === 56 || e.which === 104) {
+                // "8" || numpad 8
+                this.beatTyped(8, momentOfPerception);
+            }
+            if (e.which === 57 || e.which === 105) {
+                // "9" || numpad 9
+                this.beatTyped(9, momentOfPerception);
+            }
+
+
         }).bind(this));
+
+    }
+
+
+    /**
+     * captured number keys to add numbered beats
+     */
+    beatTyped(number, momentOfPerception) {
+
+/*
+        $("#tapTempo").text(" " + number + " ");
+        setTimeout(function () {
+            $("#tapTempo").text("Tap");
+        }, 90);
+*/
+
+        console.log("Beat " + number + " at " + momentOfPerception);
 
     }
 
