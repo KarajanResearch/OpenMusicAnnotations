@@ -290,6 +290,68 @@ class AnnotationIconView {
 
         }).bind(this));
 
+
+        // Points mouse events
+
+        this.peaks.on('points.mouseenter', function(point) {
+            console.log('points.mouseenter:', point);
+        });
+
+        this.peaks.on('points.mouseleave', function(point) {
+            console.log('points.mouseleave:', point);
+        });
+
+        this.peaks.on('points.dblclick', function(point) {
+            console.log('points.dblclick:', point);
+        });
+
+        this.peaks.on('points.dragstart', function(point) {
+            console.log('points.dragstart:', point);
+        });
+
+        this.peaks.on('points.dragmove', function(point) {
+            console.log('points.dragmove:', point);
+        });
+
+        this.peaks.on('points.dragend', function(point) {
+            console.log('points.dragend:', point);
+        });
+
+        // Segments mouse events
+
+        this.peaks.on('segments.dragstart', function(segment, startMarker) {
+            console.log('segments.dragstart:', segment, startMarker);
+        });
+
+        this.peaks.on('segments.dragend', function(segment, startMarker) {
+            console.log('segments.dragend:', segment, startMarker);
+        });
+
+        this.peaks.on('segments.dragged', function(segment, startMarker) {
+            console.log('segments.dragged:', segment, startMarker);
+        });
+
+        this.peaks.on('segments.mouseenter', function(segment) {
+            console.log('segments.mouseenter:', segment);
+        });
+
+        this.peaks.on('segments.mouseleave', function(segment) {
+            console.log('segments.mouseleave:', segment);
+        });
+
+        this.peaks.on('segments.click', function(segment) {
+            console.log('segments.click:', segment);
+        });
+
+        this.peaks.on('zoomview.dblclick', function(time) {
+            console.log('zoomview.dblclick:', time);
+        });
+
+        this.peaks.on('overview.dblclick', function(time) {
+            console.log('overview.dblclick:', time);
+        });
+
+
     }
 
 
@@ -313,7 +375,8 @@ class AnnotationIconView {
 
         this.peaks.points.add({
             time: momentOfPerception,
-            labelText: beatNumber.toString()
+            labelText: beatNumber.toString(),
+            editable: true
         })
 
 
