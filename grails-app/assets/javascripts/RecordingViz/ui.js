@@ -296,7 +296,7 @@ class AnnotationIconView {
     /**
      * captured number keys to add numbered beats
      */
-    beatTyped(number, momentOfPerception) {
+    beatTyped(beatNumber, momentOfPerception) {
 
 /*
         $("#tapTempo").text(" " + number + " ");
@@ -304,8 +304,18 @@ class AnnotationIconView {
             $("#tapTempo").text("Tap");
         }, 90);
 */
+        if (this.audioPlayer.paused) {
+            console.log("player paused. doing nothing");
+            return;
+        }
 
-        console.log("Beat " + number + " at " + momentOfPerception);
+        // console.log("Beat " + beatNumber + " at " + momentOfPerception);
+
+        this.peaks.points.add({
+            time: momentOfPerception,
+            labelText: beatNumber.toString()
+        })
+
 
     }
 
