@@ -197,8 +197,7 @@ class RecordingController {
 
         //render model as JSON
 
-        //render view: "show", model: model
-        render view: "vizPlay", model: model
+        render view: "show", model: model
     }
 
 
@@ -339,6 +338,7 @@ class RecordingController {
 
 
         def file = recordingService.getPeaksFile(recording)
+        if (!file) return notFound()
 
 
         response.setContentType("application/json")
@@ -351,8 +351,6 @@ class RecordingController {
         outputStream << file.newInputStream()
         outputStream.flush()
         outputStream.close()
-
-
 
     }
 

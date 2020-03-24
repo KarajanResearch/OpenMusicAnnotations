@@ -45,18 +45,46 @@
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     }
 
+    .vizPlay.buttons:active {
+        background-color: #994a00;
+        color: white;
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .vizPlay.select {
+        background-color: #efefef;
+        border-radius: 4px;
+        padding: 2px 8px;
+        margin: 4px;
+        box-shadow: 0 0 3px 1px #aaaaaa;
+        margin-top: 5px;
+    }
+
+
+    #toolMenu {
+        /*padding-bottom: 10px; */
+    }
+
     #audio_player {
         border-radius: 4px;
         margin: 4px;
-        float: left;
-    }
-
-    #toolMenu {
-        padding-bottom: 10px;
+        display: inline-block;
+        vertical-align: top;
     }
 
     #toolMenuButtons {
-        padding-top: 5px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    #toolMenuTimeSignature {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    #toolMenuTempo {
+        display: inline-block;
+        vertical-align: top;
     }
 
 
@@ -83,6 +111,23 @@
     <div id="toolMenuButtons">
         <button class="buttons vizPlay" id="peaksZoomIn"> Zoom In </button>
         <button class="buttons vizPlay" id="peaksZoomOut"> Zoom Out </button>
+
+    </div>
+
+    <div id="toolMenuTimeSignature">
+
+        <select class="select vizPlay" id="timeSignatureList">
+            <option value="0">2/4</option>
+            <option value="1">3/4</option>
+            <option value="2">4/4</option>
+            <option value="3">6/4</option>
+        </select>
+
+    </div>
+
+    <div id="toolMenuTempo">
+        <button class="buttons vizPlay" id="tapTempo"> Tap </button>
+        120 BPM
     </div>
 
 
