@@ -224,6 +224,9 @@ class AnnotationIconView {
             $("#peaksZoomOut").on("click", (function() {
                 this.zoomOut();
             }).bind(this));
+            $("#tapTempo").on("click", (function() {
+                this.tapTempo();
+            }).bind(this));
 
         }).bind(this));
         // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
@@ -291,8 +294,14 @@ class AnnotationIconView {
         }).bind(this));
 
 
-        // Points mouse events
 
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.audioContext = new AudioContext();
+
+
+
+        // Points mouse events
+/*
         this.peaks.on('points.mouseenter', function(point) {
             console.log('points.mouseenter:', point);
         });
@@ -350,8 +359,30 @@ class AnnotationIconView {
         this.peaks.on('overview.dblclick', function(time) {
             console.log('overview.dblclick:', time);
         });
+*/
 
 
+        // event, when a point is hit
+        this.peaks.on("points.enter", (function (point) {
+            this.playClick();
+        }).bind(this));
+
+        this.clickPlayer = document.getElementById("click_sound");
+
+
+
+    }
+
+    tapTempo() {
+        // TODO: implement
+        this.playClick();
+    }
+
+
+    playClick() {
+        this.clickPlayer.pause();
+        this.clickPlayer.currentTime = 0;
+        this.clickPlayer.play();
     }
 
 
@@ -372,6 +403,9 @@ class AnnotationIconView {
         }
 
         // console.log("Beat " + beatNumber + " at " + momentOfPerception);
+
+        this.playClick();
+
 
         this.peaks.points.add({
             time: momentOfPerception,

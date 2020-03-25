@@ -6,6 +6,7 @@
 
 <asset:javascript src="node_modules/peaks.js/peaks.js"/>
 
+
 <style type="text/css">
 
     #sessionList > li {
@@ -105,7 +106,8 @@
 
 <div id="toolMenu">
     <audio id="audio_player" controls preload="auto">
-        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "wav"]) }"/> type="audio/mpeg">
+        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }"/> type="audio/mpeg">
+        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "wav"]) }"/> type="audio/wav">
     Your browser does not support the audio element. </audio>
 
     <div id="toolMenuButtons">
@@ -130,10 +132,12 @@
         120 BPM
     </div>
 
-
-
-
 </div>
+
+
+
+
+
 <div>
     <div id="peaks-container">
         <div id="zoomview-container"></div>
@@ -155,6 +159,14 @@
     -->
 
 </div>
+
+<audio hidden="hidden" id="click_sound" controls preload="auto">
+    <source src="${assetPath(src: 'click.wav')}
+    "/>
+    Your browser does not support the audio element.
+</audio>
+
+
 
 
 <div id="score">
