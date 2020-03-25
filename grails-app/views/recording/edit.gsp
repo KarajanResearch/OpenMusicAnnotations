@@ -29,7 +29,7 @@
             <g:form resource="${this.recording}" method="PUT">
                 <g:hiddenField name="version" value="${this.recording?.version}" />
                 <fieldset class="form">
-                    <f:all bean="recording"/>
+                    <f:all bean="recording" order="title"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />

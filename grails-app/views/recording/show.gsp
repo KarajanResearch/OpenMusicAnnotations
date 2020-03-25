@@ -17,7 +17,13 @@
 <div id="show-recording" class="content scaffold-show" role="main">
 
 
-    <h1>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</h1>
+    <g:if test="${this.recording.interpretation}">
+        <h1>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</h1>
+    </g:if>
+    <g:else>
+        <h1>${this.recording.title}</h1>
+    </g:else>
+
 
 
     <g:if test="${flash.message}">

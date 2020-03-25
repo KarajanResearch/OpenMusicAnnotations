@@ -9,13 +9,7 @@
 
 <style type="text/css">
 
-    #sessionList > li {
-        display: inline-block;
-        /* You can also add some margins here to make it look prettier */
-        zoom:1;
-        *display:inline;
-        /* this fix is needed for IE7- */
-    }
+
 
     #timelineContainer {
         display:inline-block;
@@ -88,6 +82,18 @@
         vertical-align: top;
     }
 
+    #sessionListContainer {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    #sessionList > li {
+        display: inline-block;
+        /* You can also add some margins here to make it look prettier */
+        zoom:1;
+        *display:inline;
+        /* this fix is needed for IE7- */
+    }
 
 </style>
 
@@ -99,6 +105,7 @@
 <input type="hidden" id="imageSampleUrl" value="${createLink(controller:'renderedImageSample',action:'getImage')}">
 <input type="hidden" id="scoreUrl" value="${createLink(controller:'abstractMusicPart',action:'getScoreFile')}">
 <input type="hidden" id="beatDescriptionUrl" value="${createLink(controller:'recording',action:'getBeatDescription')}">
+<input type="hidden" id="sessionListUrl" value="${createLink(controller:'recording',action:'ajaxGetSessionList')}">
 
 
 
@@ -132,6 +139,13 @@
         120 BPM
     </div>
 
+    <div id="sessionListContainer">
+
+        <select class="select vizPlay" id="sessionList">
+            <option value="0">Loading...</option>
+        </select>
+    </div>
+
 </div>
 
 
@@ -149,13 +163,7 @@
 
 
 <!--
-    <h3>Available Sessions</h3>
-    <div id="sessionListContainer">
-        <ul id="sessionList">
-            <li>Session 1</li>
-            <li>Session 2</li>
-        </ul>
-    </div>
+
     -->
 
 </div>

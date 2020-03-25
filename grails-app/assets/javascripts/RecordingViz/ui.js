@@ -183,6 +183,7 @@ class AnnotationIconView {
 
         this.beatDescriptionUrl = $("#beatDescriptionUrl").val();
 
+
         this.vizStartTime = 0.0; // offset. beginning of viz
         this.currentTime = 0.0;
         this.vizDuration = 10.0; // length of viz in seconds
@@ -214,7 +215,7 @@ class AnnotationIconView {
 
 
         // todo: refactor
-        this.drawAnnotations(this.annotationSessions["averageBeats"]);
+        this.drawAnnotations();
 
 
         $((function() {
@@ -292,10 +293,6 @@ class AnnotationIconView {
 
 
         }).bind(this));
-
-
-
-
 
 
 
@@ -380,8 +377,15 @@ class AnnotationIconView {
     }
 
     tapTempo() {
-        // TODO: implement
+        // record timestamp before doing any processing
+        const momentOfPerception = this.peaks.player.getCurrentTime();
         this.playClick();
+        let p = this.peaks.points.add({
+            time: momentOfPerception,
+            labelText:"T",
+            editable: true
+        });
+        console.log(p);
     }
 
 
@@ -397,21 +401,9 @@ class AnnotationIconView {
      */
     beatTyped(beatNumber, momentOfPerception) {
 
-/*
-        $("#tapTempo").text(" " + number + " ");
-        setTimeout(function () {
-            $("#tapTempo").text("Tap");
-        }, 90);
-*/
-        if (this.audioPlayer.paused) {
-            console.log("player paused. doing nothing");
-            return;
-        }
 
         // console.log("Beat " + beatNumber + " at " + momentOfPerception);
-
         this.playClick();
-
 
         this.peaks.points.add({
             time: momentOfPerception,
@@ -515,20 +507,50 @@ class AnnotationIconView {
 
     }
 
-    drawAnnotations(session) {
+    drawAnnotations() {
 
-        // TODO: better time filtering
-        for (let i = 0; i < session.annotations.length; i++) {
-            let annotation = session.annotations[i];
 
-            this.drawAnnotation(annotation);
+        // load session list
+        let ajaxUrl = $("#sessionListUrl").val();
+        $.ajax({
+            url:ajaxUrl,
+            data: {
+                recording: this.recording
+            },
+            success: (function(resp){
 
-            /*
-            if (annotation.momentOfPerception >= this.vizStartTime && annotation.momentOfPerception <=(this.vizStartTime + this.vizDuration)) {
-                this.drawEvent(context, annotation);
-            }
-            */
-        }
+
+                $("#sessionList option").each(function () {
+                    $(this).remove();
+                });
+
+
+                for (let i = 0; i < resp.length; i++) {
+                    let session = resp[i];
+
+                    console.log(session.id);
+                    console.log(session.title);
+                    $("#sessionList").append(new Option(session.title, session.id));
+
+                    let annotations = session.annotations;
+                    for (let j = 0; j < annotations.length; j++) {
+                        this.drawAnnotation(annotations[j]);
+                    }
+
+                }
+
+                $("#sessionList").append(new Option("New Session", null));
+
+
+                if (resp["error"]) {
+                    console.log(resp["error"]);
+                    return;
+                }
+            }).bind(this)
+        });
+
+
+
 
 
     }

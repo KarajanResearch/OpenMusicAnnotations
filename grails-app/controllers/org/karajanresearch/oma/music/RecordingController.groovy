@@ -168,6 +168,17 @@ class RecordingController {
     }
 
 
+    def ajaxGetSessionList() {
+        println "ajaxGetSessionList"
+        println params
+
+        def recording = Recording.get(params.recording)
+
+        def result = recording.annotationSessions
+        render result as JSON
+    }
+
+
     def show(Long id) {
         def recording = Recording.get(id)
 
@@ -178,7 +189,7 @@ class RecordingController {
 
         def annotationSessions = [:]
 
-
+/*
         if (!recording.beats) {
             println "No beats stats. crating..."
             recording.beats = recordingService.getBeats(recording)
@@ -188,7 +199,7 @@ class RecordingController {
         }
 
         annotationSessions["averageBeats"] = recording.beats
-
+*/
         JSON.use("deep")
         def annotationSessionsJson = annotationSessions as JSON
 

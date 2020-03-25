@@ -135,6 +135,8 @@ class RecordingService {
             digitalAudio.originalFileName.endsWith(type)
         }
 
+        if (!audioFile) return null
+
         def location = audioFile.location
 
         println "location: " + location
