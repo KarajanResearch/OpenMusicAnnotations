@@ -295,12 +295,18 @@ class AnnotationIconView {
 
 
 
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.audioContext = new AudioContext();
+
+
 
 
 
         // Points mouse events
+        this.peaks.on('points.dblclick', (function(point) {
+            /**
+             * double clicking a point removes point
+             */
+            this.peaks.points.removeById(point.id);
+        }).bind(this));
 /*
         this.peaks.on('points.mouseenter', function(point) {
             console.log('points.mouseenter:', point);
