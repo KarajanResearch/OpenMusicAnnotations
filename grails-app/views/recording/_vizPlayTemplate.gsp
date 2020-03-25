@@ -106,6 +106,7 @@
 <input type="hidden" id="scoreUrl" value="${createLink(controller:'abstractMusicPart',action:'getScoreFile')}">
 <input type="hidden" id="beatDescriptionUrl" value="${createLink(controller:'recording',action:'getBeatDescription')}">
 <input type="hidden" id="sessionListUrl" value="${createLink(controller:'recording',action:'ajaxGetSessionList')}">
+<input type="hidden" id="sessionUrl" value="${createLink(controller:'recording',action:'ajaxGetSession')}">
 
 
 
@@ -210,14 +211,10 @@
         /** get data from gsp rendering **/
         let recordingId = $("#recordingId").val();
         let abstractMusicPartId = $("#abstractMusicPartId").val();
-        <g:applyCodec encodeAs="none">
-        let annotationSessions = ${annotationSessionsJson};
-        </g:applyCodec>
 
 
         // load UI
         let recordingViz = new RecordingViz(recordingId);
-        let sheetMusic = recordingViz.openSheetMusic(abstractMusicPartId);
 
 
 
@@ -258,9 +255,14 @@
             };
 
             Peaks.init(options, function(err, peaks) {
-                let annotationIconView = recordingViz.openAnnotationIconView(annotationSessions, peaks);
+                let annotationIconView = recordingViz.openAnnotationIconView(peaks);
             });
         })(peaks, recordingViz);
+
+
+        // load sheetMusic last
+        let sheetMusic = recordingViz.openSheetMusic(abstractMusicPartId);
+
 
     });
 

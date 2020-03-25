@@ -165,13 +165,12 @@ class SheetMusic {
 class AnnotationIconView {
 
 
-    constructor(recording, annotationSessions, peaks) {
+    constructor(recording, peaks) {
         /**
          * hold gorm-result from recording/show. TODO: check, why ${} doesn't work
          * Ajax-callbacks update local data structure as well
          */
         this.recording = recording; // form recordingId
-        this.annotationSessions = annotationSessions;
 
 
 
@@ -213,11 +212,15 @@ class AnnotationIconView {
         this.audioPlayer = document.getElementById("audio_player");
 
 
-
-        // todo: refactor
+        /**
+         * annotation session stuff
+         */
         this.drawAnnotations();
 
 
+        /**
+         * event handlers of ui elements
+         */
         $((function() {
             $("#peaksZoomIn").on("click", (function() {
                 this.zoomIn();
@@ -228,6 +231,12 @@ class AnnotationIconView {
             $("#tapTempo").on("click", (function() {
                 this.tapTempo();
             }).bind(this));
+
+            $("#sessionList").on("change", (function(e) {
+                console.log("sessionList clicked");
+                this.sessionSelected( $("#sessionList").val() );
+            }).bind(this));
+
 
         }).bind(this));
         // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
@@ -454,21 +463,6 @@ class AnnotationIconView {
 
 
 
-    /**
-     * creates session selection UI based on this.annotationSessions
-     */
-    updateSessionList() {
-
-        $("#sessionList").empty();
-        for(let i = 0; i < this.annotationSessions.length; i++) {
-            let title = this.annotationSessions[i].title.replace("Upload of ", "");
-            $("#sessionList").append('<li><button class="buttons vizPlay">' + title + '</button></li>');
-        }
-        //TODO: add actions to buttons
-
-        // this.updateBeatDescription();
-    }
-
 
 
 
@@ -478,16 +472,7 @@ class AnnotationIconView {
     }
 
 
-    drawSessions() {
-        // TODO: filter active sessions
 
-        for(let i = 0; i < this.annotationSessions.length; i++) {
-
-
-
-            this.drawAnnotations(this.annotationSessions[i]);
-        }
-    }
 
     drawAnnotation(annotation) {
 
@@ -507,6 +492,74 @@ class AnnotationIconView {
 
     }
 
+
+    sessionSelected(sessionId) {
+        console.log(sessionId);
+
+        console.log(new Date().toUTCString());
+
+        if (sessionId === null) return;
+
+        // load annotations of session
+        // load session list
+        let ajaxUrl = $("#sessionUrl").val();
+        $.ajax({
+            url:ajaxUrl,
+            data: {
+                session: sessionId
+            },
+            success: (function(resp){
+
+                if (resp["error"]) {
+                    console.log(resp["error"]);
+                    return;
+                }
+
+
+
+                console.log("session response");
+                console.log(new Date().toUTCString());
+
+
+
+                // remove old points
+                this.peaks.points.removeAll();
+                console.log("point removal done");
+                console.log(new Date().toUTCString());
+
+
+                if (typeof resp["annotations"] === "undefined") {
+                    console.log("no annotations");
+                    return;
+                }
+
+                // add new points
+                for (let i = 0; i < resp.annotations.length; i++) {
+                    let annotation = resp.annotations[i];
+
+                    // console.log(annotation.id);
+                    this.drawAnnotation(annotation);
+
+                    /*
+                    let annotations = session.annotations;
+                    for (let j = 0; j < annotations.length; j++) {
+                        this.drawAnnotation(annotations[j]);
+                    }
+
+                     */
+
+                }
+                console.log("drawing done");
+                console.log(new Date().toUTCString());
+
+
+            }).bind(this)
+        });
+
+
+
+    }
+
     drawAnnotations() {
 
 
@@ -519,10 +572,12 @@ class AnnotationIconView {
             },
             success: (function(resp){
 
-
+                // delete session List content
                 $("#sessionList option").each(function () {
                     $(this).remove();
                 });
+
+                $("#sessionList").append(new Option("Select Session...", "-1"));
 
 
                 for (let i = 0; i < resp.length; i++) {
@@ -530,16 +585,21 @@ class AnnotationIconView {
 
                     console.log(session.id);
                     console.log(session.title);
+                    // add to session List
                     $("#sessionList").append(new Option(session.title, session.id));
 
+                    /*
                     let annotations = session.annotations;
                     for (let j = 0; j < annotations.length; j++) {
                         this.drawAnnotation(annotations[j]);
                     }
 
+                     */
+
                 }
 
                 $("#sessionList").append(new Option("New Session", null));
+
 
 
                 if (resp["error"]) {
@@ -571,12 +631,11 @@ class RecordingViz {
 
     /**
      * renders annotations after peaks.js has initialized
-     * @param annotationSessions json encoded annotations
      * @param peaks instance of peaks.js
      * @returns {AnnotationIconView}
      */
-    openAnnotationIconView(annotationSessions, peaks) {
-        this.annotationIconView = new AnnotationIconView(this.recording, annotationSessions, peaks);
+    openAnnotationIconView(peaks) {
+        this.annotationIconView = new AnnotationIconView(this.recording, peaks);
         return this.annotationIconView;
     }
 

@@ -178,6 +178,22 @@ class RecordingController {
         render result as JSON
     }
 
+    def ajaxGetSession() {
+        println "ajaxGetSession"
+        println params
+
+        if (params.session == "null") {
+            render ([error: "no session"]) as JSON
+            return
+        }
+
+        Session session = Session.get(params.session)
+        if (!session) {
+            render ([error: "no session found"]) as JSON
+            return
+        }
+        render session as JSON
+    }
 
     def show(Long id) {
         def recording = Recording.get(id)
@@ -187,9 +203,10 @@ class RecordingController {
         }
 
 
-        def annotationSessions = [:]
+
 
 /*
+def annotationSessions = [:]
         if (!recording.beats) {
             println "No beats stats. crating..."
             recording.beats = recordingService.getBeats(recording)
@@ -200,11 +217,9 @@ class RecordingController {
 
         annotationSessions["averageBeats"] = recording.beats
 */
-        JSON.use("deep")
-        def annotationSessionsJson = annotationSessions as JSON
 
 
-        def model = [recording: recording, annotationSessionsJson: annotationSessionsJson]
+        def model = [recording: recording]
 
         //render model as JSON
 
