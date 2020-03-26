@@ -513,22 +513,22 @@ class AnnotationIconView {
 
         let points = this.peaks.points.getPoints();
 
-        // console.log(points);
+        do {
 
-        for (let i = 0; i < points.length; i++) {
-            // ATTENTION: we are breaking an abstraction of peaks.js here!
-            // Point ids assigned by peaks.js always start with "peaks.point".
-            // Point ids from annotations are ALWAYS just numbers, i.e., annotation.id
-            if (isNaN(points[i]._id) && points[i]._id.startsWith("peaks.point")) {
-                console.log("removing point: " + points[i]._id);
-                this.peaks.points.removeById(points[i]._id);
+            for (let i = 0; i < points.length; i++) {
+                // ATTENTION: we are breaking an abstraction of peaks.js here!
+                // Point ids assigned by peaks.js always start with "peaks.point".
+                // Point ids from annotations are ALWAYS just numbers, i.e., annotation.id
+                if (isNaN(points[i]._id) && points[i]._id.startsWith("peaks.point")) {
+                    console.log("removing point: " + points[i]._id);
+                    this.peaks.points.removeById(points[i]._id);
+                }
             }
-        }
 
-        //console.log(this.session.annotations);
+            // re-check
+            points = this.peaks.points.getPoints();
 
-        // remove any, that are not part in the original list
-
+        } while (points.length > this.session.annotations.length)
 
 
     }
