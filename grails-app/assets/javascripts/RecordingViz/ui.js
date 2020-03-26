@@ -537,12 +537,87 @@ class AnnotationIconView {
      * saves modifications on current session
      */
     saveSession() {
+
+        // new session?
+        if ($("#sessionList").val() === "null") {
+            console.log("no active session");
+            console.log("creating new session");
+
+            this.session = {
+                id: 0,
+                title: new Date().toUTCString(),
+                annotations: [],
+            };
+
+        }
+
+
         if (this.session === null) {
             console.log("no session to save ");
             return;
         }
         console.log("save session: " + this.session.title);
 
+        let points = this.peaks.points.getPoints();
+
+        do {
+
+            for (let i = 0; i < points.length; i++) {
+                // ATTENTION: we are breaking an abstraction of peaks.js here!
+                // Point ids assigned by peaks.js always start with "peaks.point".
+                // Point ids from annotations are ALWAYS just numbers, i.e., annotation.id
+                if (isNaN(points[i]._id) && points[i]._id.startsWith("peaks.point")) {
+                    console.log("saving point: " + points[i]._id);
+
+                    let searchDone = false;
+                    let exists = false;
+                    for (let j = this.session.annotations.length - 1; j >= 0 && searchDone === false; j--) {
+
+                        if (this.session.annotations[j]._id === points[i].id) {
+                            // exists
+                            exists = true;
+                            searchDone = true;
+                            console.log("existing");
+                        }
+
+                        if (typeof this.session.annotations[j]._id === "undefined"
+                            && typeof this.session.annotations[j].id === "number") {
+                            // we have scrolled before "peaks.point.id" points in object._id
+                            // and arrived at oma.annotations with object.id set to a number
+                            searchDone = true;
+                            console.log("search done at without match");
+                            //console.log(this.session.annotations[j]);
+                        }
+
+                    }
+
+                    if (exists === false) {
+                        console.log("not found: adding");
+                        //console.log(points[i]);
+                        this.session.annotations.push(points[i]);
+                    }
+
+
+                    //this.peaks.points.removeById(points[i]._id);
+                }
+            }
+
+            // re-check
+            points = this.peaks.points.getPoints();
+
+        } while (points.length > this.session.annotations.length);
+
+        // ASSERT: this.session.annotations contains all points, including added points
+
+
+        // if this.session.id == 0
+        // new session, sabe
+
+        // else
+        // existing session, update
+
+
+        console.log(this.session);
     }
 
 
