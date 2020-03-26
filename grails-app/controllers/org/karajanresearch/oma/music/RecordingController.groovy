@@ -182,7 +182,7 @@ class RecordingController {
         println "ajaxGetSession"
         println params
 
-        if (params.session == "null") {
+        if (params.session == "null" || params.session == "-1") {
             render ([error: "no session"]) as JSON
             return
         }

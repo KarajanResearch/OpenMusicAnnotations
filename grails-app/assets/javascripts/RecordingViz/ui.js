@@ -215,6 +215,7 @@ class AnnotationIconView {
         /**
          * annotation session stuff
          */
+        this.session = null;
         this.drawAnnotations();
 
 
@@ -239,6 +240,10 @@ class AnnotationIconView {
 
             $("#clearSession").on("click", (function() {
                 this.clearSession();
+            }).bind(this));
+
+            $("#saveSession").on("click", (function() {
+                this.saveSession();
             }).bind(this));
 
 
@@ -496,12 +501,47 @@ class AnnotationIconView {
 
 
     /**
-     * clears the currently selected session
+     * clears the modifications on the currently selected session
      */
     clearSession() {
 
         // remove old points
-        this.peaks.points.removeAll();
+        //
+        //
+
+        // remove points that were added to the session since last save
+
+        let points = this.peaks.points.getPoints();
+
+        // console.log(points);
+
+        for (let i = 0; i < points.length; i++) {
+            // ATTENTION: we are breaking an abstraction of peaks.js here!
+            // Point ids assigned by peaks.js always start with "peaks.point".
+            // Point ids from annotations are ALWAYS just numbers, i.e., annotation.id
+            if (isNaN(points[i]._id) && points[i]._id.startsWith("peaks.point")) {
+                console.log("removing point: " + points[i]._id);
+                this.peaks.points.removeById(points[i]._id);
+            }
+        }
+
+        //console.log(this.session.annotations);
+
+        // remove any, that are not part in the original list
+
+
+
+    }
+
+    /**
+     * saves modifications on current session
+     */
+    saveSession() {
+        if (this.session === null) {
+            console.log("no session to save ");
+            return;
+        }
+        console.log("save session: " + this.session.title);
 
     }
 
@@ -536,7 +576,10 @@ class AnnotationIconView {
 
         console.log(new Date().toUTCString());
 
-        if (sessionId === null) return;
+        //if (sessionId === "-1") return; // "Select Session"
+        if (sessionId === "-1" || sessionId === "null") {
+            this.session = null;
+        }
 
         // load annotations of session
         // load session list
@@ -554,10 +597,8 @@ class AnnotationIconView {
                 }
 
 
-
                 console.log("session response");
                 console.log(new Date().toUTCString());
-
 
 
                 // remove old points
@@ -571,6 +612,8 @@ class AnnotationIconView {
                     return;
                 }
 
+                this.session = resp;
+
                 // add new points
                 for (let i = 0; i < resp.annotations.length; i++) {
                     let annotation = resp.annotations[i];
@@ -578,13 +621,6 @@ class AnnotationIconView {
                     // console.log(annotation.id);
                     this.drawAnnotation(annotation);
 
-                    /*
-                    let annotations = session.annotations;
-                    for (let j = 0; j < annotations.length; j++) {
-                        this.drawAnnotation(annotations[j]);
-                    }
-
-                     */
 
                 }
                 console.log("drawing done");

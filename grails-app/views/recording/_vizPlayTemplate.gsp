@@ -145,7 +145,8 @@
         <select class="select vizPlay" id="sessionList">
             <option value="0">Loading...</option>
         </select>
-        <button class="buttons vizPlay" id="clearSession" title="Click to clear the modifications on the selected Session"> Clear </button>
+        <button class="buttons vizPlay" id="clearSession" title="Clear the modifications on the selected Session"> Clear </button>
+        <button class="buttons vizPlay" id="saveSession" title="Save the modifications on the selected Session"> Save </button>
     </div>
 
 </div>
