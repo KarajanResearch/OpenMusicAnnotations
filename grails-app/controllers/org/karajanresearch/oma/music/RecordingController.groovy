@@ -192,6 +192,7 @@ class RecordingController {
             render ([error: "no session found"]) as JSON
             return
         }
+        JSON.use("deep")
         render session as JSON
     }
 

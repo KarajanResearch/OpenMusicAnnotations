@@ -109,7 +109,7 @@
 <input type="hidden" id="sessionUrl" value="${createLink(controller:'recording',action:'ajaxGetSession')}">
 
 
-
+<div id="contextHelp">Space bar: play/pause; Number keys: place beat number</div>
 
 
 <div id="toolMenu">
@@ -136,15 +136,16 @@
     </div>
 
     <div id="toolMenuTempo">
-        <button class="buttons vizPlay" id="tapTempo"> Tap </button>
+        <button class="buttons vizPlay" id="tapTempo" title="Click to add Tap Annotations"> Tap </button>
         120 BPM
     </div>
 
-    <div id="sessionListContainer">
+    <div id="sessionListContainer" title="Select a Session to add Annotations">
 
         <select class="select vizPlay" id="sessionList">
             <option value="0">Loading...</option>
         </select>
+        <button class="buttons vizPlay" id="clearSession" title="Click to clear the modifications on the selected Session"> Clear </button>
     </div>
 
 </div>
@@ -236,6 +237,7 @@
                 dataUri: {
                     json: "${  createLink(controller: 'recording', action: 'getPeaksFile', id: recording?.id) }"
                 },
+                height: 200,
                 zoomLevels: [32, 64, 128, 256, 512, 1024, 2048, 4096],
                 emitCueEvents: true, /* https://github.com/bbc/peaks.js#events */
                 // Color for the zoomable waveform

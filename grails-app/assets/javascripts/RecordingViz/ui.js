@@ -237,6 +237,10 @@ class AnnotationIconView {
                 this.sessionSelected( $("#sessionList").val() );
             }).bind(this));
 
+            $("#clearSession").on("click", (function() {
+                this.clearSession();
+            }).bind(this));
+
 
         }).bind(this));
         // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
@@ -385,16 +389,38 @@ class AnnotationIconView {
 
     }
 
+
+    /**
+     * displays a temporary context help message
+     * @param message
+     */
+    contextHelp(message) {
+        $("#contextHelp").html(message);
+
+        window.setTimeout(function () {
+            $("#contextHelp").html("Space bar: play/pause; Number keys: place beat number");
+        }, 3000);
+
+    }
+
+
+
     tapTempo() {
         // record timestamp before doing any processing
         const momentOfPerception = this.peaks.player.getCurrentTime();
         this.playClick();
-        let p = this.peaks.points.add({
+
+        if ($("#sessionList").val() === "-1") {
+            console.log("no active session");
+            this.contextHelp("Select a Session to add Annotations");
+            return;
+        }
+
+        this.peaks.points.add({
             time: momentOfPerception,
             labelText:"T",
             editable: true
         });
-        console.log(p);
     }
 
 
@@ -410,9 +436,13 @@ class AnnotationIconView {
      */
     beatTyped(beatNumber, momentOfPerception) {
 
-
-        // console.log("Beat " + beatNumber + " at " + momentOfPerception);
         this.playClick();
+
+        if ($("#sessionList").val() === "-1") {
+            console.log("no active session");
+            this.contextHelp("Select a Session to add Annotations");
+            return;
+        }
 
         this.peaks.points.add({
             time: momentOfPerception,
@@ -465,13 +495,15 @@ class AnnotationIconView {
 
 
 
+    /**
+     * clears the currently selected session
+     */
+    clearSession() {
 
-
-    annotationCueEvent(annotation) {
+        // remove old points
+        this.peaks.points.removeAll();
 
     }
-
-
 
 
     drawAnnotation(annotation) {
@@ -479,6 +511,12 @@ class AnnotationIconView {
         /*
         Object { id: 29430, intValue: null, session: {…}, doubleValue: null, type: "Tap", subdivision: null, momentOfPerception: 1412.697120181, barNumber: 220, beatNumber: 4 }
          */
+
+        if (isNaN(annotation.momentOfPerception)) {
+            console.log("annotation not a number");
+            console.log(annotation);
+            return;
+        }
 
         this.peaks.points.add(
             {
@@ -586,15 +624,10 @@ class AnnotationIconView {
                     console.log(session.id);
                     console.log(session.title);
                     // add to session List
-                    $("#sessionList").append(new Option(session.title, session.id));
+                    let option = new Option("" + session.id + ": " + session.title.slice(0, 20), session.id);
+                    option.title = session.title;
+                    $("#sessionList").append(option);
 
-                    /*
-                    let annotations = session.annotations;
-                    for (let j = 0; j < annotations.length; j++) {
-                        this.drawAnnotation(annotations[j]);
-                    }
-
-                     */
 
                 }
 
