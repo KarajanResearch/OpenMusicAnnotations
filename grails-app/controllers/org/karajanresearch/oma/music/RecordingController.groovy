@@ -196,29 +196,21 @@ class RecordingController {
         render session as JSON
     }
 
+
+    def compare() {
+        println "compare"
+        println params
+
+
+        render "OK"
+    }
+
     def show(Long id) {
         def recording = Recording.get(id)
 
         if (!recording) {
             return notFound()
         }
-
-
-
-
-/*
-def annotationSessions = [:]
-        if (!recording.beats) {
-            println "No beats stats. crating..."
-            recording.beats = recordingService.getBeats(recording)
-            if (!recording.save(flush: true)) {
-                println recording.errors
-            }
-        }
-
-        annotationSessions["averageBeats"] = recording.beats
-*/
-
 
         def model = [recording: recording]
 

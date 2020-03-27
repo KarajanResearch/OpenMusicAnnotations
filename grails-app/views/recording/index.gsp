@@ -66,11 +66,44 @@
 
             <script type="application/javascript">
                 $(document).ready( function () {
+                    var events = $('#events');
                     // change html table to DataTable
-                    $('#recordingList').DataTable( {
+                    var table = $('#recordingList').DataTable( {
                             "scrollX": false,
                             stateSave: true,
-                            select: true
+                            select: {
+                                style: 'multi'
+                            },
+                            dom: 'frtiBp',
+                            buttons: [
+                                {
+                                    text: 'Compare',
+                                    action: function(e, dt, node, config) {
+                                        console.log("Compare");
+                                        var rows = table.rows( { selected: true } );
+                                        console.log(rows.data());
+
+                                        let data = rows.data();
+                                        let params = [];
+                                        for (let i = 0; i < data.length; i++) {
+                                            console.log(data[i].DT_RowId);
+                                            params.push("recording[]=" + data[i].DT_RowId);
+                                        }
+
+                                        let url = "${createLink(controller:'recording',action:'compare')}";
+
+                                        console.log(url);
+
+                                        console.log(params.join("&"));
+
+                                        url += "?" + params.join("&");
+                                        console.log(url);
+
+                                        window.location.href = encodeURI(url);
+
+                                    }
+                                }
+                            ]
                         }
                     );
                 });
