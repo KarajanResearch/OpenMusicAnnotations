@@ -3,7 +3,12 @@
 <head>
     <meta name="layout" content="main" />
     <g:set var="entityName" value="${message(code: 'recording.label', default: 'Recording')}" />
-    <title>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</title>
+    <g:if test="${this.recording.interpretation}">
+        <title>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</title>
+    </g:if>
+    <g:else>
+        <title>${this.recording.title}</title>
+    </g:else>
 </head>
 <body>
 <a href="#show-recording" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

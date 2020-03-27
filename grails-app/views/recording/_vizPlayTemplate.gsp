@@ -109,7 +109,7 @@
 <input type="hidden" id="sessionUrl" value="${createLink(controller:'recording',action:'ajaxGetSession')}">
 
 
-<div id="contextHelp">Space bar: play/pause; Number keys: place beat number</div>
+<div id="contextHelp"></div>
 
 
 <div id="toolMenu">
@@ -247,6 +247,11 @@
                 // Color for the overview waveform rectangle
                 // that shows what the zoomable view shows
                 overviewHighlightColor: 'rgb(200,42,0)',
+
+                // Color of the play head text
+                playheadTextColor: '#333333',
+                showPlayheadTime: true,
+                axisLabelColor: "#333333",
 
                 // the color of a point marker
                 pointMarkerColor: '#CCCCCC',

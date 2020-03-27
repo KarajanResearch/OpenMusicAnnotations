@@ -208,7 +208,6 @@ class AnnotationIconView {
         /**
          * interaction between audio element and rendering engine
          */
-        this.renderingDelay = 20; // ms
         this.audioPlayer = document.getElementById("audio_player");
 
 
@@ -322,6 +321,14 @@ class AnnotationIconView {
              */
             this.peaks.points.removeById(point.id);
         }).bind(this));
+
+        this.peaks.on('click', (function(point) {
+            /**
+             * points.dragstart marks point
+             */
+            //let point = this.peaks.points.getPoint(point.id);
+            console.log(point);
+        }).bind(this));
 /*
         this.peaks.on('points.mouseenter', function(point) {
             console.log('points.mouseenter:', point);
@@ -403,7 +410,7 @@ class AnnotationIconView {
         $("#contextHelp").html(message);
 
         window.setTimeout(function () {
-            $("#contextHelp").html("Space bar: play/pause; Number keys: place beat number");
+            $("#contextHelp").html("");
         }, 3000);
 
     }
