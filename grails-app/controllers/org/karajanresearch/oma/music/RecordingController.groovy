@@ -200,6 +200,10 @@ class RecordingController {
     def compare() {
         println "compare"
         List recordingIds = params['recording[]']
+        if (!recordingIds) {
+            render "no selection, go back please"
+            return
+        }
         def recordings = Recording.findAllByIdInList(recordingIds)
 
         render view: "compare", model: [recordings: recordings]

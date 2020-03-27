@@ -62,6 +62,12 @@
 
             </table>
 
+            <style>
+                #recordingList_wrapper .dt-button {
+                    margin-left: 5px;
+                    margin-top: 5px;
+                }
+            </style>
 
 
             <script type="application/javascript">

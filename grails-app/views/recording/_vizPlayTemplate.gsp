@@ -137,7 +137,6 @@
 
     <div id="toolMenuTempo">
         <button class="buttons vizPlay" id="tapTempo" title="Click to add Tap Annotations"> Tap </button>
-        120 BPM
     </div>
 
     <div id="sessionListContainer" title="Select a Session to add Annotations">
