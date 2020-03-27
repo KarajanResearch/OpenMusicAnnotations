@@ -264,7 +264,12 @@
 
 
         // load sheetMusic last
-        let sheetMusic = recordingViz.openSheetMusic(abstractMusicPartId);
+        let showSheetMusic = false;
+        if (${this.showScore}) {
+            let sheetMusic = recordingViz.openSheetMusic(abstractMusicPartId);
+        } else {
+            $("#score").remove();
+        }
 
 
     });

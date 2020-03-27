@@ -199,10 +199,24 @@ class RecordingController {
 
     def compare() {
         println "compare"
-        println params
+        List recordingIds = params['recording[]']
+        def recordings = Recording.findAllByIdInList(recordingIds)
 
+        render view: "compare", model: [recordings: recordings]
+    }
 
-        render "OK"
+    def vizPlayFrame(Long id) {
+        def recording = Recording.get(id)
+
+        if (!recording) {
+            return notFound()
+        }
+
+        def model = [recording: recording]
+
+        //render model as JSON
+
+        render view: "vizPlayFrame", model: model
     }
 
     def show(Long id) {
@@ -217,23 +231,6 @@ class RecordingController {
         //render model as JSON
 
         render view: "show", model: model
-    }
-
-
-    def vizPlay(Long id) {
-        def recording = Recording.get(id)
-
-        def annotationSessions = Session.findAllByRecording(recording)
-
-        JSON.use("deep")
-        def annotationSessionsJson = annotationSessions as JSON
-
-
-        def model = [recording: recording, annotationSessionsJson: annotationSessionsJson]
-
-        //render model as JSON
-
-        render view: "vizPlay", model: model
     }
 
 
