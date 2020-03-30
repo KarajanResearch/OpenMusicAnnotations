@@ -229,8 +229,12 @@ class RecordingController {
         if (!recording) {
             return notFound()
         }
+        def showScore = false
+        if (recording?.abstractMusicPart?.pdfLocation) {
+            showScore = true
+        }
 
-        def model = [recording: recording]
+        def model = [recording: recording, showScore: showScore]
 
         //render model as JSON
 
@@ -380,7 +384,7 @@ class RecordingController {
 
         // load audio
         if (!params.type) {
-            params.type = "wav"
+            params.type = "mp3"
         }
 
         def file = recordingService.getFile(recording, params.type)
@@ -404,13 +408,32 @@ class RecordingController {
         process.consumeProcessOutput(sout, serr)
         process.waitForOrKill(60000)
 
-        println "out> $sout err> $serr"
+        println "out> $sout"
+        println "err> $serr"
+
+        def outputLines = serr.toString().split("\n")
+        outputLines.each { String line ->
+            def lineParts = line.split(": ")
+            if (lineParts.size() == 2) {
+                def key = lineParts[0]
+                def value = lineParts[1]
+                recording.recordingData["audiowaveform-"+key] = value
+
+            } else {
+                println "cannot parse: " + line
+            }
+
+        }
+
+        // recording.recordingData["peaksOut"] = sout.toString()
+        // recording.recordingData["peaksErr"] = serr.toString()
 
 
         // save .dat and .json files containing waveform
 
         def result = recordingService.storePeaksFile(recording, new File(outputFileName))
         if (result.success) {
+            println "result.success"
             recording.recordingData["peaksFile"] = result.success
             if (!recording.save(flush: true)) {
                 println recording.errors

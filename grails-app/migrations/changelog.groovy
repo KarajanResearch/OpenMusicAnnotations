@@ -1,7 +1,9 @@
 databaseChangeLog = {
 
-    changeSet(author: "martin (generated)", id: "1584959239422-1") {
-        dropNotNullConstraint(columnDataType: "bigint", columnName: "abstract_music_part_id", tableName: "recording")
+    changeSet(author: "martin (generated)", id: "1585562734741-1") {
+        addColumn(tableName: "annotation") {
+            column(name: "string_value", type: "varchar(255)")
+        }
     }
 
 

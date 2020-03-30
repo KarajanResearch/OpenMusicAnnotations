@@ -55,6 +55,10 @@ class AnnotationApiService {
     }
 
 
+    def getSession(params) {
+        return Session.get(params.session)
+    }
+
     def findByRecording(params) {
 
         def r = Recording.get(params.recording)

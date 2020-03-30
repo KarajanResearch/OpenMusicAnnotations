@@ -2,7 +2,7 @@ package org.karajanresearch.oma.music
 
 import grails.validation.Validateable
 import org.springframework.web.multipart.MultipartFile
-
+@Deprecated
 class RecordingFileCommand implements Validateable {
 
     MultipartFile recordingFile

@@ -165,7 +165,13 @@ class ApiController {
                 // r = recordingApiService.addRecording(params)
                 r = annotationApiService.addSession(params)
                 break
+            case "get":
+                // r = recordingApiService.addRecording(params)
+                r = annotationApiService.getSession(params)
+                break
         }
+
+        JSON.use("deep")
 
         render r as JSON
     }

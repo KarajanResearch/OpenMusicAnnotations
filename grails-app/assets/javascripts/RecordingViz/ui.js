@@ -192,6 +192,7 @@ class AnnotationIconView {
          * ui elements
          */
         this.sessionList = document.getElementById("sessionList");
+        this.metronomeEnabled = true;
 
 
         /**
@@ -243,6 +244,11 @@ class AnnotationIconView {
 
             $("#saveSession").on("click", (function() {
                 this.saveSession();
+            }).bind(this));
+
+
+            $("#metronomeButton").on("click", (function() {
+                this.toggleMetronome();
             }).bind(this));
 
 
@@ -322,13 +328,13 @@ class AnnotationIconView {
             this.peaks.points.removeById(point.id);
         }).bind(this));
 
-        this.peaks.on('click', (function(point) {
-            /**
-             * points.dragstart marks point
-             */
-            //let point = this.peaks.points.getPoint(point.id);
-            console.log(point);
-        }).bind(this));
+        this.peaks.on('points.mouseenter', function(point) {
+            console.log('points.mouseenter:', point);
+        });
+
+        this.peaks.on('points.mouseleave', function(point) {
+            console.log('points.mouseleave:', point);
+        });
 /*
         this.peaks.on('points.mouseenter', function(point) {
             console.log('points.mouseenter:', point);
@@ -416,6 +422,16 @@ class AnnotationIconView {
     }
 
 
+    toggleMetronome() {
+        if (this.metronomeEnabled === true) {
+            $("#metronomeButton").html("<strike>Metronome</strike>");
+            this.metronomeEnabled = false;
+        } else {
+            $("#metronomeButton").html("Metronome");
+            this.metronomeEnabled = true;
+        }
+    }
+
 
     tapTempo() {
         // record timestamp before doing any processing
@@ -437,6 +453,7 @@ class AnnotationIconView {
 
 
     playClick() {
+        if (this.metronomeEnabled === false) return;
         this.clickPlayer.pause();
         this.clickPlayer.currentTime = 0;
         this.clickPlayer.play();

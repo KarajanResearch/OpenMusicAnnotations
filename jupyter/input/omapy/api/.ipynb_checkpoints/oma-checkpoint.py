@@ -17,6 +17,8 @@ _config = {
 }
 
 
+
+
 def login(endpoint, access_token, verify_certificate):
     """
     Authenticates to oma and sets the Authorization
@@ -166,6 +168,7 @@ def recording_get_audio(params):
 
     # bytes in response.content
     # TODO: get extension from response. all mp3 for not
+    print("cache dir", _config["cache_dir"])
     output_file_name = _config["cache_dir"] + "/recording/" + str(params["recording"]) + "." + params["type"]
     # exists in cache?
     try:

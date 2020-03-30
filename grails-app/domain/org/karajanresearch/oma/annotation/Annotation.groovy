@@ -23,6 +23,7 @@ class Annotation implements Comparable {
 
     Integer intValue
     Double doubleValue
+    String stringValue
 
     /**
      * For example. the third eighth note in bar 20 has: 20, 3, 8
@@ -50,6 +51,7 @@ class Annotation implements Comparable {
         subdivision nullable: true
         intValue nullable: true
         doubleValue nullable: true
+        stringValue nullable: true
     }
 
 
