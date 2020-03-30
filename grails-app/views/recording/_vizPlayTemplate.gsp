@@ -70,21 +70,26 @@
     #toolMenuButtons {
         display: inline-block;
         vertical-align: top;
+        background-color: #6f7443;
     }
 
     #toolMenuTimeSignature {
         display: inline-block;
         vertical-align: top;
+        background-color: #595e74;
+        height: 100%;
     }
 
     #toolMenuTempo {
         display: inline-block;
         vertical-align: top;
+        background-color: #1c7430;
     }
 
     #sessionListContainer {
         display: inline-block;
         vertical-align: top;
+        background-color: #0a6274;
     }
 
     #sessionList > li {
@@ -93,6 +98,15 @@
         zoom:1;
         *display:inline;
         /* this fix is needed for IE7- */
+    }
+
+    #textAnnotationsContainer {
+        display: inline-block;
+        vertical-align: top;
+        background-color: #1c7430;
+    }
+    #annotationText {
+        margin-left: 3px;
     }
 
 </style>
@@ -147,6 +161,14 @@
         </select>
         <button class="buttons vizPlay" id="clearSession" title="Clear the modifications on the selected Session"> Clear </button>
         <button class="buttons vizPlay" id="saveSession" title="Save the modifications on the selected Session"> Save </button>
+    </div>
+
+    <div id="textAnnotationsContainer">
+
+        <input type="text" id="annotationText" />
+
+        <button class="buttons vizPlay" id="addAnnotationsText" title="Adding Annotation Text to Current Cursor Position"> Add </button>
+
     </div>
 
 </div>

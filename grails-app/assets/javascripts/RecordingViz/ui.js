@@ -194,6 +194,10 @@ class AnnotationIconView {
         this.sessionList = document.getElementById("sessionList");
         this.metronomeEnabled = true;
 
+        // indicates, if we need the keyboard for text input
+        // false means, we use the keyboard to control vixPlayer
+        this.focusOnText = false;
+
 
         /**
          * peaks.js canvas container to add annotations
@@ -251,6 +255,15 @@ class AnnotationIconView {
                 this.toggleMetronome();
             }).bind(this));
 
+            // do this for all text inputs to indicate that you need the space bar
+            $("#annotationText").on("focus", (function () {
+                this.focusOnText = true;
+                // console.log("focus on text");
+            }).bind(this));
+            $("#annotationText").on("focusout", (function () {
+                this.focusOnText = false;
+                // console.log("focus away from text");
+            }).bind(this));
 
         }).bind(this));
         // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
@@ -263,6 +276,9 @@ class AnnotationIconView {
             // record timestamp before doing any processing
             const momentOfPerception = this.peaks.player.getCurrentTime();
 
+            // if the focus is on text inputs, we do not use the keyboard for commands
+            if (this.focusOnText === true) return;
+
             if (e.which === 32) {
                 // no scrolling
                 e.preventDefault();
@@ -274,42 +290,44 @@ class AnnotationIconView {
                 }
             }
 
+            console.log(e.which);
+
 
 
             // pressing numbers to tap beats
-            if (e.which === 49 || e.which === 97) {
+            if (e.which === 49) {
                 // "1" || numpad 1
                 this.beatTyped(1, momentOfPerception);
             }
-            if (e.which === 50 || e.which === 98) {
+            if (e.which === 50) {
                 // "2" || numpad 2
                 this.beatTyped(2, momentOfPerception);
             }
-            if (e.which === 51 || e.which === 99) {
+            if (e.which === 51) {
                 // "3" || numpad 3
                 this.beatTyped(3, momentOfPerception);
             }
-            if (e.which === 52 || e.which === 100) {
+            if (e.which === 52) {
                 // "4" || numpad 4
                 this.beatTyped(4, momentOfPerception);
             }
-            if (e.which === 53 || e.which === 101) {
+            if (e.which === 53) {
                 // "5" || numpad 5
                 this.beatTyped(5, momentOfPerception);
             }
-            if (e.which === 54 || e.which === 102) {
+            if (e.which === 54) {
                 // "6" || numpad 6
                 this.beatTyped(6, momentOfPerception);
             }
-            if (e.which === 55 || e.which === 103) {
+            if (e.which === 55) {
                 // "7" || numpad 7
                 this.beatTyped(7, momentOfPerception);
             }
-            if (e.which === 56 || e.which === 104) {
+            if (e.which === 56) {
                 // "8" || numpad 8
                 this.beatTyped(8, momentOfPerception);
             }
-            if (e.which === 57 || e.which === 105) {
+            if (e.which === 57) {
                 // "9" || numpad 9
                 this.beatTyped(9, momentOfPerception);
             }
