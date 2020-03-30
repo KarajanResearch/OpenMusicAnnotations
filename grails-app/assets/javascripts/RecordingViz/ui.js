@@ -265,6 +265,33 @@ class AnnotationIconView {
                 // console.log("focus away from text");
             }).bind(this));
 
+
+            $("#addAnnotationsText").on("click", (function() {
+
+                console.log("adding text annotations");
+                const momentOfPerception = this.peaks.player.getCurrentTime();
+
+                let textValue = $("#annotationText").val();
+
+                if (textValue === "") {
+                    console.log("empty");
+                    this.contextHelp("Enter Text Annotation first");
+                    return;
+                }
+                if ($("#sessionList").val() === "-1") {
+                    console.log("no active session");
+                    this.contextHelp("Select a Session to add Annotations");
+                    return;
+                }
+                console.log(textValue);
+                this.peaks.points.add({
+                    time: momentOfPerception,
+                    labelText: $.trim(textValue),
+                    editable: true
+                });
+
+            }).bind(this));
+
         }).bind(this));
         // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
 
