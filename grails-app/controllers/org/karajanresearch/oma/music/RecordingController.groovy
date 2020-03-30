@@ -46,11 +46,42 @@ class RecordingController {
         render (status: 200, "WAV file added")
     }
 
+    /**
+     * parameters list:
+     * params.recording
+     * params.sessionTitle
+     *
+     * @return
+     */
+    def ajaxCreateSession() {
+
+        println "ajaxCreateSession"
+        println params
+
+        def recording = Recording.get(params.recording)
+        if (!recording) return notFound()
+
+        def session = new Session(recording: recording, annotations: [], title: params.sessionTitle)
+
+
+        if (!session.save(flush: true)) {
+            println session.errors
+            render ([error: session.errors]) as JSON
+            return
+        }
+
+        println session
+
+        render session as JSON
+
+    }
+
 
     /**
      * called from recording.show view
      * @return
      */
+    @Deprecated
     def ajaxUploadTapData() {
 
         println params

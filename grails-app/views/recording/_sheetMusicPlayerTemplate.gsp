@@ -473,7 +473,7 @@
         var t0 = performance.now();
         drawAnnotations();
         var t1 = performance.now();
-        console.log("Call to drawAnnotations took " + (t1 - t0) + " milliseconds.");
+        console.log("Call to updateSessionSelect took " + (t1 - t0) + " milliseconds.");
     }
 
 

@@ -121,6 +121,7 @@
 <input type="hidden" id="beatDescriptionUrl" value="${createLink(controller:'recording',action:'getBeatDescription')}">
 <input type="hidden" id="sessionListUrl" value="${createLink(controller:'recording',action:'ajaxGetSessionList')}">
 <input type="hidden" id="sessionUrl" value="${createLink(controller:'recording',action:'ajaxGetSession')}">
+<input type="hidden" id="sessionCreateUrl" value="${createLink(controller:'recording',action:'ajaxCreateSession')}">
 
 
 <div id="contextHelp"></div>

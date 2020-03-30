@@ -220,7 +220,7 @@ class AnnotationIconView {
          * annotation session stuff
          */
         this.session = null;
-        this.drawAnnotations();
+        this.updateSessionSelect(null);
 
 
         /**
@@ -602,23 +602,60 @@ class AnnotationIconView {
 
     }
 
-    /**
-     * saves modifications on current session
-     */
-    saveSession() {
 
+
+    createSession() {
         // new session?
         if ($("#sessionList").val() === "null") {
             console.log("no active session");
             console.log("creating new session");
 
+
             this.session = {
                 id: 0,
-                title: new Date().toUTCString(),
+                title: prompt("Please enter your name", "Session at " + new Date().toUTCString()),
                 annotations: [],
             };
 
+            // add session via AJAX and update sessionList
+
+            let ajaxUrl = $("#sessionCreateUrl").val();
+            $.ajax({
+                url:ajaxUrl,
+                data: {
+                    recording: this.recording,
+                    sessionTitle: this.session.title
+                },
+                success: (function(resp){
+
+                    if (resp["error"]) {
+                        console.log(resp["error"]);
+                        return;
+                    }
+
+                    console.log("session create response");
+                    console.log(resp);
+
+                    let sessionId = resp.id;
+
+                    this.updateSessionSelect(sessionId);
+
+
+                }).bind(this)
+            });
+
+            // sessionTitle
+
         }
+
+    }
+
+
+    /**
+     * saves modifications on current session
+     */
+    saveSession() {
+
 
 
         if (this.session === null) {
@@ -725,6 +762,13 @@ class AnnotationIconView {
             this.session = null;
         }
 
+        if (sessionId === "null") {
+            // give the new session a name
+            // console.log("enabling session name Textedit");
+            this.createSession();
+            return;
+        }
+
         // load annotations of session
         // load session list
         let ajaxUrl = $("#sessionUrl").val();
@@ -778,7 +822,7 @@ class AnnotationIconView {
 
     }
 
-    drawAnnotations() {
+    updateSessionSelect(preselect) {
 
 
         // load session list
@@ -805,6 +849,10 @@ class AnnotationIconView {
                     console.log(session.title);
                     // add to session List
                     let option = new Option("" + session.id + ": " + session.title.slice(0, 20), session.id);
+                    if (preselect === session.id) {
+                        option.selected="selected";
+                    }
+
                     option.title = session.title;
                     $("#sessionList").append(option);
 
