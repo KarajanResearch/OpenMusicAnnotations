@@ -46,6 +46,31 @@ class RecordingController {
         render (status: 200, "WAV file added")
     }
 
+    def ajaxMoveAnnotation() {
+
+        println "ajaxMoveAnnotation"
+        println params
+
+        def annotation = Annotation.get(params.annotation)
+        if (!annotation) return notFound()
+
+        try {
+
+            annotation.momentOfPerception = Double.parseDouble(params.momentOfPerception)
+
+        } catch(Exception ex) {
+            def result = [error: ex.message]
+            render result as JSON
+            return
+        }
+
+        if (!annotation.save(flush: true)) {
+            def result = [error: annotation.errors]
+            render result as JSON
+        } else {
+            render annotation as JSON
+        }
+    }
 
     def ajaxDeleteAnnotation() {
         println "ajaxDeleteAnnotation"

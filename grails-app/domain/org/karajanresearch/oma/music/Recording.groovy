@@ -47,13 +47,6 @@ class Recording implements MultiTenant<Recording> {
 
 
     /**
-     * reference to pre-rendered wav forms
-     */
-    @Deprecated // use recordingData.peaksFile instead
-    RenderedWaveForm renderedWaveForm
-
-
-    /**
      * manifestation of the recording and annotation sessions
      */
     static hasMany = [digitalAudio: DigitalAudio, annotationSessions: Session]
@@ -65,7 +58,6 @@ class Recording implements MultiTenant<Recording> {
         abstractMusicPart nullable: true
         beats nullable: true
         tempo nullable: true
-        renderedWaveForm nullable: true
     }
 
     String toString() {

@@ -139,9 +139,11 @@ class ApiController {
                     return
                 }
                 break
+            /*
             case "addImage":
                 r = renderedImageApiService.addToRecording(params)
                 break
+             */
         }
 
         if (!r) {

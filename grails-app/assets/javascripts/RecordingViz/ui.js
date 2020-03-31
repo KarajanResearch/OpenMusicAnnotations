@@ -324,9 +324,8 @@ class AnnotationIconView {
                 }
             }
 
-            console.log(e.which);
-
-
+            // key pressed
+            // console.log(e.which);
 
             // pressing numbers to tap beats
             if (e.which === 49) {
@@ -407,13 +406,14 @@ class AnnotationIconView {
 
         }).bind(this));
 
-        this.peaks.on('points.mouseenter', function(point) {
+        this.peaks.on('points.mouseenter', (function(point) {
             // TODO: console.log('points.mouseenter:', point);
-        });
+        }).bind(this));
 
-        this.peaks.on('points.mouseleave', function(point) {
+        this.peaks.on('points.dragend', (function(point) {
             // TODO: console.log('points.mouseleave:', point);
-        });
+            this.updateAnnotationMoment(point);
+        }).bind(this));
 /*
         this.peaks.on('points.mouseenter', function(point) {
             console.log('points.mouseenter:', point);
@@ -666,6 +666,36 @@ class AnnotationIconView {
 
     }
 
+
+    updateAnnotationMoment(point) {
+
+
+        console.log(point);
+
+
+        let ajaxUrl = $("#annotationMoveUrl").val();
+        $.ajax({
+            url:ajaxUrl,
+            data: {
+                annotation: point._id,
+                momentOfPerception: point._time
+            },
+            success: (function(resp){
+
+                if (resp["error"]) {
+                    console.log(resp["error"]);
+                    return;
+                }
+
+                console.log("updateAnnotationMoment response");
+                console.log(resp);
+
+
+            }).bind(this)
+        });
+
+
+    }
 
 
     createSession() {

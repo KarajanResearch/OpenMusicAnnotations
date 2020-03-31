@@ -124,6 +124,7 @@
 <input type="hidden" id="sessionDeleteUrl" value="${createLink(controller:'recording',action:'ajaxDeleteSession')}">
 <input type="hidden" id="annotationCreateUrl" value="${createLink(controller:'recording',action:'ajaxCreateAnnotation')}">
 <input type="hidden" id="annotationDeleteUrl" value="${createLink(controller:'recording',action:'ajaxDeleteAnnotation')}">
+<input type="hidden" id="annotationMoveUrl" value="${createLink(controller:'recording',action:'ajaxMoveAnnotation')}">
 
 
 <div id="contextHelp"></div>

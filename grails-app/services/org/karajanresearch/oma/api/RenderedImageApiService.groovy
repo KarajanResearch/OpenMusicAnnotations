@@ -37,6 +37,7 @@ class RenderedImageApiService {
 
 
 
+    @Deprecated
     def addToRecording(params) {
 
 
