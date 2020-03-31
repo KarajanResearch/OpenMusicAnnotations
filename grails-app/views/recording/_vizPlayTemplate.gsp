@@ -77,7 +77,6 @@
         display: inline-block;
         vertical-align: top;
         background-color: #595e74;
-        height: 100%;
     }
 
     #toolMenuTempo {
@@ -122,6 +121,9 @@
 <input type="hidden" id="sessionListUrl" value="${createLink(controller:'recording',action:'ajaxGetSessionList')}">
 <input type="hidden" id="sessionUrl" value="${createLink(controller:'recording',action:'ajaxGetSession')}">
 <input type="hidden" id="sessionCreateUrl" value="${createLink(controller:'recording',action:'ajaxCreateSession')}">
+<input type="hidden" id="sessionDeleteUrl" value="${createLink(controller:'recording',action:'ajaxDeleteSession')}">
+<input type="hidden" id="annotationCreateUrl" value="${createLink(controller:'recording',action:'ajaxCreateAnnotation')}">
+<input type="hidden" id="annotationDeleteUrl" value="${createLink(controller:'recording',action:'ajaxDeleteAnnotation')}">
 
 
 <div id="contextHelp"></div>
@@ -160,8 +162,9 @@
         <select class="select vizPlay" id="sessionList">
             <option value="0">Loading...</option>
         </select>
-        <button class="buttons vizPlay" id="clearSession" title="Clear the modifications on the selected Session"> Clear </button>
+        <button class="buttons vizPlay" id="clearSession" title="Clear the modifications on the selected Session"> Reset </button>
         <button class="buttons vizPlay" id="saveSession" title="Save the modifications on the selected Session"> Save </button>
+        <button class="buttons vizPlay" id="deleteSession" title="Delete the selected Session"> Delete </button>
     </div>
 
     <div id="textAnnotationsContainer">

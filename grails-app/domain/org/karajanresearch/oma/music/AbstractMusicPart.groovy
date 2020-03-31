@@ -66,7 +66,9 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
 
     String toString() {
 
-        return abstractMusic.toString() + ", starting at bar " + sprintf("%.0f", barNumberOffset != null ? barNumberOffset : 1.0 ) + ", " + getTitle()
+        return abstractMusic.toString()
+
+        //return abstractMusic.toString() + ", starting at bar " + sprintf("%.0f", barNumberOffset != null ? barNumberOffset : 1.0 ) + ", " + getTitle()
     }
 
     String getTitle() {

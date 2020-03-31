@@ -46,6 +46,64 @@ class RecordingController {
         render (status: 200, "WAV file added")
     }
 
+
+    def ajaxDeleteAnnotation() {
+        println "ajaxDeleteAnnotation"
+        println params
+
+        def annotation = Annotation.get(params.annotation)
+
+        if (!annotation) return notFound()
+
+        /*
+        def session = annotation.session
+        session.removeFromAnnotations(annotation)
+        if (!session.save(flush: true)) {
+            println session.errors
+        }
+
+
+         */
+        // FIXME: delete does not work
+        try {
+            annotation.delete(flush: true)
+        } catch (Exception ex) {
+            println ex.message
+        }
+
+        def result = [success: "Alright"]
+        render result as JSON
+
+
+
+    }
+
+    def ajaxCreateAnnotation() {
+        println "ajaxCreateAnnotation"
+        println params
+
+        def session = Session.get(params.session)
+        if (!session) {
+            render (status: 404, "Segment not found")
+            return
+        }
+
+        String label = params.text
+
+        // switch on label to detect type
+
+        Double t = Double.parseDouble(params.momentOfPerception)
+
+        def a = new Annotation(type: "beat", session: session, stringValue: label, momentOfPerception: t)
+        if (!a.save(flush: true)) {
+            println a.errors
+            render ([error: a.errors]) as JSON
+            return
+        }
+
+        render a as JSON
+    }
+
     /**
      * parameters list:
      * params.recording
@@ -76,6 +134,27 @@ class RecordingController {
 
     }
 
+    def ajaxDeleteSession() {
+        println "ajaxCreateSession"
+        println params
+
+        def session = Session.get(params.session)
+        if (!session) return notFound()
+
+
+        try {
+            session.delete(flush: true)
+        } catch (Exception ex) {
+            def result = [error: ex.message]
+            render result as JSON
+            return
+        }
+
+
+        def result = [success: "Alright"]
+        render result as JSON
+
+    }
 
     /**
      * called from recording.show view

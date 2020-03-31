@@ -238,7 +238,6 @@ class AnnotationIconView {
             }).bind(this));
 
             $("#sessionList").on("change", (function(e) {
-                console.log("sessionList clicked");
                 this.sessionSelected( $("#sessionList").val() );
             }).bind(this));
 
@@ -289,6 +288,14 @@ class AnnotationIconView {
                     labelText: $.trim(textValue),
                     editable: true
                 });
+
+            }).bind(this));
+
+            $("#deleteSession").on("click", (function() {
+
+                console.log("delete session");
+                this.deleteCurrentSession();
+
 
             }).bind(this));
 
@@ -371,14 +378,41 @@ class AnnotationIconView {
              * double clicking a point removes point
              */
             this.peaks.points.removeById(point.id);
+
+            if (typeof point.id === "number") {
+                let ajaxUrl = $("#annotationDeleteUrl").val();
+                $.ajax({
+                    url:ajaxUrl,
+                    data: {
+                        annotation: point.id
+                    },
+                    success: (function(resp){
+
+                        if (resp["error"]) {
+                            console.log(resp["error"]);
+                            return;
+                        }
+
+                        console.log(resp);
+
+
+
+                    }).bind(this)
+                });
+
+
+
+            }
+
+
         }).bind(this));
 
         this.peaks.on('points.mouseenter', function(point) {
-            console.log('points.mouseenter:', point);
+            // TODO: console.log('points.mouseenter:', point);
         });
 
         this.peaks.on('points.mouseleave', function(point) {
-            console.log('points.mouseleave:', point);
+            // TODO: console.log('points.mouseleave:', point);
         });
 /*
         this.peaks.on('points.mouseenter', function(point) {
@@ -568,6 +602,36 @@ class AnnotationIconView {
 
 
 
+    deleteCurrentSession() {
+        if (this.session === null) {
+            console.log("no session to delete ");
+            return;
+        }
+
+        let ajaxUrl = $("#sessionDeleteUrl").val();
+        $.ajax({
+            url:ajaxUrl,
+            data: {
+                session: this.session.id
+            },
+            success: (function(resp){
+
+                if (resp["error"]) {
+                    console.log(resp["error"]);
+                    return;
+                }
+
+                console.log("session delete response");
+                console.log(resp);
+
+                this.updateSessionSelect(null);
+
+
+            }).bind(this)
+        });
+
+
+    }
 
     /**
      * clears the modifications on the currently selected session
@@ -610,10 +674,11 @@ class AnnotationIconView {
             console.log("no active session");
             console.log("creating new session");
 
+            let title = prompt("Title of your Session", this.currentDateTime());
 
             this.session = {
                 id: 0,
-                title: prompt("Please enter your name", "Session at " + new Date().toUTCString()),
+                title: title,
                 annotations: [],
             };
 
@@ -624,7 +689,7 @@ class AnnotationIconView {
                 url:ajaxUrl,
                 data: {
                     recording: this.recording,
-                    sessionTitle: this.session.title
+                    sessionTitle: title
                 },
                 success: (function(resp){
 
@@ -656,8 +721,6 @@ class AnnotationIconView {
      */
     saveSession() {
 
-
-
         if (this.session === null) {
             console.log("no session to save ");
             return;
@@ -665,6 +728,8 @@ class AnnotationIconView {
         console.log("save session: " + this.session.title);
 
         let points = this.peaks.points.getPoints();
+
+        let addedPoints = [];
 
         do {
 
@@ -701,6 +766,7 @@ class AnnotationIconView {
                         console.log("not found: adding");
                         //console.log(points[i]);
                         this.session.annotations.push(points[i]);
+                        addedPoints.push(points[i]);
                     }
 
 
@@ -716,14 +782,41 @@ class AnnotationIconView {
         // ASSERT: this.session.annotations contains all points, including added points
 
 
-        // if this.session.id == 0
-        // new session, sabe
-
         // else
         // existing session, update
 
+        console.log(addedPoints);
+        let ajaxUrl = $("#annotationCreateUrl").val();
 
-        console.log(this.session);
+        for (let i = 0; i < addedPoints.length; i++) {
+
+            console.log("annotation create");
+            console.log(this.session.id);
+
+            $.ajax({
+                url:ajaxUrl,
+                data: {
+                    session: this.session.id,
+                    momentOfPerception: addedPoints[i]["_time"],
+                    text: addedPoints[i]["_labelText"]
+                },
+                success: (function(resp){
+
+                    if (resp["error"]) {
+                        console.log(resp["error"]);
+                        return;
+                    }
+
+                    console.log(resp);
+
+                }).bind(this)
+            });
+
+
+        }
+
+        // save via AJAX!
+
     }
 
 
@@ -739,13 +832,21 @@ class AnnotationIconView {
             return;
         }
 
+        // TODO: proper label creation based on type
+        let labelText = "";
+        if (annotation.barNumber === null) {
+            labelText = annotation.stringValue;
+        } else {
+            labelText = annotation.barNumber + ":" + annotation.beatNumber;
+        }
+
         this.peaks.points.add(
             {
                 time: annotation.momentOfPerception,
                 editable: true,
                 // color: '#AAAAAA',
                 id: annotation.id,
-                labelText: "" + annotation.barNumber + ":" + annotation.beatNumber
+                labelText: labelText
             }
         );
 
@@ -753,10 +854,6 @@ class AnnotationIconView {
 
 
     sessionSelected(sessionId) {
-        console.log(sessionId);
-
-        console.log(new Date().toUTCString());
-
         //if (sessionId === "-1") return; // "Select Session"
         if (sessionId === "-1" || sessionId === "null") {
             this.session = null;
@@ -768,6 +865,8 @@ class AnnotationIconView {
             this.createSession();
             return;
         }
+
+        this.contextHelp("Loading Session");
 
         // load annotations of session
         // load session list
@@ -785,14 +884,9 @@ class AnnotationIconView {
                 }
 
 
-                console.log("session response");
-                console.log(new Date().toUTCString());
-
 
                 // remove old points
                 this.peaks.points.removeAll();
-                console.log("point removal done");
-                console.log(new Date().toUTCString());
 
 
                 if (typeof resp["annotations"] === "undefined") {
@@ -811,15 +905,35 @@ class AnnotationIconView {
 
 
                 }
-                console.log("drawing done");
-                console.log(new Date().toUTCString());
-
 
             }).bind(this)
         });
 
 
 
+    }
+
+    /**
+     * date formatting helper
+     * @param num
+     * @param size
+     * @returns {string}
+     */
+    padNumber(num, size) {
+        var s = num+"";
+        while (s.length < size) s = "0" + s;
+        return s;
+    }
+    currentDateTime() {
+        const d = new Date();
+        const ye = new Intl.DateTimeFormat('de', { year: 'numeric' }).format(d);
+        const mo = new Intl.DateTimeFormat('de', { month: 'numeric' }).format(d);
+        const da = new Intl.DateTimeFormat('de', { day: 'numeric' }).format(d);
+        const h = new Intl.DateTimeFormat('de', { hour: '2-digit' }).format(d).replace(" Uhr", "");
+        const m = new Intl.DateTimeFormat('de', { minute: 'numeric' }).format(d);
+        const s = new Intl.DateTimeFormat('de', { second: 'numeric' }).format(d);
+
+        return `${ye}-${this.padNumber(mo, 2)}-${this.padNumber(da, 2)} ${this.padNumber(h, 2)}:${this.padNumber(m, 2)}:${this.padNumber(s, 2)}`;
     }
 
     updateSessionSelect(preselect) {
@@ -845,15 +959,16 @@ class AnnotationIconView {
                 for (let i = 0; i < resp.length; i++) {
                     let session = resp[i];
 
-                    console.log(session.id);
-                    console.log(session.title);
+                    // console.log(session.id);
+                    // console.log(session.title);
                     // add to session List
-                    let option = new Option("" + session.id + ": " + session.title.slice(0, 20), session.id);
+                    let option = new Option(session.title.slice(0, 32), session.id);
                     if (preselect === session.id) {
                         option.selected="selected";
+                        this.sessionSelected(session.id);
                     }
 
-                    option.title = session.title;
+                    option.title = session.title + " (" + session.id + ")";
                     $("#sessionList").append(option);
 
 

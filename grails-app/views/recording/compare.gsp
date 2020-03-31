@@ -16,7 +16,7 @@
 </div>
 <div id="compare-recording" class="content scaffold-show" role="main">
 
-    <h1>Compare Recordings. <a href="#">Create Computational Musicology Notebook (todo: implement)</a></h1>
+    <h1>Compare Recordings. <a href="#">Create Computational Musicology Notebook</a></h1>
 
 
     <g:if test="${flash.message}">
