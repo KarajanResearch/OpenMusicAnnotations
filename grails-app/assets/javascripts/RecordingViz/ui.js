@@ -624,6 +624,8 @@ class AnnotationIconView {
                 console.log("session delete response");
                 console.log(resp);
 
+                this.peaks.points.removeAll();
+
                 this.updateSessionSelect(null);
 
 

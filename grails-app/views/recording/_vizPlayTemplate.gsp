@@ -277,7 +277,7 @@
                 overviewHighlightColor: 'rgb(200,42,0)',
 
                 // Color of the play head text
-                playheadTextColor: '#333333',
+                playheadTextColor: '#666666',
                 showPlayheadTime: true,
                 axisLabelColor: "#333333",
 
