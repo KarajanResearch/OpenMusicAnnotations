@@ -648,9 +648,11 @@ class RecordingController {
 
         if (!file) return notFound()
 
+        String fileName = recording.id.toString() + "." + params.type
+
 
         response.setContentType("APPLICATION/OCTET-STREAM")
-        response.setHeader("Content-Disposition", "inline;Filename=\"${file.name}\"")
+        response.setHeader("Content-Disposition", "inline;Filename=\"${fileName}\"")
         response.setHeader("Content-Transfer-Encoding", "binary")
         response.setHeader("Content-Length", file.size().toString())
 
