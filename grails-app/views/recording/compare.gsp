@@ -39,7 +39,18 @@
         <g:each var="recording" in="${this.recordings}" >
 
             <div class="h_iframe">
-                <h2>${recording.title}</h2>
+
+                <h2>
+                    <g:if test="${recording.interpretation}">
+                        ${recording.interpretation}
+                    </g:if>
+                    <g:if test="${recording.interpretation}">
+                        ${recording.interpretation.tokenizeParts()}
+                    </g:if>
+                    (${recording.title})
+                </h2>
+
+
                 <iframe height="480" width="100%" allowfullscreen frameborder="0" src="${createLink(controller: "recording", action: "vizPlayFrame", id: recording.id)}">
 
                 </iframe>

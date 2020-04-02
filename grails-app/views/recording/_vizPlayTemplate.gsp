@@ -210,8 +210,8 @@
 <div id="score">
     <h2>Score</h2>
     <div class="buttons">
-        <button class="buttons vizPlay" id="score_zoom_out"> Zoom In </button>
-        <button class="buttons vizPlay" id="score_zoom_in"> Zoom Out </button>
+        <button class="buttons vizPlay" id="score_zoom_in"> Zoom In </button>
+        <button class="buttons vizPlay" id="score_zoom_out"> Zoom Out </button>
 
         <span id="page_count"></span>
         <button class="buttons vizPlay" id="prev_page"> Prev. </button>

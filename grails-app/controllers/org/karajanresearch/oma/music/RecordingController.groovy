@@ -632,7 +632,7 @@ class RecordingController {
 
     def getAudioFile(Long id) {
 
-        println "getAudioFile"
+        println "getAudioFile " + new Date()
         println params
 
 
@@ -651,16 +651,33 @@ class RecordingController {
         String fileName = recording.id.toString() + "." + params.type
 
 
+        println "Response Buffer Size: " +  response.getBufferSize()
+//        response.setBufferSize(1024 * 1024)
+        // Integer fileSize = file.size()
+        // response.setBufferSize(fileSize)
+
+        // println "Increased Buffer Size: " +  response.getBufferSize()
+        println "File size: " + file.size()
+
         response.setContentType("APPLICATION/OCTET-STREAM")
         response.setHeader("Content-Disposition", "inline;Filename=\"${fileName}\"")
         response.setHeader("Content-Transfer-Encoding", "binary")
         response.setHeader("Content-Length", file.size().toString())
 
-
         def outputStream = response.getOutputStream()
-        outputStream << file.newInputStream()
-        outputStream.flush()
-        outputStream.close()
+        try {
+            //def outputStream = response.getOutputStream()
+            outputStream << file.newInputStream()
+            outputStream.flush()
+
+        } catch (Exception ex) {
+            println ex.message
+            println ex.stackTrace.toString()
+        } finally {
+
+            outputStream.close()
+        }
+        println "delivery done: " + fileName + " " + new Date()
 
     }
 

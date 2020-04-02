@@ -124,9 +124,25 @@ class RecordingService {
     File getFile(Recording recording, String type) {
 
 
+        File file
 
-        File file = File.createTempFile("recording-" + recording.id.toString() + "-","."+type)
+        if (recording.recordingData["tempFile-"+type]) {
 
+            def cachedTempFileName = recording.recordingData["tempFile-"+type]
+
+            file = new File(cachedTempFileName)
+
+            if (file.exists()) {
+                println "temp file cache hit"
+                println file.name
+                return file
+            } else {
+                // temp file invalid
+            }
+
+        }
+
+        // cache miss
 
         if (!recording.digitalAudio || !recording.digitalAudio[0] || !recording.digitalAudio[0].location) return null
 
@@ -148,10 +164,19 @@ class RecordingService {
         println keyPath
         println bucket
 
+        file = File.createTempFile("recording-" + recording.id.toString() + "-","."+type)
+
 
         def f = storageBackendService.getFile(bucket, keyPath, file.absolutePath)
 
-        println f
+        println "tempfile " + file.absolutePath
+
+        recording.recordingData["tempFile-"+type] = file.absolutePath
+        if (!recording.save(flush: true)) {
+            println recording.errors
+        }
+
+        println "result of bucket.getFile: " + f
 
         return file
     }
