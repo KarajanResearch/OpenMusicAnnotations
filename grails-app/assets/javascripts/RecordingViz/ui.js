@@ -215,6 +215,24 @@ class AnnotationIconView {
          */
         this.audioPlayer = document.getElementById("audio_player");
 
+        // TODO: make sure we load the whole file!!!
+        this.audioPlayer.oncanplay = (function(){
+            this.contextHelp("Loading Audio...");
+            console.log("hello canplay");
+            console.log("duration:" + this.audioPlayer.duration);
+            //this.audioPlayer.currentTime = this.audioPlayer.duration;
+
+        }).bind(this);
+        this.audioPlayer.load();
+
+        this.audioPlayer.onsuspend = (function(){
+            console.log("onsuspend");
+
+            console.log("duration:" + this.audioPlayer.duration);
+            this.audioPlayer.currentTime = this.audioPlayer.duration;
+
+        }).bind(this);
+
 
         /**
          * annotation session stuff
@@ -227,6 +245,11 @@ class AnnotationIconView {
          * event handlers of ui elements
          */
         $((function() {
+            $("#reload").on("click", (function() {
+                console.log("reload");
+                location.reload();
+            }).bind(this));
+
             $("#peaksZoomIn").on("click", (function() {
                 this.zoomIn();
             }).bind(this));
@@ -298,6 +321,9 @@ class AnnotationIconView {
 
 
             }).bind(this));
+
+
+
 
         }).bind(this));
         // https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback

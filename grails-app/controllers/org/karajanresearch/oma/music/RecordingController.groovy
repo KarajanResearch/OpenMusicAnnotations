@@ -339,7 +339,9 @@ class RecordingController {
             render "no selection, go back please"
             return
         }
-        def recordings = Recording.findAllByIdInList(recordingIds)
+        def recordings = Recording.findAllByIdInList(recordingIds).sort {
+            it.title
+        }
 
         render view: "compare", model: [recordings: recordings]
     }
@@ -528,6 +530,7 @@ class RecordingController {
 
         println file.absolutePath
 
+        // TODO: add to docker
         // feed to audiowaveform
         // https://github.com/bbc/audiowaveform
 

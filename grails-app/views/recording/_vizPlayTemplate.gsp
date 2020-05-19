@@ -131,10 +131,12 @@
 
 
 <div id="toolMenu">
-    <audio id="audio_player" controls preload="auto">
+    <audio id="audio_player" controls preload="none">
         <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "wav"]) }" type="audio/wav" />
         <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }" type="audio/mpeg" />
     Your browser does not support the audio element. </audio>
+
+    <button class="buttons vizPlay" id="reload">reload</button>
 
     <div id="toolMenuButtons">
         <button class="buttons vizPlay" id="peaksZoomIn"> Zoom In </button>
@@ -235,6 +237,7 @@
     $(document).ready(function(){
 
         console.log("ready");
+
 
         /** get data from gsp rendering **/
         let recordingId = $("#recordingId").val();

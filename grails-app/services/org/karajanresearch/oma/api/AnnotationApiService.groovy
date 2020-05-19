@@ -59,6 +59,11 @@ class AnnotationApiService {
         return Session.get(params.session)
     }
 
+    /**
+     * all annotations for a given recording
+     * @param params
+     * @return
+     */
     def findByRecording(params) {
 
         def r = Recording.get(params.recording)
@@ -76,8 +81,10 @@ class AnnotationApiService {
                     barNumber: annotation.barNumber,
                     beatNumber: annotation.beatNumber,
                     intValue: annotation.intValue,
+                    stringValue: annotation.stringValue,
                     subDivision: annotation.subdivision,
                     annotationSession: annotation.session.id,
+                    sessionName: annotation.session.title,
                     momentOfPerception: annotation.momentOfPerception
                 ]
             })
