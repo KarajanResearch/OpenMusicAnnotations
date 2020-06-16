@@ -508,10 +508,15 @@ class RecordingController {
         //response.setHeader("Content-Length", file.size().toString())
 
 
-        def outputStream = response.getOutputStream()
-        outputStream << file.newInputStream()
-        outputStream.flush()
-        outputStream.close()
+        try {
+            def outputStream = response.getOutputStream()
+            outputStream << file.newInputStream()
+            outputStream.flush()
+            outputStream.close()
+        } catch (Exception ex) {
+            println ex.message
+        }
+
 
     }
 
@@ -643,15 +648,11 @@ class RecordingController {
 
         if (!recording) return notFound()
 
-        if (!params.type) {
-            params.type = "wav"
-        }
 
         def file = recordingService.getFile(recording, params.type)
 
         if (!file) return notFound()
 
-        String fileName = recording.id.toString() + "." + params.type
 
 
         println "Response Buffer Size: " +  response.getBufferSize()
@@ -675,6 +676,7 @@ class RecordingController {
             def rangeKeyParts = range.tokenize("=")
             def rangeParts = rangeKeyParts[1].tokenize("-")
 
+            // TODO: fix partial streaming, if necessary
             if (rangeParts.size() > 1) {
                 Integer startByte = Integer.parseInt(rangeParts[0])
                 Integer endByte = Integer.parseInt(rangeParts[1])
@@ -706,7 +708,6 @@ class RecordingController {
             }
 
         }
-        println "delivery done: " + fileName + " " + new Date()
 
     }
 
@@ -814,6 +815,34 @@ class RecordingController {
             '*' { respond recording, [status: CREATED] }
         }
     }
+
+    def delete(Long id) {
+        if (id == null) {
+            notFound()
+            return
+        }
+
+        def recording = Recording.get(id)
+        if (!recording) return notFound()
+
+        recording.digitalAudio.each {
+            it.delete()
+            println "delete audio"
+        }
+
+        recording.delete(flush: true)
+
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'recording.label', default: 'Recording'), id])
+                redirect action:"index", method:"GET"
+            }
+            '*'{ render status: NO_CONTENT }
+        }
+    }
+
+
 
     /*
 
