@@ -48,6 +48,7 @@
                 $("#recording-dropzone").dropzone({
                     url: "/recording/addDigitalAudio/${this.recording.id}",
                     acceptedFiles: "audio/wave,audio/wav,audio/x-wav,audio/x-pn-wav",
+                    timeout: 3600000,
                     accept: function(file, done) {
                         console.log("accept");
                         console.log(file);
