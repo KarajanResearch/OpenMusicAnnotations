@@ -97,6 +97,27 @@ class RecordingService {
 
     File getPeaksFile(Recording recording) {
 
+
+        // select digital audio. defaults to the first
+        DigitalAudio digitalAudio = recording.digitalAudio[0]
+
+
+        switch (Environment.current) {
+            case Environment.DEVELOPMENT:
+                def path = grailsApplication.config.getProperty("oma.dataDirectory.development")
+                path = path + "/digitalAudio/${digitalAudio.id}"
+                // create beats file
+                def peaksFile = new File(path, "${digitalAudio.id}-peaks.json")
+                return peaksFile
+                break
+            case Environment.PRODUCTION:
+                path = grailsApplication.config.getProperty("oma.dataDirectory.production")
+                break
+        }
+
+
+
+
         def location = recording.recordingData["peaksFile"]
         if (!location) return null
 

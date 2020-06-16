@@ -217,7 +217,7 @@ class AnnotationIconView {
 
         // TODO: make sure we load the whole file!!!
         this.audioPlayer.oncanplay = (function(){
-            this.contextHelp("Loading Audio...");
+            //this.contextHelp("Loading Audio...");
             console.log("hello canplay");
             console.log("duration:" + this.audioPlayer.duration);
             //this.audioPlayer.currentTime = this.audioPlayer.duration;
@@ -225,14 +225,19 @@ class AnnotationIconView {
         }).bind(this);
         this.audioPlayer.load();
 
+        /*
         this.audioPlayer.onsuspend = (function(){
             console.log("onsuspend");
 
             console.log("duration:" + this.audioPlayer.duration);
-            this.audioPlayer.currentTime = this.audioPlayer.duration;
 
+            if (isNaN(this.audioPlayer.duration)) {
+                this.audioPlayer.currentTime = 0.0;
+            } else {
+                this.audioPlayer.currentTime = this.audioPlayer.duration;
+            }
         }).bind(this);
-
+        */
 
         /**
          * annotation session stuff
@@ -340,7 +345,7 @@ class AnnotationIconView {
             if (this.focusOnText === true) return;
 
             if (e.which === 32) {
-                // no scrolling
+                // no scrolling on space bar
                 e.preventDefault();
 
                 if (this.audioPlayer.paused) {

@@ -662,10 +662,30 @@ class RecordingController {
         // println "Increased Buffer Size: " +  response.getBufferSize()
         println "File size: " + file.size()
 
-        response.setContentType("APPLICATION/OCTET-STREAM")
-        response.setHeader("Content-Disposition", "inline;Filename=\"${fileName}\"")
-        response.setHeader("Content-Transfer-Encoding", "binary")
+        response.setContentType("audio/wav")
         response.setHeader("Content-Length", file.size().toString())
+
+        // https://stackoverflow.com/questions/46310388/streaming-mp4-requests-via-http-with-range-header-in-grails
+
+        println "request header:"
+        def range = request.getHeader("range")
+        if (range) {
+            println range
+
+            def rangeKeyParts = range.tokenize("=")
+            def rangeParts = rangeKeyParts[1].tokenize("-")
+
+            if (rangeParts.size() > 1) {
+                Integer startByte = Integer.parseInt(rangeParts[0])
+                Integer endByte = Integer.parseInt(rangeParts[1])
+                //Integer contentLength = (endByte)
+            }
+        }
+
+        response.setHeader( 'Accept-Ranges', 'bytes')
+
+        //response.setHeader("Content-Disposition", "inline;Filename=\"${fileName}\"")
+        //response.setHeader("Content-Transfer-Encoding", "binary")
 
         def outputStream = response.getOutputStream()
         try {
@@ -678,7 +698,13 @@ class RecordingController {
             println ex.stackTrace.toString()
         } finally {
 
-            outputStream.close()
+            try {
+                outputStream.close()
+            } catch (Exception ex) {
+                println "Outputstream not closed properly"
+                println ex.message
+            }
+
         }
         println "delivery done: " + fileName + " " + new Date()
 
