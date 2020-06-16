@@ -125,3 +125,8 @@ sourceSets {
         }
     }
 }
+
+// https://stackoverflow.com/questions/18423932/where-to-add-ebextensions-in-a-war
+war {
+    from('./src/main/resources/.ebextensions') { into '.ebextensions' }
+}
