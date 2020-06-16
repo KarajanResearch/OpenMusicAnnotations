@@ -644,7 +644,7 @@ class RecordingController {
         if (!recording) return notFound()
 
         if (!params.type) {
-            params.type = "mp3"
+            params.type = "wav"
         }
 
         def file = recordingService.getFile(recording, params.type)

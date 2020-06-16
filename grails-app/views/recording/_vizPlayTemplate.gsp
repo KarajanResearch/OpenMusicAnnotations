@@ -133,10 +133,14 @@
 <div id="toolMenu">
     <audio id="audio_player" controls preload="none">
         <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "wav"]) }" type="audio/wav" />
+        <!--
         <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }" type="audio/mpeg" />
+        -->
     Your browser does not support the audio element. </audio>
 
+    <!--
     <button class="buttons vizPlay" id="reload">reload</button>
+    -->
 
     <div id="toolMenuButtons">
         <button class="buttons vizPlay" id="peaksZoomIn"> Zoom In </button>
@@ -144,6 +148,7 @@
 
     </div>
 
+    <!--
     <div id="toolMenuTimeSignature">
 
         <select class="select vizPlay" id="timeSignatureList">
@@ -152,8 +157,8 @@
             <option value="2">4/4</option>
             <option value="3">6/4</option>
         </select>
-
     </div>
+    -->
 
     <div id="toolMenuTempo">
         <button class="buttons vizPlay" id="tapTempo" title="Click to add Tap Annotations"> Tap </button>
