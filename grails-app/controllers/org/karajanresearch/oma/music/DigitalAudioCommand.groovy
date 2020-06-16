@@ -22,7 +22,7 @@ class DigitalAudioCommand implements Validateable {
                 return false
             }
 
-            ['wav', "mp3"].any { extension ->
+            ['wav'].any { extension ->
                 val.originalFilename?.toLowerCase()?.endsWith(extension)
             }
         }

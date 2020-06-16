@@ -40,7 +40,6 @@
 
 
             </div>
-            ${this.recording.id}
 
 
             <script type="application/javascript">
@@ -48,7 +47,7 @@
 
                 $("#recording-dropzone").dropzone({
                     url: "/recording/addDigitalAudio/${this.recording.id}",
-                    acceptedFiles: "audio/wave,audio/wav,audio/x-wav,audio/x-pn-wav,audio/mpeg",
+                    acceptedFiles: "audio/wave,audio/wav,audio/x-wav,audio/x-pn-wav",
                     accept: function(file, done) {
                         console.log("accept");
                         console.log(file);
@@ -68,14 +67,18 @@
 
             <g:form resource="${this.recording}" method="POST">
 
-                <!--
+
+
+
+
+
                 <fieldset class="form">
-                    <f:all bean="recording"/>
+                    <f:all bean="recording" order="title"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
                 </fieldset>
-                -->
+
 
 
             </g:form>

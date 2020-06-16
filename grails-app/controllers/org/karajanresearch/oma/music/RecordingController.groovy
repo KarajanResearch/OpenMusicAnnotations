@@ -747,7 +747,7 @@ class RecordingController {
 
     def create() {
 
-        Recording dummyRecording = new Recording(title: "dummy")
+        Recording dummyRecording = new Recording(title: "Add a Title...")
 
 
         if (!dummyRecording.save(flush: true)) {
@@ -757,6 +757,37 @@ class RecordingController {
         respond dummyRecording
     }
 
+
+    def save() {
+
+        def recording = Recording.get(params.id)
+        if (!recording) return notFound()
+
+        try {
+
+            println params
+            recording.title = params.title
+            if (!recording.save(flush: true)) {
+                println recording.errors
+                respond recording.errors, view:'create'
+                return
+            }
+
+
+            //recordingService.save(recording)
+        } catch (Exception e) {
+            respond recording.errors, view:'create'
+            return
+        }
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.created.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
+                redirect recording
+            }
+            '*' { respond recording, [status: CREATED] }
+        }
+    }
 
     /*
 

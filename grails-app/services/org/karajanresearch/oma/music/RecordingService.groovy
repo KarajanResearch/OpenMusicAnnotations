@@ -1,6 +1,7 @@
 package org.karajanresearch.oma.music
 
 import com.amazonaws.services.s3.model.CannedAccessControlList
+import grails.core.GrailsApplication
 import grails.gorm.transactions.Transactional
 import grails.util.Environment
 import org.karajanresearch.oma.StorageBackendService
@@ -27,6 +28,8 @@ class RecordingService {
 
     StorageBackendService storageBackendService
     RecordingGormService recordingGormService
+
+    GrailsApplication grailsApplication
 
 
     AnnotationStatisticsService annotationStatisticsService
@@ -206,6 +209,43 @@ class RecordingService {
     }
 
 
+    def createPeaksFile(DigitalAudio digitalAudio) {
+
+        switch (Environment.current) {
+            case Environment.DEVELOPMENT:
+
+                def path = grailsApplication.config.getProperty("oma.dataDirectory.development")
+                path = path + "/digitalAudio/${digitalAudio.id}"
+                // create beats file
+                def peaksFile = new File(path, "${digitalAudio.id}-peaks.json")
+                println peaksFile.absolutePath
+                println digitalAudio.location
+
+                // z factor limits zoom level
+                def command = "audiowaveform -i ${digitalAudio.location} -o ${peaksFile.absolutePath} -z 32 -b 8 --split-channels"
+
+                println command
+
+                def process = command.execute()
+                def sout = new StringBuilder()
+                def serr = new StringBuilder()
+                process.consumeProcessOutput(sout, serr)
+                process.waitForOrKill(60000)
+
+                println "out> $sout err> $serr"
+
+                break
+            case Environment.PRODUCTION:
+                //path = grailsApplication.config.getProperty("oma.dataDirectory.production")
+                break
+        }
+
+
+
+    }
+
+
+
     /**
      * wav files via dropzone
      * @param recording
@@ -214,6 +254,79 @@ class RecordingService {
      */
     Recording storeDigitalAudio(Recording recording, DigitalAudioCommand digitalAudioCommand) {
 
+
+        // prepare digital audio domain object
+        def digitalAudio = new DigitalAudio(recording: recording)
+        digitalAudio.location = "transient"
+        digitalAudio.originalFileName = digitalAudioCommand.file.originalFilename
+        digitalAudio.contentType = digitalAudioCommand.file.contentType
+
+        if (!digitalAudio.save(flush: true)) {
+            println digitalAudio.errors
+            return null
+        }
+
+
+        // prepare storage path
+
+        def path
+
+        switch (Environment.current) {
+            case Environment.DEVELOPMENT:
+                path = grailsApplication.config.getProperty("oma.dataDirectory.development")
+                break
+            case Environment.PRODUCTION:
+                path = grailsApplication.config.getProperty("oma.dataDirectory.production")
+                break
+        }
+
+        println digitalAudio.id
+
+        path = path + "/digitalAudio/${digitalAudio.id}"
+
+        println path
+
+        def dir = new File(path)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+
+
+        File target = new File(dir, "${digitalAudio.id}.wav")
+
+        if (target.exists()) {
+            println "file exists. TODO: handle this case"
+            return recording
+        } else {
+            target.createNewFile()
+        }
+
+
+        digitalAudioCommand.file.transferTo(target)
+
+        digitalAudio.location = target.absolutePath
+        if (!digitalAudio.save(flush: true)) {
+            println digitalAudio.errors
+            return null
+        }
+
+        recording.addToDigitalAudio(digitalAudio)
+
+        if (!recording.save(flush: true)) {
+            println recording.errors
+            return null
+        }
+
+
+
+        createPeaksFile(digitalAudio)
+
+
+
+        return recording
+
+
+        /*
         def tempFile = File.createTempFile("digitalAudio", ".wav")
 
         println tempFile.absolutePath
@@ -297,6 +410,7 @@ class RecordingService {
         }
 
         return recording
+        */
     }
 
     /**
