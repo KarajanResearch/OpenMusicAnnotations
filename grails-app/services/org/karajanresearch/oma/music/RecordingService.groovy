@@ -111,7 +111,7 @@ class RecordingService {
                 return peaksFile
                 break
             case Environment.PRODUCTION:
-                path = grailsApplication.config.getProperty("oma.dataDirectory.production")
+                def path = grailsApplication.config.getProperty("oma.dataDirectory.production")
                 break
         }
 
@@ -240,7 +240,7 @@ class RecordingService {
 
         // prepare storage path
 
-        def path
+        String path
 
         switch (Environment.current) {
             case Environment.DEVELOPMENT:
@@ -270,6 +270,11 @@ class RecordingService {
             return recording
         } else {
             target.createNewFile()
+        }
+
+        if (!target.exists()) {
+            println "file not created. TODO: handle this case"
+            return recording
         }
 
 

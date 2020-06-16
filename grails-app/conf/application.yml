@@ -119,10 +119,8 @@ dataSource:
     username: sa
     password: ''
 
-oma:
-    dataDirectory:
-        development: /home/martin/Workspace/oma/efs-local
-        production: /efs-oma-digital
+oma.dataDirectory.development: /home/martin/Workspace/oma/efs-local
+oma.dataDirectory.production: /efs-oma-digital
 
 environments:
     development:
