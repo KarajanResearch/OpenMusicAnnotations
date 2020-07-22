@@ -22,6 +22,16 @@ class SessionController {
         Session s = Session.get(id)
         if (!s) return
 
+        if (!s.delete(flush: true)) {
+            println "not deleted"
+            println s.errors
+
+        }
+
+        Recording r = s.recording
+
+        /*
+
         Recording r = s.recording
         r.removeFromAnnotationSessions(s)
         if (!r.save(flush: true)) {
@@ -30,16 +40,20 @@ class SessionController {
 
         AbstractMusicPart.findAllByPdfPageChangeAnnotationSession(s).each {
             it.pdfPageChangeAnnotationSession = null
-            it.save()
+            it.save(flush: true)
         }
+
+         */
+
+        //Session.get(id).delete(flush: true)
+        /*
         if (!s.delete(flush: true)) {
             println "not deleted"
             println s.errors
 
-        }
+        }*/
 
-
-        redirect(controllerName: "recording", actionName: "show", id: r.id)
+        redirect(controller: "recording", action: "show", id: r.id)
     }
 
 /*

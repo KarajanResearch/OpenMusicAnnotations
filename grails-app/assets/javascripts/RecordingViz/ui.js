@@ -639,29 +639,9 @@ class AnnotationIconView {
             return;
         }
 
-        let ajaxUrl = $("#sessionDeleteUrl").val();
-        $.ajax({
-            url:ajaxUrl,
-            data: {
-                session: this.session.id
-            },
-            success: (function(resp){
+        let url = $("#sessionShowUrl").val() + "/" + this.session.id;
 
-                if (resp["error"]) {
-                    console.log(resp["error"]);
-                    return;
-                }
-
-                console.log("session delete response");
-                console.log(resp);
-
-                this.peaks.points.removeAll();
-
-                this.updateSessionSelect(null);
-
-
-            }).bind(this)
-        });
+        window.location = url;
 
 
     }

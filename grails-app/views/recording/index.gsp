@@ -40,7 +40,7 @@
 
                     <tr id="${recording[0]}" class="context_menu_recording">
                         <td>
-                            <g:link controller="recording" action="show" id="${recording[0]}">Show ${recording[1]}</g:link>
+                            <g:link controller="recording" action="show" id="${recording[0]}">${recording[1]}</g:link>
                         </td>
                         <td>
                             ${recording[2]}

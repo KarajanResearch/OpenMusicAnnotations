@@ -122,6 +122,7 @@
 <input type="hidden" id="sessionUrl" value="${createLink(controller:'recording',action:'ajaxGetSession')}">
 <input type="hidden" id="sessionCreateUrl" value="${createLink(controller:'recording',action:'ajaxCreateSession')}">
 <input type="hidden" id="sessionDeleteUrl" value="${createLink(controller:'recording',action:'ajaxDeleteSession')}">
+<input type="hidden" id="sessionShowUrl" value="${createLink(controller:'session',action:'show')}">
 <input type="hidden" id="annotationCreateUrl" value="${createLink(controller:'recording',action:'ajaxCreateAnnotation')}">
 <input type="hidden" id="annotationDeleteUrl" value="${createLink(controller:'recording',action:'ajaxDeleteAnnotation')}">
 <input type="hidden" id="annotationMoveUrl" value="${createLink(controller:'recording',action:'ajaxMoveAnnotation')}">
@@ -172,7 +173,7 @@
         </select>
         <button class="buttons vizPlay" id="clearSession" title="Clear the modifications on the selected Session"> Reset </button>
         <button class="buttons vizPlay" id="saveSession" title="Save the modifications on the selected Session"> Save </button>
-        <button class="buttons vizPlay" id="deleteSession" title="Delete the selected Session"> Delete </button>
+        <button class="buttons vizPlay" id="deleteSession" title="Show/Edit/Delete the selected Session"> Edit </button>
     </div>
 
     <div id="textAnnotationsContainer">

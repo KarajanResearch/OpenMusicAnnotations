@@ -29,7 +29,7 @@
             <g:form resource="${this.session}" method="PUT">
                 <g:hiddenField name="version" value="${this.session?.version}" />
                 <fieldset class="form">
-                    <f:all bean="session"/>
+                    <f:all bean="session" except="annotations, startTimestamp, endTimestamp"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
