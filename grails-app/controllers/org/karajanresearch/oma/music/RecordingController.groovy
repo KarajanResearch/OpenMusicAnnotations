@@ -22,7 +22,8 @@ class RecordingController {
 
 
     /**
-     * AJAX call from dropzone in create.gsp
+     * AJAX call from dropzone in create.gsp to add wav file
+     * encapsulated as DigitalAudioCommand
      */
     def addDigitalAudio(DigitalAudioCommand cmd) {
 
@@ -774,7 +775,7 @@ class RecordingController {
 
     def create() {
 
-        Recording dummyRecording = new Recording(title: "Add a Title...")
+        Recording dummyRecording = new Recording(title: "Add a Title...", digitalAudio: [])
 
 
         if (!dummyRecording.save(flush: true)) {

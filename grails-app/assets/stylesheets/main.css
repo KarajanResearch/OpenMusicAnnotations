@@ -97,7 +97,7 @@ img {
 }
 
 .footer {
-    background: #424649;
+    background: #236185;
     color: #ffffff;
     clear: both;
     font-size: 1em;
@@ -163,7 +163,7 @@ img {
 }
 
 .nav a:focus, .nav a:hover {
-    background-color: #999999;
+    background-color: #024B77;
     color: #ffffff;
     outline: none;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
@@ -194,7 +194,7 @@ img {
 }
 
 .nav li.dropdown.show ul.dropdown-menu {
-    background-color: #424649;
+    background-color: #236185;
 }
 
 /* CREATE/EDIT FORMS AND SHOW PAGES */

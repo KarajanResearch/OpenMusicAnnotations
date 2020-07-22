@@ -101,6 +101,11 @@ class RecordingService {
         // select digital audio. defaults to the first
         DigitalAudio digitalAudio = recording.digitalAudio[0]
 
+        if (!digitalAudio) {
+            println "No digital audio for recording: " + recording
+            return null
+        }
+
 
         switch (Environment.current) {
             case Environment.DEVELOPMENT:

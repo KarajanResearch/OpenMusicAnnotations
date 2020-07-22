@@ -20,7 +20,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-static-top" role="navigation">
     <!--<a class="navbar-brand" href="/#"><asset:image src="grails.svg" alt="Grails Logo"/></a>-->
-    <a class="navbar-brand" href="/#"><asset:image height="48px" src="icon.png" alt="OMA Logo"/></a>
+    <a class="navbar-brand" href="/#"><asset:image height="48px" src="icon-color.png" alt="OMA Logo"/></a>
 
     <a href="/#">Open Music Annotations</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,7 +106,7 @@
             <asset:image src="slack.svg" alt="Slack" class="float-left"/>
         </a>
         <strong class="centered"><a href="https://karajan-research.org/" target="_blank">Join the Community</a></strong>
-        <p>Get feedback and share your experience with the community <a href="https://karajan-research.org/" target="_blank">Github</a>.</p>
+        <p>Get feedback and share your experience with the community <a href="https://karajan-research.org/" target="_blank">@ Karajan Research</a>.</p>
     </div>
 </div>
 

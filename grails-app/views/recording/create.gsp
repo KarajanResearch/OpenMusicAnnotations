@@ -49,6 +49,7 @@
                     url: "/recording/addDigitalAudio/${this.recording.id}",
                     acceptedFiles: "audio/wave,audio/wav,audio/x-wav,audio/x-pn-wav",
                     timeout: 3600000,
+                    maxFilesize: 1024, // MB
                     accept: function(file, done) {
                         console.log("accept");
                         console.log(file);
@@ -58,7 +59,7 @@
                         console.log("accept");
                         console.log(file);
 
-                        window.location("/recording/show/${this.recording.id}");
+                        //window.location("/recording/show/${this.recording.id}");
                     }
                 });
 
