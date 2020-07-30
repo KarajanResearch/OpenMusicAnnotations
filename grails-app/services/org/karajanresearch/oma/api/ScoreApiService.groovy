@@ -4,7 +4,7 @@ import grails.gorm.transactions.Transactional
 import org.karajanresearch.oma.music.AbstractMusicPart
 import org.karajanresearch.oma.music.Interpretation
 import org.karajanresearch.oma.music.Recording
-import org.karajanresearch.oma.music.RecordingFileCommand
+
 import org.springframework.web.multipart.MultipartFile
 
 @Transactional
@@ -36,7 +36,7 @@ class ScoreApiService {
             interpretation: i,
             abstractMusicPart: a
         ).save(flush: true)
-
+/*
         RecordingFileCommand cmd = new RecordingFileCommand(
             version: 1,
             recordingId: r.id,
@@ -44,7 +44,7 @@ class ScoreApiService {
         )
 
         r = recordingService.uploadFile(r, cmd)
-
+*/
         return r
     }
 }

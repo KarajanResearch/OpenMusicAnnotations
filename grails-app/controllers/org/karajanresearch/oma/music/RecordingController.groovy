@@ -11,7 +11,7 @@ import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
 
 
-@Secured("ROLE_ADMIN")
+@Secured("ROLE_AUTHENTICATED")
 class RecordingController {
 
     static scaffold = Recording
@@ -46,6 +46,21 @@ class RecordingController {
 
         render (status: 200, "WAV file added")
     }
+
+
+    def addInterpretation(Long id) {
+
+        def recording = Recording.get(id)
+        if (!recording) return notFound()
+
+
+        // add interpretation
+
+        render(view: "addInterpretation", model: [recording: recording])
+
+
+    }
+
 
     def ajaxMoveAnnotation() {
 
@@ -714,17 +729,7 @@ class RecordingController {
 
 
 
-    def uploadRecordingFile(RecordingFileCommand cmd) {
 
-
-        Recording recording = Recording.get(cmd.recordingId)
-        if (!recording) return notFound()
-
-        recording = recordingService.uploadFile(recording, cmd)
-
-        flash.message = "Audio uploaded"
-        redirect(controllerName: "recording", action: "show", id: recording.id)
-    }
 
 
     def uploadTappingFile(TappingFileCommand cmd) {

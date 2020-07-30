@@ -4,7 +4,7 @@ package org.karajanresearch.oma.api
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.music.Recording
-import org.karajanresearch.oma.music.RecordingFileCommand
+
 import org.karajanresearch.oma.music.TappingFileCommand
 import org.karajanresearch.oma.music.TappingService
 import org.springframework.web.multipart.MultipartFile

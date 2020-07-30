@@ -26,7 +26,12 @@
         <h1>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</h1>
     </g:if>
     <g:else>
-        <h1>${this.recording.title}</h1>
+        <h1>${this.recording.title}
+            <g:link controller="recording" action="addInterpretation" id="${this.recording.id}">
+                Add Metadata
+            </g:link>
+        </h1>
+
     </g:else>
 
 

@@ -4,10 +4,9 @@ import grails.gorm.transactions.Transactional
 
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.music.AbstractMusicPart
-import org.karajanresearch.oma.music.DigitalAudio
 import org.karajanresearch.oma.music.Interpretation
 import org.karajanresearch.oma.music.Recording
-import org.karajanresearch.oma.music.RecordingFileCommand
+
 import org.karajanresearch.oma.music.RecordingService
 import org.springframework.web.multipart.MultipartFile
 
@@ -70,7 +69,7 @@ class RecordingApiService {
             }
         }
 
-
+/*
         RecordingFileCommand cmd = new RecordingFileCommand(
             version: 1,
             recordingId: r.id,
@@ -78,7 +77,7 @@ class RecordingApiService {
         )
 
         r = recordingService.uploadFile(r, cmd)
-
+*/
         return r
     }
 

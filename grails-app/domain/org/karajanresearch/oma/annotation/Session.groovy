@@ -38,14 +38,14 @@ class Session implements MultiTenant<Session> {
     /**
      * defines an optional temporal range for the range of perception TODO: remove
      */
-    Date startTimestamp
-    Date endTimestamp
+    //Date startTimestamp
+    //Date endTimestamp
 
     static constraints = {
         title nullable: false
         recording nullable: false
-        startTimestamp nullable: true
-        endTimestamp nullable: true
+        //startTimestamp nullable: true
+        //endTimestamp nullable: true
     }
 
     String toString() {

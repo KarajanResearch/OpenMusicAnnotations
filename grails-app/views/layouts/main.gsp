@@ -59,11 +59,6 @@
                             ],
 
                             [
-                                    controller: "user", action: "help",
-                                    tag: message(code: 'default.menu.api.label', default: 'API')
-                            ],
-
-                            [
                                 controller: "user", action: "show",
                                 tag: message(code: 'default.menu.user.label', default: 'My Account')
                             ],
