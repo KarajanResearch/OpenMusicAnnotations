@@ -24,7 +24,7 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Register Here</h5>
+                    <h2 class="card-title text-center">Register Here</h2>
                     <g:if test='${flash.message}'>
                         <div class="alert alert-danger" role="alert">${flash.message}</div>
                     </g:if>

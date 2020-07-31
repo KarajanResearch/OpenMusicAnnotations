@@ -6,9 +6,7 @@
 </head>
 <body>
 
-    <content tag="nav">
 
-    </content>
 
 
 
@@ -20,33 +18,23 @@
 </div>
 
 <div id="content" role="main">
-    <section class="row colset-2-its">
+
         <h1>Open Music Annotations</h1>
 
-        Welcome. This is the Open Music Annotation Cloud.
+            Welcome. This is the Open Music Annotation Cloud.
 
-        <style>
-        #search-form {
-            break-before: always;
-            margin-left: auto;
-            margin-right: auto;
-            width: 60em;
-            margin-top: 2em;
-            margin-bottom: 2em;
-        }
 
-        ul#recording-search-results li {
-            padding: 1em;
+            <h2>Register</h2>
 
-        }
-
-        </style>
+            <g:link controller="user" action="index">Create Account</g:link> to get started...
 
 
 
 
 
-    </section>
+
+
+
 </div>
 
 </body>

@@ -618,6 +618,7 @@ class RecordingController {
      * fills JS search
      * @return searchBase
      */
+    @Deprecated
     def getSearchBase() {
         def searchBase = []
 
@@ -633,26 +634,6 @@ class RecordingController {
         render searchBase as JSON
     }
 
-/*
-    def stream(Long id) {
-
-        def recording = Recording.get(id)
-
-        if (!recording) return
-
-        def file = recordingService.getFile(recording)
-
-        if (!file) return
-
-        response.setContentType("APPLICATION/OCTET-STREAM")
-        response.setHeader("Content-Disposition", "Attachment;Filename=\"${f.name}\"")
-
-        def outputStream = response.getOutputStream()
-        outputStream << file.newInputStream()
-        outputStream.flush()
-        outputStream.close()
-    }
-*/
 
     def getAudioFile(Long id) {
 
