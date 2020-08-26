@@ -126,13 +126,16 @@ class UserController {
         //render(view: "help", model: model)
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ROLE_AUTHENTICATED")
     def refreshToken() {
         def principal  = springSecurityService.principal
 
         TokenGenerator tg = new SecureRandomTokenGenerator()
         def token = tg.generateAccessToken(principal)
 
-        render token as JSON
+        def authToken = new AuthenticationToken(username: token.principal.username, dateCreated: new Date(), tokenValue: token.accessToken).save(flush: true)
+
+        //render token as JSON
+        redirect (action: "show")
     }
 }

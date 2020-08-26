@@ -1,9 +1,16 @@
+# oma.cloud python client library
+# Martin Aigner, 2020
+
 from __future__ import print_function
+
+__author__ = "Martin Aigner"
+
 import requests
 import json
 
+
 _headers = {
-    'User-Agent': 'Bootstrap.py',
+    'User-Agent': 'oma.py',
     'Authorization': ""
 }
 _endpoint = {
@@ -15,7 +22,6 @@ _config = {
     "verify_certificate": True,
     "cache_dir": "omacache"
 }
-
 
 
 
@@ -31,7 +37,7 @@ def login(endpoint, access_token, verify_certificate):
     _endpoint["uri"] = endpoint
     _config["verify_certificate"] = verify_certificate
     _headers['Authorization'] = "Bearer " + access_token
-    print(_headers['Authorization'])
+    # print(_headers['Authorization'])
     return _headers
 
 

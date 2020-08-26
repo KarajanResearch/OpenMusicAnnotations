@@ -23,8 +23,12 @@ class ApiController {
 
     /**
      * requires param.method to select what to call in composerApiService
+     *
+     * param.method = add | list | findBy
+     *
      * @return
      */
+    @Secured("ROLE_AUTHENTICATED")
     def composer() {
         println "composer"
         println params
@@ -54,6 +58,7 @@ class ApiController {
      * requires param.method to select what to call in composerApiService
      * @return
      */
+    @Secured("ROLE_AUTHENTICATED")
     def composition() {
         println "composition"
         println params
@@ -79,6 +84,7 @@ class ApiController {
         render r as JSON
     }
 
+    @Secured("ROLE_AUTHENTICATED")
     def interpretation() {
         println "interpretation"
         println params
@@ -109,6 +115,7 @@ class ApiController {
 
 
 
+    @Secured("ROLE_AUTHENTICATED")
     def recording() {
         println "recording"
         println params
@@ -154,6 +161,7 @@ class ApiController {
 
     AnnotationApiService annotationApiService
 
+    @Secured("ROLE_AUTHENTICATED")
     def session() {
         println "session"
         println params
@@ -177,6 +185,7 @@ class ApiController {
     }
 
 
+    @Secured("ROLE_AUTHENTICATED")
     def annotation() {
         println "annotation"
         println params
@@ -205,6 +214,7 @@ class ApiController {
 
     ScoreApiService scoreApiService
 
+    @Secured("ROLE_AUTHENTICATED")
     def score() {
         println "score"
         println params
@@ -224,6 +234,7 @@ class ApiController {
 
 
     @ReadOnly
+    @Secured("ROLE_AUTHENTICATED")
     def get() {
 
         //println id
@@ -243,6 +254,7 @@ class ApiController {
     }
 
 
+    @Secured("ROLE_AUTHENTICATED")
     def addRecording() {
         println params
 

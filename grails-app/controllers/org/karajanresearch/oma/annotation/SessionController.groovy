@@ -7,7 +7,7 @@ import org.karajanresearch.oma.music.Recording
 
 import static org.springframework.http.HttpStatus.*
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_AUTHENTICATED"])
 class SessionController {
 
     static scaffold = Session

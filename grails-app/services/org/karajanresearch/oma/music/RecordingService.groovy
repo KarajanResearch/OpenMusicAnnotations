@@ -212,7 +212,10 @@ class RecordingService {
 
                 break
             case Environment.PRODUCTION:
-                //path = grailsApplication.config.getProperty("oma.dataDirectory.production")
+                // TODO: implement production
+                def path = grailsApplication.config.getProperty("oma.dataDirectory.production")
+                path = path + "/digitalAudio/${digitalAudio.id}/${digitalAudio.id}-peaks.json"
+                // Note: file will be created at linux machine attached to EFS
                 break
         }
 

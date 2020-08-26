@@ -1,7 +1,10 @@
 package org.karajanresearch.oma.music
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
+import org.karajanresearch.oma.AcrCloudService
+
 import static org.springframework.http.HttpStatus.*
 
 @Secured("ROLE_AUTHENTICATED")
@@ -9,6 +12,23 @@ class DigitalAudioController {
 
 
     static scaffold = DigitalAudio
+
+
+    AcrCloudService acrCloudService
+    def acrCloud(Long id) {
+
+
+        def digitalAudio = DigitalAudio.get(id)
+        if (!digitalAudio) return notFound()
+
+
+        def result = acrCloudService.fingerPrint(digitalAudio)
+
+        result.digitalAudio = digitalAudio
+
+        render result as JSON
+
+    }
 
 
 

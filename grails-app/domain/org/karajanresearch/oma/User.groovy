@@ -20,7 +20,9 @@ class User implements Serializable {
     boolean passwordExpired
 
     Set<RoleGroup> getAuthorities() {
-        (UserRoleGroup.findAllByUser(this) as List<UserRoleGroup>)*.roleGroup as Set<RoleGroup>
+        def roleGroups = (UserRoleGroup.findAllByUser(this) as List<UserRoleGroup>)*.roleGroup as Set<RoleGroup>
+        println roleGroups
+        return roleGroups
     }
 
     static constraints = {

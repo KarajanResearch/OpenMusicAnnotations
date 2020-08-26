@@ -15,6 +15,10 @@ class InterpretationApiService {
 
     AbstractMusicPartService abstractMusicPartService
 
+    /**
+     * @param params.title The title of the interpretation
+     * @return interpretation
+     */
     @Transactional
     def addInterpretation(params) {
         def i = Interpretation.findOrSaveWhere(title: params.title)
@@ -22,6 +26,16 @@ class InterpretationApiService {
     }
 
 
+    /**
+     *
+     * @param params.composition Id of an existing composition
+     * @param params.interpretation Id of an existing interpretation
+     * @param params.title The title of the abstract music part
+     * @param params.movement The number of the movement
+     * @param params.bar_number_offset The offset into the whole piece
+     * @param params.number_of_bars The length of this part
+     * @return abstractMusicPart
+     */
     def addAbstractMusicPart(params) {
 
         def c = AbstractMusic.get(params["composition"])
@@ -81,6 +95,7 @@ class InterpretationApiService {
             }
         }
 
+        /*
         if (!params.file) {
             return ["error": "please provide a file"]
         }
@@ -92,8 +107,10 @@ class InterpretationApiService {
             abstractMusicPartId: p.id,
             scoreFile: f
         )
-
         return abstractMusicPartService.uploadScoreFile(p, cmd)
+         */
+
+        return p
     }
 
     def findByComposition(params) {

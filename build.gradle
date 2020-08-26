@@ -49,6 +49,8 @@ dependencies {
     // help for the .so dependency:
     // https://stackoverflow.com/questions/16683775/include-so-library-in-apk-in-android-studio
 
+    compile fileTree(dir: "$buildDir/libacrcloud_extr_tool", include: 'libacrcloud_extr_tool.jar')
+
 
     // Postgres
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
@@ -96,6 +98,12 @@ dependencies {
 
 bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
+
+    // adding library path to native ACRCloud
+    // https://stackoverflow.com/questions/661320/how-to-add-native-library-to-java-library-path-with-eclipse-launch-instead-of#2309723
+    jvmArgs("-Djava.library.path=lib")
+
+
     addResources = true
     String springProfilesActive = 'spring.profiles.active'
     systemProperty springProfilesActive, System.getProperty(springProfilesActive)
@@ -106,6 +114,19 @@ tasks.withType(Test) {
     systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
     systemProperty "webdriver.chrome.driver", System.getProperty('webdriver.chrome.driver')
     systemProperty "webdriver.gecko.driver", System.getProperty('webdriver.gecko.driver')
+}
+
+// including native library for ACRCloud
+task nativeLibsToJar(type: Zip, description: 'create a jar archive of the native libs') {
+    destinationDir file("$buildDir/libacrcloud_extr_tool")
+    baseName 'libacrcloud_extr_tool'
+    extension 'jar'
+    from fileTree(dir: 'lib', include: '**/*.so')
+    into 'lib/'
+}
+
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn(nativeLibsToJar)
 }
 
 assets {

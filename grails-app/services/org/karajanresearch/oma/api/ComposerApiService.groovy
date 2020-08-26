@@ -10,17 +10,24 @@ class ComposerApiService {
 
     ComposerDataService composerDataService
 
+    /**
+     *
+     * @param params.name The name of the composer
+     * @return composer
+     */
     @Transactional
     def addComposer(params) {
-
-        //def c = Composer.findOrSaveWhere(name: params.name)
-
         def c = composerDataService.find(params.name)
         if (!c) c = new Composer(name: params.name).save()
-
         return c
     }
 
+    /**
+     *
+     * @param params.title The title of the composition
+     * @param params.composer The id of an existing composer
+     * @return composition
+     */
     @Transactional
     def addComposition(params) {
         def c = Composer.get(params.composer)

@@ -4,6 +4,8 @@ import grails.gorm.transactions.Transactional
 
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.music.AbstractMusicPart
+import org.karajanresearch.oma.music.DigitalAudio
+import org.karajanresearch.oma.music.DigitalAudioCommand
 import org.karajanresearch.oma.music.Interpretation
 import org.karajanresearch.oma.music.Recording
 
@@ -68,6 +70,12 @@ class RecordingApiService {
                 println r.errors
             }
         }
+
+        DigitalAudioCommand cmd = new DigitalAudioCommand(
+            file: f
+        )
+
+        println recordingService.storeDigitalAudio(r, cmd)
 
 /*
         RecordingFileCommand cmd = new RecordingFileCommand(

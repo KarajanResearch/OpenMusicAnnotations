@@ -19,6 +19,9 @@
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
+
+            <g:link controller="digitalAudio" action="acrCloud" id="${this.digitalAudio.id}">ACRCloud</g:link>
+
             <f:display bean="digitalAudio" />
             <g:form resource="${this.digitalAudio}" method="DELETE">
                 <fieldset class="buttons">
