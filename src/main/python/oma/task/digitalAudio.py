@@ -8,6 +8,7 @@
 
 import os
 import sys
+import subprocess
 
 # configuration
 
@@ -18,9 +19,21 @@ digital_audio_directory = ""
 # takes a list of digitalAudio IDs and performs audiowaveform for each
 def task_audiowaveform(difference):
     print("New wav files:", difference)
-    for id in difference:
-        input_filename = digital_audio_directory + str(id) + "/" + str(id) + ".wav"
+    for audio_id in difference:
+        input_filename = digital_audio_directory + str(audio_id) + "/" + str(audio_id) + ".wav"
+        output_filename = digital_audio_directory + str(audio_id) + "/" + str(audio_id) + "-peaks.json"
         print(input_filename)
+        print(output_filename)
+
+        cmd = ["/usr/bin/audiowaveform", "-i", input_filename, "-o", output_filename, "-z", "32", "-b", "8", "--split-channels"]
+        cmdstring = " ".join(cmd)
+        print(cmdstring)
+
+        #cli_output = os.popen(cmdstring)
+        #print(cli_output)
+        subprocess.call(cmd)
+
+
 
 
 # takes a list of digitalAudio IDs and performs MusicBrainz stuff for each
