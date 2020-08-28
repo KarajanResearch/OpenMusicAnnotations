@@ -14,6 +14,7 @@ import subprocess
 
 # directory containing the wav files
 digital_audio_directory = ""
+environment = ""
 
 
 # takes a list of digitalAudio IDs and performs audiowaveform for each
@@ -32,6 +33,12 @@ def task_audiowaveform(difference):
         #cli_output = os.popen(cmdstring)
         #print(cli_output)
         subprocess.call(cmd)
+
+        # chown 91:91 /home/ubuntu/efs-oma-digital/digitalAudio/138830/138830-peaks.json
+        if environment == "Production":
+            chown_cmd = ["/bin/chown", "91:91", output_filename]
+            subprocess.call(chown_cmd)
+
 
 
 
