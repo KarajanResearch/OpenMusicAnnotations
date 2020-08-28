@@ -117,6 +117,10 @@ class RecordingService {
                 break
             case Environment.PRODUCTION:
                 def path = grailsApplication.config.getProperty("oma.dataDirectory.production")
+                path = path + "/digitalAudio/${digitalAudio.id}"
+                // create beats file
+                def peaksFile = new File(path, "${digitalAudio.id}-peaks.json")
+                return peaksFile
                 break
         }
 
