@@ -188,8 +188,9 @@
 
 
 
-
-
+<div id="stillProcessing">
+    Audio file analysis and rendering in progress. Please be patient for a minute or so...
+</div>
 <div>
     <div id="peaks-container">
         <div id="zoomview-container"></div>
@@ -298,6 +299,7 @@
             };
 
             Peaks.init(options, function(err, peaks) {
+                console.log(peaks);
                 let annotationIconView = recordingViz.openAnnotationIconView(peaks);
             });
         })(peaks, recordingViz);

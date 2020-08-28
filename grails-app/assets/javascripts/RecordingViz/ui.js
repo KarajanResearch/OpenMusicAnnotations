@@ -173,7 +173,6 @@ class AnnotationIconView {
         this.recording = recording; // form recordingId
 
 
-
         // gethered statistics
         this.beatDescription = {};
 
@@ -202,12 +201,20 @@ class AnnotationIconView {
         /**
          * peaks.js canvas container to add annotations
          */
-        this.peaks = peaks;
+        if (typeof peaks === "undefined") {
+            console.log("Audiowaveform in progress. This can take up to a minute.");
+        } else {
 
-        /**
-         * Application default Zoom Level
-         */
-        this.peaks.zoom.setZoom(4);
+            $("#stillProcessing").remove();
+
+            this.peaks = peaks;
+
+            /**
+             * Application default Zoom Level
+             */
+            this.peaks.zoom.setZoom(4);
+        }
+
 
 
         /**
