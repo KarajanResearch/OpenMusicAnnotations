@@ -185,6 +185,20 @@ class RecordingService {
     }
 
 
+    /**
+     * takes an audio file and creates a data file for peaks.js
+     * This is a little bit tricky, because the tool from peaks.js,
+     * called audiowaveform, is a CLI tool not available in a typical
+     * java web container. Development mode is easy. Just install
+     * audiowaveform in PATH on the development machine. Production
+     * mode requires more work. We run a dedicated host to perform
+     * CLI/Linux tasks on the OMA database and data directory.
+     * We use python to wrap CLI/Linux tasks and everything that
+     * cannot be done with a JVM.
+     * See src/main/python
+     * @param digitalAudio
+     * @return
+     */
     def createPeaksFile(DigitalAudio digitalAudio) {
 
         switch (Environment.current) {
@@ -302,7 +316,7 @@ class RecordingService {
         }
 
 
-
+        // create peaks.js data file
         createPeaksFile(digitalAudio)
 
 

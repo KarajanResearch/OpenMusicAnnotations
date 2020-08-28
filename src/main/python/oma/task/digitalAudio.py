@@ -3,6 +3,8 @@
 # Martin Aigner, 2020
 
 # digitalAudioAdded triggers audiowaveform after file upload
+# installing audiowaveform: https://github.com/bbc/audiowaveform
+
 
 import os
 import sys
@@ -67,13 +69,12 @@ if __name__ == "__main__":
 
     #setting path
     environment = str(sys.argv[1])
-    print(environment)
     if environment == "Development":
-        print(environment)
         digital_audio_directory = "/home/martin/Workspace/oma/efs-local/digitalAudio/"
     if environment == "Production":
-        print(environment)
         digital_audio_directory = "/home/ubuntu/efs-oma-digital/digitalAudio/"
 
+    if (digital_audio_directory == ""):
+        print("cannot set directory")
     update()
 
