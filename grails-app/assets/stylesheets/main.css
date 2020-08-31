@@ -84,9 +84,9 @@ img {
 }
 
 .footer img {
-    height: 80px;
+    height: 40px;
     margin-right: 25px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     clear: bottom;
 }
 
@@ -103,7 +103,6 @@ img {
     font-size: 1em;
     margin-top: 1.5em;
     padding: 1em;
-    padding-bottom: 2em;
     min-height: 1em;
 }
 

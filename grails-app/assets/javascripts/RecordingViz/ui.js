@@ -541,10 +541,10 @@ class AnnotationIconView {
 
     toggleMetronome() {
         if (this.metronomeEnabled === true) {
-            $("#metronomeButton").html("<strike>Metronome</strike>");
+            $("#metronomeButton").html("<strike>Click</strike>");
             this.metronomeEnabled = false;
         } else {
-            $("#metronomeButton").html("Metronome");
+            $("#metronomeButton").html("Click");
             this.metronomeEnabled = true;
         }
     }
