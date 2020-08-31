@@ -1,12 +1,51 @@
 package org.karajanresearch.oma.music
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import org.karajanresearch.oma.music.Interpretation
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_AUTHENTICATED"])
 class InterpretationController {
 
     static scaffold = Interpretation
+
+
+    def ajaxIndex() {
+
+        println "ajaxIndex"
+
+        def namedParams = [:]
+        def options  = [:]
+
+        //render Interpretation.list() as JSON
+
+
+
+
+        def interpretations = Interpretation.executeQuery("""
+            select i.id, i.title, amp.title, am.title, c.name
+            from Interpretation i
+            left join i.abstractMusicParts as amp
+            left join amp.abstractMusic as am
+            left join am.composer as c
+            
+            """, namedParams, options
+        ).collect { r ->
+
+            return [
+                id                  :  r[0],
+                title               :  r[1],
+                abstractMusicPartTitle            :  r[2],
+                abstractMusicTitle             :  r[3],
+                composerName        : r[4]
+            ]
+        }
+
+        render interpretations as JSON
+
+    }
+
+
 
     /*
 

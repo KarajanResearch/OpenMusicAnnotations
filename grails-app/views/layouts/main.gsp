@@ -31,19 +31,7 @@
         <ul class="nav navbar-nav ml-auto">
             <g:pageProperty name="page.nav"/>
 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    Debug-Menu
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                            <li class="controller">
-                            <g:link controller="${c.logicalPropertyName}">${c.logicalPropertyName}</g:link>
-                            </li>
-                        </g:each>
-                </ul>
-            </li>
+
 
 
             <li class="dropdown">

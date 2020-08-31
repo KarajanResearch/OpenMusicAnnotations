@@ -4,6 +4,88 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'recording.label', default: 'Recording')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
+
+
+        <!-- LOAD AFTER jquery -->
+        <asset:stylesheet src="datatables.css" />
+        <asset:javascript src="datatables.js" />
+<script type="application/javascript">
+    /**
+     * setup dataTable
+     */
+    $(document).ready( function () {
+
+
+        // see datatables manual for configuration details. every parameter is important!
+
+        var table = $('#interpretationSelection').DataTable( {
+                "autoWidth": false,
+                "scrollX": false,
+                stateSave: true,
+                "deferRender": true,
+                dom: 'lfrtiBp',
+                buttons: [
+                    /*"copy", 'excel', 'pdf'*/
+                ],
+                select: {
+                    style: 'single'
+                },
+                ajax: {
+                    url: '${createLink(controller: "interpretation", action: "ajaxIndex")}',
+                    dataSrc: ''
+                },
+                rowId: 'id',
+                columns: [
+                    {data: 'composerName'},
+                    {data: 'abstractMusicTitle'},
+                    {data: 'abstractMusicPartTitle'},
+                    {data: 'title'}
+                ],
+                buttons: [
+                    {
+                        text: 'Apply to Recording',
+                        action: function(e, dt, node, config) {
+                            console.log("Apply to Recording");
+                            var rows = table.rows( { selected: true } );
+                            console.log(rows.data());
+
+                            let data = rows.data();
+                            let interpretationId = data[0].id;
+
+                            $("select#interpretation").val(interpretationId);
+
+                            let params = [];
+                            for (let i = 0; i < data.length; i++) {
+                                console.log(data[i].DT_RowId);
+                                params.push("recording[]=" + data[i].DT_RowId);
+                            }
+
+                            let url = "${createLink(controller:'interpretation',action:'show')}";
+
+                            console.log(url);
+
+                            console.log(params.join("&"));
+
+                            url += "?" + params.join("&");
+                            console.log(url);
+
+                            //window.location.href = encodeURI(url);
+
+                        }
+                    }
+                ]
+
+
+            }
+        );
+
+
+
+    } );
+
+
+
+</script>
     </head>
     <body>
         <a href="#edit-recording" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -31,6 +113,35 @@
                 <fieldset class="form">
                     <f:all bean="recording" order="title"/>
                 </fieldset>
+
+
+                <!-- interpretation table -->
+                <h2>What Interpretation was recorded?</h2>
+                <p>
+                    By interpretation we mean "the way the music was played" and use attributes like "conducted by Karajan".
+                </p>
+
+                <table id="interpretationSelection">
+                    <thead>
+                    <tr>
+                        <th>Composer</th>
+                        <th>Composition</th>
+                        <th>Part</th>
+                        <th>Title of Interpretation</th>
+                    </tr>
+
+                    </thead>
+
+
+                </table>
+
+                <fieldset class="form">
+                    <f:all bean="recording" order="interpretation"/>
+                </fieldset>
+
+
+
+
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
                 </fieldset>

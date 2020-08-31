@@ -58,19 +58,16 @@
     <ul>
         <li>uploading audio</li>
         <li>adding annotations</li>
+        <li>the classical music catalog</li>
+        <li>written-first v.s. recorded-first music</li>
     </ul>
 
     <h2 class="welcome">Notes for Programmers</h2>
     <ul>
-        <li>uploading audio</li>
-        <li>adding annotations</li>
+        <li>introduction to musical data</li>
+        <li>API of oma.cloud</li>
+        <li>musical python notebooks</li>
     </ul>
-
-
-    <h1 class="welcome">Get Involved!</h1>
-
-
-
 
 
 
