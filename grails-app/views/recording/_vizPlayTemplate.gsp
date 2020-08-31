@@ -162,7 +162,7 @@
     -->
 
     <div id="toolMenuTempo">
-        <button class="buttons vizPlay" id="tapTempo" title="Click to add Tap Annotations"> Tap </button>
+        <!--<button class="buttons vizPlay" id="tapTempo" title="Click to add Tap Annotations"> Tap </button>-->
         <button class="buttons vizPlay" id="metronomeButton" title="Enable or Disable Metronome"> Click </button>
     </div>
 

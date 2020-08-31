@@ -41,6 +41,15 @@
                     {data: 'abstractMusicPartTitle'},
                     {data: 'title'}
                 ],
+                columnDefs: [
+                    {
+                        targets: 3,
+                        render: function (data, type, row) {
+                            // console.log(row.trackId);
+                            return '<a href="/interpretation/show/' + row.id + '" target="_blank" >' + data + '</a>';
+                        }
+                    }
+                ],
                 buttons: [
                     {
                         text: 'Apply to Recording',
@@ -97,7 +106,9 @@
             </ul>
         </div>
         <div id="edit-recording" class="content scaffold-edit" role="main">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+            <h1><g:message code="default.edit.label" args="[entityName]" />
+                <g:link action="show" id="${this.recording.id}">(back to recording)</g:link>
+            </h1>
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
@@ -135,7 +146,7 @@
 
                 </table>
 
-                <fieldset class="form">
+                <fieldset class="form" disabled="disabled">
                     <f:all bean="recording" order="interpretation"/>
                 </fieldset>
 

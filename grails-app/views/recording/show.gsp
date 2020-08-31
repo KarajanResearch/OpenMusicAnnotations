@@ -27,7 +27,7 @@
     </g:if>
     <g:else>
         <h1>${this.recording.title}
-            <g:link controller="recording" action="addInterpretation" id="${this.recording.id}">
+            <g:link controller="recording" action="edit" id="${this.recording.id}">
                 Add Metadata
             </g:link>
         </h1>
