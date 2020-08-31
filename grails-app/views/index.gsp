@@ -17,17 +17,57 @@
     </div>
 </div>
 
-<div id="content" role="main">
 
-        <h1>Open Music Annotations</h1>
+<style>
+    #welcomeScreen {
+        margin-top: 40px;
+        margin-bottom: 40px;
+        width: 60% ;
+        margin-left: auto ;
+        margin-right: auto ;
+        font-size: 1.1em;
+    }
+    h1.welcome {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 40px;
+        margin-top: 40px;
+    }
+    h2.welcome {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+</style>
 
-            Welcome. This is the Open Music Annotation Cloud.
+<div id="welcomeScreen">
+
+    <h1 class="welcome">Open Music Annotations</h1>
+
+    <p>
+        Welcome to the Open Music Annotation Cloud, a database for any type of terms, tags, or attributes that humans associate with audible music.
+    </p>
+    <p>
+        <g:link controller="user" action="index">Create Account</g:link> to get started.
+    </p>
+
+    <h1 class="welcome">Documentation</h1>
+
+    <h2 class="welcome">Notes for Musicologists</h2>
+
+    <ul>
+        <li>uploading audio</li>
+        <li>adding annotations</li>
+    </ul>
+
+    <h2 class="welcome">Notes for Programmers</h2>
+    <ul>
+        <li>uploading audio</li>
+        <li>adding annotations</li>
+    </ul>
 
 
-            <h2>Register</h2>
-
-            <g:link controller="user" action="index">Create Account</g:link> to get started...
-
+    <h1 class="welcome">Get Involved!</h1>
 
 
 
