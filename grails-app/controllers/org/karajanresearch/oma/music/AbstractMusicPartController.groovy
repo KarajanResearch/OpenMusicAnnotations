@@ -5,7 +5,7 @@ import grails.plugin.springsecurity.annotation.Secured
 
 import static org.springframework.http.HttpStatus.*
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_AUTHENTICATED"])
 class AbstractMusicPartController {
 
     static scaffold = AbstractMusicPart

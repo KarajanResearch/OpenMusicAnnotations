@@ -44,7 +44,7 @@
 
 
 
-    <g:render template="vizPlayTemplate" model="[recording: this.recording, showScore: this.showScore]" />
+    <g:render template="vizPlayTemplate" model="[recording: this.recording, showScore: false]" />
 
 
 

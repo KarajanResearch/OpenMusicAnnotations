@@ -121,9 +121,10 @@
             </g:hasErrors>
             <g:form resource="${this.recording}" method="PUT">
                 <g:hiddenField name="version" value="${this.recording?.version}" />
+
                 <fieldset class="form">
-                    <f:all bean="recording" order="title"/>
-                </fieldset>
+                    <f:field property="title" bean="recording" />
+
 
 
                 <!-- interpretation table -->
@@ -146,8 +147,8 @@
 
                 </table>
 
-                <fieldset class="form" disabled="disabled">
-                    <f:all bean="recording" order="interpretation"/>
+
+                    <f:field property="interpretation" bean="recording" />
                 </fieldset>
 
 

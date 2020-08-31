@@ -771,16 +771,53 @@ class RecordingController {
         respond dummyRecording
     }
 
+    def update(Recording recording) {
+        println "SAVE"
+        println params
+
+        //def recording = Recording.get(params.id)
+        if (recording == null) {
+            notFound()
+            return
+        }
+
+        try {
+            recording.title = params.title
+            recording.interpretation = Interpretation.get(params.interpretation.id)
+            if (!recording.save(flush: true)) {
+                println recording.errors
+                respond recording.errors, view:'show'
+                return
+            }
+
+            //recordingService.save(recording)
+        } catch (Exception e) {
+            respond recording.errors, view:'edit'
+            return
+        }
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
+                redirect (view: "show", model: recording)
+            }
+            '*'{ respond recording, [status: OK] }
+        }
+    }
+
 
     def save() {
+        println "SAVE"
+        println params
 
         def recording = Recording.get(params.id)
         if (!recording) return notFound()
 
         try {
 
-            println params
+
             recording.title = params.title
+            //recording.interpretation = params.interpretation
             if (!recording.save(flush: true)) {
                 println recording.errors
                 respond recording.errors, view:'create'
