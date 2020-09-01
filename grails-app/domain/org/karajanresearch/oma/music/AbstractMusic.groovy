@@ -19,7 +19,7 @@ class AbstractMusic implements MultiTenant<AbstractMusic> {
 
     static constraints = {
         title nullable: false
-        composer nullable: false
+        composer nullable: true
     }
 
 
