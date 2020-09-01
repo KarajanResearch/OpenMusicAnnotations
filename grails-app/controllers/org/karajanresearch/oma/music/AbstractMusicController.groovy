@@ -1,13 +1,39 @@
 package org.karajanresearch.oma.music
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import org.karajanresearch.oma.music.AbstractMusic
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_AUTHENTICATED"])
 class AbstractMusicController {
 
     static scaffold = AbstractMusic
 
+    def ajaxIndex() {
+
+        println "ajaxIndex"
+
+        def namedParams = [:]
+        def options  = [:]
+
+        def abstractMusics = AbstractMusic.executeQuery("""
+            select am.id, am.title, c.name
+            from AbstractMusic am
+            left join am.composer as c
+            
+            """, namedParams, options
+        ).collect { r ->
+
+            return [
+                id                  :  r[0],
+                title               :  r[1],
+                composerName        : r[2]
+            ]
+        }
+
+        render abstractMusics as JSON
+
+    }
 
     /*
 

@@ -17,11 +17,6 @@ class InterpretationController {
         def namedParams = [:]
         def options  = [:]
 
-        //render Interpretation.list() as JSON
-
-
-
-
         def interpretations = Interpretation.executeQuery("""
             select i.id, i.title, amp.title, am.title, c.name
             from Interpretation i

@@ -63,22 +63,7 @@
 
                             $("select#interpretation").val(interpretationId);
 
-                            let params = [];
-                            for (let i = 0; i < data.length; i++) {
-                                console.log(data[i].DT_RowId);
-                                params.push("recording[]=" + data[i].DT_RowId);
-                            }
 
-                            let url = "${createLink(controller:'interpretation',action:'show')}";
-
-                            console.log(url);
-
-                            console.log(params.join("&"));
-
-                            url += "?" + params.join("&");
-                            console.log(url);
-
-                            //window.location.href = encodeURI(url);
 
                         }
                     }
