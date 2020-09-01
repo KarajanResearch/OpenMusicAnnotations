@@ -350,16 +350,27 @@ class RecordingController {
 
     def compare() {
         println "compare"
-        List recordingIds = params['recording[]']
-        if (!recordingIds) {
-            render "no selection, go back please"
-            return
-        }
-        def recordings = Recording.findAllByIdInList(recordingIds).sort {
-            it.title
+        try {
+            List recordingIds = params['recording[]']
+            if (!recordingIds) {
+                render "no selection, go back please"
+                return
+            }
+            def recordings = Recording.findAllByIdInList(recordingIds).sort {
+                it.title
+            }
+
+            render view: "compare", model: [recordings: recordings]
+        } catch (Exception ex) {
+            try {
+
+                redirect(action: "show", id: params['recording[]'])
+
+            } catch (Exception ex2) {
+                return notFound()
+            }
         }
 
-        render view: "compare", model: [recordings: recordings]
     }
 
     def vizPlayFrame(Long id) {
@@ -754,7 +765,7 @@ class RecordingController {
             left join r.annotationSessions as s
             group by r.id, i.id, amp.id, am.id, c.id
             """, namedParams, options
-        )
+        ) // TODO: use collect() when refactoring in the future
         render(view: "index", model:[recordingList: recordingList])
     }
 

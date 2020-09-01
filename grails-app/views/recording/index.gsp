@@ -28,11 +28,10 @@
             <table id="recordingList" class="display">
                 <thead>
                 <tr>
-                    <th>Recording</th>
-                    <th>Interpretation</th>
-                    <th>Composition</th>
                     <th>Composer</th>
-                    <th>Annotations</th>
+                    <th>Composition</th>
+                    <th>Interpretation</th>
+                    <th>Recording</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,22 +39,17 @@
 
                     <tr id="${recording[0]}" class="context_menu_recording">
                         <td>
-                            <g:link controller="recording" action="show" id="${recording[0]}">${recording[1]}</g:link>
-                        </td>
-                        <td>
-                            ${recording[2]}
+                            ${recording[4]}
                         </td>
                         <td>
                             ${recording[3]}
                         </td>
                         <td>
-                            ${recording[4]}
+                            ${recording[2]}
                         </td>
                         <td>
-                            ${recording[5]}
+                            <g:link controller="recording" action="show" id="${recording[0]}">${recording[1]}</g:link>
                         </td>
-
-
                     </tr>
                 </g:each>
                 </tbody>
@@ -104,6 +98,26 @@
 
                                         url += "?" + params.join("&");
                                         console.log(url);
+
+                                        window.location.href = encodeURI(url);
+
+                                    }
+                                },
+                                {
+                                    text: 'Open',
+                                    action: function(e, dt, node, config) {
+                                        console.log("Compare");
+                                        var rows = table.rows( { selected: true } );
+                                        console.log(rows.data());
+
+                                        let data = rows.data();
+                                        let recordingId = data[0].DT_RowId;
+
+
+                                        let url = "${createLink(controller:'recording',action:'show')}";
+                                        url = url + "/" + recordingId.toString();
+                                        console.log(url);
+
 
                                         window.location.href = encodeURI(url);
 
