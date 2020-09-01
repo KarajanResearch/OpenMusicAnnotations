@@ -53,6 +53,7 @@
                     accept: function(file, done) {
                         console.log("accept");
                         console.log(file);
+                        $("input#title").val(file.name);
                         done();
                     },
                     success: function (file) {

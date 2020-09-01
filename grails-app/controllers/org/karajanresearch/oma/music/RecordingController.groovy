@@ -772,7 +772,7 @@ class RecordingController {
 
     def create() {
 
-        Recording dummyRecording = new Recording(title: "Add a Title...", digitalAudio: [])
+        Recording dummyRecording = new Recording(title: "Add a Title or leave blank to use filename...", digitalAudio: [])
 
 
         if (!dummyRecording.save(flush: true)) {
@@ -823,6 +823,10 @@ class RecordingController {
 
         def recording = Recording.get(params.id)
         if (!recording) return notFound()
+
+        if (!params.title || params.title == "") {
+            params.title = recording.digitalAudio[0].originalFileName
+        }
 
         try {
 

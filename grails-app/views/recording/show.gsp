@@ -49,7 +49,7 @@
 
 
 
-    <f:display bean="recording" except="beats, tempo, annotationSessions"/>
+    <f:display bean="recording" except="beats, tempo, annotationSessions, digitalAudio"/>
 
 
     <g:form resource="${this.recording}" method="DELETE">
