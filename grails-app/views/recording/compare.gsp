@@ -16,24 +16,14 @@
 </div>
 <div id="compare-recording" class="content scaffold-show" role="main">
 
-    <h1>Compare Recordings. <a href="#">Create Computational Musicology Notebook</a></h1>
+    <h1>Compare Recordings</h1>
 
 
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
 
-    <!--
-    <style>
-        .vizPlayFrame {
-            width: fit-content;
-        }
-        html,body        {height: 100%;}
-        .wrapper         {width: 100%; max-width: 100%; height: 1000px; margin: 0 auto; background: #CCC}
-        .h_iframe        {position: relative; padding-top: 1000px; height: 100%}
-        .h_iframe iframe {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
-    </style>
--->
+
 
     <div class="wrapper">
         <g:each var="recording" in="${this.recordings}" >
@@ -41,13 +31,18 @@
             <div class="h_iframe">
 
                 <h2>
-                    <g:if test="${recording.interpretation}">
-                        ${recording.interpretation}
-                    </g:if>
-                    <g:if test="${recording.interpretation}">
-                        ${recording.interpretation.tokenizeParts()}
-                    </g:if>
-                    (${recording.title})
+
+                    <g:link class="show" action="show" resource="${recording}">
+                        <g:if test="${recording.interpretation}">
+                            ${recording.interpretation}
+                        </g:if>
+                        <g:if test="${recording.interpretation}">
+                            ${recording.interpretation.tokenizeParts()}
+                        </g:if>
+                        (${recording.title})
+                    </g:link>
+
+
                 </h2>
 
 

@@ -60,7 +60,8 @@ class InterpretationController {
 
             def part = AbstractMusicPart.findOrSaveWhere(
                 abstractMusic:  composition,
-                title: params.abstractMusicPart
+                title: params.abstractMusicPart,
+                interpretation: interpretation
             )
 
 

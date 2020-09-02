@@ -23,7 +23,11 @@
 
 
     <g:if test="${this.recording.interpretation}">
-        <h1>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</h1>
+        <h1>
+            <g:link class="show" action="show" resource="${this.recording}">
+            ${this.recording.interpretation}: ${this.recording.abstractMusicPart}
+            </g:link>
+        </h1>
     </g:if>
     <g:else>
         <h1>${this.recording.title}
