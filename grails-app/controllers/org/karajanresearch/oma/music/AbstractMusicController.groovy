@@ -35,6 +35,51 @@ class AbstractMusicController {
 
     }
 
+
+
+    def save(AbstractMusic abstractMusic) {
+
+        println "SAVE"
+        println params
+
+
+        if (!params.composerWikiUrl) {
+            return notFound()
+        }
+
+        def composer = Composer.findOrSaveWhere(
+            wikipediaEnUrl: params.composerWikiUrl,
+            name: params.composerWikiName
+        )
+
+
+        abstractMusic.title = params.title
+        abstractMusic.composer = composer
+
+
+
+        try {
+            if (!abstractMusic.save(flush: true)) {
+                println abstractMusic.errors
+            } else {
+                println abstractMusic
+            }
+        } catch (Exception e) {
+            respond abstractMusic.errors, view:'create'
+            return
+        }
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.created.message', args: [message(code: 'abstractMusic.label', default: 'AbstractMusic'), abstractMusic.id])
+                redirect abstractMusic
+            }
+            '*' { respond abstractMusic, [status: CREATED] }
+        }
+    }
+
+
+
     /*
 
     AbstractMusicService abstractMusicService

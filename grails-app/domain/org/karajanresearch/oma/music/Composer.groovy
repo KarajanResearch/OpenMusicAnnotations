@@ -11,6 +11,7 @@ class Composer implements MultiTenant<Composer> {
     Long tenantId
 
     String name
+    String wikipediaEnUrl
 
 
     static mapping = {
@@ -22,6 +23,7 @@ class Composer implements MultiTenant<Composer> {
     static constraints = {
         name nullable: false
         compositions nullable: true
+        wikipediaEnUrl nullable: true
     }
 
     String toString() {

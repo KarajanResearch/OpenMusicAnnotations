@@ -1,14 +1,26 @@
 package org.karajanresearch.oma.music
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
+import org.karajanresearch.oma.api.ComposerApiService
 import org.karajanresearch.oma.music.Composer
 
-@Secured(["ROLE_ADMIN"])
+
+@Secured(["ROLE_AUTHENTICATED"])
 class ComposerController {
 
     static scaffold = Composer
 
     ComposerDataService composerDataService
+    ComposerApiService composerApiService
+    def assetResourceLocator
+
+    def ajaxIndex() {
+
+        def list = composerApiService.getWikipediaComposerList()
+
+        render list as JSON
+    }
 
     def show(Long id) {
         respond composerDataService.get(id)

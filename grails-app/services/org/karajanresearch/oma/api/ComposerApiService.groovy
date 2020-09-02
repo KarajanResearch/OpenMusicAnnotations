@@ -1,6 +1,9 @@
 package org.karajanresearch.oma.api
 
+import grails.converters.JSON
 import grails.gorm.transactions.Transactional
+import grails.util.Environment
+import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 import org.karajanresearch.oma.music.AbstractMusic
 import org.karajanresearch.oma.music.Composer
@@ -9,6 +12,30 @@ import org.karajanresearch.oma.music.ComposerDataService
 class ComposerApiService {
 
     ComposerDataService composerDataService
+
+    def grailsApplication
+
+    def getWikipediaComposerList() {
+
+        def path = ""
+        switch (Environment.current) {
+            case Environment.DEVELOPMENT:
+                path = grailsApplication.config.getProperty("oma.dataDirectory.development")
+                break
+            case Environment.PRODUCTION:
+                path = grailsApplication.config.getProperty("oma.dataDirectory.production")
+                break
+        }
+
+        def jsonFilePath = path + "/bootstrap/composerList.json"
+        def slurper = new JsonSlurper()
+
+        def list = slurper.parse(new File(jsonFilePath).newInputStream())
+
+        return list
+
+    }
+
 
     /**
      *

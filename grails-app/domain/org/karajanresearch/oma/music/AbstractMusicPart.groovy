@@ -57,10 +57,10 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
         title nullable: true
         abstractMusic nullable: false
         pdfLocation nullable: true
-        interpretationOrder nullable: false
+        interpretationOrder nullable: true
         interpretation nullable: false
-        barNumberOffset nullable: false
-        numberOfBars nullable: false
+        barNumberOffset nullable: true
+        numberOfBars nullable: true
         pdfPageChangeAnnotationSession nullable: true
     }
 

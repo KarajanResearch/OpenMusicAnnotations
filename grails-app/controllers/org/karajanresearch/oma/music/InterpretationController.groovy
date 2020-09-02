@@ -41,6 +41,70 @@ class InterpretationController {
     }
 
 
+    def update() {
+
+        println "Interpretation.update"
+        println params
+
+        def interpretation = Interpretation.get(params.id)
+
+        if (interpretation == null) {
+            notFound()
+            return
+        }
+
+        try {
+
+            interpretation.title = params.title
+            def composition = AbstractMusic.get(params.compositionId)
+
+            def part = AbstractMusicPart.findOrSaveWhere(
+                abstractMusic:  composition,
+                title: params.abstractMusicPart
+            )
+
+
+            if (!interpretation.abstractMusicParts.contains(part)) {
+                interpretation.abstractMusicParts.add(part)
+            }
+
+
+
+
+            // interpretation.abstractMusicParts[0].findOrSaveWhere(abstractMusic: composition, title: "new Title")
+
+            // TODO: save from params
+
+            if (!interpretation.save(flush: true)) {
+                println interpretation.errors
+            }
+
+
+        } catch (Exception e) {
+            println e.message
+            respond interpretation.errors, view:'edit'
+            return
+        }
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'interpretation.label', default: 'Interpretation'), interpretation.id])
+                redirect interpretation
+            }
+            '*'{ respond interpretation, [status: OK] }
+        }
+    }
+
+    protected void notFound() {
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'interpretation.label', default: 'Interpretation'), params.id])
+                redirect action: "index", method: "GET"
+            }
+            '*'{ render status: NOT_FOUND }
+        }
+    }
+
 
     /*
 
