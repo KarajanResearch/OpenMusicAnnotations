@@ -39,14 +39,14 @@ class RecordingApiService {
             return ["error": "no interpretation"]
         }
 
-
+/*
         AbstractMusicPart a = AbstractMusicPart.get(params.abstract_music_part)
         if (!a) {
             return ["error": "no interpretation"]
         }
-
-        Recording r = Recording.findByTitleAndInterpretationAndAbstractMusicPart(
-            params.title, i, a
+*/
+        Recording r = Recording.findByTitleAndInterpretation(
+            params.title, i
         )
 
         println "exising recording: " + r
@@ -63,8 +63,7 @@ class RecordingApiService {
             println "creating new recording"
             r = new Recording(
                 title: params.title,
-                interpretation: i,
-                abstractMusicPart: a
+                interpretation: i
             )
             if (!r.save(flush: true)) {
                 println r.errors

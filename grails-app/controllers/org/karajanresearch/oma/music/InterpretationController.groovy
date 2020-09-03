@@ -56,7 +56,17 @@ class InterpretationController {
         try {
 
             interpretation.title = params.title
-            def composition = AbstractMusic.get(params.compositionId)
+            def composition =
+                AbstractMusic.get(params.compositionId)
+
+            //interpretation.abstractMusicParts
+            AbstractMusicPart.findAllByInterpretation(interpretation).each {
+                interpretation.removeFromAbstractMusicParts(it)
+                //it.delete()
+            }
+
+            // TODO: fix double parts for interpretation
+            interpretation.abstractMusicParts.clear()
 
             def part = AbstractMusicPart.findOrSaveWhere(
                 abstractMusic:  composition,
@@ -64,10 +74,8 @@ class InterpretationController {
                 interpretation: interpretation
             )
 
+            interpretation.addToAbstractMusicParts(part)
 
-            if (!interpretation.abstractMusicParts.contains(part)) {
-                interpretation.abstractMusicParts.add(part)
-            }
 
 
 
@@ -82,7 +90,7 @@ class InterpretationController {
 
 
         } catch (Exception e) {
-            println e.message
+            println e
             respond interpretation.errors, view:'edit'
             return
         }
