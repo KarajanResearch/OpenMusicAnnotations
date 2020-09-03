@@ -50,6 +50,9 @@
     <p>
         <g:link controller="user" action="index">Create Account</g:link> to get started.
     </p>
+    <p>
+        <g:link controller="login" action="auth">Login </g:link> to <g:link controller="recording" action="index">to browse and edit</g:link>.
+    </p>
 
     <h1 class="welcome">Documentation</h1>
 

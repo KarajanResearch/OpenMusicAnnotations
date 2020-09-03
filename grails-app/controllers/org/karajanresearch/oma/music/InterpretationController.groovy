@@ -41,6 +41,37 @@ class InterpretationController {
     }
 
 
+    def removeComposition() {
+
+        println "removeComposition"
+        println params
+
+        if (!params.interpretationId || !params.abstractMusicPartId) {
+            return notFound()
+        }
+
+        def interpretation = Interpretation.get(params.interpretationId)
+        def abstractMusicPart = AbstractMusicPart.get(params.abstractMusicPartId)
+
+        println interpretation
+        println abstractMusicPart
+
+        if (!interpretation || !abstractMusicPart) {
+            return notFound()
+        }
+
+        interpretation.removeFromAbstractMusicParts(abstractMusicPart)
+        abstractMusicPart.delete()
+
+        if (!interpretation.save(flush: true)) {
+            println interpretation.errors
+        }
+
+        redirect(action: "show", id: interpretation.id)
+
+    }
+
+
     def update() {
 
         println "Interpretation.update"
@@ -60,13 +91,10 @@ class InterpretationController {
                 AbstractMusic.get(params.compositionId)
 
             //interpretation.abstractMusicParts
-            AbstractMusicPart.findAllByInterpretation(interpretation).each {
-                interpretation.removeFromAbstractMusicParts(it)
-                //it.delete()
-            }
+
 
             // TODO: fix double parts for interpretation
-            interpretation.abstractMusicParts.clear()
+
 
             def part = AbstractMusicPart.findOrSaveWhere(
                 abstractMusic:  composition,
@@ -110,7 +138,7 @@ class InterpretationController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'interpretation.label', default: 'Interpretation'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*'{ render status: 404 }
         }
     }
 

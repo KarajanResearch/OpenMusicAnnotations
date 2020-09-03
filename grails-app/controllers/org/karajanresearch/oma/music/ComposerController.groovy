@@ -19,6 +19,12 @@ class ComposerController {
 
         def list = composerApiService.getWikipediaComposerList()
 
+        // add self-added composers to wikipedia list
+        Composer.findAllByWikipediaEnUrlIsNull().each {
+            list.add([name: it.name, href: "", livedAt: "added manually. Please review data!" ])
+        }
+
+
         render list as JSON
     }
 

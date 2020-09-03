@@ -43,14 +43,14 @@ class AbstractMusicController {
         println params
 
 
-        if (!params.composerWikiUrl) {
-            return notFound()
-        }
+
 
         def composer = Composer.findOrSaveWhere(
             wikipediaEnUrl: params.composerWikiUrl,
             name: params.composerWikiName
         )
+
+        println composer
 
 
         abstractMusic.title = params.title

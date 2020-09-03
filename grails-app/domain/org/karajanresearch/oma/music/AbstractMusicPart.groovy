@@ -72,10 +72,6 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
     }
 
     String getTitle() {
-        if (!title) {
-            return "Part " + interpretationOrder + " of " + interpretation.toString()
-        } else {
-            return title
-        }
+        return title
     }
 }

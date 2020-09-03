@@ -118,7 +118,7 @@
                     <h2>Composer</h2>
 
                     <p>
-                        Use Search or   <g:link class="create" controller="composer" action="create">add Composer</g:link>
+                        Use Search or   <g:link target="_blank" class="create" controller="composer" action="create">add Composer</g:link>
                     </p>
 
                     <table id="composerSelection">
