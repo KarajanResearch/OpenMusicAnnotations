@@ -4,7 +4,7 @@
     <meta name="layout" content="main" />
     <g:set var="entityName" value="${message(code: 'recording.label', default: 'Recording')}" />
     <g:if test="${this.recording.interpretation}">
-        <title>${this.recording.interpretation}: ${this.recording.abstractMusicPart}</title>
+        <title>${this.recording.interpretation}</title>
     </g:if>
     <g:else>
         <title>${this.recording.title}</title>
@@ -25,7 +25,7 @@
     <g:if test="${this.recording.interpretation}">
         <h1>
             <g:link class="show" action="show" resource="${this.recording}">
-            ${this.recording.interpretation}: ${this.recording.abstractMusicPart}
+            ${this.recording.interpretation}
             </g:link>
         </h1>
     </g:if>

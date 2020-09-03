@@ -394,9 +394,11 @@ class RecordingController {
             return notFound()
         }
         def showScore = false
+        /*
         if (recording?.abstractMusicPart?.pdfLocation) {
             showScore = true
         }
+         */
 
         def model = [recording: recording, showScore: showScore]
 

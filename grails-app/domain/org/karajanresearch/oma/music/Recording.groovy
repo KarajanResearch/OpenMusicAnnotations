@@ -33,13 +33,6 @@ class Recording implements MultiTenant<Recording> {
     Interpretation interpretation
 
     /**
-     * abstract music (sheet) that represents that recording.
-     * deprecated. use abstractmusicpart in interpretations
-     */
-    @Deprecated
-    AbstractMusicPart abstractMusicPart
-
-    /**
      * the computed, final, actually used annotation session for beats and bars
      */
     Session beats
@@ -55,14 +48,13 @@ class Recording implements MultiTenant<Recording> {
         title nullable: false
         digitalAudio nullable: true
         interpretation nullable: true
-        abstractMusicPart nullable: true
         beats nullable: true
         tempo nullable: true
     }
 
     String toString() {
         //if (!title) {
-            return title + ": Recording of " + interpretation.toString() + ": " + abstractMusicPart?.toString()
+            return title + ": Recording of " + interpretation.toString()
         //} else {
         //    return title
         //}

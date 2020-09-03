@@ -112,8 +112,6 @@
 
 <!-- dependency injection ;) -->
 <input type="hidden" id="recordingId" value="${recording?.id}">
-<input type="hidden" id="abstractMusicPartId" value="${recording?.abstractMusicPart?.id}">
-
 <input type="hidden" id="waveFormUrl" value="${createLink(controller:'renderedWaveForm',action:'ajaxGetWaveForm')}">
 <input type="hidden" id="imageSampleUrl" value="${createLink(controller:'renderedImageSample',action:'getImage')}">
 <input type="hidden" id="scoreUrl" value="${createLink(controller:'abstractMusicPart',action:'getScoreFile')}">
