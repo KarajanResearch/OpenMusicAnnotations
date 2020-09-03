@@ -10,8 +10,6 @@
         <div class="nav" role="navigation">
             <ul>
                 <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-                <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
             </ul>
         </div>
         <div id="edit-abstractMusicPart" class="content scaffold-edit" role="main">
@@ -29,7 +27,7 @@
             <g:form resource="${this.abstractMusicPart}" method="PUT">
                 <g:hiddenField name="version" value="${this.abstractMusicPart?.version}" />
                 <fieldset class="form">
-                    <f:all bean="abstractMusicPart"/>
+                    <f:all bean="abstractMusicPart" order="title, interpretationOrder, barNumberOffset, numberOfBars"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />

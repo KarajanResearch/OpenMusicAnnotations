@@ -673,8 +673,13 @@ class RecordingController {
         // println "Increased Buffer Size: " +  response.getBufferSize()
         println "File size: " + file.size()
 
-        response.setContentType("audio/wav")
-        response.setHeader("Content-Length", file.size().toString())
+        try {
+            response.setContentType("audio/wav")
+            response.setHeader("Content-Length", file.size().toString())
+        } catch(Exception ex) {
+            println ex.message
+        }
+
 
         // https://stackoverflow.com/questions/46310388/streaming-mp4-requests-via-http-with-range-header-in-grails
 
@@ -707,7 +712,7 @@ class RecordingController {
 
         } catch (Exception ex) {
             println ex.message
-            println ex.stackTrace.toString()
+            // println ex.stackTrace.toString()
         } finally {
 
             try {

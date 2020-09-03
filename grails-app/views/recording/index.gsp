@@ -74,7 +74,7 @@
                             select: {
                                 style: 'multi'
                             },
-                            dom: 'frtiBp',
+                            dom: 'lfrtiBp',
                             buttons: [
                                 {
                                     text: 'Compare',
@@ -84,6 +84,11 @@
                                         console.log(rows.data());
 
                                         let data = rows.data();
+
+                                        if (data.length < 2) {
+                                            return alert("Please select at least 2 rows for comparison");
+                                        }
+
                                         let params = [];
                                         for (let i = 0; i < data.length; i++) {
                                             console.log(data[i].DT_RowId);
