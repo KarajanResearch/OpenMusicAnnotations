@@ -8,6 +8,20 @@ The project was started and funded by https://karajan-research.org to collect an
 
 ## Documentation
 
+### What is a Recording
+
+The center of all musical data in the Open Music Annotation Cloud is the recording, i.e., music recorded to a medium (usually WAV files).
+
+In classical music, virtually any piece audible today was composed long before artists interpreted it and have recorded that interpretation to a medium. For example, Beethoven composed his symphonies long before Herbert von Karajan was born. Much later Karajan decides to interpret a Beethoven symphony with his orchestra of choice. Once he was happy with the result Karajan and the orchestra play the symphony and have a record company create a recording of that concert and sell that recording on mediums such as records, CDs, or Spotify.
+
+On the other hand, music can happen very differently from the classic approach. For example, a group of musicians can book a studio, setup for live recording create a recording of completely improvised music. The result is also a recording that can be distributed through any music medium but there are no references to any composotion.
+
+The minimum recording information in the Open Music Annotation Cloud is a title and a WAV file.
+
+## What is an Interpretation
+
+![High level data model of recordings](https://github.com/KarajanResearch/OpenMusicAnnotations/blob/master/doc/High%20Level%20Data%20Model%20of%20Recordings.png)
+
 ### Using Open Music Annotation Cloud
 https://oma.cloud
 
