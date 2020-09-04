@@ -14,7 +14,7 @@ The center of all musical data in the Open Music Annotation Cloud is the recordi
 
 In classical music, virtually any piece audible today was composed long before artists interpreted it and have recorded that interpretation to a medium. For example, Beethoven composed his symphonies long before Herbert von Karajan was born. Much later Karajan decides to interpret a Beethoven symphony with his orchestra of choice. Once he was happy with the result Karajan and the orchestra play the symphony and have a record company create a recording of that concert and sell that recording on mediums such as records, CDs, or Spotify.
 
-On the other hand, music can happen very differently from the classic approach. For example, a group of musicians can book a studio, setup for live recording create a recording of completely improvised music. The result is also a recording that can be distributed through any music medium but there are no references to any composotion.
+On the other hand, music can happen very differently from the classic approach. For example, a group of musicians can book a studio, setup for live recording and create a recording of completely improvised music. The result is also a recording that can be distributed through any music medium but there are no references to any composotion.
 
 The minimum recording information in the Open Music Annotation Cloud is a title and a WAV file.
 
