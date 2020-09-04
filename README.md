@@ -16,10 +16,17 @@ In classical music, virtually any piece audible today was composed long before a
 
 On the other hand, music can happen very differently from the classic approach. For example, a group of musicians can book a studio, setup for live recording and create a recording of completely improvised music. The result is also a recording that can be distributed through any music medium but there are no references to any composition.
 
-The minimum recording information in the Open Music Annotation Cloud is a title and a WAV file.
+The minimum recording information in the Open Music Annotation Cloud is a title and a WAV file. Information about the interpretation, the composition, and the composer is optional, but recommended for classical pieces.
 
-## What is an Interpretation
+[Watch this tutorial on adding recordings and interpretation information](https://youtube.com)
 
+### What is an Interpretation
+
+The same classical composition performed by different conductors and different orchestras sound different. For classical music lovers, that differences often make them prefer one conductors interpretation over some other conductors interpretation.
+
+The minimum interpretation information in the Open Music Annotation Cloud is a Composition, e.g. Beethovens 5th Symphony, and an interpretation title, e.g., Karajan conducting the BPO in 1962.
+
+### The Connection between Annotation, Recording, Interpretation and Composition
 ![High level data model of recordings](https://github.com/KarajanResearch/OpenMusicAnnotations/blob/master/doc/High%20Level%20Data%20Model%20of%20Recordings.png)
 
 ### Using Open Music Annotation Cloud
