@@ -30,11 +30,16 @@ The minimum interpretation information in the Open Music Annotation Cloud is a C
 ![High level data model of recordings](https://github.com/KarajanResearch/OpenMusicAnnotations/blob/master/doc/High%20Level%20Data%20Model%20of%20Recordings.png)
 
 ### Using Open Music Annotation Cloud
-https://oma.cloud
 
-### Developer Docs
+THe Open Music Annotation Cloud is online at https://oma.cloud
+
+[Watch this tutorial on adding beats and text annotation information](https://youtube.com)
+
+
+## Developer Docs
 Open Music Annotation Cloud is a Grails application. [Read about the Grails app structure](http://docs.grails.org/latest/guide/introduction.html). Apply [Grails conventions](http://docs.grails.org/latest/guide/gettingStarted.html#conventionOverConfiguration) to navigate the software modules in the grails-app directory.
 
-## Internal Docs
-https://docs.google.com/document/d/1LIhsc4LC-LwhHOdfiozZb35BiG-8DQjbkNWlsaqbzUc/edit
+To add functionality to the Open Music Annotation Cloud, fork the repo and add your code. Feel free to file pull requests if ou think our changes should be part of the official code base.
 
+## License
+The Open Music Annotations Cloud is Open Source. Contact us for license details.
