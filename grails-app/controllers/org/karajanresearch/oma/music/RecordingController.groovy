@@ -656,10 +656,15 @@ class RecordingController {
 
         def recording = Recording.get(id)
 
+        println recording
+
+
         if (!recording) return notFound()
 
 
         def file = recordingService.getFile(recording, params.type)
+
+        println file
 
         if (!file) return notFound()
 
@@ -677,6 +682,7 @@ class RecordingController {
             response.setContentType("audio/wav")
             response.setHeader("Content-Length", file.size().toString())
         } catch(Exception ex) {
+            println "error setting headers"
             println ex.message
         }
 
@@ -701,8 +707,11 @@ class RecordingController {
 
         response.setHeader( 'Accept-Ranges', 'bytes')
 
-        //response.setHeader("Content-Disposition", "inline;Filename=\"${fileName}\"")
-        //response.setHeader("Content-Transfer-Encoding", "binary")
+        response.setHeader("Content-Disposition", "inline;Filename=\"${file.name}\"")
+        response.setHeader("Content-Transfer-Encoding", "binary")
+
+        println "HEADERS"
+        println response.getHeaders()
 
         def outputStream = response.getOutputStream()
         try {
@@ -737,9 +746,12 @@ class RecordingController {
         Recording recording = Recording.get(cmd.recordingId)
         if (!recording) return notFound()
 
-        recording = tappingService.uploadFile(recording, cmd)
+        def session = tappingService.uploadFile(recording, cmd)
 
-        flash.message = "Tapping uploaded"
+        //render session as JSON
+        //return
+
+        flash.message = "Tapping uploaded: " + session.title
         redirect(controllerName: "recording", action: "show", id: recording.id)
     }
 

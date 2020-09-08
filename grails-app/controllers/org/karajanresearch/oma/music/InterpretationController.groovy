@@ -105,11 +105,6 @@ class InterpretationController {
             interpretation.addToAbstractMusicParts(part)
 
 
-
-
-
-            // interpretation.abstractMusicParts[0].findOrSaveWhere(abstractMusic: composition, title: "new Title")
-
             // TODO: save from params
 
             if (!interpretation.save(flush: true)) {
