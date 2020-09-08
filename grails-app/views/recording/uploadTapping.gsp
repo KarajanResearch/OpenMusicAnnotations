@@ -18,24 +18,20 @@
 
     A Tapping is a data file in CSV (or semi-colon separated on Windows) format.
 
+    <h2>3-column format</h2>
+    timestamp in seconds, tempo in bpm, beatNumber (3,1 or 3.1 means bar 3 beat 1. You can ommit the beatnumber if you only count bars. 3 means bar 3 beat 1)
     <pre>
-    5,106938776;3,1
-    5,655510204;3,2
-    6,230204082;3,3
-    6,831020408;3,4
-    7,41877551;4,1
-    8,019591837;4,2
-    8,633469388;4,3
-    9,312653061;4,4
+        5,106938776;123,23;3,1
+    or
+        5.106938776,123.23,3.1
     </pre>
 
+    <h2>2-column format</h2>
+    timestamp in seconds, beatNumber (3,1 or 3.1 means bar 3 beat 1. You can ommit the beatnumber if you only count bars. 3 means bar 3 beat 1)
     <pre>
-    1.9020408165,1.1
-    3.2785714285,1.2
-    4.4979591835,1.3
-    5.752743764,2.1
-    7.231564626,2.2
-    8.5188208615,2.3
+        5,106938776;3,1
+    or
+        5.106938776,3.1
     </pre>
 
 

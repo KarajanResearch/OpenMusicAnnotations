@@ -96,16 +96,41 @@ class TappingService {
             def timestamp = Double.parseDouble(parts[0])
             def tempo = Double.parseDouble(parts[1])
 
+            def abstractMusicPosition = parts[2]
             Long bar = 1
             Long beat = 1
-            if (parts[2].contains(".")) {
-                def beatbar = parts[2].tokenize(".")  // the comma is no comma
+            if (abstractMusicPosition.contains(".")) {
+                def beatbar = abstractMusicPosition.tokenize(".")  // the comma is no comma
                 bar = Long.parseLong(beatbar[0])
                 beat = Long.parseLong(beatbar[1])
             } else {
-                bar = Long.parseLong(parts[2])
+                bar = Long.parseLong(abstractMusicPosition)
             }
 
+
+            def a = new Annotation(
+                momentOfPerception: timestamp,
+                type: "Tap",
+                barNumber: bar,
+                beatNumber: beat
+            )
+            println a
+            return a
+        }
+
+        if (numberOfColumns == 2) {
+            // no tempo
+            def timestamp = Double.parseDouble(parts[0])
+            def abstractMusicPosition = parts[1]
+            Long bar = 1
+            Long beat = 1
+            if (abstractMusicPosition.contains(".")) {
+                def beatbar = abstractMusicPosition.tokenize(".")  // the comma is no comma
+                bar = Long.parseLong(beatbar[0])
+                beat = Long.parseLong(beatbar[1])
+            } else {
+                bar = Long.parseLong(abstractMusicPosition)
+            }
 
             def a = new Annotation(
                 momentOfPerception: timestamp,
