@@ -653,43 +653,31 @@ class RecordingController {
         println "getAudioFile " + new Date()
         println params
 
-
         def recording = Recording.get(id)
-
-        println recording
-
 
         if (!recording) return notFound()
 
-
         def file = recordingService.getFile(recording, params.type)
-
-        println file
 
         if (!file) return notFound()
 
 
+        def outputStream = response.getOutputStream()
 
-        println "Response Buffer Size: " +  response.getBufferSize()
-//        response.setBufferSize(1024 * 1024)
-        // Integer fileSize = file.size()
-        // response.setBufferSize(fileSize)
+        def inputStream = file.newInputStream()
 
-        // println "Increased Buffer Size: " +  response.getBufferSize()
-        println "File size: " + file.size()
 
-        try {
-            response.setContentType("audio/wav")
-            response.setHeader("Content-Length", file.size().toString())
-        } catch(Exception ex) {
-            println "error setting headers"
-            println ex.message
-        }
 
+        // preparing headers
+        response.setContentType("audio/wav")
 
         // https://stackoverflow.com/questions/46310388/streaming-mp4-requests-via-http-with-range-header-in-grails
 
-        println "request header:"
+
+        Long contentLength = file.size()
+        Long totalFileBytes = file.size()
+
+
         def range = request.getHeader("range")
         if (range) {
             println range
@@ -697,26 +685,54 @@ class RecordingController {
             def rangeKeyParts = range.tokenize("=")
             def rangeParts = rangeKeyParts[1].tokenize("-")
 
+            Integer startByte = Integer.parseInt(rangeParts[0])
+            println "start at byte: " + startByte.toString()
+
+            contentLength = totalFileBytes - startByte
+
+            inputStream.skip(startByte)
+
+
             // TODO: fix partial streaming, if necessary
             if (rangeParts.size() > 1) {
-                Integer startByte = Integer.parseInt(rangeParts[0])
-                Integer endByte = Integer.parseInt(rangeParts[1])
+
+                def endByte = Long.parseLong(rangeParts[1])
                 //Integer contentLength = (endByte)
+
+                contentLength = (endByte - startByte) + 1
+
+                response.setHeader('Content-Range', "bytes ${startByte}-${endByte}/${file.size()}")
+            } else {
+                // no end defined, but we do not stream everything, only, say, 8MB,
+
+                contentLength = Math.min(contentLength, startByte + (8 * 1024 * 1024))
+
+                response.setHeader('Content-Range', "bytes ${startByte}-${contentLength - 1}/${totalFileBytes}")
             }
+
+
+            println "end at byte: " + contentLength.toString()
+
+
+            response.setStatus(206)
+            response.setHeader( 'Content-Length', "${contentLength - startByte}")
+
+
+        } else {
+            response.setHeader("Content-Length", file.size().toString())
         }
 
         response.setHeader( 'Accept-Ranges', 'bytes')
-
         response.setHeader("Content-Disposition", "inline;Filename=\"${file.name}\"")
         response.setHeader("Content-Transfer-Encoding", "binary")
 
-        println "HEADERS"
-        println response.getHeaders()
+        byte[] ioBuffer = new byte[contentLength]
+        inputStream.read(ioBuffer, 0, (int)contentLength)
 
-        def outputStream = response.getOutputStream()
         try {
             //def outputStream = response.getOutputStream()
-            outputStream << file.newInputStream()
+
+            outputStream << ioBuffer
             outputStream.flush()
 
         } catch (Exception ex) {
@@ -726,6 +742,7 @@ class RecordingController {
 
             try {
                 outputStream.close()
+                println "Outputstream closed"
             } catch (Exception ex) {
                 println "Outputstream not closed properly"
                 println ex.message
