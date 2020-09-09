@@ -648,6 +648,11 @@ class RecordingController {
     }
 
 
+    /**
+     * streams the primary audio file associated with recording
+     * @param id recording.id
+     * @return
+     */
     def getAudioFile(Long id) {
 
         println "getAudioFile " + new Date()
@@ -661,21 +666,38 @@ class RecordingController {
 
         if (!file) return notFound()
 
+        def outputStream
+        try {
+            outputStream = response.getOutputStream()
+        } catch (Exception ex) {
+            println "error getting output stream"
+            println ex.message
+        }
 
-        def outputStream = response.getOutputStream()
 
         def inputStream = file.newInputStream()
 
 
-
-        // preparing headers
-        response.setContentType("audio/wav")
-
+        // partial audio streaming with grails:
         // https://stackoverflow.com/questions/46310388/streaming-mp4-requests-via-http-with-range-header-in-grails
 
 
-        Long contentLength = file.size()
+        // preparing headers
+        response.reset()
+        response.setContentType("audio/wav")
+        response.setHeader( 'Accept-Ranges', 'bytes')
+        response.setHeader("Content-Disposition", "inline;Filename=\"${file.name}\"")
+        response.setHeader("Content-Transfer-Encoding", "binary")
+        response.setStatus(206)
+
+
+
+        Long bufferSize = 1 * 1024 * 1024 // 1 MB
+        Long contentEnd = 0
+        Long contentLength = 0
         Long totalFileBytes = file.size()
+        Long rangeFrom = 0
+        Long rangeTo = 0
 
 
         def range = request.getHeader("range")
@@ -685,70 +707,56 @@ class RecordingController {
             def rangeKeyParts = range.tokenize("=")
             def rangeParts = rangeKeyParts[1].tokenize("-")
 
-            Integer startByte = Integer.parseInt(rangeParts[0])
-            println "start at byte: " + startByte.toString()
+            rangeFrom = Integer.parseInt(rangeParts[0])
+            println "start at byte: " + rangeFrom.toString()
 
-            contentLength = totalFileBytes - startByte
+            inputStream.skip(rangeFrom)
 
-            inputStream.skip(startByte)
+            // ignoring rangeEnd for now
+            // no end defined, but we do not stream everything, only, say, 8MB,
+            contentLength = totalFileBytes - rangeFrom
 
+            println "contentLength: " + contentLength.toString()
 
-            // TODO: fix partial streaming, if necessary
-            if (rangeParts.size() > 1) {
+            assert (contentLength > 0)
 
-                def endByte = Long.parseLong(rangeParts[1])
-                //Integer contentLength = (endByte)
+            // stream at most bufferSize bytes
+            contentEnd = Math.min(rangeFrom + contentLength, rangeFrom + bufferSize)
 
-                contentLength = (endByte - startByte) + 1
+            println "contentEnd: " + contentEnd.toString()
 
-                response.setHeader('Content-Range', "bytes ${startByte}-${endByte}/${file.size()}")
-            } else {
-                // no end defined, but we do not stream everything, only, say, 8MB,
+            response.setHeader('Content-Range', "bytes ${rangeFrom}-${contentEnd - 1}/${totalFileBytes}")
 
-                contentLength = Math.min(contentLength, startByte + (8 * 1024 * 1024))
-
-                response.setHeader('Content-Range', "bytes ${startByte}-${contentLength - 1}/${totalFileBytes}")
-            }
-
-
+            contentLength = contentEnd - rangeFrom
             println "end at byte: " + contentLength.toString()
+            
+            response.setHeader( 'Content-Length', "${contentLength}")
 
-
-            response.setStatus(206)
-            response.setHeader( 'Content-Length', "${contentLength - startByte}")
-
-
-        } else {
-            response.setHeader("Content-Length", file.size().toString())
-        }
-
-        response.setHeader( 'Accept-Ranges', 'bytes')
-        response.setHeader("Content-Disposition", "inline;Filename=\"${file.name}\"")
-        response.setHeader("Content-Transfer-Encoding", "binary")
-
-        byte[] ioBuffer = new byte[contentLength]
-        inputStream.read(ioBuffer, 0, (int)contentLength)
-
-        try {
-            //def outputStream = response.getOutputStream()
-
-            outputStream << ioBuffer
-            outputStream.flush()
-
-        } catch (Exception ex) {
-            println ex.message
-            // println ex.stackTrace.toString()
-        } finally {
+            byte[] ioBuffer = new byte[contentLength]
+            inputStream.read(ioBuffer, 0, (int)contentLength)
 
             try {
-                outputStream.close()
-                println "Outputstream closed"
+                outputStream << ioBuffer
+                outputStream.flush()
             } catch (Exception ex) {
-                println "Outputstream not closed properly"
                 println ex.message
+            } finally {
+                try {
+                    outputStream.close()
+                    println "Outputstream closed"
+                } catch (Exception ex) {
+                    println ex.message
+                }
             }
 
+        } else {
+            // no range. stream the whole file
+            response.setHeader("Content-Length", file.size().toString())
+            outputStream << file.newInputStream()
+            outputStream.flush()
+            outputStream.close()
         }
+
 
     }
 
