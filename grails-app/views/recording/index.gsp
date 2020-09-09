@@ -75,6 +75,8 @@
                                 style: 'multi'
                             },
                             dom: 'lfrtiBp',
+                            deferRender: true,
+                            pageLength: 25,
                             buttons: [
                                 {
                                     text: 'Compare',

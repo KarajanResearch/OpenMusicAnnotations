@@ -18,12 +18,11 @@ class InterpretationController {
         def options  = [:]
 
         def interpretations = Interpretation.executeQuery("""
-            select i.id, i.title, amp.title, am.title, c.name
+            select i.id, i.title, amp.title, am.title, c.name, i.changedAt
             from Interpretation i
             left join i.abstractMusicParts as amp
             left join amp.abstractMusic as am
-            left join am.composer as c
-            
+            left join am.composer as c            
             """, namedParams, options
         ).collect { r ->
 
@@ -32,7 +31,8 @@ class InterpretationController {
                 title               :  r[1],
                 abstractMusicPartTitle            :  r[2],
                 abstractMusicTitle             :  r[3],
-                composerName        : r[4]
+                composerName        : r[4],
+                changedAt           : r[5]
             ]
         }
 
@@ -83,6 +83,8 @@ class InterpretationController {
             notFound()
             return
         }
+
+        interpretation.changedAt = new Date()
 
         try {
 
@@ -135,6 +137,12 @@ class InterpretationController {
             }
             '*'{ render status: 404 }
         }
+    }
+
+    def create() {
+        def i = new Interpretation(params)
+        i.changedAt = new Date()
+        respond i
     }
 
 

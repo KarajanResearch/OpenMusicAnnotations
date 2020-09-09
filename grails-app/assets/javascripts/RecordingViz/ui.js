@@ -648,7 +648,11 @@ class AnnotationIconView {
 
         let url = $("#sessionShowUrl").val() + "/" + this.session.id;
 
-        window.location = url;
+
+        window.open(
+            url,
+            '_blank' // <- This is what makes it open in a new window.
+        );
 
 
     }

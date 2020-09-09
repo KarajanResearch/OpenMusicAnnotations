@@ -45,7 +45,16 @@ class ComposerApiService {
     @Transactional
     def addComposer(params) {
         def c = composerDataService.find(params.name)
-        if (!c) c = new Composer(name: params.name).save()
+
+        // try wikipedia list
+        def wikiList = getWikipediaComposerList()
+        def wikiComposer = wikiList.find {
+            it.name == params.name
+        }
+
+        println "Found: " + wikiComposer
+
+        if (!c) c = new Composer(name: params.name, wikipediaEnUrl: wikiComposer?.href).save()
         return c
     }
 

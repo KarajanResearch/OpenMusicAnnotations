@@ -650,6 +650,7 @@ class RecordingController {
 
     /**
      * streams the primary audio file associated with recording
+     * supports range header. use it!
      * @param id recording.id
      * @return
      */
@@ -729,7 +730,7 @@ class RecordingController {
 
             contentLength = contentEnd - rangeFrom
             println "end at byte: " + contentLength.toString()
-            
+
             response.setHeader( 'Content-Length', "${contentLength}")
 
             byte[] ioBuffer = new byte[contentLength]

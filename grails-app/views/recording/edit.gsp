@@ -16,6 +16,18 @@
     $(document).ready( function () {
 
 
+        // install event handler for getFocus
+        // to reload interpretationSelection table
+        $(window).focus(function() {
+            console.log('welcome (back)');
+            table.ajax.reload();
+        });
+
+        $(window).blur(function() {
+            console.log('bye bye');
+        });
+
+
         // see datatables manual for configuration details. every parameter is important!
 
         var table = $('#interpretationSelection').DataTable( {
@@ -39,7 +51,8 @@
                     {data: 'composerName'},
                     {data: 'abstractMusicTitle'},
                     {data: 'abstractMusicPartTitle'},
-                    {data: 'title'}
+                    {data: 'title'},
+                    {data: 'changedAt'}
                 ],
                 columnDefs: [
                     {
@@ -125,6 +138,7 @@
                         <th>Composition</th>
                         <th>Part</th>
                         <th>Title of Interpretation</th>
+                        <th>Changed at</th>
                     </tr>
 
                     </thead>

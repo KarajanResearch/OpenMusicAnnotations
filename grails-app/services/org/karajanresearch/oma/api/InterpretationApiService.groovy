@@ -22,6 +22,7 @@ class InterpretationApiService {
     @Transactional
     def addInterpretation(params) {
         def i = Interpretation.findOrSaveWhere(title: params.title)
+        i.changedAt = new Date()
         return i
     }
 

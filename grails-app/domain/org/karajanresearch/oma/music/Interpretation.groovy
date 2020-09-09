@@ -13,6 +13,7 @@ class Interpretation implements MultiTenant<Interpretation> {
 
     String title
 
+    Date changedAt
 
     /**
      * from a single interpretation == performance, one can create many recordings. usually one, though
@@ -22,6 +23,7 @@ class Interpretation implements MultiTenant<Interpretation> {
 
     static constraints = {
         title nullable: false
+        changedAt nullable: true
     }
 
     String tokenizeParts() {
