@@ -24,6 +24,9 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
+
+            An interpretation describes the way music is performed. A nice title might be: Herbert von Karajan and Vienna Philharmonic Orchestra in 1965.
+
             <g:form resource="${this.interpretation}" method="POST">
                 <fieldset class="form">
                     <f:all bean="interpretation" order="title"/>

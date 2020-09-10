@@ -128,7 +128,7 @@
                 <!-- interpretation table -->
                 <h2>What Interpretation was recorded?</h2>
                 <p>
-                    By interpretation we mean "the way the music was played" and use attributes like "conducted by Karajan". Use Search or   <g:link class="create" controller="interpretation" action="create" target="_blank">add interpretation</g:link>
+                    By interpretation we mean "the way the music was played" and use attributes like "conducted by Karajan". Use Search or   <g:link class="create" controller="interpretation" action="create" target="_blank" params="${[title: this.recording.title]}">add interpretation</g:link>
                 </p>
 
                 <table id="interpretationSelection">

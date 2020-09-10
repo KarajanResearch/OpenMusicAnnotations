@@ -13,7 +13,6 @@ import grails.plugin.springsecurity.annotation.Secured
 
 
 @Secured("ROLE_AUTHENTICATED")
-@Transactional
 class RecordingController {
 
     static scaffold = Recording
@@ -27,6 +26,7 @@ class RecordingController {
      * AJAX call from dropzone in create.gsp to add wav file
      * encapsulated as DigitalAudioCommand
      */
+    @Transactional
     def addDigitalAudio(DigitalAudioCommand cmd) {
 
 

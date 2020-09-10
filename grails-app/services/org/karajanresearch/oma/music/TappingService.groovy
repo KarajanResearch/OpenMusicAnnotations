@@ -37,7 +37,7 @@ class TappingService {
 
         // process data. overwrite existing annotations from same-named file
 
-        Session session = Session.findOrSaveWhere(recording: recording, title: "Upload of " + fileName)
+        Session session = Session.findOrSaveWhere(recording: recording, title: fileName)
 
         // reset session
         if (session.annotations)

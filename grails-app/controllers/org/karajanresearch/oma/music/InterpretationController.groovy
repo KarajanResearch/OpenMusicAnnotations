@@ -142,6 +142,9 @@ class InterpretationController {
     def create() {
         def i = new Interpretation(params)
         i.changedAt = new Date()
+
+        if (params.title) i.title = params.title
+
         respond i
     }
 
