@@ -15,6 +15,10 @@
              */
             $(document).ready( function () {
 
+                $(window).focus(function() {
+                    console.log('welcome (back)');
+                    location.reload();
+                });
 
                 // see datatables manual for configuration details. every parameter is important!
 

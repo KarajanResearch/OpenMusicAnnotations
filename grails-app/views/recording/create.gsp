@@ -61,6 +61,10 @@
                         console.log(file);
 
                         //window.location("/recording/show/${this.recording.id}");
+
+                        document.getElementById("createRecordingForm").submit();
+
+
                     }
                 });
 
@@ -68,7 +72,7 @@
                 //console.log(Dropzone.options);
             </script>
 
-            <g:form resource="${this.recording}" method="POST">
+            <g:form name="createRecordingForm" resource="${this.recording}" method="POST">
 
 
 

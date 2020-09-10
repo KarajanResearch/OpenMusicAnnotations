@@ -20,11 +20,11 @@
         // to reload interpretationSelection table
         $(window).focus(function() {
             console.log('welcome (back)');
-            table.ajax.reload();
+            location.reload();
         });
 
         $(window).blur(function() {
-            console.log('bye bye');
+            //console.log('bye bye');
         });
 
 
