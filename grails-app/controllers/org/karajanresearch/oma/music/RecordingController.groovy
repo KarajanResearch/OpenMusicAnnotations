@@ -395,16 +395,9 @@ class RecordingController {
         if (!recording) {
             return notFound()
         }
-        def showScore = false
-        /*
-        if (recording?.abstractMusicPart?.pdfLocation) {
-            showScore = true
-        }
-         */
 
-        def model = [recording: recording, showScore: showScore]
+        def model = [recording: recording]
 
-        //render model as JSON
 
         render view: "show", model: model
     }
@@ -830,7 +823,7 @@ class RecordingController {
     }
 
     def update(Recording recording) {
-        println "SAVE"
+        println "UPDATE"
         println params
 
         //def recording = Recording.get(params.id)
@@ -854,13 +847,11 @@ class RecordingController {
             return
         }
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
-                redirect (view: "show", model: recording)
-            }
-            '*'{ respond recording, [status: OK] }
-        }
+        println "redirecting to show after update"
+
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
+
+        render (view: "show", model: [recording: recording])
     }
 
 
@@ -893,12 +884,13 @@ class RecordingController {
             return
         }
 
+        println "redirecting to show"
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
-                redirect recording
+                redirect (view: "show", id: recording.id)
             }
-            '*' { respond recording, [status: CREATED] }
+            '*' { respond recording, [status: CREATED, view: "show"] }
         }
     }
 

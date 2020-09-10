@@ -155,9 +155,9 @@
                     </table>
 
                     <f:field property="composition">
-                        <g:select name="compositionId" from="${this.interpretation?.abstractMusicParts?.abstractMusic}" value="${this.interpretation.abstractMusicParts[0]?.abstractMusic?.id}"></g:select>
-
+                        <g:select name="compositionId" from="${this.interpretation?.abstractMusicParts?.abstractMusic}" value="${this.interpretation.abstractMusicParts[0]?.abstractMusic?.id}" optionKey="id"></g:select>
                     </f:field>
+
 
 
                     <f:field property="PartOfComposition">
