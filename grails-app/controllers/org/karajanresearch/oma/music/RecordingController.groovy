@@ -1,6 +1,7 @@
 package org.karajanresearch.oma.music
 
 import grails.converters.JSON
+import grails.gorm.transactions.Transactional
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.annotation.desc.AnnotationStatisticsService
@@ -12,6 +13,7 @@ import grails.plugin.springsecurity.annotation.Secured
 
 
 @Secured("ROLE_AUTHENTICATED")
+@Transactional
 class RecordingController {
 
     static scaffold = Recording

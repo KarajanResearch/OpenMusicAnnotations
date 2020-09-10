@@ -77,10 +77,14 @@
 
 
 
-
-
                 <fieldset class="form">
-                    <f:all bean="recording" order="title"/>
+
+
+                    <f:field property="title" bean="recording">
+                        <g:textField name="title"></g:textField>
+                    </f:field>
+
+
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
