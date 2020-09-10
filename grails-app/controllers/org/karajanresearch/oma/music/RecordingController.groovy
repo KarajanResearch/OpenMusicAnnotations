@@ -851,7 +851,8 @@ class RecordingController {
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
 
-        render (view: "show", model: [recording: recording])
+        //render (view: "show", model: [recording: recording])
+        redirect(action: "show", id: recording.id)
     }
 
 
@@ -884,14 +885,10 @@ class RecordingController {
             return
         }
 
-        println "redirecting to show"
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
-                redirect (view: "show", id: recording.id)
-            }
-            '*' { respond recording, [status: CREATED, view: "show"] }
-        }
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
+
+        //render (view: "show", model: [recording: recording])
+        redirect(action: "show", id: recording.id)
     }
 
     def delete(Long id) {

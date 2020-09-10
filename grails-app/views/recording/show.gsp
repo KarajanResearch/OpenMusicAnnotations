@@ -27,19 +27,19 @@
             <g:if test="${this.recording.interpretation.abstractMusicParts[0]}">
                 Composition:
                 <g:link controller="abstractMusicPart" action="show" resource="${this.recording.interpretation.abstractMusicParts[0]}">
-                    ${this.recording.interpretation.abstractMusicParts[0]}.
-                </g:link>
+                    ${this.recording.interpretation.abstractMusicParts[0]}
+                </g:link>.
             </g:if>
 
             Interpretation:
             <g:link controller="interpretation" action="show" resource="${this.recording.interpretation}">
-            ${this.recording.interpretation}.
-            </g:link>
+            ${this.recording.interpretation}
+            </g:link>.
 
             Title:
             <g:link controller="recording" action="edit" resource="${this.recording}">
-                ${this.recording.title}.
-            </g:link>
+                ${this.recording.title}
+            </g:link>.
         </h1>
     </g:if>
     <g:else>
