@@ -888,7 +888,7 @@ class RecordingController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
 
         //render (view: "show", model: [recording: recording])
-        redirect(action: "show", id: recording.id)
+        redirect(action: "show", id: recording.id)oma
     }
 
     def delete(Long id) {

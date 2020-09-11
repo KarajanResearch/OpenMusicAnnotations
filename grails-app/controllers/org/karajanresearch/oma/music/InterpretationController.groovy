@@ -22,7 +22,8 @@ class InterpretationController {
             from Interpretation i
             left join i.abstractMusicParts as amp
             left join amp.abstractMusic as am
-            left join am.composer as c            
+            left join am.composer as c
+            order by i.changedAt desc            
             """, namedParams, options
         ).collect { r ->
 
