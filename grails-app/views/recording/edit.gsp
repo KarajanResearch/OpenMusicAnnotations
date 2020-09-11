@@ -36,6 +36,7 @@
                 stateSave: true,
                 "deferRender": true,
                 dom: 'lfrtiBp',
+                order: [[4, "desc"]],
                 buttons: [
                     /*"copy", 'excel', 'pdf'*/
                 ],
