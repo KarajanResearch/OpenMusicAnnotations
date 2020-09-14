@@ -85,6 +85,7 @@ grails:
 
         springsecurity: # https://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/#_configuration
             # https://stackoverflow.com/questions/34641681/grails-rest-spring-security-plugin-does-not-store-generated-token-using-gorm-in
+            # http://grails-plugins.github.io/grails-spring-security-core/3.2.x/index.html
             useSecurityEventListener: true
             rest.token.storage.useGorm: true
 
@@ -92,6 +93,7 @@ grails:
             rest.token.storage.gorm.tokenDomainClassName: "org.karajanresearch.oma.AuthenticationToken"
             rest.token.storage.gorm.tokenValuePropertyName: "tokenValue"
             rest.token.storage.gorm.usernamePropertyName: "username"
+            apf.storeLastUsername: true
 
     #grails.plugin.springsecurity.rememberMe.persistent = true
     #grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'org.karajanresearch.oma.PersistentLogin'

@@ -22,14 +22,15 @@
 
 <div id="show-user-token" class="content scaffold-show" role="main">
     <h1>API Token</h1>
-
-
     <f:table collection="${tokenList}" order="tokenValue, dateCreated" />
-
-
+    <g:link controller="user" action="refreshToken">Create New Token</g:link>
 
 </div>
 
+<div id="show-user-expirePassword" class="content scaffold-show" role="main">
+    <h1><g:link controller="user" action="passwordExpired">Change Password</g:link></h1>
+
+</div>
 
 </body>
 </html>

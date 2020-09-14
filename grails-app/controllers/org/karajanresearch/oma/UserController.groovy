@@ -9,9 +9,6 @@ import grails.validation.ValidationException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Lazy
 
-import java.security.SecureRandom
-
-
 @Secured('permitAll')
 class UserController {
 
@@ -91,6 +88,71 @@ class UserController {
             }
         }
     }
+
+
+
+
+    @Secured("ROLE_AUTHENTICATED")
+    def passwordExpired() {
+        println session
+
+        println "passwordExpired for " + session['SPRING_SECURITY_LAST_USERNAME']
+
+        [username: session['SPRING_SECURITY_LAST_USERNAME']]
+    }
+
+
+
+
+    def passwordEncoder
+    /**
+     * changing password
+     */
+    @Secured("ROLE_AUTHENTICATED")
+    def updatePassword(String password, String password_new, String password_new_2) {
+
+        String username = session['SPRING_SECURITY_LAST_USERNAME']
+        if (!username) {
+            flash.message = 'Sorry, an error has occurred'
+            redirect controller: 'login', action: 'auth'
+            return
+        }
+
+        if (!password || !password_new || !password_new_2 || password_new != password_new_2) {
+            flash.message = 'Please enter your current password and a valid new password'
+            render view: 'passwordExpired', model: [username: session['SPRING_SECURITY_LAST_USERNAME']]
+            return
+        }
+
+        User user = User.findByUsername(username)
+        if (!passwordEncoder.isPasswordValid(user.password, password, null)) {
+            flash.message = 'Current password is incorrect'
+            render view: 'passwordExpired', model: [username: session['SPRING_SECURITY_LAST_USERNAME']]
+            return
+        }
+
+        if (passwordEncoder.isPasswordValid(user.password, password_new, null)) {
+            flash.message = 'Please choose a different password from your current one'
+            render view: 'passwordExpired', model: [username: session['SPRING_SECURITY_LAST_USERNAME']]
+            return
+        }
+
+        user.password = password_new
+        user.passwordExpired = false
+        // if you have password constraints check them here
+        if (!user.save(flush:true)) {
+            flash.message = "Credentials could not be saved. Contact admin"
+            render view: 'passwordExpired', model: [username: session['SPRING_SECURITY_LAST_USERNAME']]
+            return
+        }
+        flash.message = 'Your password has been updated'
+        redirect controller: 'user', action: 'show'
+    }
+
+
+
+
+
 
     /**
      * logged in user details
