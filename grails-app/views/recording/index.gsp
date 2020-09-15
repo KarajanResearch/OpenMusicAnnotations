@@ -81,33 +81,36 @@
                                 {
                                     text: 'Compare',
                                     action: function(e, dt, node, config) {
-                                        console.log("Compare");
                                         var rows = table.rows( { selected: true } );
-                                        console.log(rows.data());
-
                                         let data = rows.data();
-
                                         if (data.length < 2) {
                                             return alert("Please select at least 2 rows for comparison");
                                         }
-
+                                        let params = [];
+                                        for (let i = 0; i < data.length; i++) {
+                                            params.push("recording[]=" + data[i].DT_RowId);
+                                        }
+                                        let url = "${createLink(controller:'recording',action:'compare')}";
+                                        url += "?" + params.join("&");
+                                        window.location.href = encodeURI(url);
+                                    }
+                                },
+                                {
+                                    text: 'Python',
+                                    action: function(e, dt, node, config) {
+                                        var rows = table.rows( { selected: true } );
+                                        let data = rows.data();
+                                        if (data.length < 1) {
+                                            return alert("Please select at least 1 rows for python comparison");
+                                        }
                                         let params = [];
                                         for (let i = 0; i < data.length; i++) {
                                             console.log(data[i].DT_RowId);
                                             params.push("recording[]=" + data[i].DT_RowId);
                                         }
-
-                                        let url = "${createLink(controller:'recording',action:'compare')}";
-
-                                        console.log(url);
-
-                                        console.log(params.join("&"));
-
+                                        let url = "${createLink(controller:'recording',action:'python')}";
                                         url += "?" + params.join("&");
-                                        console.log(url);
-
                                         window.location.href = encodeURI(url);
-
                                     }
                                 },
                                 {

@@ -375,6 +375,32 @@ class RecordingController {
 
     }
 
+    def python() {
+        println "python"
+        try {
+            List recordingIds = params['recording[]']
+            if (!recordingIds) {
+                render "no selection, go back please"
+                return
+            }
+            def recordings = Recording.findAllByIdInList(recordingIds).sort {
+                it.title
+            }
+
+            render view: "python", model: [recordings: recordings]
+
+        } catch (Exception ex) {
+            try {
+
+                redirect(action: "show", id: params['recording[]'])
+
+            } catch (Exception ex2) {
+                return notFound()
+            }
+        }
+
+    }
+
     def vizPlayFrame(Long id) {
         def recording = Recording.get(id)
 
