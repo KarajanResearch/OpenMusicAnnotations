@@ -58,12 +58,19 @@
 
     <h2 class="welcome">Notes for Musicologists</h2>
 
+
+    <h3>Adding your own Recordings</h3>
+    <iframe width="1015" height="571" src="https://www.youtube.com/embed/N_LR1BFODoM?rel=0&vq=hd1080" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
     <ul>
         <li>uploading audio</li>
         <li>adding annotations</li>
         <li>the classical music catalog</li>
         <li>written-first v.s. recorded-first music</li>
     </ul>
+
+
 
     <h2 class="welcome">Notes for Programmers</h2>
     <ul>
