@@ -89,7 +89,16 @@ class RecordingApiService {
     }
 
     def getRecording(params) {
-        return Recording.get(params.recording)
+        // use collect to implement exchange format
+        def r = Recording.get(params.recording)
+        return [
+            id: r.id,
+            title: r.title,
+            interpretation: [id: r.interpretation.id, title: r.interpretation.title],
+            digital_audio: [id: r.digitalAudio[0].id],
+            abstract_music_part: [id: r.interpretation.abstractMusicParts[0]?.id]
+        ]
+
     }
 
 

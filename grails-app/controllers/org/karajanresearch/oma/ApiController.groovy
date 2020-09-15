@@ -13,7 +13,6 @@ import org.karajanresearch.oma.music.AbstractMusic
 /**
  * oma.cloud/api/
   */
-@Secured("ROLE_ADMIN")
 class ApiController {
 
 
@@ -36,6 +35,9 @@ class ApiController {
         def r = [error: "not implemented"]
 
         switch (params["method"]) {
+            case "get":
+                r = composerApiService.getComposer(params)
+                break
             case "add":
                 r = composerApiService.addComposer(params)
                 break

@@ -81,6 +81,18 @@ class ComposerApiService {
         }
     }
 
+
+    def getComposer(params) {
+
+        def c = Composer.get(params.composer)
+        return [
+            id: c.id,
+            name: c.name
+        ]
+
+    }
+
+
     def findByName(params) {
         return Composer.findByName(params.name).collect {
             [
