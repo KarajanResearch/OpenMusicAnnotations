@@ -386,7 +386,6 @@ class RecordingController {
             def recordings = Recording.findAllByIdInList(recordingIds).sort {
                 it.title
             }
-
             render view: "python", model: [recordings: recordings]
 
         } catch (Exception ex) {
