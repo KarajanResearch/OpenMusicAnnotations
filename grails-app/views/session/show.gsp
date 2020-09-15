@@ -4,6 +4,69 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'session.label', default: 'Session')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+
+
+        <!-- LOAD AFTER jquery -->
+        <asset:stylesheet src="datatables.css" />
+        <asset:javascript src="datatables.js" />
+        <script type="application/javascript">
+            /**
+             * setup dataTable
+             */
+            $(document).ready( function () {
+
+
+                // install event handler for getFocus
+                // to reload interpretationSelection table
+                $(window).focus(function() {
+                    // console.log('welcome (back)');
+                    // location.reload();
+                });
+
+                $(window).blur(function() {
+                    //console.log('bye bye');
+                });
+
+
+                // see datatables manual for configuration details. every parameter is important!
+
+                var table = $('#annotationsTable').DataTable( {
+                        "autoWidth": false,
+                        "scrollX": false,
+                        stateSave: true,
+                        "deferRender": true,
+                        dom: 'lfrtiBp',
+                        order: [[3, "asc"]],
+                        buttons: [
+                            /*"copy", 'excel', 'pdf'*/
+                        ],
+                        select: {
+                            style: 'single'
+                        },
+                        ajax: {
+                            url: '${createLink(controller: "session", action: "ajaxGetAnnotations", params: [session: this.session.id])}',
+                            dataSrc: ''
+                        },
+                        rowId: 'id',
+                        columns: [
+                            {data: 'type'},
+                            {data: 'barNumber'},
+                            {data: 'beatNumber'},
+                            {data: 'momentOfPerception'}
+                        ]
+                    } // options
+                ); //table
+
+            } ); // ready
+
+
+
+        </script>
+
+
+
+
+
     </head>
     <body>
         <a href="#show-session" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -19,6 +82,23 @@
             <div class="message" role="status">${flash.message}</div>
             </g:if>
             <f:display bean="session" except="annotations"/>
+
+
+
+
+            <table id="annotationsTable">
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Bar</th>
+                    <th>Beat</th>
+                    <th>Moment of Perception</th>
+                </tr>
+                </thead>
+            </table>
+
+
+
             <g:form resource="${this.session}" method="DELETE">
                 <fieldset class="buttons">
                     <g:link class="edit" action="edit" resource="${this.session}"><g:message code="default.button.edit.label" default="Edit" /></g:link>

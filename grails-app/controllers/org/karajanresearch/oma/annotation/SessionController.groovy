@@ -1,5 +1,6 @@
 package org.karajanresearch.oma.annotation
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import org.karajanresearch.oma.music.AbstractMusicPart
@@ -30,30 +31,30 @@ class SessionController {
 
         Recording r = s.recording
 
-        /*
-
-        Recording r = s.recording
-        r.removeFromAnnotationSessions(s)
-        if (!r.save(flush: true)) {
-            println r.errors
-        }
-
-        AbstractMusicPart.findAllByPdfPageChangeAnnotationSession(s).each {
-            it.pdfPageChangeAnnotationSession = null
-            it.save(flush: true)
-        }
-
-         */
-
-        //Session.get(id).delete(flush: true)
-        /*
-        if (!s.delete(flush: true)) {
-            println "not deleted"
-            println s.errors
-
-        }*/
 
         redirect(controller: "recording", action: "show", id: r.id)
+    }
+
+    /**
+     * filling data table with annotations of given session
+     * @return
+     */
+    def ajaxGetAnnotations() {
+        println "ajaxGetAnnotations"
+        println params
+
+        if (params.session == "null" || params.session == "-1") {
+            render ([error: "no session"]) as JSON
+            return
+        }
+
+        Session session = Session.get(params.session)
+        if (!session) {
+            render ([error: "no session found"]) as JSON
+            return
+        }
+
+        render session.annotations as JSON
     }
 
 /*

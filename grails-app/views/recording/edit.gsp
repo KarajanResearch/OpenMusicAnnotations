@@ -77,19 +77,13 @@
 
                             $("select#interpretation").val(interpretationId);
 
-
-
                         }
                     }
                 ]
+            } // options
+        ); //table
 
-
-            }
-        );
-
-
-
-    } );
+    } ); // ready
 
 
 

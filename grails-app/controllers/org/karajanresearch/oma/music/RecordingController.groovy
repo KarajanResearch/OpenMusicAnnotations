@@ -651,8 +651,8 @@ class RecordingController {
      */
     def getAudioFile(Long id) {
 
-        println "getAudioFile " + new Date()
-        println params
+        //println "getAudioFile " + new Date()
+        //println params
 
         def recording = Recording.get(id)
 
@@ -698,13 +698,13 @@ class RecordingController {
 
         def range = request.getHeader("range")
         if (range) {
-            println range
+            //println range
 
             def rangeKeyParts = range.tokenize("=")
             def rangeParts = rangeKeyParts[1].tokenize("-")
 
             rangeFrom = Integer.parseInt(rangeParts[0])
-            println "start at byte: " + rangeFrom.toString()
+            //println "start at byte: " + rangeFrom.toString()
 
             inputStream.skip(rangeFrom)
 
@@ -712,7 +712,7 @@ class RecordingController {
             // no end defined, but we do not stream everything, only, say, 8MB,
             contentLength = totalFileBytes - rangeFrom
 
-            println "contentLength: " + contentLength.toString()
+            //println "contentLength: " + contentLength.toString()
 
             assert (contentLength > 0)
 
@@ -724,7 +724,7 @@ class RecordingController {
             response.setHeader('Content-Range', "bytes ${rangeFrom}-${contentEnd - 1}/${totalFileBytes}")
 
             contentLength = contentEnd - rangeFrom
-            println "end at byte: " + contentLength.toString()
+            //println "end at byte: " + contentLength.toString()
 
             response.setHeader( 'Content-Length', "${contentLength}")
 
@@ -739,7 +739,7 @@ class RecordingController {
             } finally {
                 try {
                     outputStream.close()
-                    println "Outputstream closed"
+                    //println "Outputstream closed"
                 } catch (Exception ex) {
                     println ex.message
                 }
