@@ -56,7 +56,20 @@ class AnnotationApiService {
 
 
     def getSession(params) {
-        return Session.get(params.session)
+        def session = Session.get(params.session)
+        if (!session) return null
+        return [
+            id: session.id,
+            title: session.title,
+            annotations: session.annotations.collect { Annotation a ->
+                return [
+                    id: a.id,
+                    momentOfPerception: a.momentOfPerception,
+                    barNumber: a.barNumber,
+                    beatNumber: a.beatNumber
+                ]
+            }
+        ]
     }
 
     /**
