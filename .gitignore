@@ -11,4 +11,4 @@ out/
 .settings
 .classpath
 efs-local/
-jupyter/input/omacache/
+jupyter-omaapi/
