@@ -11,4 +11,8 @@ out/
 .settings
 .classpath
 efs-local/
-jupyter-omaapi/
+jupyter-omaapi/.idea
+jupyter-omaapi/input/.ipynb_checkpoints
+jupyter-omaapi/input/.omacache
+jupyter-omaapi/input/omacache
+jupyter-omaapi/input/*.pyc
