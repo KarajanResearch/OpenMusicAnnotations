@@ -112,7 +112,8 @@ class AnnotationApiService {
         return r.annotationSessions.collect {session ->
             return [
                 id: session.id,
-                title: session.title
+                title: session.title,
+                recording: [id: session.recording.id, title: session.recording.title]
             ]
         }
 
