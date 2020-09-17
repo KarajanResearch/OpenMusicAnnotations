@@ -80,10 +80,14 @@ class AnnotationApiService {
     def findByRecording(params) {
 
         def r = Recording.get(params.recording)
+        if (!r) return null
 
         def result = []
 
 
+
+
+/*
         r.annotationSessions.each {Session session ->
 
             result.addAll(session.annotations.collect{ Annotation annotation ->
@@ -103,8 +107,19 @@ class AnnotationApiService {
             })
 
         }
+*/
 
-        return  result
+        return r.annotationSessions.collect {session ->
+            return [
+                id: session.id,
+                title: session.title
+            ]
+        }
+
+
+
+
+        //return  result
 
 
     }
