@@ -22,7 +22,7 @@
     #welcomeScreen {
         margin-top: 40px;
         margin-bottom: 40px;
-        width: 60% ;
+        width: 80% ;
         margin-left: auto ;
         margin-right: auto ;
         font-size: 1.1em;
@@ -34,6 +34,7 @@
         margin-top: 40px;
     }
     h2.welcome {
+        text-align: center;
         font-size: 1.5em;
         margin-bottom: 20px;
         margin-top: 20px;
@@ -47,24 +48,34 @@
     <p>
         Welcome to the Open Music Annotation Cloud, a database for any type of terms, tags, or attributes that humans associate with audible music.
     </p>
+    <h2 class="welcome">
+        <g:link controller="user" action="index">Create Account</g:link> or <g:link controller="login" action="auth">Login</g:link> to get started.
+    </h2>
     <p>
-        <g:link controller="user" action="index">Create Account</g:link> to get started.
+        All data you add is private to you by default.
     </p>
-    <p>
-        <g:link controller="login" action="auth">Login </g:link> to <g:link controller="recording" action="index">to browse and edit</g:link>.
-    </p>
+
+    <h2 class="welcome">
+         <g:link controller="recording" action="index">Browse and Edit Recordings</g:link>.
+    </h2>
 
     <h1 class="welcome">Documentation</h1>
 
-    <h2 class="welcome">Notes for Musicologists</h2>
-
-
-    <h3>Adding your own Recordings</h3>
+    <h2 class="welcome">Adding your own Recordings</h2>
     <iframe width="1015" height="571" src="https://www.youtube.com/embed/N_LR1BFODoM?rel=0&vq=hd1080" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
+    <h2 class="welcome">Data Analysis with Python Notebooks</h2>
+
+    <p>
+        Have a look at the tutorials at <a href="https://github.com/KarajanResearch/oma-jupyter-tutorials" title="Tutorials on Github" target="_blank">Github</a>.
+    </p>
+
+
+
+    <!--
+    <h3>Misc.</h3>
     <ul>
-        <li>uploading audio</li>
         <li>adding annotations</li>
         <li>the classical music catalog</li>
         <li>written-first v.s. recorded-first music</li>
@@ -79,7 +90,7 @@
         <li>musical python notebooks</li>
     </ul>
 
-
+-->
 
 
 </div>

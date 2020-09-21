@@ -181,7 +181,7 @@ class ApiController {
                 break
         }
 
-        JSON.use("deep")
+        //JSON.use("deep")
 
         render r as JSON
     }

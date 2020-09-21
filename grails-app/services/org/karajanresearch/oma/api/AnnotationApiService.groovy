@@ -57,7 +57,7 @@ class AnnotationApiService {
 
     def getSession(params) {
         def session = Session.get(params.session)
-        if (!session) return null
+        if (!session) return []
         return [
             id: session.id,
             title: session.title,
@@ -84,31 +84,6 @@ class AnnotationApiService {
 
         def result = []
 
-
-
-
-/*
-        r.annotationSessions.each {Session session ->
-
-            result.addAll(session.annotations.collect{ Annotation annotation ->
-                [
-                    type: annotation.type,
-                    annotationId: annotation.id,
-                    recordingId: annotation.session.recording.id,
-                    barNumber: annotation.barNumber,
-                    beatNumber: annotation.beatNumber,
-                    intValue: annotation.intValue,
-                    stringValue: annotation.stringValue,
-                    subDivision: annotation.subdivision,
-                    annotationSession: annotation.session.id,
-                    sessionName: annotation.session.title,
-                    momentOfPerception: annotation.momentOfPerception
-                ]
-            })
-
-        }
-*/
-
         return r.annotationSessions.collect {session ->
             return [
                 id: session.id,
@@ -116,13 +91,6 @@ class AnnotationApiService {
                 recording: [id: session.recording.id, title: session.recording.title]
             ]
         }
-
-
-
-
-        //return  result
-
-
     }
 
 
