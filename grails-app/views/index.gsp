@@ -68,8 +68,11 @@
     <h2 class="welcome">Data Analysis with Python Notebooks</h2>
 
     <p>
-        Have a look at the tutorials at <a href="https://github.com/KarajanResearch/oma-jupyter-tutorials" title="Tutorials on Github" target="_blank">Github</a>.
+        Watch the video and have a look at the tutorials at <a href="https://github.com/KarajanResearch/oma-jupyter-tutorials" title="Tutorials on Github" target="_blank">Github</a>.
     </p>
+    <iframe width="1015" height="571" src="https://www.youtube.com/embed/FJ6h4ce9J2w?rel=0&vq=hd1080" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 
 
 
