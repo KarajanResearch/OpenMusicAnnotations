@@ -858,6 +858,32 @@ class RecordingController {
     }
 
 
+    def share(Long id) {
+        Recording recording = Recording.get(id)
+        if (!recording) return notFound()
+
+        recording.isShared = true
+        if (!recording.save(flush: true)) {
+            println recording.errors
+            flash.message = recording.errors
+        }
+
+        redirect(action: "show", id: recording.id)
+    }
+    def unshare(Long id) {
+        Recording recording = Recording.get(id)
+        if (!recording) return notFound()
+
+        recording.isShared = false
+        if (!recording.save(flush: true)) {
+            println recording.errors
+            flash.message = recording.errors
+        }
+
+        redirect(action: "show", id: recording.id)
+    }
+
+
     def create() {
 
         Recording dummyRecording = new Recording(title: "Add a Title or leave blank to use filename...", digitalAudio: [])
