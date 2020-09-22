@@ -3,6 +3,7 @@ package org.karajanresearch.oma.music
 import com.amazonaws.services.s3.model.CannedAccessControlList
 import grails.core.GrailsApplication
 import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.SpringSecurityService
 import grails.util.Environment
 import org.karajanresearch.oma.StorageBackendService
 import org.karajanresearch.oma.annotation.Annotation
@@ -33,6 +34,13 @@ class RecordingService {
 
 
     AnnotationStatisticsService annotationStatisticsService
+
+    SpringSecurityService springSecurityService
+
+    Boolean isMine(Recording recording) {
+        return springSecurityService.principal.id == recording.tenantId
+    }
+
 
     Session getBeats(Recording recording) {
 

@@ -415,15 +415,24 @@ class RecordingController {
         render view: "vizPlayFrame", model: model
     }
 
+
+    @WithoutTenant
     def show(Long id) {
-        def recording = Recording.get(id)
+
+        // careful! manual multi tenancy
+
+        def recording = Recording.findByIdAndTenantId(id, springSecurityService.principal.id)
 
         if (!recording) {
-            return notFound()
+
+            // not result? try shared Recordings
+            recording = Recording.findByIdAndIsShared(id, true)
+
+            if (!recording) return notFound()
+
         }
 
-        def model = [recording: recording]
-
+        def model = [recording: recording, isMine: recordingService.isMine(recording)]
 
         render view: "show", model: model
     }
