@@ -23,6 +23,25 @@ class RecordingController {
     def tappingService
 
 
+    @Secured("ROLE_AUTHENTICATED")
+    @WithoutTenant
+    def quickfixTenants() {
+
+        def a = Annotation.list().each {
+            //println it
+            it.tenantId = it.session.tenantId
+            if (!it.save(flush: true)) {
+                println it.errors
+            }
+            println it
+        }
+
+
+        render a as JSON
+
+    }
+
+
     /**
      * AJAX call from dropzone in create.gsp to add wav file
      * encapsulated as DigitalAudioCommand
@@ -71,7 +90,18 @@ class RecordingController {
         println params
 
         def annotation = Annotation.get(params.annotation)
-        if (!annotation) return notFound()
+        if (!annotation) {
+            def result = [error: "invalid annotation"]
+            render result as JSON
+            return
+        }
+
+        // check permissions
+        if (annotation.session.tenantId != springSecurityService.principal.id) {
+            println "permission denied"
+            def result = [error: "Permission denied"]
+            render result as JSON
+        }
 
         try {
 
@@ -98,6 +128,14 @@ class RecordingController {
         def annotation = Annotation.get(params.annotation)
 
         if (!annotation) return notFound()
+
+
+        // check permissions
+        if (annotation.session.tenantId != springSecurityService.principal.id) {
+            println "permission denied"
+            def result = [error: "Permission denied"]
+            render result as JSON
+        }
 
         /*
         def session = annotation.session
@@ -549,7 +587,7 @@ class RecordingController {
 
     def getPeaksFile(Long id) {
 
-        def recording = Recording.get(id)
+        def recording = recordingService.get(id)
         if (!recording) return notFound()
 
 
@@ -685,7 +723,7 @@ class RecordingController {
         //println "getAudioFile " + new Date()
         //println params
 
-        def recording = Recording.get(id)
+        def recording = recordingService.get(id)
 
         if (!recording) return notFound()
 

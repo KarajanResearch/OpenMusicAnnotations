@@ -126,16 +126,19 @@
 <input type="hidden" id="annotationMoveUrl" value="${createLink(controller:'recording',action:'ajaxMoveAnnotation')}">
 
 
-<div id="contextHelp"></div>
 
 
 <div id="toolMenu">
+
     <audio id="audio_player" controls preload="none">
         <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "wav"]) }" type="audio/wav" />
         <!--
-        <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }" type="audio/mpeg" />
-        -->
-    Your browser does not support the audio element. </audio>
+    <source src="${  createLink(controller: 'recording', action: 'getAudioFile', id: recording?.id, params: [type: "mp3"]) }" type="audio/mpeg" />
+    -->
+        Your browser does not support the audio element. </audio>
+
+
+
 
     <!--
     <button class="buttons vizPlay" id="reload">reload</button>
@@ -212,6 +215,9 @@
     -->
 
 </div>
+
+<div id="contextHelp"></div>
+
 
 <audio hidden="hidden" id="click_sound" controls preload="auto">
     <source src="${assetPath(src: 'click.wav')}

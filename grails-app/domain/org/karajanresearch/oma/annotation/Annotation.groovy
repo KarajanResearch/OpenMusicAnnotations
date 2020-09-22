@@ -1,8 +1,14 @@
 package org.karajanresearch.oma.annotation
 
+import grails.gorm.MultiTenant
 
-class Annotation implements Comparable {
 
+class Annotation implements MultiTenant<Annotation>, Comparable {
+
+    /**
+     * the tenantId is the id (Long) of the currently logged in user
+     */
+    Long tenantId
 
     /**
      * Annotations are grouped. many tappings in one go, session, listening

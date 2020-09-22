@@ -3,6 +3,7 @@ package org.karajanresearch.oma
 import grails.converters.JSON
 import grails.gorm.transactions.ReadOnly
 import grails.plugin.springsecurity.annotation.Secured
+import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.api.AnnotationApiService
 import org.karajanresearch.oma.api.ComposerApiService
 import org.karajanresearch.oma.api.InterpretationApiService
@@ -19,6 +20,9 @@ class ApiController {
     ComposerApiService composerApiService
     InterpretationApiService interpretationApiService
     RecordingApiService recordingApiService
+
+
+
 
     /**
      * requires param.method to select what to call in composerApiService
