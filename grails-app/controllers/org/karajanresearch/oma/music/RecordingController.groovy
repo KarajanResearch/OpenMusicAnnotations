@@ -1,6 +1,7 @@
 package org.karajanresearch.oma.music
 
 import grails.converters.JSON
+import grails.gorm.multitenancy.WithoutTenant
 import grails.gorm.transactions.Transactional
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
@@ -813,12 +814,20 @@ class RecordingController {
     }
 
     def index(Integer max) {
+
+        render(view: "index", model:[recordingList: []])
+    }
+
+
+    def springSecurityService
+    @WithoutTenant
+    def ajaxIndex() {
+
         def namedParams = [:]
         def options  = [:]
 
-        if (max) {
-            options.max = max
-        }
+        def principal  = springSecurityService.principal
+        println principal.id
 
         def recordingList = Recording.executeQuery("""
             select r.id, r.title, i.title, am.title, c.name, count(s)
@@ -831,7 +840,21 @@ class RecordingController {
             group by r.id, i.id, amp.id, am.id, c.id
             """, namedParams, options
         ) // TODO: use collect() when refactoring in the future
-        render(view: "index", model:[recordingList: recordingList])
+
+        recordingList = Recording.findAllByTenantIdOrIsShared(principal.id, true).collect {
+            return [
+                id: it.id,
+                composerName: it.interpretation?.abstractMusicParts[0]?.abstractMusic?.composer.toString(),
+                abstractMusicTitle: it.interpretation?.abstractMusicParts[0].toString(),
+                interpretationTitle: it.interpretation.toString(),
+                title: it.title
+            ]
+        }
+
+        render recordingList as JSON
+
+
+
     }
 
 

@@ -44,12 +44,18 @@ class Recording implements MultiTenant<Recording> {
      */
     static hasMany = [digitalAudio: DigitalAudio, annotationSessions: Session]
 
+    /**
+     * may be shared with the public
+     */
+    Boolean isShared
+
     static constraints = {
         title nullable: false
         digitalAudio nullable: true
         interpretation nullable: true
         beats nullable: true
         tempo nullable: true
+        isShared nullable: true
     }
 
     String toString() {

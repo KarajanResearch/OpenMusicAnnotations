@@ -77,6 +77,29 @@
                             dom: 'lfrtiBp',
                             deferRender: true,
                             pageLength: 25,
+
+                            ajax: {
+                                url: '${createLink(controller: "recording", action: "ajaxIndex")}',
+                                dataSrc: ''
+                            },
+                            rowId: 'id',
+                            columns: [
+                                {data: 'composerName'},
+                                {data: 'abstractMusicTitle'},
+                                {data: 'interpretationTitle'},
+                                {data: 'title'}
+                            ],
+                            columnDefs: [
+                                {
+                                    targets: 3,
+                                    render: function (data, type, row) {
+                                        // console.log(row.trackId);
+                                        return '<a href="/recording/show/' + row.id + '" target="_blank" >' + data + '</a>';
+                                    }
+                                }
+                            ],
+
+
                             buttons: [
                                 {
                                     text: 'Compare',
@@ -88,7 +111,7 @@
                                         }
                                         let params = [];
                                         for (let i = 0; i < data.length; i++) {
-                                            params.push("recording[]=" + data[i].DT_RowId);
+                                            params.push("recording[]=" + data[i].id);
                                         }
                                         let url = "${createLink(controller:'recording',action:'compare')}";
                                         url += "?" + params.join("&");
@@ -105,8 +128,8 @@
                                         }
                                         let params = [];
                                         for (let i = 0; i < data.length; i++) {
-                                            console.log(data[i].DT_RowId);
-                                            params.push("recording[]=" + data[i].DT_RowId);
+                                            console.log(data[i].id);
+                                            params.push("recording[]=" + data[i].id);
                                         }
                                         let url = "${createLink(controller:'recording',action:'python')}";
                                         url += "?" + params.join("&");
@@ -118,19 +141,15 @@
                                     action: function(e, dt, node, config) {
                                         console.log("Compare");
                                         var rows = table.rows( { selected: true } );
-                                        console.log(rows.data());
 
                                         let data = rows.data();
-                                        let recordingId = data[0].DT_RowId;
-
+                                        let recordingId = data[0].id;
 
                                         let url = "${createLink(controller:'recording',action:'show')}";
                                         url = url + "/" + recordingId.toString();
                                         console.log(url);
 
-
                                         window.location.href = encodeURI(url);
-
                                     }
                                 }
                             ]
