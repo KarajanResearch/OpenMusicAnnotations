@@ -99,6 +99,7 @@ grails:
     #grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'org.karajanresearch.oma.PersistentLogin'
 
     # multi tenancy per spring security user
+    # http://gorm.grails.org/latest/hibernate/manual/index.html#_built_in_tenant_resolvers
     gorm:
         multiTenancy:
             mode: DISCRIMINATOR

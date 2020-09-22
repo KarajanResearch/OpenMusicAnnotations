@@ -34,6 +34,10 @@ class Session implements MultiTenant<Session> {
      */
     String title
 
+    /**
+     * may be shared with other tenants
+     */
+    Boolean isShared
 
     /**
      * defines an optional temporal range for the range of perception TODO: remove
@@ -44,6 +48,7 @@ class Session implements MultiTenant<Session> {
     static constraints = {
         title nullable: false
         recording nullable: false
+        isShared nullable: true
         //startTimestamp nullable: true
         //endTimestamp nullable: true
     }

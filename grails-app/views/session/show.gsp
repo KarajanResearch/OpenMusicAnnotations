@@ -81,8 +81,9 @@
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:display bean="session" except="annotations"/>
 
+
+            <f:display bean="session" order="title, isShared"/>
 
 
 
@@ -101,8 +102,29 @@
 
             <g:form resource="${this.session}" method="DELETE">
                 <fieldset class="buttons">
-                    <g:link class="edit" action="edit" resource="${this.session}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-                    <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+
+                    <g:if test="${this.isMine}">
+                        <g:link class="edit" action="edit" resource="${this.session}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                        <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+
+
+                        <g:if test="${this.session.isShared}">
+                            <g:link class="share" action="unshare" id="${this.session.id}" title="Click to make session data private">Unshare</g:link>
+                        </g:if>
+                        <g:else>
+                            <g:link class="share" action="share" id="${this.session.id}" title="Click to share session read-only">Share</g:link>
+                        </g:else>
+
+
+                    </g:if>
+                    <g:else>
+                        Read-Only
+                    </g:else>
+
+
+
+
+
                 </fieldset>
             </g:form>
         </div>

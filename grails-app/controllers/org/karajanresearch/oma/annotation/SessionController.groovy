@@ -1,6 +1,7 @@
 package org.karajanresearch.oma.annotation
 
 import grails.converters.JSON
+import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import org.karajanresearch.oma.music.AbstractMusicPart
@@ -13,6 +14,52 @@ class SessionController {
 
     static scaffold = Session
 
+    def springSecurityService
+
+    @WithoutTenant
+    def show(Long id) {
+        // careful! manual tenancy
+
+        println springSecurityService.principal.id
+
+        // try private session
+        Session session = Session.findByIdAndTenantId(id, springSecurityService.principal.id)
+
+        if (!session) {
+            // try shared session
+            session = Session.FindByIdAndIsShared(id, true)
+            if (!session) return notFound()
+        }
+
+        def isMine = (session.tenantId == springSecurityService.principal.id)
+
+        render (view: "show", model: [session: session, isMine: isMine ])
+    }
+
+    def share(Long id) {
+        Session session = Session.get(id)
+        if (!session) return notFound()
+
+        session.isShared = true
+        if (!session.save(flush: true)) {
+            println session.errors
+            flash.message = session.errors
+        }
+
+        redirect(action: "show", id: session.id)
+    }
+    def unshare(Long id) {
+        Session session = Session.get(id)
+        if (!session) return notFound()
+
+        session.isShared = false
+        if (!session.save(flush: true)) {
+            println session.errors
+            flash.message = session.errors
+        }
+
+        redirect(action: "show", id: session.id)
+    }
 
     def delete(Long id) {
         if (id == null) {
@@ -55,6 +102,17 @@ class SessionController {
         }
 
         render session.annotations as JSON
+    }
+
+
+    protected void notFound() {
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'session.label', default: 'Session'), params.id])
+                redirect action: "index", method: "GET"
+            }
+            '*'{ render status: NOT_FOUND }
+        }
     }
 
 /*
@@ -150,4 +208,5 @@ class SessionController {
         }
     }
     */
+
 }
