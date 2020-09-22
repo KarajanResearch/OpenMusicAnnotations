@@ -169,16 +169,24 @@
         <select class="select vizPlay" id="sessionList">
             <option value="0">Loading...</option>
         </select>
-        <button class="buttons vizPlay" id="clearSession" title="Clear the modifications on the selected Session"> Reset </button>
-        <button class="buttons vizPlay" id="saveSession" title="Save the modifications on the selected Session"> Save </button>
-        <button class="buttons vizPlay" id="deleteSession" title="Show/Edit/Delete the selected Session"> Edit </button>
+        <g:if test="${this.isMine}">
+            <button class="buttons vizPlay" id="clearSession" title="Clear the modifications on the selected Session"> Reset </button>
+            <button class="buttons vizPlay" id="saveSession" title="Save the modifications on the selected Session"> Save </button>
+            <button class="buttons vizPlay" id="deleteSession" title="Show/Edit/Delete the selected Session"> Edit </button>
+        </g:if>
+        <g:else>
+            <button class="buttons vizPlay" id="deleteSession" title="Show Session"> Show </button>
+        </g:else>
+
     </div>
 
     <div id="textAnnotationsContainer">
 
-        <input type="text" id="annotationText" />
 
-        <button class="buttons vizPlay" id="addAnnotationsText" title="Adding Annotation Text to Current Cursor Position"> Add </button>
+        <g:if test="${this.isMine}">
+            <input type="text" id="annotationText" />
+            <button class="buttons vizPlay" id="addAnnotationsText" title="Adding Annotation Text to Current Cursor Position"> Add </button>
+        </g:if>
 
     </div>
 

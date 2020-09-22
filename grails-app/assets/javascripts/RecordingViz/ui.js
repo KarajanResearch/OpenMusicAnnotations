@@ -940,7 +940,12 @@ class AnnotationIconView {
 
 
                 // remove old points
-                this.peaks.points.removeAll();
+                try {
+                    this.peaks.points.removeAll();
+                } catch (e) {
+                    console.log(e)
+                }
+
 
 
                 if (typeof resp["annotations"] === "undefined") {

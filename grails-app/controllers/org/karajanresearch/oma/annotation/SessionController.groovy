@@ -15,21 +15,12 @@ class SessionController {
     static scaffold = Session
 
     def springSecurityService
+    SessionService sessionService
 
-    @WithoutTenant
+
     def show(Long id) {
         // careful! manual tenancy
-
-        println springSecurityService.principal.id
-
-        // try private session
-        Session session = Session.findByIdAndTenantId(id, springSecurityService.principal.id)
-
-        if (!session) {
-            // try shared session
-            session = Session.FindByIdAndIsShared(id, true)
-            if (!session) return notFound()
-        }
+        Session session = sessionService.get(id)
 
         def isMine = (session.tenantId == springSecurityService.principal.id)
 

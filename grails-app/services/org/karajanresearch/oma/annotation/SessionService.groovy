@@ -1,18 +1,30 @@
 package org.karajanresearch.oma.annotation
 
-import grails.gorm.services.Service
+import grails.gorm.multitenancy.WithoutTenant
+import grails.gorm.transactions.Transactional
 
-@Service(Session)
-interface SessionService {
+@Transactional
+class SessionService {
 
-    Session get(Serializable id)
+    /**
+     * @WithoutTenant
+     *     Session multiTenantManagedGet(Long id) {*         def session = Session.findByIdAndTenantId(id, springSecurityService.principal.id)
+     *         if (!session) {*             // not result? try shared Recordings
+     *             session = Session.findByIdAndIsShared(id, true)
+     *}
+     *         return session
+     *     }
+     */
 
-    List<Session> list(Map args)
+    def springSecurityService
 
-    Long count()
-
-    void delete(Serializable id)
-
-    Session save(Session session)
-
+    @WithoutTenant
+    Session get(Serializable id) {
+        def session = Session.findByIdAndTenantId(id, springSecurityService.principal.id)
+        if (!session) {
+            // not result? try shared Recordings
+            session = Session.findByIdAndIsShared(id, true)
+        }
+        return session
+    }
 }

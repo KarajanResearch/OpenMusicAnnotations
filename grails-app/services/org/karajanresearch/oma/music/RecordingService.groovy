@@ -2,6 +2,7 @@ package org.karajanresearch.oma.music
 
 import com.amazonaws.services.s3.model.CannedAccessControlList
 import grails.core.GrailsApplication
+import grails.gorm.multitenancy.WithoutTenant
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.util.Environment
@@ -25,17 +26,36 @@ class RecordingService {
     void delete(Serializable id)
 
     Recording save(Recording recording)
+
+    @WithoutTenant
+    Recording multiTenantManagedGet(Long id) {
+        def recording = Recording.findByIdAndTenantId(id, springSecurityService.principal.id)
+
+        if (!recording) {
+
+            // not result? try shared Recordings
+            recording = Recording.findByIdAndIsShared(id, true)
+        }
+        return recording
+    }
 */
 
     StorageBackendService storageBackendService
-    RecordingGormService recordingGormService
-
     GrailsApplication grailsApplication
-
-
     AnnotationStatisticsService annotationStatisticsService
-
     SpringSecurityService springSecurityService
+
+    @WithoutTenant
+    Recording get(Serializable id) {
+        def recording = Recording.findByIdAndTenantId(id, springSecurityService.principal.id)
+        if (!recording) {
+            // not result? try shared Recordings
+            recording = Recording.findByIdAndIsShared(id, true)
+        }
+        return recording
+    }
+
+
 
     Boolean isMine(Recording recording) {
         return springSecurityService.principal.id == recording.tenantId

@@ -326,12 +326,15 @@ class RecordingController {
         println "ajaxGetSessionList"
         println params
 
-        def recording = Recording.get(params.recording)
+        def recording = recordingService.get(Long.parseLong(params.recording))
 
-        def result = recording.annotationSessions
+        def result = recording.annotationSessions.findAll {
+            it.isShared || it.tenantId == springSecurityService.principal.id
+        }
         render result as JSON
     }
 
+    def sessionService
     def ajaxGetSession() {
         println "ajaxGetSession"
         println params
@@ -341,7 +344,7 @@ class RecordingController {
             return
         }
 
-        Session session = Session.get(params.session)
+        Session session = sessionService.get(Long.parseLong(params.session))
         if (!session) {
             render ([error: "no session found"]) as JSON
             return
@@ -416,21 +419,14 @@ class RecordingController {
     }
 
 
-    @WithoutTenant
+
+
+
     def show(Long id) {
 
         // careful! manual multi tenancy
 
-        def recording = Recording.findByIdAndTenantId(id, springSecurityService.principal.id)
-
-        if (!recording) {
-
-            // not result? try shared Recordings
-            recording = Recording.findByIdAndIsShared(id, true)
-
-            if (!recording) return notFound()
-
-        }
+        Recording recording = recordingService.get(id)
 
         def model = [recording: recording, isMine: recordingService.isMine(recording)]
 
