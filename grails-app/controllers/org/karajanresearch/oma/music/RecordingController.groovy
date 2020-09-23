@@ -5,9 +5,6 @@ import grails.gorm.multitenancy.WithoutTenant
 import grails.gorm.transactions.Transactional
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
-import org.karajanresearch.oma.annotation.desc.AnnotationStatisticsService
-import org.karajanresearch.oma.api.AnnotationApiService
-import org.springframework.web.multipart.MultipartFile
 
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
@@ -27,15 +24,26 @@ class RecordingController {
     @WithoutTenant
     def quickfixTenants() {
 
-        def a = Annotation.list().each {
+        def numberOfFixes = 0
+
+        def a = Annotation.findAllByTenantIdIsNull([max: 1000]).each {
             //println it
             it.tenantId = it.session.tenantId
-            if (!it.save(flush: true)) {
+            if (!it.save()) {
                 println it.errors
             }
             println it
+            numberOfFixes += 1
         }
 
+        println "flushing"
+
+        Annotation.withSession {
+            it.flush()
+            it.clear()
+        }
+
+        println "delivering"
 
         render a as JSON
 
@@ -79,8 +87,6 @@ class RecordingController {
         // add interpretation
 
         render(view: "addInterpretation", model: [recording: recording])
-
-
     }
 
 
@@ -129,7 +135,6 @@ class RecordingController {
 
         if (!annotation) return notFound()
 
-
         // check permissions
         if (annotation.session.tenantId != springSecurityService.principal.id) {
             println "permission denied"
@@ -137,16 +142,6 @@ class RecordingController {
             render result as JSON
         }
 
-        /*
-        def session = annotation.session
-        session.removeFromAnnotations(annotation)
-        if (!session.save(flush: true)) {
-            println session.errors
-        }
-
-
-         */
-        // FIXME: delete does not work
         try {
             annotation.delete(flush: true)
         } catch (Exception ex) {
@@ -155,8 +150,6 @@ class RecordingController {
 
         def result = [success: "Alright"]
         render result as JSON
-
-
 
     }
 
@@ -243,10 +236,9 @@ class RecordingController {
      * @return
      */
     @Deprecated
+    /*
     def ajaxUploadTapData() {
-
         println params
-
         def recording = Recording.get(params.recording)
         def sessionName = "ajaxUploadTapData at " + new Date().toString()
         def session = new Session(recording: recording, title: sessionName)
@@ -258,45 +250,37 @@ class RecordingController {
             session.addToAnnotations(a)
 
         }
-
-
         if (!session.save(flush: true)) {
             println session.errors
         }
-
-
-
         def result = [success: "Alright"]
         render result as JSON
-
-
     }
+     */
 
     /**
      * called from sheetMusicPlayer
      * @return
      */
+    /*
     def ajaxResetSheetMusicPageSelection() {
-
-
         def recording = Recording.get(params.recording)
         if (!recording) {
             result = [error: "No recording"]
             render result as JSON
             return
         }
-
         recording.abstractMusicPart.pdfPageChangeAnnotationSession.delete()
-
         def result = [success: "Alright"]
         render result as JSON
-
     }
+     */
 
     /**
      * called from sheetMusicPlayer
      * @return
      */
+    /*
     def ajaxUploadSheetMusicPageSelection() {
         println "ajaxUploadSheetMusicPageSelection"
         println params
@@ -358,7 +342,7 @@ class RecordingController {
         result = [success: "Alright"]
         render result as JSON
     }
-
+    */
 
     def ajaxGetSessionList() {
         println "ajaxGetSessionList"
@@ -471,7 +455,7 @@ class RecordingController {
         render view: "show", model: model
     }
 
-
+/*
     AnnotationStatisticsService annotationStatisticsService
     def getBeats(Long id) {
 
@@ -570,20 +554,9 @@ class RecordingController {
 
     }
 
+ */
 
-    /**
-     * create all missing peaks.json files for waveform rendering
-     * @return
-     */
-    def createAllPeaksFiles() {
 
-        Recording.list().each { recording ->
-            //if (!recording.recordingData.peaksFile) {
-                println createPeaksFile(recording.id)
-            //}
-        }
-
-    }
 
     def getPeaksFile(Long id) {
 
@@ -597,8 +570,7 @@ class RecordingController {
 
         response.setContentType("application/json")
         response.setHeader("Content-Disposition", "inline;Filename=\"${recording.id}.peaks.json\"")
-        //response.setHeader("Content-Transfer-Encoding", "binary")
-        //response.setHeader("Content-Length", file.size().toString())
+        response.setHeader("Content-Length", file.size().toString())
 
 
         try {
@@ -720,15 +692,10 @@ class RecordingController {
      */
     def getAudioFile(Long id) {
 
-        //println "getAudioFile " + new Date()
-        //println params
-
         def recording = recordingService.get(id)
-
         if (!recording) return notFound()
 
         def file = recordingService.getFile(recording, params.type)
-
         if (!file) return notFound()
 
         def outputStream
@@ -739,13 +706,9 @@ class RecordingController {
             println ex.message
         }
 
-
         def inputStream = file.newInputStream()
-
-
         // partial audio streaming with grails:
         // https://stackoverflow.com/questions/46310388/streaming-mp4-requests-via-http-with-range-header-in-grails
-
 
         // preparing headers
         response.reset()
@@ -755,15 +718,12 @@ class RecordingController {
         response.setHeader("Content-Transfer-Encoding", "binary")
         response.setStatus(206)
 
-
-
         Long bufferSize = 1 * 1024 * 1024 // 1 MB
         Long contentEnd = 0
         Long contentLength = 0
         Long totalFileBytes = file.size()
         Long rangeFrom = 0
         Long rangeTo = 0
-
 
         def range = request.getHeader("range")
         if (range) {
@@ -781,20 +741,13 @@ class RecordingController {
             // no end defined, but we do not stream everything, only, say, 8MB,
             contentLength = totalFileBytes - rangeFrom
 
-            //println "contentLength: " + contentLength.toString()
-
             assert (contentLength > 0)
 
             // stream at most bufferSize bytes
             contentEnd = Math.min(rangeFrom + contentLength, rangeFrom + bufferSize)
-
-            println "contentEnd: " + contentEnd.toString()
+            contentLength = contentEnd - rangeFrom
 
             response.setHeader('Content-Range', "bytes ${rangeFrom}-${contentEnd - 1}/${totalFileBytes}")
-
-            contentLength = contentEnd - rangeFrom
-            //println "end at byte: " + contentLength.toString()
-
             response.setHeader( 'Content-Length', "${contentLength}")
 
             byte[] ioBuffer = new byte[contentLength]
@@ -808,7 +761,6 @@ class RecordingController {
             } finally {
                 try {
                     outputStream.close()
-                    //println "Outputstream closed"
                 } catch (Exception ex) {
                     println ex.message
                 }
@@ -828,18 +780,12 @@ class RecordingController {
 
 
 
-
-
     def uploadTappingFile(TappingFileCommand cmd) {
-
 
         Recording recording = Recording.get(cmd.recordingId)
         if (!recording) return notFound()
 
         def session = tappingService.uploadFile(recording, cmd)
-
-        //render session as JSON
-        //return
 
         flash.message = "Tapping uploaded: " + session.title
         redirect(controllerName: "recording", action: "show", id: recording.id)
@@ -866,25 +812,7 @@ class RecordingController {
     @WithoutTenant
     def ajaxIndex() {
 
-        def namedParams = [:]
-        def options  = [:]
-
-        def principal  = springSecurityService.principal
-        println principal.id
-
-        def recordingList = Recording.executeQuery("""
-            select r.id, r.title, i.title, am.title, c.name, count(s)
-            from Recording r
-            left join r.interpretation as i
-            left join i.abstractMusicParts as amp
-            left join amp.abstractMusic as am
-            left join am.composer as c
-            left join r.annotationSessions as s
-            group by r.id, i.id, amp.id, am.id, c.id
-            """, namedParams, options
-        ) // TODO: use collect() when refactoring in the future
-
-        recordingList = Recording.findAllByTenantIdOrIsShared(principal.id, true).collect {
+        def recordingList = Recording.findAllByTenantIdOrIsShared(springSecurityService.principal.id, true).collect {
             return [
                 id: it.id,
                 composerName: it.interpretation?.abstractMusicParts[0]?.abstractMusic?.composer.toString(),
@@ -895,9 +823,6 @@ class RecordingController {
         }
 
         render recordingList as JSON
-
-
-
     }
 
 
@@ -928,17 +853,18 @@ class RecordingController {
 
 
     def create() {
-
         Recording dummyRecording = new Recording(title: "Add a Title or leave blank to use filename...", digitalAudio: [])
-
-
+        // make sure the object is saved before we add audio file and stuff
         if (!dummyRecording.save(flush: true)) {
             println dummyRecording.errors
         }
-
         respond dummyRecording
     }
 
+    /**
+     * called upon update
+     * @return
+     */
     def update(Recording recording) {
         println "UPDATE"
         println params
@@ -973,6 +899,10 @@ class RecordingController {
     }
 
 
+    /**
+     * called upon create
+     * @return
+     */
     def save() {
         println "SAVE"
         println params
@@ -1034,98 +964,4 @@ class RecordingController {
     }
 
 
-
-    /*
-
-    RecordingService recordingService
-
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond recordingService.list(params), model:[recordingCount: recordingService.count()]
-    }
-
-    def show(Long id) {
-        respond recordingService.get(id)
-    }
-
-    def create() {
-        respond new Recording(params)
-    }
-
-    def save(Recording recording) {
-        if (recording == null) {
-            notFound()
-            return
-        }
-
-        try {
-            recordingService.save(recording)
-        } catch (ValidationException e) {
-            respond recording.errors, view:'create'
-            return
-        }
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
-                redirect recording
-            }
-            '*' { respond recording, [status: CREATED] }
-        }
-    }
-
-    def edit(Long id) {
-        respond recordingService.get(id)
-    }
-
-    def update(Recording recording) {
-        if (recording == null) {
-            notFound()
-            return
-        }
-
-        try {
-            recordingService.save(recording)
-        } catch (ValidationException e) {
-            respond recording.errors, view:'edit'
-            return
-        }
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'recording.label', default: 'Recording'), recording.id])
-                redirect recording
-            }
-            '*'{ respond recording, [status: OK] }
-        }
-    }
-
-    def delete(Long id) {
-        if (id == null) {
-            notFound()
-            return
-        }
-
-        recordingService.delete(id)
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'recording.label', default: 'Recording'), id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'recording.label', default: 'Recording'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
-        }
-    }*/
 }
