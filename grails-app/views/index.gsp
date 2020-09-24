@@ -56,7 +56,7 @@
     </p>
 
     <h2 class="welcome">
-         <g:link controller="recording" action="index">Browse and Edit Recordings</g:link>.
+         <g:link controller="recording" action="index">Browse and Edit Recordings</g:link> and <g:link controller="session" action="index">view available Open Music Annotations</g:link>.
     </h2>
 
     <h1 class="welcome">Documentation</h1>

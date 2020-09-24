@@ -46,6 +46,11 @@
                                 tag: message(code: 'default.menu.recording.label', default: 'Recordings')
                             ],
 
+                            [   controller: "session",
+                                action: "index",
+                                tag: 'Annotation Sessions'
+                            ],
+
                             [
                                 controller: "user", action: "show",
                                 tag: message(code: 'default.menu.user.label', default: 'My Account')

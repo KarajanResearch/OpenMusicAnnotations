@@ -811,12 +811,13 @@ class RecordingController {
     def springSecurityService
     @WithoutTenant
     def ajaxIndex() {
+        println springSecurityService.principal.id
 
         def recordingList = Recording.findAllByTenantIdOrIsShared(springSecurityService.principal.id, true).collect {
             return [
                 id: it.id,
                 composerName: it.interpretation?.abstractMusicParts[0]?.abstractMusic?.composer.toString(),
-                abstractMusicTitle: it.interpretation?.abstractMusicParts[0].toString(),
+                abstractMusicTitle: it.interpretation?.abstractMusicParts[0]?.toString(),
                 interpretationTitle: it.interpretation.toString(),
                 title: it.title
             ]
