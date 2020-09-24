@@ -48,6 +48,7 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
      * in which interpretation is that particular part used
      */
     Interpretation interpretation
+
     /**
      * in which order is it used. total order per interpretation
      */
@@ -65,13 +66,15 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
     }
 
     String toString() {
-
-        return abstractMusic.toString()
-
-        //return abstractMusic.toString() + ", starting at bar " + sprintf("%.0f", barNumberOffset != null ? barNumberOffset : 1.0 ) + ", " + getTitle()
+        if (abstractMusic && title) {
+            return abstractMusic.toString() + ": " + title
+        }
+        if (abstractMusic && !title) {
+            return abstractMusic.toString()
+        }
+        if (!abstractMusic) {
+            return title
+        }
     }
 
-    String getTitle() {
-        return title
-    }
 }

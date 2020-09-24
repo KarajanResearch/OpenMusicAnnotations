@@ -28,40 +28,15 @@
             <table id="recordingList" class="display">
                 <thead>
                 <tr>
-                    <th>Composer</th>
                     <th>Composition</th>
                     <th>Interpretation</th>
                     <th>Recording</th>
                 </tr>
                 </thead>
                 <tbody>
-                <g:each in="${recordingList}" var="recording">
-
-                    <tr id="${recording[0]}" class="context_menu_recording">
-                        <td>
-                            ${recording[4]}
-                        </td>
-                        <td>
-                            ${recording[3]}
-                        </td>
-                        <td>
-                            ${recording[2]}
-                        </td>
-                        <td>
-                            <g:link controller="recording" action="show" id="${recording[0]}">${recording[1]}</g:link>
-                        </td>
-                    </tr>
-                </g:each>
                 </tbody>
 
             </table>
-
-            <style>
-                #recordingList_wrapper .dt-button {
-                    margin-left: 5px;
-                    margin-top: 5px;
-                }
-            </style>
 
 
             <script type="application/javascript">
@@ -84,14 +59,13 @@
                             },
                             rowId: 'id',
                             columns: [
-                                {data: 'composerName'},
                                 {data: 'abstractMusicTitle'},
                                 {data: 'interpretationTitle'},
                                 {data: 'title'}
                             ],
                             columnDefs: [
                                 {
-                                    targets: 3,
+                                    targets: 2,
                                     render: function (data, type, row) {
                                         // console.log(row.trackId);
                                         return '<a href="/recording/show/' + row.id + '" target="_blank" >' + data + '</a>';

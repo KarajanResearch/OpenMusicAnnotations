@@ -24,10 +24,9 @@
             </g:if>
 
 
-            <table id="sessionList" class="display">
+            <table id="sessionList">
                 <thead>
                 <tr>
-                    <th>Composer</th>
                     <th>Composition</th>
                     <th>Interpretation</th>
                     <th>Recording</th>
@@ -71,24 +70,22 @@
                             },
                             rowId: 'id',
                             columns: [
-                                {data: 'composerName'},
                                 {data: 'abstractMusicTitle'},
                                 {data: 'interpretationTitle'},
                                 {data: 'recordingTitle'},
                                 {data: 'title'},
                                 {data: 'isShared'}
-
                             ],
                             columnDefs: [
                                 {
-                                    targets: 4,
+                                    targets: 3,
                                     render: function (data, type, row) {
                                         // console.log(row.trackId);
                                         return '<a href="/session/show/' + row.id + '" target="_blank" >' + data + '</a>';
                                     }
                                 },
                                 {
-                                    targets: 5,
+                                    targets: 4,
                                     render: function (data, type, row) {
                                         // console.log(row.trackId);
                                         console.log(data);
@@ -96,7 +93,7 @@
                                     }
                                 },
                                 {
-                                    targets: 6,
+                                    targets: 5,
                                     render: function (data, type, row) {
                                         // console.log(row.trackId);
                                         if (row.isShared == "private") {
