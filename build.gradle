@@ -31,6 +31,10 @@ repositories {
 ext.springSecurityRestVersion = '2.0.0.RC1'
 
 dependencies {
+    // CSV Output
+    // compile "org.apache.commons:commons-csv:1.8"
+
+
     // high-level AWS S3 support
     // https://github.com/agorapulse/grails-aws-sdk/tree/master/grails-aws-sdk-s3
     compile 'org.grails.plugins:aws-sdk-s3:2.2.12'

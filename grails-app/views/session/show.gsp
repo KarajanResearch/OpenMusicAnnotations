@@ -37,9 +37,6 @@
                         "deferRender": true,
                         dom: 'lfrtiBp',
                         order: [[3, "asc"]],
-                        buttons: [
-                            /*"copy", 'excel', 'pdf'*/
-                        ],
                         select: {
                             style: 'single'
                         },
@@ -53,6 +50,17 @@
                             {data: 'barNumber'},
                             {data: 'beatNumber'},
                             {data: 'momentOfPerception'}
+                        ],
+                        buttons: [
+                            /*
+                            {
+                                text: 'CSV',
+                                action: function(e, dt, node, config) {
+                                    let url = "${createLink(controller:'session',action:'getCsv', id: this.session.id)}";
+                                    window.location.href = encodeURI(url);
+                                }
+                            }
+                            */
                         ]
                     } // options
                 ); //table
@@ -121,6 +129,7 @@
                         Read-Only
                     </g:else>
 
+                    <g:link action="getJsonFile" id="${this.session.id}" title="Download Session as JSON file">JSON</g:link>
 
 
 

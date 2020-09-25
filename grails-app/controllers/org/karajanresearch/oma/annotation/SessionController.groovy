@@ -139,6 +139,31 @@ class SessionController {
         }
     }
 
+
+    /**
+     * download session data from session/show
+     * @param id
+     * @return
+     */
+    def getJsonFile(Long id) {
+
+        def session = Session.get(id)
+        if (!session) return notFound()
+
+        def result = [
+            id: session.id,
+            title: session.title,
+            recordingTitle: session.recording.toString(),
+            abstractMusicTitle: session.recording?.interpretation?.abstractMusicParts[0]?.toString(),
+            interpretationTitle: session.recording?.interpretation?.toString(),
+            annotations: session.annotations
+        ]
+
+        render result as JSON
+    }
+
+
+
 /*
     SessionService sessionService
 
