@@ -441,6 +441,18 @@ class RecordingController {
     }
 
 
+    /**
+     * filling the svelte user interface
+     * @param id
+     * @return
+     */
+    def ui(Long id) {
+        Recording recording = recordingService.get(id)
+
+        def model = [recording: recording, isMine: recordingService.isMine(recording)]
+
+        render view: "svelteUi", model: model
+    }
 
 
 
