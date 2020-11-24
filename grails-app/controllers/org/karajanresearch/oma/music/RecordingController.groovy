@@ -448,10 +448,19 @@ class RecordingController {
      */
     def ui(Long id) {
         Recording recording = recordingService.get(id)
+        if (!recording) return notFound()
 
         def model = [recording: recording, isMine: recordingService.isMine(recording)]
 
         render view: "svelteUi", model: model
+    }
+
+    def ajaxGet(Long id) {
+        Recording recording = recordingService.get(id)
+        if (!recording) return notFound()
+
+        def model = [recording: recording, isMine: recordingService.isMine(recording)]
+        render model as JSON
     }
 
 

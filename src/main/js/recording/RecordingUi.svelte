@@ -1,10 +1,29 @@
 <script>
+    import { onMount } from "svelte";
 
+    // id of the grails recording object passed from the outside
+    export let recordingId;
 
-    let message = "Hi from the stuff and stuff"
+    // recording data structure loaded onMount
+    let recording = {}
 
+    onMount(async () => {
+        const res = await fetch("/recording/ajaxGet/"+recordingId);
+        const ajaxData = await res.json();
+        recording = ajaxData.recording;
+        console.log(recording);
+    });
 
 </script>
 
 
-<p>{message}</p>
+<p>This is recording: {recordingId}</p>
+
+<p>
+    {#if recording.id}
+        {recording.title}
+    {/if}
+    {#if !recording.id}
+       Loading...
+    {/if}
+</p>

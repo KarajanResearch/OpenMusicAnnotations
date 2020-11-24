@@ -60,13 +60,12 @@
     </g:if>
 
 
-
+    <input hidden="hidden" id="recordingId" value="${this.recording.id}">
     <div id="RecordingUiContainer">
 
     </div>
 
     <asset:javascript src="bundles/recordingUiBundle.js" />
-
 
 
 
