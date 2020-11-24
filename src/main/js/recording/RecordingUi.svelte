@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import AudioPlayer from "./AudioPlayer.svelte";
 
     // id of the grails recording object passed from the outside
     export let recordingId;
@@ -27,3 +28,5 @@
        Loading...
     {/if}
 </p>
+
+<AudioPlayer recordingId="{recordingId}"/>
