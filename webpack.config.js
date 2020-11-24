@@ -54,4 +54,9 @@ module.exports = {
         path: path.resolve(__dirname, 'grails-app/assets/javascripts/bundles'),
         publicPath: '/assets/',
     },
+
+    performance: {
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000
+    }
 };

@@ -580,6 +580,7 @@ class RecordingController {
 
 
     def getPeaksFile(Long id) {
+        println "getPeaksFile: " + id
 
         def recording = recordingService.get(id)
         if (!recording) return notFound()
