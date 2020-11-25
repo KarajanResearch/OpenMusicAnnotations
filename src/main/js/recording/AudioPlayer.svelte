@@ -46,7 +46,7 @@
 </script>
 
 
-<audio id="audio_element_{recordingId}" controls preload="auto">
+<audio id="audio_element_{recordingId}" controls preload="auto" controlsList="nodownload">
     <source src="/recording/getAudioFile/{recordingId}" type="audio/wav" />
     <track src="" kind="captions" />
         Your browser does not support the audio element.

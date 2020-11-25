@@ -44,10 +44,6 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
-
-
-<p>This is recording: {recordingId}</p>
-
 <p>
     {#if !recording.id}
        Loading... Please wait...
