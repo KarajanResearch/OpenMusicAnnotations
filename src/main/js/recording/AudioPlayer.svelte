@@ -20,8 +20,12 @@
     onMount(async () => {
 
         audioElement = document.getElementById('audio_element_' + recordingId);
-        window.onTogglePaused = () => {
-            console.log("Audioplayer: " + paused);
+
+        /**
+         * attaching a function to window context makes it callable from parent component
+         * https://stackoverflow.com/questions/57954008/call-svelte-components-function-from-global-scope#57957607
+         */
+        window.togglePlayPause = () => {
             if (paused) {
                 audioElement.play();
             } else {
@@ -47,4 +51,3 @@
     <track src="" kind="captions" />
         Your browser does not support the audio element.
 </audio>
-Audio player paused: {paused}

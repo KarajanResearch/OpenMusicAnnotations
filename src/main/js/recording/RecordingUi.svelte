@@ -26,19 +26,17 @@
 
     /**
      * keyboard input on the waveform. used for pausing, tapping, annotation...
+     * events are propagated to components via functions attached to window context in sub components
      * @param event
      */
-    let key;
-    let keyCode;
     function handleKeydown(event) {
-        key = event.key;
-        keyCode = event.keyCode;
+        let key = event.key;
+        let keyCode = event.keyCode;
 
         if(keyCode == 32) {
-            console.log("space bar");
-            // bound t0 window in sub-component
-            onTogglePaused();
-
+            // Space Bar
+            // bound to window in sub-component
+            window.togglePlayPause();
         }
     }
 
@@ -51,11 +49,8 @@
 <p>This is recording: {recordingId}</p>
 
 <p>
-    {#if recording.id}
-        {recording.title}
-    {/if}
     {#if !recording.id}
-       Loading...
+       Loading... Please wait...
     {/if}
 </p>
 
@@ -63,7 +58,3 @@
 
 <DynamicWaveForm recordingId={recordingId} />
 
-<br/>
-Key: {key}
-<br />
-KeyCode: {keyCode}
