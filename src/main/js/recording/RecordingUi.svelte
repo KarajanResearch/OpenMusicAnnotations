@@ -30,19 +30,27 @@
      * @param event
      */
     function handleKeydown(event) {
+
+    }
+
+    //RecordingUiContainer-${this.recording.id}
+    window.$("#RecordingUiContainer-"+recordingId).keydown(function (event){
+
+
         let key = event.key;
         let keyCode = event.keyCode;
 
         if(keyCode == 32) {
             // Space Bar
             // bound to window in sub-component
-            window.togglePlayPause();
+            //window.$("#RecordingUiContainer-"+recordingId).togglePlayPause();
+            event.preventDefault();
+            window.$("#RecordingUiContainer-"+recordingId).trigger("togglePlayPause");
         }
-    }
+    });
 
 </script>
 
-<svelte:window on:keydown={handleKeydown}/>
 
 <style>
     #recording_ui_container {
@@ -84,34 +92,36 @@
     }
 </style>
 
+{#if !recording.id}
+    Loading... Please wait...
+{/if}
 
+{#if recording.id}
+    <div id="recording_ui_container">
 
+        <div id="recording_ui_transport">
+            <AudioPlayer recordingId={recordingId} />
+        </div>
 
-<div id="recording_ui_container">
-    <p>
-        {#if !recording.id}
-            Loading... Please wait...
-        {/if}
-    </p>
-    <div id="recording_ui_transport">
-        <AudioPlayer recordingId={recordingId} />
+        <div id="recording_ui_toolbar">
+            toolbar
+        </div>
+
+        <div id="recording_ui_trackbar">
+            trackbar
+        </div>
+
+        <div id="recording_ui_waveform">
+            <DynamicWaveForm recordingId={recordingId} />
+        </div>
+
+        <div id="recording_ui_footer">
+            footer
+        </div>
     </div>
+{/if}
 
-    <div id="recording_ui_toolbar">
-        toolbar
-    </div>
 
-    <div id="recording_ui_trackbar">
-        trackbar
-    </div>
 
-    <div id="recording_ui_waveform">
-        <DynamicWaveForm recordingId={recordingId} />
-    </div>
-
-    <div id="recording_ui_footer">
-        footer
-    </div>
-</div>
 
 

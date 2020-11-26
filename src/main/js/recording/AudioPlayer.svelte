@@ -25,14 +25,19 @@
          * attaching a function to window context makes it callable from parent component
          * https://stackoverflow.com/questions/57954008/call-svelte-components-function-from-global-scope#57957607
          */
-        window.togglePlayPause = () => {
+        window.$("#RecordingUiContainer-"+recordingId).bind("togglePlayPause", function (){
             if (paused) {
                 audioElement.play();
             } else {
                 audioElement.pause();
             }
             paused = !paused;
-        };
+        });
+
+            /*
+            .togglePlayPause = () => {
+
+        };*/
 
 
 
