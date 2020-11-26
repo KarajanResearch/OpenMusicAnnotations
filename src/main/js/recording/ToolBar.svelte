@@ -42,7 +42,7 @@
         position: absolute;
         height: 100%;
         width: 30em;
-        left: 8em;
+        left: 9em;
     }
 
 

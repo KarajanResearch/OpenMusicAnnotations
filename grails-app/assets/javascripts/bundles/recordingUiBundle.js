@@ -18629,8 +18629,8 @@ if (false) {}
 
 function add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-xilhch-style";
-	style.textContent = "#toolbar_zoom.svelte-xilhch{position:absolute;width:8em}#toolbar_click.svelte-xilhch{border:1px solid black;position:absolute;height:100%;width:30em;left:8em}#zoomSlider.svelte-xilhch{direction:rtl;width:8em}.slider.svelte-xilhch{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-xilhch::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-xilhch::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-xilhch{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
+	style.id = "svelte-1numccg-style";
+	style.textContent = "#toolbar_zoom.svelte-1numccg{position:absolute;width:8em}#toolbar_click.svelte-1numccg{border:1px solid black;position:absolute;height:100%;width:30em;left:9em}#zoomSlider.svelte-1numccg{direction:rtl;width:8em}.slider.svelte-1numccg{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1numccg::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1numccg::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1numccg{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
 	append(document.head, style);
 }
 
@@ -18650,15 +18650,15 @@ function ToolBar_svelte_create_fragment(ctx) {
 			div1 = internal_element("div");
 			div1.textContent = "more tools go here";
 			attr(input, "id", "zoomSlider");
-			attr(input, "class", "slider svelte-xilhch");
+			attr(input, "class", "slider svelte-1numccg");
 			attr(input, "type", "range");
 			attr(input, "min", "0");
 			attr(input, "max", "7");
 			attr(input, "step", "1");
 			attr(div0, "id", "toolbar_zoom");
-			attr(div0, "class", "vertical_center svelte-xilhch");
+			attr(div0, "class", "vertical_center svelte-1numccg");
 			attr(div1, "id", "toolbar_click");
-			attr(div1, "class", "svelte-xilhch");
+			attr(div1, "class", "svelte-1numccg");
 		},
 		m(target, anchor) {
 			insert(target, div0, anchor);
@@ -18724,7 +18724,7 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-xilhch-style")) add_css();
+		if (!document.getElementById("svelte-1numccg-style")) add_css();
 		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 2 });
 	}
 }
@@ -18799,6 +18799,7 @@ function create_if_block(ctx) {
 			select.multiple = true;
 			attr(select, "class", "svelte-lwrk0a");
 			if (/*sessionSelection*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[4].call(select));
+			attr(button, "class", "buttons");
 		},
 		m(target, anchor) {
 			insert(target, select, anchor);
@@ -18866,6 +18867,7 @@ function create_each_block(ctx) {
 	let t0;
 	let t1;
 	let option_value_value;
+	let option_title_value;
 
 	return {
 		c() {
@@ -18874,6 +18876,7 @@ function create_each_block(ctx) {
 			t1 = space();
 			option.__value = option_value_value = /*session*/ ctx[6].id;
 			option.value = option.__value;
+			attr(option, "title", option_title_value = /*session*/ ctx[6].title);
 		},
 		m(target, anchor) {
 			insert(target, option, anchor);
@@ -18886,6 +18889,10 @@ function create_each_block(ctx) {
 			if (dirty & /*sessionList*/ 2 && option_value_value !== (option_value_value = /*session*/ ctx[6].id)) {
 				option.__value = option_value_value;
 				option.value = option.__value;
+			}
+
+			if (dirty & /*sessionList*/ 2 && option_title_value !== (option_title_value = /*session*/ ctx[6].title)) {
+				attr(option, "title", option_title_value);
 			}
 		},
 		d(detaching) {
@@ -19005,7 +19012,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 							let point = {
 								id: annotation.id,
 								time: annotation.momentOfPerception,
-								editable: true,
+								editable: session.isMine,
 								labelText: "" + annotation.bar + ":" + annotation.beat
 							};
 
@@ -19182,12 +19189,12 @@ if (false) {}
 
 function RecordingUi_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-5p38pz-style";
-	style.textContent = "#recording_ui_container.svelte-5p38pz{border:1px solid;position:relative;width:100%;height:36em}#recording_ui_transport.svelte-5p38pz{border:1px solid;position:absolute;width:21em;height:3.5em}#recording_ui_toolbar.svelte-5p38pz{border:1px solid;position:absolute;left:21em;height:3.5em}#recording_ui_trackbar.svelte-5p38pz{border:1px solid;position:absolute;top:3.5em;width:20%}#recording_ui_waveform.svelte-5p38pz{border:1px solid;position:absolute;top:3.5em;left:20%;width:80%}#recording_ui_footer.svelte-5p38pz{border:1px solid;position:absolute;left:20%;top:32em;width:80%}";
+	style.id = "svelte-zy1241-style";
+	style.textContent = "#recording_ui_container.svelte-zy1241{position:relative;width:100%;height:36em}#recording_ui_transport.svelte-zy1241{position:absolute;width:21em;height:3.5em}#recording_ui_toolbar.svelte-zy1241{position:absolute;left:21em;height:3.5em}#recording_ui_trackbar.svelte-zy1241{position:absolute;top:3.5em;width:20%;height:32.5em}#recording_ui_waveform.svelte-zy1241{position:absolute;top:3.5em;left:20%;width:80%}#recording_ui_footer.svelte-zy1241{position:absolute;left:20%;top:32em;width:80%}";
 	append(document.head, style);
 }
 
-// (90:0) {#if !recording.id}
+// (91:0) {#if !recording.id}
 function RecordingUi_svelte_create_if_block_1(ctx) {
 	let t;
 
@@ -19204,7 +19211,7 @@ function RecordingUi_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (94:0) {#if recording.id}
+// (95:0) {#if recording.id}
 function RecordingUi_svelte_create_if_block(ctx) {
 	let div5;
 	let div0;
@@ -19254,19 +19261,18 @@ function RecordingUi_svelte_create_if_block(ctx) {
 			create_component(dynamicwaveform.$$.fragment);
 			t3 = space();
 			div4 = internal_element("div");
-			div4.textContent = "footer";
 			attr(div0, "id", "recording_ui_transport");
-			attr(div0, "class", "svelte-5p38pz");
+			attr(div0, "class", "svelte-zy1241");
 			attr(div1, "id", "recording_ui_toolbar");
-			attr(div1, "class", "svelte-5p38pz");
+			attr(div1, "class", "svelte-zy1241");
 			attr(div2, "id", "recording_ui_trackbar");
-			attr(div2, "class", "svelte-5p38pz");
+			attr(div2, "class", "svelte-zy1241");
 			attr(div3, "id", "recording_ui_waveform");
-			attr(div3, "class", "svelte-5p38pz");
+			attr(div3, "class", "svelte-zy1241");
 			attr(div4, "id", "recording_ui_footer");
-			attr(div4, "class", "svelte-5p38pz");
+			attr(div4, "class", "svelte-zy1241");
 			attr(div5, "id", "recording_ui_container");
-			attr(div5, "class", "svelte-5p38pz");
+			attr(div5, "class", "svelte-zy1241");
 		},
 		m(target, anchor) {
 			insert(target, div5, anchor);
@@ -19443,7 +19449,7 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 class RecordingUi extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-5p38pz-style")) RecordingUi_svelte_add_css();
+		if (!document.getElementById("svelte-zy1241-style")) RecordingUi_svelte_add_css();
 		init(this, options, RecordingUi_svelte_instance, RecordingUi_svelte_create_fragment, safe_not_equal, { recordingId: 0 });
 	}
 }

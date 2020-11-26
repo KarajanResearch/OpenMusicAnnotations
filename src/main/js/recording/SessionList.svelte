@@ -34,7 +34,7 @@
                     let point = {
                         id: annotation.id,
                         time: annotation.momentOfPerception,
-                        editable: true,
+                        editable: session.isMine,
                         labelText: "" + annotation.bar + ":" + annotation.beat
                     }
                     appContainer.trigger("drawAnnotation", point);
@@ -64,7 +64,7 @@
 {#if sessionList.length > 0}
     <select id="session_list" multiple bind:value={sessionSelection}>
         {#each sessionList as session}
-            <option value={session.id}>
+            <option value={session.id} title={session.title}>
                 {session.title}
             </option>
         {/each}

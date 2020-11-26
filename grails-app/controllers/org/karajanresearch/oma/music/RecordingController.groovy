@@ -471,7 +471,7 @@ class RecordingController {
                 id: session.id,
                 title: session.title,
                 isShared: session.isShared,
-
+                isMine: session.tenantId == springSecurityService.principal.id,
                 annotations: session.annotations.collect { Annotation a ->
                     return [
                         id: a.id,

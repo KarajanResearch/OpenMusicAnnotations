@@ -47,39 +47,40 @@
 
 <style>
     #recording_ui_container {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: relative;
         width: 100%;
         height: 36em;
     }
 
     #recording_ui_transport {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: absolute;
         width: 21em;
         height: 3.5em;
     }
     #recording_ui_toolbar {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: absolute;
         left: 21em;
         height: 3.5em;
     }
     #recording_ui_trackbar {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: absolute;
         top: 3.5em;
         width: 20%;
+        height: 32.5em;
     }
     #recording_ui_waveform {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: absolute;
         top: 3.5em;
         left: 20%;
         width: 80%;
     }
     #recording_ui_footer {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: absolute;
         left: 20%;
         top: 32em;
@@ -111,7 +112,7 @@
         </div>
 
         <div id="recording_ui_footer">
-            footer
+
         </div>
     </div>
 {/if}
