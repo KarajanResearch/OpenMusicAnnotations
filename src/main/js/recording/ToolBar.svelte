@@ -31,7 +31,7 @@
 <style>
     #zoomSlider {
         direction: rtl;
-        width: 7em;
+        width: 8em;
     }
     .slider {
         -webkit-appearance: none;
@@ -65,5 +65,3 @@
 </style>
 
 <input id="zoomSlider" class="slider" type=range bind:value={zoomLevel} on:input={handleZoomChange} min="0" max="7" step="1">
-
-

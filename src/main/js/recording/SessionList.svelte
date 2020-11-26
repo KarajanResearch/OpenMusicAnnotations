@@ -20,15 +20,19 @@
 
 </script>
 
-<style></style>
+<style>
+    #session_list {
+        width: 100%;
+    }
+</style>
 
-
+<h3>Session List</h3>
 {#if sessionList.length == 0}
     Session List empty
 {/if}
 
 {#if sessionList.length > 0}
-    <select multiple bind:value={sessionSelection}>
+    <select id="session_list" multiple bind:value={sessionSelection}>
         {#each sessionList as session}
             <option value={session.id}>
                 {session.title}
@@ -36,6 +40,8 @@
         {/each}
     </select>
 {/if}
+
+
 
 
 

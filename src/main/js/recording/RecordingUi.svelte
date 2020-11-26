@@ -57,31 +57,33 @@
         border: 1px solid;
         position: absolute;
         width: 21em;
+        height: 3.5em;
     }
     #recording_ui_toolbar {
         border: 1px solid;
         position: absolute;
         left: 21em;
+        height: 3.5em;
     }
     #recording_ui_trackbar {
         border: 1px solid;
         position: absolute;
         top: 3.5em;
-        width: 10%;
+        width: 20%;
     }
     #recording_ui_waveform {
         border: 1px solid;
         position: absolute;
         top: 3.5em;
-        left: 10%;
-        width: 90%;
+        left: 20%;
+        width: 80%;
     }
     #recording_ui_footer {
         border: 1px solid;
         position: absolute;
-        left: 10%;
-        top: 34em;
-        width: 90%;
+        left: 20%;
+        top: 32em;
+        width: 80%;
     }
 </style>
 
@@ -101,7 +103,6 @@
         </div>
 
         <div id="recording_ui_trackbar">
-            trackbar
             <SessionList recordingId={recordingId}/>
         </div>
 

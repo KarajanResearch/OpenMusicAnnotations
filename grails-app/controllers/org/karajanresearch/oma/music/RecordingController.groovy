@@ -471,7 +471,7 @@ class RecordingController {
                 id: session.id,
                 title: session.title,
                 isShared: session.isShared,
-                /*
+
                 annotations: session.annotations.collect { Annotation a ->
                     return [
                         id: a.id,
@@ -484,7 +484,7 @@ class RecordingController {
 
                 }
 
-                 */
+
             ]
         }
 

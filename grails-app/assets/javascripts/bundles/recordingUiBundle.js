@@ -18625,8 +18625,8 @@ class AudioPlayer extends SvelteComponent {
 
 function add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1vkl1n4-style";
-	style.textContent = "#zoomSlider.svelte-1vkl1n4{direction:rtl;width:7em}.slider.svelte-1vkl1n4{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1vkl1n4::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1vkl1n4::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}";
+	style.id = "svelte-1gy0ot7-style";
+	style.textContent = "#zoomSlider.svelte-1gy0ot7{direction:rtl;width:8em}.slider.svelte-1gy0ot7{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1gy0ot7::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1gy0ot7::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}";
 	append(document.head, style);
 }
 
@@ -18639,7 +18639,7 @@ function ToolBar_svelte_create_fragment(ctx) {
 		c() {
 			input = internal_element("input");
 			attr(input, "id", "zoomSlider");
-			attr(input, "class", "slider svelte-1vkl1n4");
+			attr(input, "class", "slider svelte-1gy0ot7");
 			attr(input, "type", "range");
 			attr(input, "min", "0");
 			attr(input, "max", "7");
@@ -18704,7 +18704,7 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1vkl1n4-style")) add_css();
+		if (!document.getElementById("svelte-1gy0ot7-style")) add_css();
 		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 2 });
 	}
 }
@@ -18716,13 +18716,20 @@ class ToolBar extends SvelteComponent {
 
 
 
+function SessionList_svelte_add_css() {
+	var style = internal_element("style");
+	style.id = "svelte-lwrk0a-style";
+	style.textContent = "#session_list.svelte-lwrk0a{width:100%}";
+	append(document.head, style);
+}
+
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
 	child_ctx[5] = list[i];
 	return child_ctx;
 }
 
-// (26:0) {#if sessionList.length == 0}
+// (30:0) {#if sessionList.length == 0}
 function create_if_block_1(ctx) {
 	let t;
 
@@ -18739,7 +18746,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (30:0) {#if sessionList.length > 0}
+// (34:0) {#if sessionList.length > 0}
 function create_if_block(ctx) {
 	let select;
 	let mounted;
@@ -18759,7 +18766,9 @@ function create_if_block(ctx) {
 				each_blocks[i].c();
 			}
 
+			attr(select, "id", "session_list");
 			select.multiple = true;
+			attr(select, "class", "svelte-lwrk0a");
 			if (/*sessionSelection*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[3].call(select));
 		},
 		m(target, anchor) {
@@ -18813,7 +18822,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (32:8) {#each sessionList as session}
+// (36:8) {#each sessionList as session}
 function create_each_block(ctx) {
 	let option;
 	let t0_value = /*session*/ ctx[5].title + "";
@@ -18849,21 +18858,28 @@ function create_each_block(ctx) {
 }
 
 function SessionList_svelte_create_fragment(ctx) {
-	let t;
+	let h3;
+	let t1;
+	let t2;
 	let if_block1_anchor;
 	let if_block0 = /*sessionList*/ ctx[1].length == 0 && create_if_block_1(ctx);
 	let if_block1 = /*sessionList*/ ctx[1].length > 0 && create_if_block(ctx);
 
 	return {
 		c() {
+			h3 = internal_element("h3");
+			h3.textContent = "Session List";
+			t1 = space();
 			if (if_block0) if_block0.c();
-			t = space();
+			t2 = space();
 			if (if_block1) if_block1.c();
 			if_block1_anchor = empty();
 		},
 		m(target, anchor) {
+			insert(target, h3, anchor);
+			insert(target, t1, anchor);
 			if (if_block0) if_block0.m(target, anchor);
-			insert(target, t, anchor);
+			insert(target, t2, anchor);
 			if (if_block1) if_block1.m(target, anchor);
 			insert(target, if_block1_anchor, anchor);
 		},
@@ -18874,7 +18890,7 @@ function SessionList_svelte_create_fragment(ctx) {
 				} else {
 					if_block0 = create_if_block_1(ctx);
 					if_block0.c();
-					if_block0.m(t.parentNode, t);
+					if_block0.m(t2.parentNode, t2);
 				}
 			} else if (if_block0) {
 				if_block0.d(1);
@@ -18897,8 +18913,10 @@ function SessionList_svelte_create_fragment(ctx) {
 		i: noop,
 		o: noop,
 		d(detaching) {
+			if (detaching) detach(h3);
+			if (detaching) detach(t1);
 			if (if_block0) if_block0.d(detaching);
-			if (detaching) detach(t);
+			if (detaching) detach(t2);
 			if (if_block1) if_block1.d(detaching);
 			if (detaching) detach(if_block1_anchor);
 		}
@@ -18932,6 +18950,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 class SessionList extends SvelteComponent {
 	constructor(options) {
 		super();
+		if (!document.getElementById("svelte-lwrk0a-style")) SessionList_svelte_add_css();
 		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 2 });
 	}
 }
@@ -19061,12 +19080,12 @@ class DynamicWaveForm extends SvelteComponent {
 
 function RecordingUi_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-rj3x30-style";
-	style.textContent = "#recording_ui_container.svelte-rj3x30{border:1px solid;position:relative;width:100%;height:36em}#recording_ui_transport.svelte-rj3x30{border:1px solid;position:absolute;width:21em}#recording_ui_toolbar.svelte-rj3x30{border:1px solid;position:absolute;left:21em}#recording_ui_trackbar.svelte-rj3x30{border:1px solid;position:absolute;top:3.5em;width:10%}#recording_ui_waveform.svelte-rj3x30{border:1px solid;position:absolute;top:3.5em;left:10%;width:90%}#recording_ui_footer.svelte-rj3x30{border:1px solid;position:absolute;left:10%;top:34em;width:90%}";
+	style.id = "svelte-5p38pz-style";
+	style.textContent = "#recording_ui_container.svelte-5p38pz{border:1px solid;position:relative;width:100%;height:36em}#recording_ui_transport.svelte-5p38pz{border:1px solid;position:absolute;width:21em;height:3.5em}#recording_ui_toolbar.svelte-5p38pz{border:1px solid;position:absolute;left:21em;height:3.5em}#recording_ui_trackbar.svelte-5p38pz{border:1px solid;position:absolute;top:3.5em;width:20%}#recording_ui_waveform.svelte-5p38pz{border:1px solid;position:absolute;top:3.5em;left:20%;width:80%}#recording_ui_footer.svelte-5p38pz{border:1px solid;position:absolute;left:20%;top:32em;width:80%}";
 	append(document.head, style);
 }
 
-// (88:0) {#if !recording.id}
+// (90:0) {#if !recording.id}
 function RecordingUi_svelte_create_if_block_1(ctx) {
 	let t;
 
@@ -19083,7 +19102,7 @@ function RecordingUi_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (92:0) {#if recording.id}
+// (94:0) {#if recording.id}
 function RecordingUi_svelte_create_if_block(ctx) {
 	let div5;
 	let div0;
@@ -19093,12 +19112,11 @@ function RecordingUi_svelte_create_if_block(ctx) {
 	let toolbar;
 	let t1;
 	let div2;
-	let t2;
 	let sessionlist;
-	let t3;
+	let t2;
 	let div3;
 	let dynamicwaveform;
-	let t4;
+	let t3;
 	let div4;
 	let current;
 
@@ -19128,26 +19146,25 @@ function RecordingUi_svelte_create_if_block(ctx) {
 			create_component(toolbar.$$.fragment);
 			t1 = space();
 			div2 = internal_element("div");
-			t2 = internal_text("trackbar\n            ");
 			create_component(sessionlist.$$.fragment);
-			t3 = space();
+			t2 = space();
 			div3 = internal_element("div");
 			create_component(dynamicwaveform.$$.fragment);
-			t4 = space();
+			t3 = space();
 			div4 = internal_element("div");
 			div4.textContent = "footer";
 			attr(div0, "id", "recording_ui_transport");
-			attr(div0, "class", "svelte-rj3x30");
+			attr(div0, "class", "svelte-5p38pz");
 			attr(div1, "id", "recording_ui_toolbar");
-			attr(div1, "class", "svelte-rj3x30");
+			attr(div1, "class", "svelte-5p38pz");
 			attr(div2, "id", "recording_ui_trackbar");
-			attr(div2, "class", "svelte-rj3x30");
+			attr(div2, "class", "svelte-5p38pz");
 			attr(div3, "id", "recording_ui_waveform");
-			attr(div3, "class", "svelte-rj3x30");
+			attr(div3, "class", "svelte-5p38pz");
 			attr(div4, "id", "recording_ui_footer");
-			attr(div4, "class", "svelte-rj3x30");
+			attr(div4, "class", "svelte-5p38pz");
 			attr(div5, "id", "recording_ui_container");
-			attr(div5, "class", "svelte-rj3x30");
+			attr(div5, "class", "svelte-5p38pz");
 		},
 		m(target, anchor) {
 			insert(target, div5, anchor);
@@ -19158,12 +19175,11 @@ function RecordingUi_svelte_create_if_block(ctx) {
 			mount_component(toolbar, div1, null);
 			append(div5, t1);
 			append(div5, div2);
-			append(div2, t2);
 			mount_component(sessionlist, div2, null);
-			append(div5, t3);
+			append(div5, t2);
 			append(div5, div3);
 			mount_component(dynamicwaveform, div3, null);
-			append(div5, t4);
+			append(div5, t3);
 			append(div5, div4);
 			current = true;
 		},
@@ -19325,7 +19341,7 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 class RecordingUi extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-rj3x30-style")) RecordingUi_svelte_add_css();
+		if (!document.getElementById("svelte-5p38pz-style")) RecordingUi_svelte_add_css();
 		init(this, options, RecordingUi_svelte_instance, RecordingUi_svelte_create_fragment, safe_not_equal, { recordingId: 0 });
 	}
 }
