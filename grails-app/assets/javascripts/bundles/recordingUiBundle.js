@@ -18735,7 +18735,7 @@ function create_if_block_1(ctx) {
 
 	return {
 		c() {
-			t = internal_text("Session List empty");
+			t = internal_text("No Annotations yet");
 		},
 		m(target, anchor) {
 			insert(target, t, anchor);
@@ -18868,7 +18868,7 @@ function SessionList_svelte_create_fragment(ctx) {
 	return {
 		c() {
 			h3 = internal_element("h3");
-			h3.textContent = "Session List";
+			h3.textContent = "Annotations";
 			t1 = space();
 			if (if_block0) if_block0.c();
 			t2 = space();

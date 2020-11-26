@@ -26,9 +26,9 @@
     }
 </style>
 
-<h3>Session List</h3>
+<h3>Annotations</h3>
 {#if sessionList.length == 0}
-    Session List empty
+    No Annotations yet
 {/if}
 
 {#if sessionList.length > 0}
