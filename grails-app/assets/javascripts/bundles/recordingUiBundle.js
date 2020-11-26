@@ -18571,6 +18571,7 @@ function create_fragment(ctx) {
 
 function instance($$self, $$props, $$invalidate) {
 	let { recordingId } = $$props;
+	const appContainer = window.$("#RecordingUiContainer-" + recordingId);
 	let audioElement = {};
 
 	/*
@@ -18590,7 +18591,7 @@ function instance($$self, $$props, $$invalidate) {
  * attaching a function to window context makes it callable from parent component
  * https://stackoverflow.com/questions/57954008/call-svelte-components-function-from-global-scope#57957607
  */
-		window.$("#RecordingUiContainer-" + recordingId).bind("togglePlayPause", function () {
+		appContainer.bind("togglePlayPause", function () {
 			if (paused) {
 				audioElement.play();
 			} else {
@@ -18599,10 +18600,7 @@ function instance($$self, $$props, $$invalidate) {
 
 			paused = !paused;
 		});
-	}); /*
-.togglePlayPause = () => {
-
-        };*/
+	});
 
 	$$self.$$set = $$props => {
 		if ("recordingId" in $$props) $$invalidate(0, recordingId = $$props.recordingId);
@@ -18790,15 +18788,14 @@ class DynamicWaveForm extends SvelteComponent {
 
 
 
-
 function RecordingUi_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1n3fiyr-style";
-	style.textContent = "#recording_ui_container.svelte-1n3fiyr{border:1px solid;position:relative;width:100%;height:38em}#recording_ui_transport.svelte-1n3fiyr{border:1px solid;position:absolute;width:25em}#recording_ui_toolbar.svelte-1n3fiyr{border:1px solid;position:absolute;left:25em}#recording_ui_trackbar.svelte-1n3fiyr{border:1px solid;position:absolute;top:3.5em;width:10em}#recording_ui_waveform.svelte-1n3fiyr{border:1px solid;position:absolute;top:3.5em;left:10em;width:100%}#recording_ui_footer.svelte-1n3fiyr{border:1px solid;position:absolute;left:10em;top:36em;width:100%}";
+	style.id = "svelte-rj3x30-style";
+	style.textContent = "#recording_ui_container.svelte-rj3x30{border:1px solid;position:relative;width:100%;height:36em}#recording_ui_transport.svelte-rj3x30{border:1px solid;position:absolute;width:21em}#recording_ui_toolbar.svelte-rj3x30{border:1px solid;position:absolute;left:21em}#recording_ui_trackbar.svelte-rj3x30{border:1px solid;position:absolute;top:3.5em;width:10%}#recording_ui_waveform.svelte-rj3x30{border:1px solid;position:absolute;top:3.5em;left:10%;width:90%}#recording_ui_footer.svelte-rj3x30{border:1px solid;position:absolute;left:10%;top:34em;width:90%}";
 	append(document.head, style);
 }
 
-// (95:0) {#if !recording.id}
+// (86:0) {#if !recording.id}
 function create_if_block_1(ctx) {
 	let t;
 
@@ -18815,7 +18812,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (99:0) {#if recording.id}
+// (90:0) {#if recording.id}
 function create_if_block(ctx) {
 	let div5;
 	let div0;
@@ -18857,17 +18854,17 @@ function create_if_block(ctx) {
 			div4 = internal_element("div");
 			div4.textContent = "footer";
 			attr(div0, "id", "recording_ui_transport");
-			attr(div0, "class", "svelte-1n3fiyr");
+			attr(div0, "class", "svelte-rj3x30");
 			attr(div1, "id", "recording_ui_toolbar");
-			attr(div1, "class", "svelte-1n3fiyr");
+			attr(div1, "class", "svelte-rj3x30");
 			attr(div2, "id", "recording_ui_trackbar");
-			attr(div2, "class", "svelte-1n3fiyr");
+			attr(div2, "class", "svelte-rj3x30");
 			attr(div3, "id", "recording_ui_waveform");
-			attr(div3, "class", "svelte-1n3fiyr");
+			attr(div3, "class", "svelte-rj3x30");
 			attr(div4, "id", "recording_ui_footer");
-			attr(div4, "class", "svelte-1n3fiyr");
+			attr(div4, "class", "svelte-rj3x30");
 			attr(div5, "id", "recording_ui_container");
-			attr(div5, "class", "svelte-1n3fiyr");
+			attr(div5, "class", "svelte-rj3x30");
 		},
 		m(target, anchor) {
 			insert(target, div5, anchor);
@@ -18987,21 +18984,14 @@ function RecordingUi_svelte_create_fragment(ctx) {
 	};
 }
 
-function handleKeydown(event) {
-	
-}
-
 function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 	let { recordingId } = $$props;
 
 	// recording data structure loaded onMount
 	let recording = {};
 
-	const dispatch = createEventDispatcher();
-
-	function forward(event) {
-		dispatch("message", event.detail);
-	}
+	// we reference the div containing the app for event dispatching
+	const appContainer = window.$("#RecordingUiContainer-" + recordingId);
 
 	onMount(async () => {
 		const res = await fetch("/recording/ajaxGet/" + recordingId);
@@ -19009,18 +18999,21 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(1, recording = ajaxData.recording);
 	});
 
+	/**
+ * keyboard input on the waveform. used for pausing, tapping, annotation...
+ * events are propagated to components via functions attached to window context in sub components
+ * @param event
+ */
 	//RecordingUiContainer-${this.recording.id}
-	window.$("#RecordingUiContainer-" + recordingId).keydown(function (event) {
+	appContainer.keydown(function (event) {
 		let key = event.key;
 		let keyCode = event.keyCode;
 
 		if (keyCode == 32) {
 			// Space Bar
-			// bound to window in sub-component
-			//window.$("#RecordingUiContainer-"+recordingId).togglePlayPause();
 			event.preventDefault();
 
-			window.$("#RecordingUiContainer-" + recordingId).trigger("togglePlayPause");
+			appContainer.trigger("togglePlayPause");
 		}
 	});
 
@@ -19034,7 +19027,7 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 class RecordingUi extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1n3fiyr-style")) RecordingUi_svelte_add_css();
+		if (!document.getElementById("svelte-rj3x30-style")) RecordingUi_svelte_add_css();
 		init(this, options, RecordingUi_svelte_instance, RecordingUi_svelte_create_fragment, safe_not_equal, { recordingId: 0 });
 	}
 }

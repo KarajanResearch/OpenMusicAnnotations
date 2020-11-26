@@ -4,6 +4,8 @@
     // id of the grails recording object passed from the outside
     export let recordingId;
 
+    const appContainer = window.$("#RecordingUiContainer-" + recordingId);
+
     let audioElement = {};
 /*
     $: if(paused) {
@@ -25,7 +27,7 @@
          * attaching a function to window context makes it callable from parent component
          * https://stackoverflow.com/questions/57954008/call-svelte-components-function-from-global-scope#57957607
          */
-        window.$("#RecordingUiContainer-"+recordingId).bind("togglePlayPause", function (){
+        appContainer.bind("togglePlayPause", function (){
             if (paused) {
                 audioElement.play();
             } else {
@@ -33,11 +35,6 @@
             }
             paused = !paused;
         });
-
-            /*
-            .togglePlayPause = () => {
-
-        };*/
 
 
 

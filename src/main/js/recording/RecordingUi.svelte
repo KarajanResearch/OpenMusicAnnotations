@@ -1,6 +1,5 @@
 <script>
     import { onMount } from "svelte";
-    import { createEventDispatcher } from 'svelte';
     import AudioPlayer from "./AudioPlayer.svelte";
     import DynamicWaveForm from "./DynamicWaveForm.svelte";
 
@@ -10,11 +9,9 @@
     // recording data structure loaded onMount
     let recording = {};
 
-    const dispatch = createEventDispatcher();
+    // we reference the div containing the app for event dispatching
+    const appContainer = window.$("#RecordingUiContainer-" + recordingId);
 
-    function forward(event) {
-        dispatch('message', event.detail);
-    }
 
     onMount(async () => {
         const res = await fetch("/recording/ajaxGet/"+recordingId);
@@ -23,18 +20,14 @@
     });
 
 
-
     /**
      * keyboard input on the waveform. used for pausing, tapping, annotation...
      * events are propagated to components via functions attached to window context in sub components
      * @param event
      */
-    function handleKeydown(event) {
-
-    }
 
     //RecordingUiContainer-${this.recording.id}
-    window.$("#RecordingUiContainer-"+recordingId).keydown(function (event){
+    appContainer.keydown(function (event){
 
 
         let key = event.key;
@@ -42,10 +35,8 @@
 
         if(keyCode == 32) {
             // Space Bar
-            // bound to window in sub-component
-            //window.$("#RecordingUiContainer-"+recordingId).togglePlayPause();
             event.preventDefault();
-            window.$("#RecordingUiContainer-"+recordingId).trigger("togglePlayPause");
+            appContainer.trigger("togglePlayPause");
         }
     });
 
@@ -57,38 +48,38 @@
         border: 1px solid;
         position: relative;
         width: 100%;
-        height: 38em;
+        height: 36em;
     }
 
     #recording_ui_transport {
         border: 1px solid;
         position: absolute;
-        width: 25em;
+        width: 21em;
     }
     #recording_ui_toolbar {
         border: 1px solid;
         position: absolute;
-        left: 25em;
+        left: 21em;
     }
     #recording_ui_trackbar {
         border: 1px solid;
         position: absolute;
         top: 3.5em;
-        width: 10em;
+        width: 10%;
     }
     #recording_ui_waveform {
         border: 1px solid;
         position: absolute;
         top: 3.5em;
-        left: 10em;
-        width: 100%;
+        left: 10%;
+        width: 90%;
     }
     #recording_ui_footer {
         border: 1px solid;
         position: absolute;
-        left: 10em;
-        top: 36em;
-        width: 100%;
+        left: 10%;
+        top: 34em;
+        width: 90%;
     }
 </style>
 
