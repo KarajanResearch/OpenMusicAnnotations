@@ -14,8 +14,8 @@
         // https://github.com/bbc/peaks.js#configuration
         const options = {
             containers: {
-                overview: document.getElementById('overview-container'),
-                zoomview: document.getElementById('zoomview-container')
+                overview: document.getElementById('overview-container_'+recordingId),
+                zoomview: document.getElementById('zoomview-container_'+recordingId)
             },
             mediaElement: document.getElementById('audio_element_' + recordingId),
             dataUri: {
@@ -69,7 +69,6 @@
     #zoomSlider {
         direction: rtl;
         width: 7em;
-        margin-bottom: 12px;
     }
     .slider {
         -webkit-appearance: none;
@@ -106,6 +105,5 @@
 
 
 
-
-<div id="zoomview-container"/>
-<div id="overview-container"/>
+<div id="zoomview-container_{recordingId}"/>
+<div id="overview-container_{recordingId}"/>

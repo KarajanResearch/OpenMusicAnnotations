@@ -1,14 +1,17 @@
 import RecordingUi from './recording/RecordingUi.svelte'
 
-// find app target container
-let container = document.getElementById("RecordingUiContainer");
+// supporting multiple UIs per page. selecting all containers
+let containers = window.$(".RecordingUiContainer").each(function (index) {
+    console.log(this);
+    let tokens = this.id.split("-");
+    let recordingId = tokens[1];
+    const recordingUi = new RecordingUi({
+        target: this,
+        props: {
+            recordingId: recordingId
+        }
+    });
 
-// pass the recording id from gsp view
-let recordingId = document.getElementById("recordingId").value;
-
-const recordingUi = new RecordingUi({
-    target: container,
-    props: {
-        recordingId: recordingId
-    }
 });
+
+

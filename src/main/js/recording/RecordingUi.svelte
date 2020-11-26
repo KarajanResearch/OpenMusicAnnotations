@@ -44,13 +44,74 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
-<p>
-    {#if !recording.id}
-       Loading... Please wait...
-    {/if}
-</p>
+<style>
+    #recording_ui_container {
+        border: 1px solid;
+        position: relative;
+        width: 100%;
+        height: 38em;
+    }
 
-<AudioPlayer recordingId={recordingId} />
+    #recording_ui_transport {
+        border: 1px solid;
+        position: absolute;
+        width: 25em;
+    }
+    #recording_ui_toolbar {
+        border: 1px solid;
+        position: absolute;
+        left: 25em;
+    }
+    #recording_ui_trackbar {
+        border: 1px solid;
+        position: absolute;
+        top: 3.5em;
+        width: 10em;
+    }
+    #recording_ui_waveform {
+        border: 1px solid;
+        position: absolute;
+        top: 3.5em;
+        left: 10em;
+        width: 100%;
+    }
+    #recording_ui_footer {
+        border: 1px solid;
+        position: absolute;
+        left: 10em;
+        top: 36em;
+        width: 100%;
+    }
+</style>
 
-<DynamicWaveForm recordingId={recordingId} />
+
+
+
+<div id="recording_ui_container">
+    <p>
+        {#if !recording.id}
+            Loading... Please wait...
+        {/if}
+    </p>
+    <div id="recording_ui_transport">
+        <AudioPlayer recordingId={recordingId} />
+    </div>
+
+    <div id="recording_ui_toolbar">
+        toolbar
+    </div>
+
+    <div id="recording_ui_trackbar">
+        trackbar
+    </div>
+
+    <div id="recording_ui_waveform">
+        <DynamicWaveForm recordingId={recordingId} />
+    </div>
+
+    <div id="recording_ui_footer">
+        footer
+    </div>
+</div>
+
 

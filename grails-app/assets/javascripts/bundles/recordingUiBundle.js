@@ -18629,8 +18629,8 @@ const { document: document_1 } = globals;
 
 function add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-siboy4-style";
-	style.textContent = "#zoomSlider.svelte-siboy4{direction:rtl;width:7em;margin-bottom:10px}.slider.svelte-siboy4{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-siboy4::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-siboy4::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}";
+	style.id = "svelte-1vkl1n4-style";
+	style.textContent = "#zoomSlider.svelte-1vkl1n4{direction:rtl;width:7em}.slider.svelte-1vkl1n4{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1vkl1n4::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1vkl1n4::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}";
 	append(document_1.head, style);
 }
 
@@ -18638,8 +18638,10 @@ function DynamicWaveForm_svelte_create_fragment(ctx) {
 	let input;
 	let t0;
 	let div0;
+	let div0_id_value;
 	let t1;
 	let div1;
+	let div1_id_value;
 	let mounted;
 	let dispose;
 
@@ -18651,17 +18653,19 @@ function DynamicWaveForm_svelte_create_fragment(ctx) {
 			t1 = space();
 			div1 = internal_element("div");
 			attr(input, "id", "zoomSlider");
-			attr(input, "class", "slider svelte-siboy4");
+			attr(input, "class", "slider svelte-1vkl1n4");
 			attr(input, "type", "range");
 			attr(input, "min", "0");
 			attr(input, "max", "7");
 			attr(input, "step", "1");
-			attr(div0, "id", "zoomview-container");
-			attr(div1, "id", "overview-container");
+			attr(div0, "id", div0_id_value = "zoomview-container_" + /*recordingId*/ ctx[0]);
+			attr(div0, "class", "svelte-1vkl1n4");
+			attr(div1, "id", div1_id_value = "overview-container_" + /*recordingId*/ ctx[0]);
+			attr(div1, "class", "svelte-1vkl1n4");
 		},
 		m(target, anchor) {
 			insert(target, input, anchor);
-			set_input_value(input, /*zoomLevel*/ ctx[0]);
+			set_input_value(input, /*zoomLevel*/ ctx[1]);
 			insert(target, t0, anchor);
 			insert(target, div0, anchor);
 			insert(target, t1, anchor);
@@ -18671,15 +18675,23 @@ function DynamicWaveForm_svelte_create_fragment(ctx) {
 				dispose = [
 					listen(input, "change", /*input_change_input_handler*/ ctx[3]),
 					listen(input, "input", /*input_change_input_handler*/ ctx[3]),
-					listen(input, "input", /*handleZoomChange*/ ctx[1])
+					listen(input, "input", /*handleZoomChange*/ ctx[2])
 				];
 
 				mounted = true;
 			}
 		},
 		p(ctx, [dirty]) {
-			if (dirty & /*zoomLevel*/ 1) {
-				set_input_value(input, /*zoomLevel*/ ctx[0]);
+			if (dirty & /*zoomLevel*/ 2) {
+				set_input_value(input, /*zoomLevel*/ ctx[1]);
+			}
+
+			if (dirty & /*recordingId*/ 1 && div0_id_value !== (div0_id_value = "zoomview-container_" + /*recordingId*/ ctx[0])) {
+				attr(div0, "id", div0_id_value);
+			}
+
+			if (dirty & /*recordingId*/ 1 && div1_id_value !== (div1_id_value = "overview-container_" + /*recordingId*/ ctx[0])) {
+				attr(div1, "id", div1_id_value);
 			}
 		},
 		i: noop,
@@ -18705,8 +18717,8 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 		// https://github.com/bbc/peaks.js#configuration
 		const options = {
 			containers: {
-				overview: document.getElementById("overview-container"),
-				zoomview: document.getElementById("zoomview-container")
+				overview: document.getElementById("overview-container_" + recordingId),
+				zoomview: document.getElementById("zoomview-container_" + recordingId)
 			},
 			mediaElement: document.getElementById("audio_element_" + recordingId),
 			dataUri: {
@@ -18738,31 +18750,31 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 		}); // ...
 
 		peaks.zoom.setZoom(4);
-		$$invalidate(0, zoomLevel = 4);
+		$$invalidate(1, zoomLevel = 4);
 	});
 
 	function handleZoomChange(event) {
-		$$invalidate(0, zoomLevel = event.target.value);
+		$$invalidate(1, zoomLevel = event.target.value);
 		peaks.zoom.setZoom(zoomLevel);
 	}
 
 	function input_change_input_handler() {
 		zoomLevel = to_number(this.value);
-		$$invalidate(0, zoomLevel);
+		$$invalidate(1, zoomLevel);
 	}
 
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(2, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(0, recordingId = $$props.recordingId);
 	};
 
-	return [zoomLevel, handleZoomChange, recordingId, input_change_input_handler];
+	return [recordingId, zoomLevel, handleZoomChange, input_change_input_handler];
 }
 
 class DynamicWaveForm extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document_1.getElementById("svelte-siboy4-style")) add_css();
-		init(this, options, DynamicWaveForm_svelte_instance, DynamicWaveForm_svelte_create_fragment, safe_not_equal, { recordingId: 2 });
+		if (!document_1.getElementById("svelte-1vkl1n4-style")) add_css();
+		init(this, options, DynamicWaveForm_svelte_instance, DynamicWaveForm_svelte_create_fragment, safe_not_equal, { recordingId: 0 });
 	}
 }
 
@@ -18777,6 +18789,14 @@ const { window: window_1 } = globals;
 
 
 
+function RecordingUi_svelte_add_css() {
+	var style = internal_element("style");
+	style.id = "svelte-1n3fiyr-style";
+	style.textContent = "#recording_ui_container.svelte-1n3fiyr{border:1px solid;position:relative;width:100%;height:38em}#recording_ui_transport.svelte-1n3fiyr{border:1px solid;position:absolute;width:25em}#recording_ui_toolbar.svelte-1n3fiyr{border:1px solid;position:absolute;left:25em}#recording_ui_trackbar.svelte-1n3fiyr{border:1px solid;position:absolute;top:3.5em;width:10em}#recording_ui_waveform.svelte-1n3fiyr{border:1px solid;position:absolute;top:3.5em;left:10em;width:100%}#recording_ui_footer.svelte-1n3fiyr{border:1px solid;position:absolute;left:10em;top:36em;width:100%}";
+	append(document.head, style);
+}
+
+// (92:8) {#if !recording.id}
 function create_if_block(ctx) {
 	let t;
 
@@ -18794,11 +18814,20 @@ function create_if_block(ctx) {
 }
 
 function RecordingUi_svelte_create_fragment(ctx) {
+	let div5;
 	let p;
 	let t0;
+	let div0;
 	let audioplayer;
 	let t1;
+	let div1;
+	let t3;
+	let div2;
+	let t5;
+	let div3;
 	let dynamicwaveform;
+	let t6;
+	let div4;
 	let current;
 	let mounted;
 	let dispose;
@@ -18814,20 +18843,53 @@ function RecordingUi_svelte_create_fragment(ctx) {
 
 	return {
 		c() {
+			div5 = internal_element("div");
 			p = internal_element("p");
 			if (if_block) if_block.c();
 			t0 = space();
+			div0 = internal_element("div");
 			create_component(audioplayer.$$.fragment);
 			t1 = space();
+			div1 = internal_element("div");
+			div1.textContent = "toolbar";
+			t3 = space();
+			div2 = internal_element("div");
+			div2.textContent = "trackbar";
+			t5 = space();
+			div3 = internal_element("div");
 			create_component(dynamicwaveform.$$.fragment);
+			t6 = space();
+			div4 = internal_element("div");
+			div4.textContent = "footer";
+			attr(div0, "id", "recording_ui_transport");
+			attr(div0, "class", "svelte-1n3fiyr");
+			attr(div1, "id", "recording_ui_toolbar");
+			attr(div1, "class", "svelte-1n3fiyr");
+			attr(div2, "id", "recording_ui_trackbar");
+			attr(div2, "class", "svelte-1n3fiyr");
+			attr(div3, "id", "recording_ui_waveform");
+			attr(div3, "class", "svelte-1n3fiyr");
+			attr(div4, "id", "recording_ui_footer");
+			attr(div4, "class", "svelte-1n3fiyr");
+			attr(div5, "id", "recording_ui_container");
+			attr(div5, "class", "svelte-1n3fiyr");
 		},
 		m(target, anchor) {
-			insert(target, p, anchor);
+			insert(target, div5, anchor);
+			append(div5, p);
 			if (if_block) if_block.m(p, null);
-			insert(target, t0, anchor);
-			mount_component(audioplayer, target, anchor);
-			insert(target, t1, anchor);
-			mount_component(dynamicwaveform, target, anchor);
+			append(div5, t0);
+			append(div5, div0);
+			mount_component(audioplayer, div0, null);
+			append(div5, t1);
+			append(div5, div1);
+			append(div5, t3);
+			append(div5, div2);
+			append(div5, t5);
+			append(div5, div3);
+			mount_component(dynamicwaveform, div3, null);
+			append(div5, t6);
+			append(div5, div4);
 			current = true;
 
 			if (!mounted) {
@@ -18868,12 +18930,10 @@ function RecordingUi_svelte_create_fragment(ctx) {
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach(p);
+			if (detaching) detach(div5);
 			if (if_block) if_block.d();
-			if (detaching) detach(t0);
-			destroy_component(audioplayer, detaching);
-			if (detaching) detach(t1);
-			destroy_component(dynamicwaveform, detaching);
+			destroy_component(audioplayer);
+			destroy_component(dynamicwaveform);
 			mounted = false;
 			dispose();
 		}
@@ -18919,6 +18979,7 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 class RecordingUi extends SvelteComponent {
 	constructor(options) {
 		super();
+		if (!document.getElementById("svelte-1n3fiyr-style")) RecordingUi_svelte_add_css();
 		init(this, options, RecordingUi_svelte_instance, RecordingUi_svelte_create_fragment, safe_not_equal, { recordingId: 0 });
 	}
 }
@@ -18927,18 +18988,22 @@ class RecordingUi extends SvelteComponent {
 ;// CONCATENATED MODULE: ./src/main/js/recordingUi.js
 
 
-// find app target container
-let container = document.getElementById("RecordingUiContainer");
+// supporting multiple UIs per page. selecting all containers
+let containers = window.$(".RecordingUiContainer").each(function (index) {
+    console.log(this);
+    let tokens = this.id.split("-");
+    let recordingId = tokens[1];
+    const recordingUi = new RecordingUi_svelte({
+        target: this,
+        props: {
+            recordingId: recordingId
+        }
+    });
 
-// pass the recording id from gsp view
-let recordingId = document.getElementById("recordingId").value;
-
-const recordingUi = new RecordingUi_svelte({
-    target: container,
-    props: {
-        recordingId: recordingId
-    }
 });
+
+
+
 })();
 
 /******/ })()

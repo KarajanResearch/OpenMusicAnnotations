@@ -78,6 +78,8 @@
 
 <g:layoutBody/>
 
+
+
 <div class="footer row" role="contentinfo">
 
     <div class="col">

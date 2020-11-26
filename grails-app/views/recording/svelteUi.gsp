@@ -1,3 +1,4 @@
+<%@ page import="org.karajanresearch.oma.music.Recording" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,13 +61,13 @@
     </g:if>
 
 
-    <input hidden="hidden" id="recordingId" value="${this.recording.id}">
-    <div id="RecordingUiContainer">
 
-    </div>
+    <g:render template="recordingUiContainerTemplate" model="[recording: this.recording, showScore: false, isMine: this.isMine]" />
 
+    <g:render template="recordingUiContainerTemplate" model="[recording: org.karajanresearch.oma.music.Recording.get(173192), showScore: false, isMine: this.isMine]" />
+
+    <!-- invoce once, after all UI containers are set up -->
     <asset:javascript src="bundles/recordingUiBundle.js" />
-
 
 
 
