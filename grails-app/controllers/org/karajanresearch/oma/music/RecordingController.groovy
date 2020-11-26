@@ -480,11 +480,7 @@ class RecordingController {
                         beat: a.beatNumber,
                         momentOfPerception: a.momentOfPerception
                     ]
-
-
                 }
-
-
             ]
         }
 

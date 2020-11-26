@@ -12,10 +12,40 @@
 
     onMount(async () => {
 
-        const res = await fetch("/recording/ajaxGetSessionList/"+recordingId);
+        const res = await fetch("/recording/ajaxGetSessionList/" + recordingId);
         sessionList = await res.json();
 
     });
+
+
+    /**
+     * monitoring sessionSelection and updating points on waveform
+     */
+    $: {
+        sessionSelection;
+        appContainer.trigger("clearAllAnnotations");
+
+        for (let i = 0; i < sessionList.length; i++) {
+            let session = sessionList[i];
+            if (sessionSelection.includes(session.id)) {
+                // draw that session
+                for (let j = 0; j < session.annotations.length; j++) {
+                    let annotation = session.annotations[j];
+                    let point = {
+                        id: annotation.id,
+                        time: annotation.momentOfPerception,
+                        editable: true,
+                        labelText: "" + annotation.bar + ":" + annotation.beat
+                    }
+                    appContainer.trigger("drawAnnotation", point);
+                }
+            }
+        }
+    }
+
+    function clearSelection() {
+        sessionSelection = [];
+    }
 
 
 </script>
@@ -39,7 +69,11 @@
             </option>
         {/each}
     </select>
+
+    <button on:click={clearSelection}>Clear Selection</button>
+
 {/if}
+
 
 
 

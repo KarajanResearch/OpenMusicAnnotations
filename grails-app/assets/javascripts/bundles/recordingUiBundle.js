@@ -18749,11 +18749,11 @@ function SessionList_svelte_add_css() {
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[5] = list[i];
+	child_ctx[6] = list[i];
 	return child_ctx;
 }
 
-// (30:0) {#if sessionList.length == 0}
+// (60:0) {#if sessionList.length == 0}
 function create_if_block_1(ctx) {
 	let t;
 
@@ -18770,9 +18770,11 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (34:0) {#if sessionList.length > 0}
+// (64:0) {#if sessionList.length > 0}
 function create_if_block(ctx) {
 	let select;
+	let t0;
+	let button;
 	let mounted;
 	let dispose;
 	let each_value = /*sessionList*/ ctx[1];
@@ -18790,10 +18792,13 @@ function create_if_block(ctx) {
 				each_blocks[i].c();
 			}
 
+			t0 = space();
+			button = internal_element("button");
+			button.textContent = "Clear Selection";
 			attr(select, "id", "session_list");
 			select.multiple = true;
 			attr(select, "class", "svelte-lwrk0a");
-			if (/*sessionSelection*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[3].call(select));
+			if (/*sessionSelection*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[4].call(select));
 		},
 		m(target, anchor) {
 			insert(target, select, anchor);
@@ -18803,9 +18808,15 @@ function create_if_block(ctx) {
 			}
 
 			select_options(select, /*sessionSelection*/ ctx[0]);
+			insert(target, t0, anchor);
+			insert(target, button, anchor);
 
 			if (!mounted) {
-				dispose = listen(select, "change", /*select_change_handler*/ ctx[3]);
+				dispose = [
+					listen(select, "change", /*select_change_handler*/ ctx[4]),
+					listen(button, "click", /*clearSelection*/ ctx[2])
+				];
+
 				mounted = true;
 			}
 		},
@@ -18840,16 +18851,18 @@ function create_if_block(ctx) {
 		d(detaching) {
 			if (detaching) detach(select);
 			destroy_each(each_blocks, detaching);
+			if (detaching) detach(t0);
+			if (detaching) detach(button);
 			mounted = false;
-			dispose();
+			run_all(dispose);
 		}
 	};
 }
 
-// (36:8) {#each sessionList as session}
+// (66:8) {#each sessionList as session}
 function create_each_block(ctx) {
 	let option;
-	let t0_value = /*session*/ ctx[5].title + "";
+	let t0_value = /*session*/ ctx[6].title + "";
 	let t0;
 	let t1;
 	let option_value_value;
@@ -18859,7 +18872,7 @@ function create_each_block(ctx) {
 			option = internal_element("option");
 			t0 = internal_text(t0_value);
 			t1 = space();
-			option.__value = option_value_value = /*session*/ ctx[5].id;
+			option.__value = option_value_value = /*session*/ ctx[6].id;
 			option.value = option.__value;
 		},
 		m(target, anchor) {
@@ -18868,9 +18881,9 @@ function create_each_block(ctx) {
 			append(option, t1);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*sessionList*/ 2 && t0_value !== (t0_value = /*session*/ ctx[5].title + "")) set_data(t0, t0_value);
+			if (dirty & /*sessionList*/ 2 && t0_value !== (t0_value = /*session*/ ctx[6].title + "")) set_data(t0, t0_value);
 
-			if (dirty & /*sessionList*/ 2 && option_value_value !== (option_value_value = /*session*/ ctx[5].id)) {
+			if (dirty & /*sessionList*/ 2 && option_value_value !== (option_value_value = /*session*/ ctx[6].id)) {
 				option.__value = option_value_value;
 				option.value = option.__value;
 			}
@@ -18958,6 +18971,10 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(1, sessionList = await res.json());
 	});
 
+	function clearSelection() {
+		$$invalidate(0, sessionSelection = []);
+	}
+
 	function select_change_handler() {
 		sessionSelection = select_multiple_value(this);
 		$$invalidate(0, sessionSelection);
@@ -18965,17 +18982,55 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	}
 
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(2, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(3, recordingId = $$props.recordingId);
 	};
 
-	return [sessionSelection, sessionList, recordingId, select_change_handler];
+	$$self.$$.update = () => {
+		if ($$self.$$.dirty & /*sessionSelection, sessionList*/ 3) {
+			/**
+ * monitoring sessionSelection and updating points on waveform
+ */
+			$: {
+				sessionSelection;
+				appContainer.trigger("clearAllAnnotations");
+
+				for (let i = 0; i < sessionList.length; i++) {
+					let session = sessionList[i];
+
+					if (sessionSelection.includes(session.id)) {
+						// draw that session
+						for (let j = 0; j < session.annotations.length; j++) {
+							let annotation = session.annotations[j];
+
+							let point = {
+								id: annotation.id,
+								time: annotation.momentOfPerception,
+								editable: true,
+								labelText: "" + annotation.bar + ":" + annotation.beat
+							};
+
+							appContainer.trigger("drawAnnotation", point);
+						}
+					}
+				}
+			}
+		}
+	};
+
+	return [
+		sessionSelection,
+		sessionList,
+		clearSelection,
+		recordingId,
+		select_change_handler
+	];
 }
 
 class SessionList extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-lwrk0a-style")) SessionList_svelte_add_css();
-		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 2 });
+		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 3 });
 	}
 }
 
@@ -19076,8 +19131,23 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 
 		peaks.zoom.setZoom(4);
 
+		/**
+ * handler for changing the zoom level from tool menu
+ */
 		appContainer.on("setWaveFormZoom", function (event, newZoomLevel) {
 			peaks.zoom.setZoom(newZoomLevel);
+		});
+
+		/**
+ * handler for adding points to peaks
+ * annotation has peaks.js point format: { time, editable, color, labelText, id }
+ */
+		appContainer.on("drawAnnotation", function (event, annotation) {
+			peaks.points.add(annotation);
+		});
+
+		appContainer.on("clearAllAnnotations", function (event) {
+			peaks.points.removeAll();
 		});
 	});
 

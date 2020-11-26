@@ -54,9 +54,24 @@
 
         peaks.zoom.setZoom(4);
 
+        /**
+         * handler for changing the zoom level from tool menu
+         */
         appContainer.on("setWaveFormZoom", function (event, newZoomLevel) {
             peaks.zoom.setZoom(newZoomLevel);
         });
+
+        /**
+         * handler for adding points to peaks
+         * annotation has peaks.js point format: { time, editable, color, labelText, id }
+         */
+        appContainer.on("drawAnnotation", function (event, annotation) {
+            peaks.points.add(annotation);
+        });
+        appContainer.on("clearAllAnnotations", function (event) {
+            peaks.points.removeAll();
+        });
+
 
 
 

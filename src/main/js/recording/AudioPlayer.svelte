@@ -35,7 +35,6 @@
             }
             paused = !paused;
         });
-
     });
 
 
