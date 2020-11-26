@@ -58,7 +58,7 @@
             peaks.zoom.setZoom(newZoomLevel);
         });
 
-        
+
 
     });
 

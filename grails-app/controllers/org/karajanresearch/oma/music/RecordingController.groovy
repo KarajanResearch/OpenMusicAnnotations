@@ -235,8 +235,8 @@ class RecordingController {
      * called from recording.show view
      * @return
      */
-    @Deprecated
     /*
+    @Deprecated
     def ajaxUploadTapData() {
         println params
         def recording = Recording.get(params.recording)
@@ -344,17 +344,7 @@ class RecordingController {
     }
     */
 
-    def ajaxGetSessionList() {
-        println "ajaxGetSessionList"
-        println params
 
-        def recording = recordingService.get(Long.parseLong(params.recording))
-
-        def result = recording.annotationSessions.findAll {
-            it.isShared || it.tenantId == springSecurityService.principal.id
-        }
-        render result as JSON
-    }
 
     def sessionService
     def ajaxGetSession() {
@@ -463,6 +453,43 @@ class RecordingController {
         render model as JSON
     }
 
+    def ajaxGetSessionList(Long id) {
+        println "ajaxGetSessionList"
+        println params
+
+        //override parameter, if given
+        if (!id && params.recording) {
+            id = Long.parseLong(params.recording)
+        }
+
+        def recording = recordingService.get(id)
+
+        def result = recording.annotationSessions.findAll {
+            it.isShared || it.tenantId == springSecurityService.principal.id
+        }.collect {session ->
+            return [
+                id: session.id,
+                title: session.title,
+                isShared: session.isShared,
+                /*
+                annotations: session.annotations.collect { Annotation a ->
+                    return [
+                        id: a.id,
+                        type: a.type,
+                        bar: a.barNumber,
+                        beat: a.beatNumber,
+                        momentOfPerception: a.momentOfPerception
+                    ]
+
+
+                }
+
+                 */
+            ]
+        }
+
+        render result as JSON
+    }
 
 
     def show(Long id) {
