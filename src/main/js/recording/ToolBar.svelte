@@ -26,9 +26,28 @@
     }
 
 
+
+
 </script>
 
 <style>
+
+    #toolbar_zoom {
+        /*border: 1px solid black;*/
+        position: absolute;
+        width: 8em;
+    }
+    #toolbar_click {
+        border: 1px solid black;
+        position: absolute;
+        height: 100%;
+        width: 30em;
+        left: 8em;
+    }
+
+
+
+
     #zoomSlider {
         direction: rtl;
         width: 8em;
@@ -62,6 +81,21 @@
         background: #4CAF50;
         cursor: pointer;
     }
+
+    .vertical_center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
 </style>
 
-<input id="zoomSlider" class="slider" type=range bind:value={zoomLevel} on:input={handleZoomChange} min="0" max="7" step="1">
+<div id="toolbar_zoom" class="vertical_center">
+    <input id="zoomSlider" class="slider" type=range bind:value={zoomLevel} on:input={handleZoomChange} min="0" max="7" step="1">
+</div>
+
+<div id="toolbar_click">
+    more tools go here
+</div>

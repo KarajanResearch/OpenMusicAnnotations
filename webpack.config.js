@@ -41,11 +41,16 @@ module.exports = {
 
     module: {
         rules: [
-                {
-                    test: /\.(html|svelte)$/,
-                    exclude: /node_modules/,
-                    use: 'svelte-loader'
+            {
+                test: /\.(html|svelte)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'svelte-loader',
+                    options: {
+                        hotReload: true
+                    }
                 }
+            },
         ]
     },
 
