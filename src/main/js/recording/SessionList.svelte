@@ -70,7 +70,7 @@
         {/each}
     </select>
 
-    <button on:click={clearSelection}>Clear Selection</button>
+    <button class="buttons" on:click={clearSelection}>Clear Selection</button>
 
 {/if}
 

@@ -86,6 +86,12 @@
         top: 32em;
         width: 80%;
     }
+
+
+
+
+
+
 </style>
 
 {#if !recording.id}

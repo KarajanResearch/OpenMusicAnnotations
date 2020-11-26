@@ -40,8 +40,17 @@
 
 </script>
 
+<style>
+    .audio_player {
+        border-radius: 4px;
+        margin: 4px;
+        display: inline-block;
+        vertical-align: top;
+    }
+</style>
 
-<audio id="audio_element_{recordingId}" controls preload="auto" controlsList="nodownload">
+
+<audio id="audio_element_{recordingId}" class="audio_player" controls preload="auto" controlsList="nodownload">
     <source src="/recording/getAudioFile/{recordingId}" type="audio/wav" />
     <track src="" kind="captions" />
         Your browser does not support the audio element.
