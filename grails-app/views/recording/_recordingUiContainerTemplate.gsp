@@ -25,9 +25,7 @@
 </g:else>
 
 
-<div id="RecordingUiContainer-${this.recording.id}" class="RecordingUiContainer" tabindex="-1">
-
-</div>
+<div id="RecordingUiContainer-${this.recording.id}" class="RecordingUiContainer" tabindex="-1"></div>
 
 
 

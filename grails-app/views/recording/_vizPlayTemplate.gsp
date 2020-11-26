@@ -219,11 +219,7 @@
 <div id="contextHelp"></div>
 
 
-<audio hidden="hidden" id="click_sound" controls preload="auto">
-    <source src="${assetPath(src: 'click.wav')}
-    "/>
-    Your browser does not support the audio element.
-</audio>
+
 
 
 

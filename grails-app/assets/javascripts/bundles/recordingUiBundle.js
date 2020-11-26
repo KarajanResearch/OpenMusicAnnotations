@@ -19105,9 +19105,12 @@ function DynamicWaveForm_svelte_create_fragment(ctx) {
 	};
 }
 
+let metronomeEnabled = true;
+
 function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 	let { recordingId } = $$props;
 	const appContainer = window.$("#RecordingUiContainer-" + recordingId);
+	const clickPlayer = document.getElementById("click-sound-" + recordingId);
 	let peaks = {};
 
 	onMount(async () => {
@@ -19147,6 +19150,13 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 		}); // ...
 
 		peaks.zoom.setZoom(4);
+
+		peaks.on("points.enter", function (point) {
+			if (metronomeEnabled === false) return;
+			clickPlayer.pause();
+			clickPlayer.currentTime = 0;
+			clickPlayer.play();
+		});
 
 		/**
  * handler for changing the zoom level from tool menu
@@ -19204,7 +19214,7 @@ function RecordingUi_svelte_add_css() {
 	append(document.head, style);
 }
 
-// (97:0) {#if !recording.id}
+// (105:0) {#if !recording.id}
 function RecordingUi_svelte_create_if_block_1(ctx) {
 	let t;
 
@@ -19221,7 +19231,7 @@ function RecordingUi_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (101:0) {#if recording.id}
+// (109:0) {#if recording.id}
 function RecordingUi_svelte_create_if_block(ctx) {
 	let div5;
 	let div0;
@@ -19341,7 +19351,14 @@ function RecordingUi_svelte_create_if_block(ctx) {
 }
 
 function RecordingUi_svelte_create_fragment(ctx) {
-	let t;
+	let audio;
+	let source;
+	let source_src_value;
+	let track;
+	let t0;
+	let audio_id_value;
+	let t1;
+	let t2;
 	let if_block1_anchor;
 	let current;
 	let if_block0 = !/*recording*/ ctx[1].id && RecordingUi_svelte_create_if_block_1(ctx);
@@ -19349,26 +19366,47 @@ function RecordingUi_svelte_create_fragment(ctx) {
 
 	return {
 		c() {
+			audio = internal_element("audio");
+			source = internal_element("source");
+			track = internal_element("track");
+			t0 = internal_text("\n    Your browser does not support the audio element.");
+			t1 = space();
 			if (if_block0) if_block0.c();
-			t = space();
+			t2 = space();
 			if (if_block1) if_block1.c();
 			if_block1_anchor = empty();
+			if (source.src !== (source_src_value = "/assets/click.wav")) attr(source, "src", source_src_value);
+			attr(track, "kind", "captions");
+			audio.hidden = "hidden";
+			attr(audio, "id", audio_id_value = "click-sound-" + /*recordingId*/ ctx[0]);
+			audio.controls = true;
+			attr(audio, "preload", "auto");
+			attr(audio, "class", "svelte-1f5vcs1");
 		},
 		m(target, anchor) {
+			insert(target, audio, anchor);
+			append(audio, source);
+			append(audio, track);
+			append(audio, t0);
+			insert(target, t1, anchor);
 			if (if_block0) if_block0.m(target, anchor);
-			insert(target, t, anchor);
+			insert(target, t2, anchor);
 			if (if_block1) if_block1.m(target, anchor);
 			insert(target, if_block1_anchor, anchor);
 			current = true;
 		},
 		p(ctx, [dirty]) {
+			if (!current || dirty & /*recordingId*/ 1 && audio_id_value !== (audio_id_value = "click-sound-" + /*recordingId*/ ctx[0])) {
+				attr(audio, "id", audio_id_value);
+			}
+
 			if (!/*recording*/ ctx[1].id) {
 				if (if_block0) {
 					
 				} else {
 					if_block0 = RecordingUi_svelte_create_if_block_1(ctx);
 					if_block0.c();
-					if_block0.m(t.parentNode, t);
+					if_block0.m(t2.parentNode, t2);
 				}
 			} else if (if_block0) {
 				if_block0.d(1);
@@ -19408,8 +19446,10 @@ function RecordingUi_svelte_create_fragment(ctx) {
 			current = false;
 		},
 		d(detaching) {
+			if (detaching) detach(audio);
+			if (detaching) detach(t1);
 			if (if_block0) if_block0.d(detaching);
-			if (detaching) detach(t);
+			if (detaching) detach(t2);
 			if (if_block1) if_block1.d(detaching);
 			if (detaching) detach(if_block1_anchor);
 		}

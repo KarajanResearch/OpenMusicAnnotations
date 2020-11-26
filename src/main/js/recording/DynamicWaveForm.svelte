@@ -6,8 +6,9 @@
     export let recordingId;
 
     const appContainer = window.$("#RecordingUiContainer-" + recordingId);
+    const clickPlayer = document.getElementById("click-sound-" + recordingId);
 
-
+    let metronomeEnabled = true;
     let peaks = {};
 
 
@@ -54,6 +55,14 @@
 
         peaks.zoom.setZoom(4);
 
+
+        peaks.on("points.enter", function (point) {
+            if (metronomeEnabled === false) return;
+            clickPlayer.pause();
+            clickPlayer.currentTime = 0;
+            clickPlayer.play();
+        });
+
         /**
          * handler for changing the zoom level from tool menu
          */
@@ -72,19 +81,14 @@
             peaks.points.removeAll();
         });
 
-
-
-
     });
+
 
 
 
 
 </script>
 
-<style>
-
-</style>
 
 
 <div id="zoomview-container_{recordingId}"/>

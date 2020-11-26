@@ -94,6 +94,14 @@
 
 </style>
 
+
+<audio hidden="hidden" id="click-sound-{recordingId}" controls preload="auto">
+    <source src="/assets/click.wav"/>
+    <track kind="captions">
+    Your browser does not support the audio element.
+</audio>
+
+
 {#if !recording.id}
     Loading... Please wait...
 {/if}
