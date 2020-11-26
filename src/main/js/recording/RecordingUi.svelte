@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import AudioPlayer from "./AudioPlayer.svelte";
+    import ToolBar from "./ToolBar.svelte";
     import DynamicWaveForm from "./DynamicWaveForm.svelte";
 
     // id of the grails recording object passed from the outside
@@ -95,7 +96,7 @@
         </div>
 
         <div id="recording_ui_toolbar">
-            toolbar
+            <ToolBar recordingId={recordingId}/>
         </div>
 
         <div id="recording_ui_trackbar">

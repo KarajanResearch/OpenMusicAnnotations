@@ -27,7 +27,7 @@
          * attaching a function to window context makes it callable from parent component
          * https://stackoverflow.com/questions/57954008/call-svelte-components-function-from-global-scope#57957607
          */
-        appContainer.bind("togglePlayPause", function (){
+        appContainer.on("togglePlayPause", function (){
             if (paused) {
                 audioElement.play();
             } else {
@@ -36,10 +36,8 @@
             paused = !paused;
         });
 
-
-
-
     });
+
 
 </script>
 
