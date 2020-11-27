@@ -22,7 +22,7 @@
         "#36a6d6",
         "#0376f7",
         "#5752d0"
-    ]
+    ];
 
     /**
      * maps an integer to a color in sessionColors
@@ -34,7 +34,6 @@
 
 
     async function fetchSessionList() {
-        console.log("fetching");
         const res = await fetch("/recording/ajaxGetSessionList/" + recordingId);
         let response = await res.json();
         let result = []; // session id is the key of the map

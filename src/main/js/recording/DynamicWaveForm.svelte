@@ -81,6 +81,11 @@
             peaks.points.removeAll();
         });
 
+
+        appContainer.on("toggleMetronome", function (event) {
+            metronomeEnabled = !metronomeEnabled;
+        });
+
     });
 
 

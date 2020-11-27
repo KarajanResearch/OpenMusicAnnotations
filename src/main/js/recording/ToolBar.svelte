@@ -21,8 +21,14 @@
 
     function handleZoomChange(event) {
         zoomLevel = event.target.value;
-        console.log(zoomLevel);
         appContainer.trigger("setWaveFormZoom", zoomLevel);
+    }
+
+
+    let metronomeEnabled = true;
+    function toggleMetronome() {
+        appContainer.trigger("toggleMetronome");
+        metronomeEnabled = !metronomeEnabled;
     }
 
 
@@ -38,7 +44,7 @@
         width: 8em;
     }
     #toolbar_click {
-        border: 1px solid black;
+        /*border: 1px solid black;*/
         position: absolute;
         height: 100%;
         width: 30em;
@@ -90,6 +96,8 @@
         transform: translateY(-50%);
     }
 
+
+
 </style>
 
 <div id="toolbar_zoom" class="vertical_center">
@@ -97,5 +105,5 @@
 </div>
 
 <div id="toolbar_click">
-    more tools go here
+    <button class="buttons vertical_center" on:click={toggleMetronome}>Metronome {metronomeEnabled === true ? 'Off' : 'On'}</button>
 </div>
