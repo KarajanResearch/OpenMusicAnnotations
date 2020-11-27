@@ -90,6 +90,5 @@
 </script>
 
 
-
 <div id="zoomview-container_{recordingId}"/>
 <div id="overview-container_{recordingId}"/>

@@ -18752,18 +18752,20 @@ if (false) {}
 
 function SessionList_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-lwrk0a-style";
-	style.textContent = "#session_list.svelte-lwrk0a{width:100%}";
+	style.id = "svelte-1tahe2c-style";
+	style.textContent = "#session_list.svelte-1tahe2c{width:100%}.session_list_entry.svelte-1tahe2c{padding:2px}.session_list_entry_title.svelte-1tahe2c{width:88%;opacity:0.8}.session_list_entry_checkbox.svelte-1tahe2c{transform:scale(2);width:10%}";
 	append(document.head, style);
 }
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[6] = list[i];
+	child_ctx[11] = list[i];
+	child_ctx[12] = list;
+	child_ctx[13] = i;
 	return child_ctx;
 }
 
-// (60:0) {#if sessionList.length == 0}
+// (124:0) {#if sessionList.length == 0}
 function create_if_block_1(ctx) {
 	let t;
 
@@ -18780,133 +18782,134 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (64:0) {#if sessionList.length > 0}
+// (128:0) {#if sessionList.length > 0}
 function create_if_block(ctx) {
-	let select;
-	let t0;
-	let button;
-	let mounted;
-	let dispose;
-	let each_value = /*sessionList*/ ctx[1];
+	let div;
 	let each_blocks = [];
+	let each_1_lookup = new Map();
+	let each_value = /*sessionList*/ ctx[0];
+	const get_key = ctx => /*sessionListEntry*/ ctx[11].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
-		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+		let child_ctx = get_each_context(ctx, each_value, i);
+		let key = get_key(child_ctx);
+		each_1_lookup.set(key, each_blocks[i] = create_each_block(key, child_ctx));
 	}
 
 	return {
 		c() {
-			select = internal_element("select");
+			div = internal_element("div");
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
 
-			t0 = space();
-			button = internal_element("button");
-			button.textContent = "Clear Selection";
-			attr(select, "id", "session_list");
-			select.multiple = true;
-			attr(select, "class", "svelte-lwrk0a");
-			if (/*sessionSelection*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[4].call(select));
-			attr(button, "class", "buttons");
+			attr(div, "id", "session_list");
+			attr(div, "class", "svelte-1tahe2c");
 		},
 		m(target, anchor) {
-			insert(target, select, anchor);
+			insert(target, div, anchor);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].m(select, null);
+				each_blocks[i].m(div, null);
 			}
+		},
+		p(ctx, dirty) {
+			if (dirty & /*sessionList, appContainer*/ 3) {
+				const each_value = /*sessionList*/ ctx[0];
+				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div, destroy_block, create_each_block, null, get_each_context);
+			}
+		},
+		d(detaching) {
+			if (detaching) detach(div);
 
-			select_options(select, /*sessionSelection*/ ctx[0]);
-			insert(target, t0, anchor);
-			insert(target, button, anchor);
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].d();
+			}
+		}
+	};
+}
+
+// (130:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+function create_each_block(key_1, ctx) {
+	let div;
+	let input0;
+	let t0;
+	let input1;
+	let input1_disabled_value;
+	let t1;
+	let mounted;
+	let dispose;
+
+	function input0_change_handler() {
+		/*input0_change_handler*/ ctx[3].call(input0, /*each_value*/ ctx[12], /*sessionListEntry_index*/ ctx[13]);
+	}
+
+	function input1_input_handler() {
+		/*input1_input_handler*/ ctx[4].call(input1, /*each_value*/ ctx[12], /*sessionListEntry_index*/ ctx[13]);
+	}
+
+	return {
+		key: key_1,
+		first: null,
+		c() {
+			div = internal_element("div");
+			input0 = internal_element("input");
+			t0 = space();
+			input1 = internal_element("input");
+			t1 = space();
+			attr(input0, "class", "session_list_entry_checkbox svelte-1tahe2c");
+			attr(input0, "type", "checkbox");
+			attr(input1, "class", "session_list_entry_title svelte-1tahe2c");
+			attr(input1, "placeholder", "Name for Annotations...");
+			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[11].session.isMine;
+			attr(div, "class", "session_list_entry svelte-1tahe2c");
+			set_style(div, "background-color", /*sessionListEntry*/ ctx[11].color);
+			this.first = div;
+		},
+		m(target, anchor) {
+			insert(target, div, anchor);
+			append(div, input0);
+			input0.checked = /*sessionListEntry*/ ctx[11].selected;
+			append(div, t0);
+			append(div, input1);
+			set_input_value(input1, /*sessionListEntry*/ ctx[11].session.title);
+			append(div, t1);
 
 			if (!mounted) {
 				dispose = [
-					listen(select, "change", /*select_change_handler*/ ctx[4]),
-					listen(button, "click", /*clearSelection*/ ctx[2])
+					listen(input0, "change", input0_change_handler),
+					listen(input1, "input", input1_input_handler),
+					listen(input1, "focus", /*focus_handler*/ ctx[5]),
+					listen(input1, "focusout", /*focusout_handler*/ ctx[6])
 				];
 
 				mounted = true;
 			}
 		},
-		p(ctx, dirty) {
-			if (dirty & /*sessionList*/ 2) {
-				each_value = /*sessionList*/ ctx[1];
-				let i;
+		p(new_ctx, dirty) {
+			ctx = new_ctx;
 
-				for (i = 0; i < each_value.length; i += 1) {
-					const child_ctx = get_each_context(ctx, each_value, i);
-
-					if (each_blocks[i]) {
-						each_blocks[i].p(child_ctx, dirty);
-					} else {
-						each_blocks[i] = create_each_block(child_ctx);
-						each_blocks[i].c();
-						each_blocks[i].m(select, null);
-					}
-				}
-
-				for (; i < each_blocks.length; i += 1) {
-					each_blocks[i].d(1);
-				}
-
-				each_blocks.length = each_value.length;
+			if (dirty & /*sessionList*/ 1) {
+				input0.checked = /*sessionListEntry*/ ctx[11].selected;
 			}
 
-			if (dirty & /*sessionSelection, sessionList*/ 3) {
-				select_options(select, /*sessionSelection*/ ctx[0]);
+			if (dirty & /*sessionList*/ 1 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[11].session.isMine)) {
+				input1.disabled = input1_disabled_value;
+			}
+
+			if (dirty & /*sessionList*/ 1 && input1.value !== /*sessionListEntry*/ ctx[11].session.title) {
+				set_input_value(input1, /*sessionListEntry*/ ctx[11].session.title);
+			}
+
+			if (dirty & /*sessionList*/ 1) {
+				set_style(div, "background-color", /*sessionListEntry*/ ctx[11].color);
 			}
 		},
 		d(detaching) {
-			if (detaching) detach(select);
-			destroy_each(each_blocks, detaching);
-			if (detaching) detach(t0);
-			if (detaching) detach(button);
+			if (detaching) detach(div);
 			mounted = false;
 			run_all(dispose);
-		}
-	};
-}
-
-// (66:8) {#each sessionList as session}
-function create_each_block(ctx) {
-	let option;
-	let t0_value = /*session*/ ctx[6].title + "";
-	let t0;
-	let t1;
-	let option_value_value;
-	let option_title_value;
-
-	return {
-		c() {
-			option = internal_element("option");
-			t0 = internal_text(t0_value);
-			t1 = space();
-			option.__value = option_value_value = /*session*/ ctx[6].id;
-			option.value = option.__value;
-			attr(option, "title", option_title_value = /*session*/ ctx[6].title);
-		},
-		m(target, anchor) {
-			insert(target, option, anchor);
-			append(option, t0);
-			append(option, t1);
-		},
-		p(ctx, dirty) {
-			if (dirty & /*sessionList*/ 2 && t0_value !== (t0_value = /*session*/ ctx[6].title + "")) set_data(t0, t0_value);
-
-			if (dirty & /*sessionList*/ 2 && option_value_value !== (option_value_value = /*session*/ ctx[6].id)) {
-				option.__value = option_value_value;
-				option.value = option.__value;
-			}
-
-			if (dirty & /*sessionList*/ 2 && option_title_value !== (option_title_value = /*session*/ ctx[6].title)) {
-				attr(option, "title", option_title_value);
-			}
-		},
-		d(detaching) {
-			if (detaching) detach(option);
 		}
 	};
 }
@@ -18916,8 +18919,8 @@ function SessionList_svelte_create_fragment(ctx) {
 	let t1;
 	let t2;
 	let if_block1_anchor;
-	let if_block0 = /*sessionList*/ ctx[1].length == 0 && create_if_block_1(ctx);
-	let if_block1 = /*sessionList*/ ctx[1].length > 0 && create_if_block(ctx);
+	let if_block0 = /*sessionList*/ ctx[0].length == 0 && create_if_block_1(ctx);
+	let if_block1 = /*sessionList*/ ctx[0].length > 0 && create_if_block(ctx);
 
 	return {
 		c() {
@@ -18938,7 +18941,7 @@ function SessionList_svelte_create_fragment(ctx) {
 			insert(target, if_block1_anchor, anchor);
 		},
 		p(ctx, [dirty]) {
-			if (/*sessionList*/ ctx[1].length == 0) {
+			if (/*sessionList*/ ctx[0].length == 0) {
 				if (if_block0) {
 					
 				} else {
@@ -18951,7 +18954,7 @@ function SessionList_svelte_create_fragment(ctx) {
 				if_block0 = null;
 			}
 
-			if (/*sessionList*/ ctx[1].length > 0) {
+			if (/*sessionList*/ ctx[0].length > 0) {
 				if (if_block1) {
 					if_block1.p(ctx, dirty);
 				} else {
@@ -18980,54 +18983,116 @@ function SessionList_svelte_create_fragment(ctx) {
 function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	let { recordingId } = $$props;
 	const appContainer = window.$("#RecordingUiContainer-" + recordingId);
-	let sessionSelection = [];
+
+	// local data storage
 	let sessionList = [];
 
-	onMount(async () => {
+	let sessionSelection = [];
+
+	let sessionColors = [
+		"#8d8b90",
+		"#f92d52",
+		"#f93b2f",
+		"#f99205",
+		"#fcc803",
+		"#4ed55f",
+		"#5ac4f6",
+		"#36a6d6",
+		"#0376f7",
+		"#5752d0"
+	];
+
+	/**
+ * maps an integer to a color in sessionColors
+ */
+	function pickColor(index) {
+		// quasi round-robin ;)
+		return sessionColors[index % sessionColors.length];
+	}
+
+	async function fetchSessionList() {
+		console.log("fetching");
 		const res = await fetch("/recording/ajaxGetSessionList/" + recordingId);
-		$$invalidate(1, sessionList = await res.json());
+		let response = await res.json();
+		let result = []; // session id is the key of the map
+
+		for (let i = 0; i < response.length; i++) {
+			let sessionId = response[i].id;
+
+			let listEntry = {
+				id: sessionId,
+				session: response[i],
+				color: pickColor(sessionId),
+				selected: false,
+				dirty: false
+			};
+
+			result.push(listEntry);
+		}
+
+		return result;
+	}
+
+	onMount(async () => {
+		$$invalidate(0, sessionList = await fetchSessionList());
 	});
 
-	function clearSelection() {
-		$$invalidate(0, sessionSelection = []);
+	function input0_change_handler(each_value, sessionListEntry_index) {
+		each_value[sessionListEntry_index].selected = this.checked;
+		$$invalidate(0, sessionList);
 	}
 
-	function select_change_handler() {
-		sessionSelection = select_multiple_value(this);
-		$$invalidate(0, sessionSelection);
-		$$invalidate(1, sessionList);
+	function input1_input_handler(each_value, sessionListEntry_index) {
+		each_value[sessionListEntry_index].session.title = this.value;
+		$$invalidate(0, sessionList);
 	}
+
+	const focus_handler = () => appContainer.trigger("focusOnTextInput", true);
+	const focusout_handler = () => appContainer.trigger("focusOnTextInput", false);
 
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(3, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(2, recordingId = $$props.recordingId);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*sessionSelection, sessionList*/ 3) {
+		if ($$self.$$.dirty & /*sessionList, sessionSelection*/ 129) {
 			/**
  * monitoring sessionSelection and updating points on waveform
  */
 			$: {
+				sessionList;
+
+				// only update selection, when the selection changes. Not the label text!
+				let currentSelection = sessionList.filter(s => s.selected);
+
+				if (currentSelection.length != sessionSelection.length) {
+					$$invalidate(7, sessionSelection = currentSelection);
+				}
+			} // TODO: save changed text
+		}
+
+		if ($$self.$$.dirty & /*sessionSelection*/ 128) {
+			$: {
 				sessionSelection;
 				appContainer.trigger("clearAllAnnotations");
 
-				for (let i = 0; i < sessionList.length; i++) {
-					let session = sessionList[i];
+				for (let i = 0; i < sessionSelection.length; i++) {
+					let session = sessionSelection[i].session;
+					let color = sessionSelection[i].color;
 
-					if (sessionSelection.includes(session.id)) {
-						// draw that session
-						for (let j = 0; j < session.annotations.length; j++) {
-							let annotation = session.annotations[j];
+					// draw that session
+					for (let j = 0; j < session.annotations.length; j++) {
+						let annotation = session.annotations[j];
 
-							let point = {
-								id: annotation.id,
-								time: annotation.momentOfPerception,
-								editable: session.isMine,
-								labelText: "" + annotation.bar + ":" + annotation.beat
-							};
+						let point = {
+							id: annotation.id,
+							time: annotation.momentOfPerception,
+							editable: session.isMine,
+							labelText: "" + annotation.bar + ":" + annotation.beat,
+							color
+						};
 
-							appContainer.trigger("drawAnnotation", point);
-						}
+						appContainer.trigger("drawAnnotation", point);
 					}
 				}
 			}
@@ -19035,19 +19100,21 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	};
 
 	return [
-		sessionSelection,
 		sessionList,
-		clearSelection,
+		appContainer,
 		recordingId,
-		select_change_handler
+		input0_change_handler,
+		input1_input_handler,
+		focus_handler,
+		focusout_handler
 	];
 }
 
 class SessionList extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-lwrk0a-style")) SessionList_svelte_add_css();
-		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 3 });
+		if (!document.getElementById("svelte-1tahe2c-style")) SessionList_svelte_add_css();
+		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 2 });
 	}
 }
 
@@ -19214,7 +19281,7 @@ function RecordingUi_svelte_add_css() {
 	append(document.head, style);
 }
 
-// (105:0) {#if !recording.id}
+// (110:0) {#if !recording.id}
 function RecordingUi_svelte_create_if_block_1(ctx) {
 	let t;
 
@@ -19231,7 +19298,7 @@ function RecordingUi_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (109:0) {#if recording.id}
+// (114:0) {#if recording.id}
 function RecordingUi_svelte_create_if_block(ctx) {
 	let div5;
 	let div0;
@@ -19359,6 +19426,8 @@ function RecordingUi_svelte_create_fragment(ctx) {
 	let audio_id_value;
 	let t1;
 	let t2;
+	let t3;
+	let t4;
 	let if_block1_anchor;
 	let current;
 	let if_block0 = !/*recording*/ ctx[1].id && RecordingUi_svelte_create_if_block_1(ctx);
@@ -19371,8 +19440,10 @@ function RecordingUi_svelte_create_fragment(ctx) {
 			track = internal_element("track");
 			t0 = internal_text("\n    Your browser does not support the audio element.");
 			t1 = space();
+			t2 = internal_text(/*focusOnTextInput*/ ctx[2]);
+			t3 = space();
 			if (if_block0) if_block0.c();
-			t2 = space();
+			t4 = space();
 			if (if_block1) if_block1.c();
 			if_block1_anchor = empty();
 			if (source.src !== (source_src_value = "/assets/click.wav")) attr(source, "src", source_src_value);
@@ -19389,8 +19460,10 @@ function RecordingUi_svelte_create_fragment(ctx) {
 			append(audio, track);
 			append(audio, t0);
 			insert(target, t1, anchor);
-			if (if_block0) if_block0.m(target, anchor);
 			insert(target, t2, anchor);
+			insert(target, t3, anchor);
+			if (if_block0) if_block0.m(target, anchor);
+			insert(target, t4, anchor);
 			if (if_block1) if_block1.m(target, anchor);
 			insert(target, if_block1_anchor, anchor);
 			current = true;
@@ -19400,13 +19473,15 @@ function RecordingUi_svelte_create_fragment(ctx) {
 				attr(audio, "id", audio_id_value);
 			}
 
+			if (!current || dirty & /*focusOnTextInput*/ 4) set_data(t2, /*focusOnTextInput*/ ctx[2]);
+
 			if (!/*recording*/ ctx[1].id) {
 				if (if_block0) {
 					
 				} else {
 					if_block0 = RecordingUi_svelte_create_if_block_1(ctx);
 					if_block0.c();
-					if_block0.m(t2.parentNode, t2);
+					if_block0.m(t4.parentNode, t4);
 				}
 			} else if (if_block0) {
 				if_block0.d(1);
@@ -19448,8 +19523,10 @@ function RecordingUi_svelte_create_fragment(ctx) {
 		d(detaching) {
 			if (detaching) detach(audio);
 			if (detaching) detach(t1);
-			if (if_block0) if_block0.d(detaching);
 			if (detaching) detach(t2);
+			if (detaching) detach(t3);
+			if (if_block0) if_block0.d(detaching);
+			if (detaching) detach(t4);
 			if (if_block1) if_block1.d(detaching);
 			if (detaching) detach(if_block1_anchor);
 		}
@@ -19469,6 +19546,10 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 		const res = await fetch("/recording/ajaxGet/" + recordingId);
 		const ajaxData = await res.json();
 		$$invalidate(1, recording = ajaxData.recording);
+
+		appContainer.on("focusOnTextInput", function (event, hasFocus) {
+			$$invalidate(2, focusOnTextInput = hasFocus);
+		});
 	});
 
 	/**
@@ -19476,12 +19557,14 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
  * events are propagated to components via functions attached to window context in sub components
  * @param event
  */
+	let focusOnTextInput = false;
+
 	//RecordingUiContainer-${this.recording.id}
 	appContainer.keydown(function (event) {
 		let key = event.key;
 		let keyCode = event.keyCode;
 
-		if (keyCode == 32) {
+		if (keyCode == 32 && !focusOnTextInput) {
 			// Space Bar
 			event.preventDefault();
 
@@ -19493,7 +19576,7 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 		if ("recordingId" in $$props) $$invalidate(0, recordingId = $$props.recordingId);
 	};
 
-	return [recordingId, recording];
+	return [recordingId, recording, focusOnTextInput];
 }
 
 class RecordingUi extends SvelteComponent {

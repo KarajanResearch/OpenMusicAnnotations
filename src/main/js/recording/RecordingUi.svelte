@@ -19,6 +19,10 @@
         const res = await fetch("/recording/ajaxGet/"+recordingId);
         const ajaxData = await res.json();
         recording = ajaxData.recording;
+
+        appContainer.on("focusOnTextInput", function (event, hasFocus){
+            focusOnTextInput = hasFocus;
+        });
     });
 
 
@@ -27,7 +31,7 @@
      * events are propagated to components via functions attached to window context in sub components
      * @param event
      */
-
+    let focusOnTextInput = false;
     //RecordingUiContainer-${this.recording.id}
     appContainer.keydown(function (event){
 
@@ -35,7 +39,7 @@
         let key = event.key;
         let keyCode = event.keyCode;
 
-        if(keyCode == 32) {
+        if(keyCode == 32 && !focusOnTextInput) {
             // Space Bar
             event.preventDefault();
             appContainer.trigger("togglePlayPause");
@@ -101,6 +105,7 @@
     Your browser does not support the audio element.
 </audio>
 
+{focusOnTextInput}
 
 {#if !recording.id}
     Loading... Please wait...
@@ -114,11 +119,11 @@
         </div>
 
         <div id="recording_ui_toolbar">
-            <ToolBar recordingId={recordingId}/>
+            <ToolBar recordingId={recordingId} />
         </div>
 
         <div id="recording_ui_trackbar">
-            <SessionList recordingId={recordingId}/>
+            <SessionList recordingId={recordingId} />
         </div>
 
         <div id="recording_ui_waveform">

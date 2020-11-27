@@ -234,9 +234,7 @@ class RecordingService {
 
                 break
             case Environment.PRODUCTION:
-                // TODO: implement production
-                def path = grailsApplication.config.getProperty("oma.dataDirectory.production")
-                path = path + "/digitalAudio/${digitalAudio.id}/${digitalAudio.id}-peaks.json"
+                // TODO: implement production in middleware. right now we rely on separate service
                 // Note: file will be created at linux machine attached to EFS
                 // production needs cron job for src/main/python/oma/task/digitalAudio.py
                 // println "Make sure there is a cron job for src/main/python/oma/task/digitalAudio.py"
