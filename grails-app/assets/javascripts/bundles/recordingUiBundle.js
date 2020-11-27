@@ -18765,7 +18765,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (124:0) {#if sessionList.length == 0}
+// (152:0) {#if sessionList.length == 0}
 function create_if_block_1(ctx) {
 	let t;
 
@@ -18782,7 +18782,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (128:0) {#if sessionList.length > 0}
+// (156:0) {#if sessionList.length > 0}
 function create_if_block(ctx) {
 	let div;
 	let each_blocks = [];
@@ -18815,7 +18815,7 @@ function create_if_block(ctx) {
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty & /*sessionList, appContainer*/ 3) {
+			if (dirty & /*sessionList, appContainer, sessionTitleUpdate*/ 3) {
 				const each_value = /*sessionList*/ ctx[0];
 				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div, destroy_block, create_each_block, null, get_each_context);
 			}
@@ -18830,7 +18830,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (130:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (158:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -18847,6 +18847,10 @@ function create_each_block(key_1, ctx) {
 
 	function input1_input_handler() {
 		/*input1_input_handler*/ ctx[4].call(input1, /*each_value*/ ctx[12], /*sessionListEntry_index*/ ctx[13]);
+	}
+
+	function focusout_handler() {
+		return /*focusout_handler*/ ctx[6](/*sessionListEntry*/ ctx[11]);
 	}
 
 	return {
@@ -18881,7 +18885,7 @@ function create_each_block(key_1, ctx) {
 					listen(input0, "change", input0_change_handler),
 					listen(input1, "input", input1_input_handler),
 					listen(input1, "focus", /*focus_handler*/ ctx[5]),
-					listen(input1, "focusout", /*focusout_handler*/ ctx[6])
+					listen(input1, "focusout", focusout_handler)
 				];
 
 				mounted = true;
@@ -18980,6 +18984,22 @@ function SessionList_svelte_create_fragment(ctx) {
 	};
 }
 
+async function sessionTitleUpdate(sessionId, title) {
+	console.log(title + " " + sessionId);
+	let data = { sessionId, title };
+	console.log(JSON.stringify(data));
+
+	fetch("/session/ajaxUpdateTitle", {
+		method: "POST", // or 'PUT'
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data)
+	}).then(response => response.json()).then(data => {
+		console.log("Success:", data);
+	}).catch(error => {
+		console.error("Error:", error);
+	});
+}
+
 function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	let { recordingId } = $$props;
 	const appContainer = window.$("#RecordingUiContainer-" + recordingId);
@@ -19048,7 +19068,11 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	}
 
 	const focus_handler = () => appContainer.trigger("focusOnTextInput", true);
-	const focusout_handler = () => appContainer.trigger("focusOnTextInput", false);
+
+	const focusout_handler = sessionListEntry => {
+		appContainer.trigger("focusOnTextInput", false);
+		sessionTitleUpdate(sessionListEntry.id, sessionListEntry.session.title);
+	};
 
 	$$self.$$set = $$props => {
 		if ("recordingId" in $$props) $$invalidate(2, recordingId = $$props.recordingId);
@@ -19276,12 +19300,12 @@ if (false) {}
 
 function RecordingUi_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1f5vcs1-style";
-	style.textContent = "#recording_ui_container.svelte-1f5vcs1{position:relative;width:100%;height:36em}#recording_ui_transport.svelte-1f5vcs1{position:absolute;width:21em;height:3.5em}#recording_ui_toolbar.svelte-1f5vcs1{position:absolute;left:21em;height:3.5em}#recording_ui_trackbar.svelte-1f5vcs1{position:absolute;top:3.5em;width:20%;height:32.5em}#recording_ui_waveform.svelte-1f5vcs1{position:absolute;top:3.5em;left:20%;width:80%}#recording_ui_footer.svelte-1f5vcs1{position:absolute;left:20%;top:32em;width:80%}";
+	style.id = "svelte-jflxfp-style";
+	style.textContent = "#recording_ui_container.svelte-jflxfp{position:relative;width:100%;height:36em}#recording_ui_transport.svelte-jflxfp{position:absolute;width:21em;height:3.5em}#recording_ui_toolbar.svelte-jflxfp{position:absolute;left:21em;height:3.5em}#recording_ui_trackbar.svelte-jflxfp{position:absolute;top:3.5em;width:20%;height:32.5em}#recording_ui_waveform.svelte-jflxfp{position:absolute;top:3.5em;left:20%;width:80%}#recording_ui_footer.svelte-jflxfp{position:absolute;left:20%;top:32em;width:80%}";
 	append(document.head, style);
 }
 
-// (110:0) {#if !recording.id}
+// (103:0) {#if !recording.id}
 function RecordingUi_svelte_create_if_block_1(ctx) {
 	let t;
 
@@ -19298,7 +19322,7 @@ function RecordingUi_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (114:0) {#if recording.id}
+// (107:0) {#if recording.id}
 function RecordingUi_svelte_create_if_block(ctx) {
 	let div5;
 	let div0;
@@ -19349,17 +19373,17 @@ function RecordingUi_svelte_create_if_block(ctx) {
 			t3 = space();
 			div4 = internal_element("div");
 			attr(div0, "id", "recording_ui_transport");
-			attr(div0, "class", "svelte-1f5vcs1");
+			attr(div0, "class", "svelte-jflxfp");
 			attr(div1, "id", "recording_ui_toolbar");
-			attr(div1, "class", "svelte-1f5vcs1");
+			attr(div1, "class", "svelte-jflxfp");
 			attr(div2, "id", "recording_ui_trackbar");
-			attr(div2, "class", "svelte-1f5vcs1");
+			attr(div2, "class", "svelte-jflxfp");
 			attr(div3, "id", "recording_ui_waveform");
-			attr(div3, "class", "svelte-1f5vcs1");
+			attr(div3, "class", "svelte-jflxfp");
 			attr(div4, "id", "recording_ui_footer");
-			attr(div4, "class", "svelte-1f5vcs1");
+			attr(div4, "class", "svelte-jflxfp");
 			attr(div5, "id", "recording_ui_container");
-			attr(div5, "class", "svelte-1f5vcs1");
+			attr(div5, "class", "svelte-jflxfp");
 		},
 		m(target, anchor) {
 			insert(target, div5, anchor);
@@ -19426,8 +19450,6 @@ function RecordingUi_svelte_create_fragment(ctx) {
 	let audio_id_value;
 	let t1;
 	let t2;
-	let t3;
-	let t4;
 	let if_block1_anchor;
 	let current;
 	let if_block0 = !/*recording*/ ctx[1].id && RecordingUi_svelte_create_if_block_1(ctx);
@@ -19440,10 +19462,8 @@ function RecordingUi_svelte_create_fragment(ctx) {
 			track = internal_element("track");
 			t0 = internal_text("\n    Your browser does not support the audio element.");
 			t1 = space();
-			t2 = internal_text(/*focusOnTextInput*/ ctx[2]);
-			t3 = space();
 			if (if_block0) if_block0.c();
-			t4 = space();
+			t2 = space();
 			if (if_block1) if_block1.c();
 			if_block1_anchor = empty();
 			if (source.src !== (source_src_value = "/assets/click.wav")) attr(source, "src", source_src_value);
@@ -19452,7 +19472,7 @@ function RecordingUi_svelte_create_fragment(ctx) {
 			attr(audio, "id", audio_id_value = "click-sound-" + /*recordingId*/ ctx[0]);
 			audio.controls = true;
 			attr(audio, "preload", "auto");
-			attr(audio, "class", "svelte-1f5vcs1");
+			attr(audio, "class", "svelte-jflxfp");
 		},
 		m(target, anchor) {
 			insert(target, audio, anchor);
@@ -19460,10 +19480,8 @@ function RecordingUi_svelte_create_fragment(ctx) {
 			append(audio, track);
 			append(audio, t0);
 			insert(target, t1, anchor);
-			insert(target, t2, anchor);
-			insert(target, t3, anchor);
 			if (if_block0) if_block0.m(target, anchor);
-			insert(target, t4, anchor);
+			insert(target, t2, anchor);
 			if (if_block1) if_block1.m(target, anchor);
 			insert(target, if_block1_anchor, anchor);
 			current = true;
@@ -19473,15 +19491,13 @@ function RecordingUi_svelte_create_fragment(ctx) {
 				attr(audio, "id", audio_id_value);
 			}
 
-			if (!current || dirty & /*focusOnTextInput*/ 4) set_data(t2, /*focusOnTextInput*/ ctx[2]);
-
 			if (!/*recording*/ ctx[1].id) {
 				if (if_block0) {
 					
 				} else {
 					if_block0 = RecordingUi_svelte_create_if_block_1(ctx);
 					if_block0.c();
-					if_block0.m(t4.parentNode, t4);
+					if_block0.m(t2.parentNode, t2);
 				}
 			} else if (if_block0) {
 				if_block0.d(1);
@@ -19523,10 +19539,8 @@ function RecordingUi_svelte_create_fragment(ctx) {
 		d(detaching) {
 			if (detaching) detach(audio);
 			if (detaching) detach(t1);
-			if (detaching) detach(t2);
-			if (detaching) detach(t3);
 			if (if_block0) if_block0.d(detaching);
-			if (detaching) detach(t4);
+			if (detaching) detach(t2);
 			if (if_block1) if_block1.d(detaching);
 			if (detaching) detach(if_block1_anchor);
 		}
@@ -19548,7 +19562,7 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(1, recording = ajaxData.recording);
 
 		appContainer.on("focusOnTextInput", function (event, hasFocus) {
-			$$invalidate(2, focusOnTextInput = hasFocus);
+			focusOnTextInput = hasFocus;
 		});
 	});
 
@@ -19576,13 +19590,13 @@ function RecordingUi_svelte_instance($$self, $$props, $$invalidate) {
 		if ("recordingId" in $$props) $$invalidate(0, recordingId = $$props.recordingId);
 	};
 
-	return [recordingId, recording, focusOnTextInput];
+	return [recordingId, recording];
 }
 
 class RecordingUi extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1f5vcs1-style")) RecordingUi_svelte_add_css();
+		if (!document.getElementById("svelte-jflxfp-style")) RecordingUi_svelte_add_css();
 		init(this, options, RecordingUi_svelte_instance, RecordingUi_svelte_create_fragment, safe_not_equal, { recordingId: 0 });
 	}
 }

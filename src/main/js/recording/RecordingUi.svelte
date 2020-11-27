@@ -91,11 +91,6 @@
         width: 80%;
     }
 
-
-
-
-
-
 </style>
 
 
@@ -104,8 +99,6 @@
     <track kind="captions">
     Your browser does not support the audio element.
 </audio>
-
-{focusOnTextInput}
 
 {#if !recording.id}
     Loading... Please wait...

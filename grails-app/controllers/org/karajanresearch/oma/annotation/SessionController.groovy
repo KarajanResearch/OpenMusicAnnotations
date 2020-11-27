@@ -163,6 +163,33 @@ class SessionController {
     }
 
 
+    /**
+     * used on SessionList.svelte to update title
+     * @param id
+     * @param let postData = {
+     *          sessionId: sessionId,
+     *          title: title
+     *         }
+     * @return
+     */
+    def ajaxUpdateTitle() {
+        Session session = Session.get(request.JSON.sessionId)
+        def result
+        if (!session) {
+            result = [error: "invalid session"]
+            render result as JSON
+            return
+        }
+        session.title = request.JSON.title;
+
+        if (!session.save(flush: true)) {
+            result = [error: "cannot save title of annotation session"]
+        } else {
+            result = [success: "saved title of annotation session"]
+        }
+        render result as JSON
+    }
+
 
 /*
     SessionService sessionService
