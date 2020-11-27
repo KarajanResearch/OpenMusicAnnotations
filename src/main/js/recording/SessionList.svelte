@@ -95,19 +95,21 @@
         }
     }
 
+    /**
+     * persist session title to server
+     * @param sessionId
+     * @param title
+     * @returns {Promise<void>}
+     */
     async function sessionTitleUpdate(sessionId, title) {
-
-        console.log(title + " " + sessionId);
 
         let data = {
             sessionId: sessionId,
             title: title
         };
 
-        console.log(JSON.stringify(data));
-
         fetch('/session/ajaxUpdateTitle', {
-            method: 'POST', // or 'PUT'
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -115,7 +117,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Success:', data);
+            //console.log('Success:', data);
         })
         .catch((error) => {
             console.error('Error:', error);
