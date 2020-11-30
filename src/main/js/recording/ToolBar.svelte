@@ -13,16 +13,67 @@
     let metronomeEnabled = true;
     let tapRecorderEnabled = true;
 
+    /**
+     * Note on counting beats and bars:
+     * We start at 1 instead of 0 (computer way) to match the semantics of musicology.
+     */
     let beatsPerBarList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     let beatsPerBar = 1;
+    let currentBeat = 1;
+    let currentBar = 1;
+    let currentBarOffset = 1;
 
+    // handling changes in beatsPerBar. resetting current Beat and restart counting
+    $: {
+        beatsPerBar;
+        currentBeat = 1;
+        currentBar = 1;
+    }
+
+    $: if (currentBeat > beatsPerBar) {
+        currentBeat = 1;
+        currentBar = currentBar + 1;
+    }
+
+    $: {
+        currentBarOffset;
+        currentBeat = 1;
+        currentBar = 1;
+    }
 
     onMount(async () => {
 
-
-
+        //attach tap event handler to appContext to receive keyboard input
+        appContainer.on("keyboardTap", function (){
+            addNewAnnotation();
+        });
 
     });
+
+
+
+    function addNewAnnotation(event) {
+
+        let barNumber = currentBar + currentBarOffset - 1;
+
+        appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
+            let annotation = {
+                time: playerPosition,
+                editable: true,
+                labelText: "" + barNumber + ":" + currentBeat,
+                color: "#000000"
+            };
+            // button "contains" the next beat to add.
+            // 1. step. add beat to annotations
+            appContainer.trigger("addAnnotationToNewSession", annotation);
+        });
+
+        // 2. step: increment beat for the next click
+        currentBeat = currentBeat + 1;
+
+    }
+
+
 
 
 
@@ -53,15 +104,18 @@
         border: 1px solid black;
         position: absolute;
         height: 100%;
-        width: 4em;
+        width: 7em;
         left: 18em;
     }
     #toolbar_beat_per_bar {
         border: 1px solid black;
         position: absolute;
         height: 100%;
-        width: 10em;
-        left: 22em;
+        width: 17em;
+        left: 25em;
+    }
+    #current_bar_offset_input {
+        width: 4em;
     }
 
 
@@ -130,9 +184,11 @@
 <div id="toolbar_tap">
     <button class="buttons vertical_center" on:click={e => {
 
-        appContainer.trigger("toggleMetronome");
 
-    }}>(T)ap</button>
+        addNewAnnotation(e);
+
+
+    }}>(T)ap {currentBar + currentBarOffset - 1}:{currentBeat}</button>
 </div>
 
 
@@ -145,8 +201,11 @@
                 {entry}
             </option>
         {/each}
-    </select>
-    Beats per Bar
+        </select>
+    Beats / Bar starting at
+        <input id="current_bar_offset_input" type=number bind:value={currentBarOffset} min=1>
     </span>
 
 </div>
+
+

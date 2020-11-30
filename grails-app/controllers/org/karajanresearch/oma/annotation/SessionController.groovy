@@ -191,6 +191,52 @@ class SessionController {
     }
 
 
+    def ajaxCreateSession() {
+
+        println request.JSON
+
+        def recording = Recording.get(request.JSON.recordingId)
+        if (!recording) {
+            def result = [error: "no recording"]
+            render result as JSON
+            return
+        }
+
+        def session = new Session(title: request.JSON.title, recording: recording, annotations: [] )
+
+        if (!session) {
+            def result = [error: "no session"]
+            render result as JSON
+            return
+        }
+
+        request.JSON.annotations.each {
+            def labelParts = it.labelText.tokenize(":")
+            def barNumber = Integer.parseInt(labelParts[0])
+            def beatNumber = Integer.parseInt(labelParts[1])
+            session.annotations.add(
+                new Annotation(
+                    type: "Tap",
+                    session: session,
+                    momentOfPerception: it.time,
+                    barNumber: barNumber,
+                    beatNumber: beatNumber
+                )
+            )
+        }
+
+        if (session.save(flush: true)) {
+            def result = [success: session]
+            render result as JSON
+        } else {
+            println session.errors
+            def result = [error: "session not created"]
+            render result as JSON
+        }
+
+    }
+
+
 /*
     SessionService sessionService
 

@@ -10,6 +10,10 @@
     let sessionList = [];
     let sessionSelection = [];
 
+    // new session, where new annotations are added
+    let currentlyNewSession = [];
+    let currentlyNewSessionTitle = "";
+
 
     let sessionColors = [
         "#8d8b90",
@@ -48,12 +52,32 @@
             }
             result.push(listEntry);
         }
-        return result;
+        sessionList = result;
+    }
+
+
+    function addAnnotation(annotation) {
+        currentlyNewSession.push(annotation);
+        // https://svelte.dev/tutorial/updating-arrays-and-objects
+        currentlyNewSession = currentlyNewSession;
+
+        appContainer.trigger("drawAnnotation", annotation);
+
     }
 
 
     onMount(async () => {
-        sessionList = await fetchSessionList();
+        await fetchSessionList();
+
+        // attach event handler to receive new annotations
+        appContainer.on("addAnnotationToNewSession", function (event, annotation) {
+            // peaks.points.add(annotation);
+
+            // create new session, if necessary
+            addAnnotation(annotation);
+
+        });
+
     });
 
 
@@ -122,6 +146,38 @@
 
     }
 
+    /**
+     * persist new session to server
+     * @param sessionId
+     * @param title
+     * @returns {Promise<void>}
+     */
+    async function saveCurrentlyNewSession() {
+
+        let data = {
+            recordingId: recordingId,
+            annotations: currentlyNewSession,
+            title: currentlyNewSessionTitle
+        };
+
+        fetch('/session/ajaxCreateSession', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            fetchSessionList();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    }
+
 
 
 
@@ -177,4 +233,36 @@
     </div>
 {/if}
 
+{#if currentlyNewSession.length == 0}
+    Tap to add a new Annotations
+{/if}
+{#if currentlyNewSession.length > 0}
+    <h3>New Annotations</h3>
+
+    <input
+        class="session_list_entry_title"
+        placeholder="Add a Name for new Annotations..."
+        bind:value={currentlyNewSessionTitle}
+        on:focus={ () => appContainer.trigger("focusOnTextInput", true) }
+        on:focusout={ () => {
+            appContainer.trigger("focusOnTextInput", false);
+        }}
+    >
+
+    <button class="buttons" on:click={() => {
+
+        if (currentlyNewSessionTitle === "") {
+            return alert("Please add a Name for new Annotations");
+        }
+
+        saveCurrentlyNewSession();
+
+
+    }}>Save {currentlyNewSession.length} Annotations</button>
+
+    <button class="buttons" on:click={() => {
+
+    }}>Discard</button>
+
+{/if}
 

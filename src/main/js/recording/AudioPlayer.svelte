@@ -35,6 +35,12 @@
             }
             paused = !paused;
         });
+
+
+        appContainer.on("getAudioPlayerPosition", function (event, callback) {
+            callback(audioElement.currentTime);
+        });
+
     });
 
 

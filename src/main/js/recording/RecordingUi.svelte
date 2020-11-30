@@ -43,7 +43,16 @@
             // Space Bar
             event.preventDefault();
             appContainer.trigger("togglePlayPause");
+            return;
         }
+
+        if(keyCode == 84 && !focusOnTextInput) {
+            // (T)ap
+            event.preventDefault();
+            appContainer.trigger("keyboardTap");
+            return;
+        }
+
     });
 
 </script>
