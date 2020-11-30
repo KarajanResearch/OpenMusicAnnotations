@@ -86,6 +86,8 @@
      */
     $: {
         sessionList;
+        let previousSessionSelection = sessionSelection;
+        // TODO: merge new selection with previous selection
         // only update selection, when the selection changes. Not the label text!
         let currentSelection = sessionList.filter(s => s.selected);
         if (currentSelection.length != sessionSelection.length) {
@@ -170,7 +172,9 @@
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
+
             fetchSessionList();
+
         })
         .catch((error) => {
             console.error('Error:', error);
