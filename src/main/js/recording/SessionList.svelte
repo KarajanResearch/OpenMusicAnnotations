@@ -58,7 +58,7 @@
 
 
     /**
-     * monitoring sessionSelection and updating points on waveform
+     * monitoring sessionList and sessionSelection and updating points on waveform
      */
     $: {
         sessionList;
@@ -67,8 +67,6 @@
         if (currentSelection.length != sessionSelection.length) {
             sessionSelection = currentSelection;
         }
-
-        // TODO: save changed text
     }
 
     $: {

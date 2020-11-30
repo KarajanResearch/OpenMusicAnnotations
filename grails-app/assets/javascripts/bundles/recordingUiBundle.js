@@ -18639,9 +18639,43 @@ if (false) {}
 
 function ToolBar_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-chnw1u-style";
-	style.textContent = "#toolbar_zoom.svelte-chnw1u{position:absolute;width:8em}#toolbar_click.svelte-chnw1u{position:absolute;height:100%;width:30em;left:9em}#zoomSlider.svelte-chnw1u{direction:rtl;width:8em}.slider.svelte-chnw1u{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-chnw1u::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-chnw1u::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-chnw1u{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
+	style.id = "svelte-1ql4226-style";
+	style.textContent = "#toolbar_zoom.svelte-1ql4226{position:absolute;width:8em}#toolbar_click.svelte-1ql4226{border:1px solid black;position:absolute;height:100%;width:8em;left:9em}#toolbar_tap.svelte-1ql4226{border:1px solid black;position:absolute;height:100%;width:15em;left:18em}#toolbar_tap.svelte-1ql4226{border:1px solid black;position:absolute;height:100%;width:4em;left:18em}#toolbar_beat_per_bar.svelte-1ql4226{border:1px solid black;position:absolute;height:100%;width:15em;left:22em}#zoomSlider.svelte-1ql4226{direction:rtl;width:8em}.slider.svelte-1ql4226{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1ql4226::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1ql4226::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1ql4226{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
 	append(document.head, style);
+}
+
+function get_each_context(ctx, list, i) {
+	const child_ctx = ctx.slice();
+	child_ctx[11] = list[i];
+	return child_ctx;
+}
+
+// (143:8) {#each beatsPerBarList as entry}
+function create_each_block(ctx) {
+	let option;
+	let t0_value = /*entry*/ ctx[11] + "";
+	let t0;
+	let t1;
+	let option_value_value;
+
+	return {
+		c() {
+			option = internal_element("option");
+			t0 = internal_text(t0_value);
+			t1 = space();
+			option.__value = option_value_value = /*entry*/ ctx[11];
+			option.value = option.__value;
+		},
+		m(target, anchor) {
+			insert(target, option, anchor);
+			append(option, t0);
+			append(option, t1);
+		},
+		p: noop,
+		d(detaching) {
+			if (detaching) detach(option);
+		}
+	};
 }
 
 function ToolBar_svelte_create_fragment(ctx) {
@@ -18649,12 +18683,26 @@ function ToolBar_svelte_create_fragment(ctx) {
 	let input;
 	let t0;
 	let div1;
-	let button;
+	let button0;
 	let t1;
 	let t2_value = (/*metronomeEnabled*/ ctx[1] === true ? "Off" : "On") + "";
 	let t2;
+	let t3;
+	let div2;
+	let button1;
+	let t5;
+	let div3;
+	let span;
+	let select;
+	let t6;
 	let mounted;
 	let dispose;
+	let each_value = /*beatsPerBarList*/ ctx[4];
+	let each_blocks = [];
+
+	for (let i = 0; i < each_value.length; i += 1) {
+		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+	}
 
 	return {
 		c() {
@@ -18662,20 +18710,41 @@ function ToolBar_svelte_create_fragment(ctx) {
 			input = internal_element("input");
 			t0 = space();
 			div1 = internal_element("div");
-			button = internal_element("button");
+			button0 = internal_element("button");
 			t1 = internal_text("Metronome ");
 			t2 = internal_text(t2_value);
+			t3 = space();
+			div2 = internal_element("div");
+			button1 = internal_element("button");
+			button1.textContent = "(T)ap";
+			t5 = space();
+			div3 = internal_element("div");
+			span = internal_element("span");
+			select = internal_element("select");
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].c();
+			}
+
+			t6 = internal_text("\n    Beats per Bar");
 			attr(input, "id", "zoomSlider");
-			attr(input, "class", "slider svelte-chnw1u");
+			attr(input, "class", "slider svelte-1ql4226");
 			attr(input, "type", "range");
 			attr(input, "min", "0");
 			attr(input, "max", "7");
 			attr(input, "step", "1");
 			attr(div0, "id", "toolbar_zoom");
-			attr(div0, "class", "vertical_center svelte-chnw1u");
-			attr(button, "class", "buttons vertical_center svelte-chnw1u");
+			attr(div0, "class", "vertical_center svelte-1ql4226");
+			attr(button0, "class", "buttons vertical_center svelte-1ql4226");
 			attr(div1, "id", "toolbar_click");
-			attr(div1, "class", "svelte-chnw1u");
+			attr(div1, "class", "svelte-1ql4226");
+			attr(button1, "class", "buttons vertical_center svelte-1ql4226");
+			attr(div2, "id", "toolbar_tap");
+			attr(div2, "class", "svelte-1ql4226");
+			if (/*beatsPerBar*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[10].call(select));
+			attr(span, "class", "vertical_center svelte-1ql4226");
+			attr(div3, "id", "toolbar_beat_per_bar");
+			attr(div3, "class", "svelte-1ql4226");
 		},
 		m(target, anchor) {
 			insert(target, div0, anchor);
@@ -18683,16 +18752,32 @@ function ToolBar_svelte_create_fragment(ctx) {
 			set_input_value(input, /*zoomLevel*/ ctx[0]);
 			insert(target, t0, anchor);
 			insert(target, div1, anchor);
-			append(div1, button);
-			append(button, t1);
-			append(button, t2);
+			append(div1, button0);
+			append(button0, t1);
+			append(button0, t2);
+			insert(target, t3, anchor);
+			insert(target, div2, anchor);
+			append(div2, button1);
+			insert(target, t5, anchor);
+			insert(target, div3, anchor);
+			append(div3, span);
+			append(span, select);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].m(select, null);
+			}
+
+			select_option(select, /*beatsPerBar*/ ctx[2]);
+			append(span, t6);
 
 			if (!mounted) {
 				dispose = [
-					listen(input, "change", /*input_change_input_handler*/ ctx[4]),
-					listen(input, "input", /*input_change_input_handler*/ ctx[4]),
-					listen(input, "input", /*input_handler*/ ctx[5]),
-					listen(button, "click", /*click_handler*/ ctx[6])
+					listen(input, "change", /*input_change_input_handler*/ ctx[6]),
+					listen(input, "input", /*input_change_input_handler*/ ctx[6]),
+					listen(input, "input", /*input_handler*/ ctx[7]),
+					listen(button0, "click", /*click_handler*/ ctx[8]),
+					listen(button1, "click", /*click_handler_1*/ ctx[9]),
+					listen(select, "change", /*select_change_handler*/ ctx[10])
 				];
 
 				mounted = true;
@@ -18704,6 +18789,33 @@ function ToolBar_svelte_create_fragment(ctx) {
 			}
 
 			if (dirty & /*metronomeEnabled*/ 2 && t2_value !== (t2_value = (/*metronomeEnabled*/ ctx[1] === true ? "Off" : "On") + "")) set_data(t2, t2_value);
+
+			if (dirty & /*beatsPerBarList*/ 16) {
+				each_value = /*beatsPerBarList*/ ctx[4];
+				let i;
+
+				for (i = 0; i < each_value.length; i += 1) {
+					const child_ctx = get_each_context(ctx, each_value, i);
+
+					if (each_blocks[i]) {
+						each_blocks[i].p(child_ctx, dirty);
+					} else {
+						each_blocks[i] = create_each_block(child_ctx);
+						each_blocks[i].c();
+						each_blocks[i].m(select, null);
+					}
+				}
+
+				for (; i < each_blocks.length; i += 1) {
+					each_blocks[i].d(1);
+				}
+
+				each_blocks.length = each_value.length;
+			}
+
+			if (dirty & /*beatsPerBar, beatsPerBarList*/ 20) {
+				select_option(select, /*beatsPerBar*/ ctx[2]);
+			}
 		},
 		i: noop,
 		o: noop,
@@ -18711,11 +18823,18 @@ function ToolBar_svelte_create_fragment(ctx) {
 			if (detaching) detach(div0);
 			if (detaching) detach(t0);
 			if (detaching) detach(div1);
+			if (detaching) detach(t3);
+			if (detaching) detach(div2);
+			if (detaching) detach(t5);
+			if (detaching) detach(div3);
+			destroy_each(each_blocks, detaching);
 			mounted = false;
 			run_all(dispose);
 		}
 	};
 }
+
+let tapRecorderEnabled = true;
 
 function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 	let { recordingId } = $$props;
@@ -18727,6 +18846,8 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 	let zoomLevel = 4;
 
 	let metronomeEnabled = true;
+	let beatsPerBarList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	let beatsPerBar = 1;
 
 	onMount(async () => {
 		
@@ -18747,26 +18868,40 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 		appContainer.trigger("toggleMetronome");
 	};
 
+	const click_handler_1 = e => {
+		appContainer.trigger("toggleMetronome");
+	};
+
+	function select_change_handler() {
+		beatsPerBar = select_value(this);
+		$$invalidate(2, beatsPerBar);
+		$$invalidate(4, beatsPerBarList);
+	}
+
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(3, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(5, recordingId = $$props.recordingId);
 	};
 
 	return [
 		zoomLevel,
 		metronomeEnabled,
+		beatsPerBar,
 		appContainer,
+		beatsPerBarList,
 		recordingId,
 		input_change_input_handler,
 		input_handler,
-		click_handler
+		click_handler,
+		click_handler_1,
+		select_change_handler
 	];
 }
 
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-chnw1u-style")) ToolBar_svelte_add_css();
-		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 3 });
+		if (!document.getElementById("svelte-1ql4226-style")) ToolBar_svelte_add_css();
+		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 5 });
 	}
 }
 
@@ -18788,7 +18923,7 @@ function SessionList_svelte_add_css() {
 	append(document.head, style);
 }
 
-function get_each_context(ctx, list, i) {
+function SessionList_svelte_get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
 	child_ctx[11] = list[i];
 	child_ctx[12] = list;
@@ -18796,7 +18931,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (153:0) {#if sessionList.length == 0}
+// (151:0) {#if sessionList.length == 0}
 function create_if_block_1(ctx) {
 	let t;
 
@@ -18813,7 +18948,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (157:0) {#if sessionList.length > 0}
+// (155:0) {#if sessionList.length > 0}
 function create_if_block(ctx) {
 	let div;
 	let each_blocks = [];
@@ -18822,9 +18957,9 @@ function create_if_block(ctx) {
 	const get_key = ctx => /*sessionListEntry*/ ctx[11].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
-		let child_ctx = get_each_context(ctx, each_value, i);
+		let child_ctx = SessionList_svelte_get_each_context(ctx, each_value, i);
 		let key = get_key(child_ctx);
-		each_1_lookup.set(key, each_blocks[i] = create_each_block(key, child_ctx));
+		each_1_lookup.set(key, each_blocks[i] = SessionList_svelte_create_each_block(key, child_ctx));
 	}
 
 	return {
@@ -18848,7 +18983,7 @@ function create_if_block(ctx) {
 		p(ctx, dirty) {
 			if (dirty & /*sessionList, appContainer, sessionTitleUpdate*/ 3) {
 				const each_value = /*sessionList*/ ctx[0];
-				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div, destroy_block, create_each_block, null, get_each_context);
+				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div, destroy_block, SessionList_svelte_create_each_block, null, SessionList_svelte_get_each_context);
 			}
 		},
 		d(detaching) {
@@ -18861,8 +18996,8 @@ function create_if_block(ctx) {
 	};
 }
 
-// (159:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
-function create_each_block(key_1, ctx) {
+// (157:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
 	let t0;
@@ -19109,7 +19244,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	$$self.$$.update = () => {
 		if ($$self.$$.dirty & /*sessionList, sessionSelection*/ 129) {
 			/**
- * monitoring sessionSelection and updating points on waveform
+ * monitoring sessionList and sessionSelection and updating points on waveform
  */
 			$: {
 				sessionList;
@@ -19120,7 +19255,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 				if (currentSelection.length != sessionSelection.length) {
 					$$invalidate(7, sessionSelection = currentSelection);
 				}
-			} // TODO: save changed text
+			}
 		}
 
 		if ($$self.$$.dirty & /*sessionSelection*/ 128) {

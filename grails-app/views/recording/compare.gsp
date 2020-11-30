@@ -24,6 +24,11 @@
     </g:if>
 
 
+    <!--
+    IMPORTANT: compare is not reflexive. ui(x) != ui(x)
+    UI cannot handle the case where one compares recording x with recording x
+    -->
+
 
     <div class="wrapper">
         <g:each var="recording" in="${this.recordings}" >

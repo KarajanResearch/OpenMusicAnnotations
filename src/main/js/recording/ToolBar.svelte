@@ -11,6 +11,10 @@
      */
     let zoomLevel = 4;
     let metronomeEnabled = true;
+    let tapRecorderEnabled = true;
+
+    let beatsPerBarList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let beatsPerBar = 1;
 
 
     onMount(async () => {
@@ -32,12 +36,36 @@
         width: 8em;
     }
     #toolbar_click {
-        /*border: 1px solid black;*/
+        border: 1px solid black;
         position: absolute;
         height: 100%;
-        width: 30em;
+        width: 8em;
         left: 9em;
     }
+    #toolbar_tap {
+        border: 1px solid black;
+        position: absolute;
+        height: 100%;
+        width: 15em;
+        left: 18em;
+    }
+    #toolbar_tap {
+        border: 1px solid black;
+        position: absolute;
+        height: 100%;
+        width: 4em;
+        left: 18em;
+    }
+    #toolbar_beat_per_bar {
+        border: 1px solid black;
+        position: absolute;
+        height: 100%;
+        width: 10em;
+        left: 22em;
+    }
+
+
+
 
     #zoomSlider {
         direction: rtl;
@@ -97,4 +125,28 @@
         metronomeEnabled = !metronomeEnabled;
         appContainer.trigger("toggleMetronome");
     }}>Metronome {metronomeEnabled === true ? 'Off' : 'On'}</button>
+</div>
+
+<div id="toolbar_tap">
+    <button class="buttons vertical_center" on:click={e => {
+
+        appContainer.trigger("toggleMetronome");
+
+    }}>(T)ap</button>
+</div>
+
+
+<div id="toolbar_beat_per_bar">
+
+    <span class="vertical_center">
+        <select bind:value={beatsPerBar}>
+        {#each beatsPerBarList as entry}
+            <option value={entry}>
+                {entry}
+            </option>
+        {/each}
+    </select>
+    Beats per Bar
+    </span>
+
 </div>
