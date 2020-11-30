@@ -6,9 +6,11 @@
 
     const appContainer = window.$("#RecordingUiContainer-" + recordingId);
 
-
+    /**
+     * internal state
+     */
     let zoomLevel = 4;
-
+    let metronomeEnabled = true;
 
 
     onMount(async () => {
@@ -17,20 +19,6 @@
 
 
     });
-
-
-    function handleZoomChange(event) {
-        zoomLevel = event.target.value;
-        appContainer.trigger("setWaveFormZoom", zoomLevel);
-    }
-
-
-    let metronomeEnabled = true;
-    function toggleMetronome() {
-        appContainer.trigger("toggleMetronome");
-        metronomeEnabled = !metronomeEnabled;
-    }
-
 
 
 
@@ -50,9 +38,6 @@
         width: 30em;
         left: 9em;
     }
-
-
-
 
     #zoomSlider {
         direction: rtl;
@@ -101,9 +86,15 @@
 </style>
 
 <div id="toolbar_zoom" class="vertical_center">
-    <input id="zoomSlider" class="slider" type=range bind:value={zoomLevel} on:input={handleZoomChange} min="0" max="7" step="1">
+    <input id="zoomSlider" class="slider" type=range bind:value={zoomLevel} on:input={e => {
+        zoomLevel = e.target.value;
+        appContainer.trigger("setWaveFormZoom", zoomLevel);
+    }} min="0" max="7" step="1">
 </div>
 
 <div id="toolbar_click">
-    <button class="buttons vertical_center" on:click={toggleMetronome}>Metronome {metronomeEnabled === true ? 'Off' : 'On'}</button>
+    <button class="buttons vertical_center" on:click={e => {
+        metronomeEnabled = !metronomeEnabled;
+        appContainer.trigger("toggleMetronome");
+    }}>Metronome {metronomeEnabled === true ? 'Off' : 'On'}</button>
 </div>

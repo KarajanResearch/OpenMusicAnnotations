@@ -18639,8 +18639,8 @@ if (false) {}
 
 function ToolBar_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1qp6nqe-style";
-	style.textContent = "#toolbar_zoom.svelte-1qp6nqe{position:absolute;width:8em}#toolbar_click.svelte-1qp6nqe{position:absolute;height:100%;width:30em;left:9em}#zoomSlider.svelte-1qp6nqe{direction:rtl;width:8em}.slider.svelte-1qp6nqe{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1qp6nqe::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1qp6nqe::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1qp6nqe{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
+	style.id = "svelte-chnw1u-style";
+	style.textContent = "#toolbar_zoom.svelte-chnw1u{position:absolute;width:8em}#toolbar_click.svelte-chnw1u{position:absolute;height:100%;width:30em;left:9em}#zoomSlider.svelte-chnw1u{direction:rtl;width:8em}.slider.svelte-chnw1u{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-chnw1u::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-chnw1u::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-chnw1u{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
 	append(document.head, style);
 }
 
@@ -18666,16 +18666,16 @@ function ToolBar_svelte_create_fragment(ctx) {
 			t1 = internal_text("Metronome ");
 			t2 = internal_text(t2_value);
 			attr(input, "id", "zoomSlider");
-			attr(input, "class", "slider svelte-1qp6nqe");
+			attr(input, "class", "slider svelte-chnw1u");
 			attr(input, "type", "range");
 			attr(input, "min", "0");
 			attr(input, "max", "7");
 			attr(input, "step", "1");
 			attr(div0, "id", "toolbar_zoom");
-			attr(div0, "class", "vertical_center svelte-1qp6nqe");
-			attr(button, "class", "buttons vertical_center svelte-1qp6nqe");
+			attr(div0, "class", "vertical_center svelte-chnw1u");
+			attr(button, "class", "buttons vertical_center svelte-chnw1u");
 			attr(div1, "id", "toolbar_click");
-			attr(div1, "class", "svelte-1qp6nqe");
+			attr(div1, "class", "svelte-chnw1u");
 		},
 		m(target, anchor) {
 			insert(target, div0, anchor);
@@ -18689,10 +18689,10 @@ function ToolBar_svelte_create_fragment(ctx) {
 
 			if (!mounted) {
 				dispose = [
-					listen(input, "change", /*input_change_input_handler*/ ctx[5]),
-					listen(input, "input", /*input_change_input_handler*/ ctx[5]),
-					listen(input, "input", /*handleZoomChange*/ ctx[2]),
-					listen(button, "click", /*toggleMetronome*/ ctx[3])
+					listen(input, "change", /*input_change_input_handler*/ ctx[4]),
+					listen(input, "input", /*input_change_input_handler*/ ctx[4]),
+					listen(input, "input", /*input_handler*/ ctx[5]),
+					listen(button, "click", /*click_handler*/ ctx[6])
 				];
 
 				mounted = true;
@@ -18720,48 +18720,53 @@ function ToolBar_svelte_create_fragment(ctx) {
 function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 	let { recordingId } = $$props;
 	const appContainer = window.$("#RecordingUiContainer-" + recordingId);
+
+	/**
+ * internal state
+ */
 	let zoomLevel = 4;
+
+	let metronomeEnabled = true;
 
 	onMount(async () => {
 		
 	});
-
-	function handleZoomChange(event) {
-		$$invalidate(0, zoomLevel = event.target.value);
-		appContainer.trigger("setWaveFormZoom", zoomLevel);
-	}
-
-	let metronomeEnabled = true;
-
-	function toggleMetronome() {
-		appContainer.trigger("toggleMetronome");
-		$$invalidate(1, metronomeEnabled = !metronomeEnabled);
-	}
 
 	function input_change_input_handler() {
 		zoomLevel = to_number(this.value);
 		$$invalidate(0, zoomLevel);
 	}
 
+	const input_handler = e => {
+		$$invalidate(0, zoomLevel = e.target.value);
+		appContainer.trigger("setWaveFormZoom", zoomLevel);
+	};
+
+	const click_handler = e => {
+		$$invalidate(1, metronomeEnabled = !metronomeEnabled);
+		appContainer.trigger("toggleMetronome");
+	};
+
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(4, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(3, recordingId = $$props.recordingId);
 	};
 
 	return [
 		zoomLevel,
 		metronomeEnabled,
-		handleZoomChange,
-		toggleMetronome,
+		appContainer,
 		recordingId,
-		input_change_input_handler
+		input_change_input_handler,
+		input_handler,
+		click_handler
 	];
 }
 
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1qp6nqe-style")) ToolBar_svelte_add_css();
-		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 4 });
+		if (!document.getElementById("svelte-chnw1u-style")) ToolBar_svelte_add_css();
+		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 3 });
 	}
 }
 
