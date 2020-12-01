@@ -30,46 +30,16 @@
     -->
 
 
-    <div class="wrapper">
-        <g:each var="recording" in="${this.recordings}" >
+    <g:each var="recording" in="${this.recordings}" >
+        <g:render template="recordingUiContainerTemplate" model="[recording: recording.recording, showScore: false, isMine: recording.isMine]" />
+    </g:each>
 
-            <div class="h_iframe">
-
-                <h2>
-
-                    <g:link class="show" action="show" resource="${recording}">
-                        <g:if test="${recording.interpretation}">
-                            ${recording.interpretation}
-                        </g:if>
-                        <g:if test="${recording.interpretation}">
-                            ${recording.interpretation.tokenizeParts()}
-                        </g:if>
-                        (${recording.title})
-                    </g:link>
-
-
-                </h2>
-
-
-                <iframe height="480" width="100%" allowfullscreen frameborder="0" src="${createLink(controller: "recording", action: "vizPlayFrame", id: recording.id)}">
-
-                </iframe>
-            </div>
+<!-- invoce once, after all UI containers are set up -->
+    <asset:javascript src="bundles/recordingUiBundle.js" />
 
 
 
-
-        </g:each>
-    </div>
-
-
-
-
-
-
-
-
-
+    
 
 </div>
 </body>

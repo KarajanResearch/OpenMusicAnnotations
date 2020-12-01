@@ -378,6 +378,11 @@ class RecordingController {
             }
             def recordings = Recording.findAllByIdInList(recordingIds).sort {
                 it.title
+            }.collect {
+                return [
+                    recording: it,
+                    isMine: recordingService.isMine(it)
+                ]
             }
 
             render view: "compare", model: [recordings: recordings]

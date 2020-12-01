@@ -87,28 +87,28 @@
         width: 8em;
     }
     #toolbar_click {
-        border: 1px solid black;
+        /* border: 1px solid black; */
         position: absolute;
         height: 100%;
         width: 8em;
         left: 9em;
     }
     #toolbar_tap {
-        border: 1px solid black;
+        /* border: 1px solid black; */
         position: absolute;
         height: 100%;
         width: 15em;
         left: 18em;
     }
     #toolbar_tap {
-        border: 1px solid black;
+        /* border: 1px solid black; */
         position: absolute;
         height: 100%;
         width: 7em;
         left: 18em;
     }
     #toolbar_beat_per_bar {
-        border: 1px solid black;
+        /* border: 1px solid black; */
         position: absolute;
         height: 100%;
         width: 17em;

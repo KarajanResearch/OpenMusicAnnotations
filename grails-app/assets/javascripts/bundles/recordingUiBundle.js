@@ -18643,8 +18643,8 @@ if (false) {}
 
 function ToolBar_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1xzxhyk-style";
-	style.textContent = "#toolbar_zoom.svelte-1xzxhyk{position:absolute;width:8em}#toolbar_click.svelte-1xzxhyk{border:1px solid black;position:absolute;height:100%;width:8em;left:9em}#toolbar_tap.svelte-1xzxhyk{border:1px solid black;position:absolute;height:100%;width:15em;left:18em}#toolbar_tap.svelte-1xzxhyk{border:1px solid black;position:absolute;height:100%;width:7em;left:18em}#toolbar_beat_per_bar.svelte-1xzxhyk{border:1px solid black;position:absolute;height:100%;width:17em;left:25em}#current_bar_offset_input.svelte-1xzxhyk{width:4em}#zoomSlider.svelte-1xzxhyk{direction:rtl;width:8em}.slider.svelte-1xzxhyk{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1xzxhyk::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1xzxhyk::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1xzxhyk{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
+	style.id = "svelte-zuzjag-style";
+	style.textContent = "#toolbar_zoom.svelte-zuzjag{position:absolute;width:8em}#toolbar_click.svelte-zuzjag{position:absolute;height:100%;width:8em;left:9em}#toolbar_tap.svelte-zuzjag{position:absolute;height:100%;width:15em;left:18em}#toolbar_tap.svelte-zuzjag{position:absolute;height:100%;width:7em;left:18em}#toolbar_beat_per_bar.svelte-zuzjag{position:absolute;height:100%;width:17em;left:25em}#current_bar_offset_input.svelte-zuzjag{width:4em}#zoomSlider.svelte-zuzjag{direction:rtl;width:8em}.slider.svelte-zuzjag{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-zuzjag::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-zuzjag::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-zuzjag{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
 	append(document.head, style);
 }
 
@@ -18742,27 +18742,27 @@ function ToolBar_svelte_create_fragment(ctx) {
 			t9 = internal_text("\n    Beats / Bar starting at\n        ");
 			input1 = internal_element("input");
 			attr(input0, "id", "zoomSlider");
-			attr(input0, "class", "slider svelte-1xzxhyk");
+			attr(input0, "class", "slider svelte-zuzjag");
 			attr(input0, "type", "range");
 			attr(input0, "min", "0");
 			attr(input0, "max", "7");
 			attr(input0, "step", "1");
 			attr(div0, "id", "toolbar_zoom");
-			attr(div0, "class", "vertical_center svelte-1xzxhyk");
-			attr(button0, "class", "buttons vertical_center svelte-1xzxhyk");
+			attr(div0, "class", "vertical_center svelte-zuzjag");
+			attr(button0, "class", "buttons vertical_center svelte-zuzjag");
 			attr(div1, "id", "toolbar_click");
-			attr(div1, "class", "svelte-1xzxhyk");
-			attr(button1, "class", "buttons vertical_center svelte-1xzxhyk");
+			attr(div1, "class", "svelte-zuzjag");
+			attr(button1, "class", "buttons vertical_center svelte-zuzjag");
 			attr(div2, "id", "toolbar_tap");
-			attr(div2, "class", "svelte-1xzxhyk");
+			attr(div2, "class", "svelte-zuzjag");
 			if (/*beatsPerBar*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[14].call(select));
 			attr(input1, "id", "current_bar_offset_input");
 			attr(input1, "type", "number");
 			attr(input1, "min", "1");
-			attr(input1, "class", "svelte-1xzxhyk");
-			attr(span, "class", "vertical_center svelte-1xzxhyk");
+			attr(input1, "class", "svelte-zuzjag");
+			attr(span, "class", "vertical_center svelte-zuzjag");
 			attr(div3, "id", "toolbar_beat_per_bar");
-			attr(div3, "class", "svelte-1xzxhyk");
+			attr(div3, "class", "svelte-zuzjag");
 		},
 		m(target, anchor) {
 			insert(target, div0, anchor);
@@ -18999,7 +18999,7 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1xzxhyk-style")) ToolBar_svelte_add_css();
+		if (!document.getElementById("svelte-zuzjag-style")) ToolBar_svelte_add_css();
 		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 9 });
 	}
 }
@@ -19030,7 +19030,7 @@ function SessionList_svelte_get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (273:0) {#if sessionList.length == 0}
+// (280:0) {#if sessionList.length == 0}
 function create_if_block_4(ctx) {
 	let t;
 
@@ -19047,7 +19047,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (277:0) {#if sessionList.length > 0}
+// (284:0) {#if sessionList.length > 0}
 function create_if_block_3(ctx) {
 	let div;
 	let each_blocks = [];
@@ -19095,7 +19095,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (279:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (286:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -19183,7 +19183,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (302:0) {#if currentlyNewSession.length == 0}
+// (309:0) {#if currentlyNewSession.length == 0}
 function create_if_block_2(ctx) {
 	let t;
 
@@ -19200,7 +19200,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (305:0) {#if currentlyNewSession.length > 0}
+// (312:0) {#if currentlyNewSession.length > 0}
 function create_if_block_1(ctx) {
 	let h3;
 	let t1;
@@ -19281,7 +19281,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (333:0) {#if sessionSelection.length > 0}
+// (340:0) {#if sessionSelection.length > 0}
 function create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -19620,10 +19620,16 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		});
 	}
 
+	/**
+ * deleting sessions from backend
+ */
 	function deleteSelectedSessions() {
 		let deleteSessionIds = [];
 		let newSessionList = [];
 
+		/**
+ * remove sessions to delete from UI list
+ */
 		for (let i = 0; i < sessionList.length; i++) {
 			if (sessionList[i].selected === true) {
 				deleteSessionIds.push(sessionList[i].session.id);
@@ -19633,6 +19639,9 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			}
 		}
 
+		/**
+ * delete on server
+ */
 		let data = { deleteSessionIds };
 
 		fetch("/session/ajaxDeleteSessions", {
@@ -19645,6 +19654,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			console.error("Error:", error);
 		});
 
+		// update UI immediately. deleting can run in the background
 		$$invalidate(0, sessionList = newSessionList);
 	}
 
@@ -19695,7 +19705,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			console.log(sessionSelection);
 			deleteSelectedSessions();
 		}
-	}; //updateWaveFormCanvas();
+	};
 
 	$$self.$$set = $$props => {
 		if ("recordingId" in $$props) $$invalidate(8, recordingId = $$props.recordingId);
