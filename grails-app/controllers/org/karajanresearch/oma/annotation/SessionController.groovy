@@ -191,6 +191,10 @@ class SessionController {
     }
 
 
+    /**
+     * add session via svelte UI
+     * @return
+     */
     def ajaxCreateSession() {
 
         println request.JSON
@@ -226,7 +230,7 @@ class SessionController {
         }
 
         if (session.save(flush: true)) {
-            def result = [success: session]
+            def result = [success: "session added", session: sessionService.getUiStructure(session)]
             render result as JSON
         } else {
             println session.errors

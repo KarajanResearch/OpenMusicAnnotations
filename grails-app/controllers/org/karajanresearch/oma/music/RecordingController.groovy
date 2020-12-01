@@ -5,6 +5,7 @@ import grails.gorm.multitenancy.WithoutTenant
 import grails.gorm.transactions.Transactional
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
+import org.karajanresearch.oma.annotation.SessionService
 
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
@@ -18,6 +19,7 @@ class RecordingController {
 
     def recordingService
     def tappingService
+    def sessionService
 
 
     @Secured("ROLE_AUTHENTICATED")
@@ -346,7 +348,7 @@ class RecordingController {
 
 
 
-    def sessionService
+
     def ajaxGetSession() {
         println "ajaxGetSession"
         println params
@@ -445,6 +447,11 @@ class RecordingController {
         render view: "svelteUi", model: model
     }
 
+    /**
+     * Svelte UI async Stuff below
+     * @param id
+     * @return
+     */
     def ajaxGet(Long id) {
         Recording recording = recordingService.get(id)
         if (!recording) return notFound()
@@ -467,6 +474,7 @@ class RecordingController {
         def result = recording.annotationSessions.findAll {
             it.isShared || it.tenantId == springSecurityService.principal.id
         }.collect {session ->
+            /*
             return [
                 id: session.id,
                 title: session.title,
@@ -482,6 +490,10 @@ class RecordingController {
                     ]
                 }
             ]
+             */
+            return sessionService.getUiStructure(session)
+
+
         }
 
         render result as JSON

@@ -86,7 +86,6 @@
      */
     $: {
         sessionList;
-        let previousSessionSelection = sessionSelection;
         // TODO: merge new selection with previous selection
         // only update selection, when the selection changes. Not the label text!
         let currentSelection = sessionList.filter(s => s.selected);
@@ -95,9 +94,19 @@
         }
     }
 
+    /**
+     * update waveform canvas in case the selection of annotation sessions has changed
+     */
     $: {
         sessionSelection;
+        updateWaveFormCanvas();
+    }
 
+
+    /**
+     * draws selected sessions to waveform canvas
+     */
+    function updateWaveFormCanvas() {
         appContainer.trigger("clearAllAnnotations");
 
         for (let i = 0; i < sessionSelection.length; i++) {
@@ -117,6 +126,7 @@
             }
         }
     }
+
 
     /**
      * persist session title to server
@@ -171,9 +181,22 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Success:', data);
+            console.log('Success:', data.success);
 
-            fetchSessionList();
+            // fetchSessionList();
+            let session = data.session;
+
+            let listEntry = {
+                id: session.id,
+                session: session,
+                color: pickColor(session.id),
+                selected: true,
+                dirty: false
+            };
+            sessionList.push(listEntry);
+            sessionList = sessionList;
+            currentlyNewSession = [];
+            currentlyNewSessionTitle = "";
 
         })
         .catch((error) => {
@@ -191,7 +214,6 @@
 <style>
     #session_list {
         width: 100%;
-
     }
     .session_list_entry {
         padding: 2px;
@@ -265,6 +287,10 @@
     }}>Save {currentlyNewSession.length} Annotations</button>
 
     <button class="buttons" on:click={() => {
+
+        currentlyNewSession = [];
+        currentlyNewSessionTitle = "";
+        updateWaveFormCanvas();
 
     }}>Discard</button>
 

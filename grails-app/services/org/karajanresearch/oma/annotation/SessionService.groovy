@@ -27,4 +27,30 @@ class SessionService {
         }
         return session
     }
+
+
+    /**
+     * build data structure to use in svelte user interface
+     * @param session
+     * @return
+     */
+    def getUiStructure(Session session) {
+
+        return [
+            id: session.id,
+            title: session.title,
+            isShared: session.isShared,
+            isMine: session.tenantId == springSecurityService.principal.id,
+            annotations: session.annotations.collect { Annotation a ->
+                return [
+                    id: a.id,
+                    type: a.type,
+                    bar: a.barNumber,
+                    beat: a.beatNumber,
+                    momentOfPerception: a.momentOfPerception
+                ]
+            }
+        ]
+    }
+
 }

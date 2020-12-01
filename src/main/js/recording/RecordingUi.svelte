@@ -84,6 +84,7 @@
         top: 3.5em;
         width: 20%;
         height: 32.5em;
+        overflow: auto;
     }
     #recording_ui_waveform {
         /*border: 1px solid;*/
