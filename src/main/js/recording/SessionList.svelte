@@ -86,7 +86,6 @@
      */
     $: {
         sessionList;
-        // TODO: merge new selection with previous selection
         // only update selection, when the selection changes. Not the label text!
         let currentSelection = sessionList.filter(s => s.selected);
         if (currentSelection.length != sessionSelection.length) {
@@ -206,6 +205,54 @@
     }
 
 
+    /**
+     * deleting sessions from backend
+     */
+    function deleteSelectedSessions() {
+
+        let deleteSessionIds = [];
+        let newSessionList = [];
+
+        /**
+         * remove sessions to delete from UI list
+         */
+        for (let i = 0; i < sessionList.length; i++) {
+            if (sessionList[i].selected === true) {
+                deleteSessionIds.push(sessionList[i].session.id);
+                // remove from sessionList
+            } else {
+                // keep not-selected session
+                newSessionList.push(sessionList[i]);
+            }
+        }
+
+        /**
+         * delete on server
+         */
+        let data = {
+            deleteSessionIds: deleteSessionIds,
+        };
+
+        fetch('/session/ajaxDeleteSessions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+        // update UI immediately. deleting can run in the background
+        sessionList = newSessionList;
+    }
+
+
 
 
 </script>
@@ -276,23 +323,27 @@
     >
 
     <button class="buttons" on:click={() => {
-
         if (currentlyNewSessionTitle === "") {
             return alert("Please add a Name for new Annotations");
         }
-
         saveCurrentlyNewSession();
-
-
     }}>Save {currentlyNewSession.length} Annotations</button>
 
     <button class="buttons" on:click={() => {
-
         currentlyNewSession = [];
         currentlyNewSessionTitle = "";
         updateWaveFormCanvas();
-
     }}>Discard</button>
+{/if}
 
+
+{#if sessionSelection.length > 0}
+    <h3>Delete Selected Annotations</h3>
+    <button class="buttons" on:click={() => {
+        if (confirm("Are you sure? Deleting Annotations cannot be undone!")) {
+            console.log(sessionSelection);
+            deleteSelectedSessions();
+        }
+    }}>Delete {sessionSelection.length > 1 ? `${sessionSelection.length} Sessions` : 'Session'}  </button>
 {/if}
 

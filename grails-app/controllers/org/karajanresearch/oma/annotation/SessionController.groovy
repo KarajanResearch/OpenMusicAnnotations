@@ -241,6 +241,25 @@ class SessionController {
     }
 
 
+    /**
+     * deleting sessions via svelte UI
+     * @return
+     */
+    def ajaxDeleteSessions() {
+        def result
+
+        request.JSON.deleteSessionIds.each {
+            Session.get(it).delete(flush: true)
+        }
+
+        result = [success: "sessions deleted"]
+        render result as JSON
+    }
+
+
+
+
+
 /*
     SessionService sessionService
 

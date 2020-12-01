@@ -19024,14 +19024,14 @@ function SessionList_svelte_add_css() {
 
 function SessionList_svelte_get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[21] = list[i];
-	child_ctx[22] = list;
-	child_ctx[23] = i;
+	child_ctx[23] = list[i];
+	child_ctx[24] = list;
+	child_ctx[25] = i;
 	return child_ctx;
 }
 
-// (233:0) {#if sessionList.length == 0}
-function create_if_block_3(ctx) {
+// (273:0) {#if sessionList.length == 0}
+function create_if_block_4(ctx) {
 	let t;
 
 	return {
@@ -19047,13 +19047,13 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (237:0) {#if sessionList.length > 0}
-function create_if_block_2(ctx) {
+// (277:0) {#if sessionList.length > 0}
+function create_if_block_3(ctx) {
 	let div;
 	let each_blocks = [];
 	let each_1_lookup = new Map();
 	let each_value = /*sessionList*/ ctx[0];
-	const get_key = ctx => /*sessionListEntry*/ ctx[21].id;
+	const get_key = ctx => /*sessionListEntry*/ ctx[23].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = SessionList_svelte_get_each_context(ctx, each_value, i);
@@ -19080,7 +19080,7 @@ function create_if_block_2(ctx) {
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty & /*sessionList, appContainer, sessionTitleUpdate*/ 9) {
+			if (dirty & /*sessionList, appContainer, sessionTitleUpdate*/ 17) {
 				const each_value = /*sessionList*/ ctx[0];
 				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div, destroy_block, SessionList_svelte_create_each_block, null, SessionList_svelte_get_each_context);
 			}
@@ -19095,7 +19095,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (239:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (279:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -19107,15 +19107,15 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	let dispose;
 
 	function input0_change_handler() {
-		/*input0_change_handler*/ ctx[7].call(input0, /*each_value*/ ctx[22], /*sessionListEntry_index*/ ctx[23]);
+		/*input0_change_handler*/ ctx[9].call(input0, /*each_value*/ ctx[24], /*sessionListEntry_index*/ ctx[25]);
 	}
 
 	function input1_input_handler() {
-		/*input1_input_handler*/ ctx[8].call(input1, /*each_value*/ ctx[22], /*sessionListEntry_index*/ ctx[23]);
+		/*input1_input_handler*/ ctx[10].call(input1, /*each_value*/ ctx[24], /*sessionListEntry_index*/ ctx[25]);
 	}
 
 	function focusout_handler() {
-		return /*focusout_handler*/ ctx[10](/*sessionListEntry*/ ctx[21]);
+		return /*focusout_handler*/ ctx[12](/*sessionListEntry*/ ctx[23]);
 	}
 
 	return {
@@ -19131,25 +19131,25 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			attr(input0, "type", "checkbox");
 			attr(input1, "class", "session_list_entry_title svelte-15zc6fa");
 			attr(input1, "placeholder", "Name for Annotations...");
-			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[21].session.isMine;
+			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[23].session.isMine;
 			attr(div, "class", "session_list_entry svelte-15zc6fa");
-			set_style(div, "background-color", /*sessionListEntry*/ ctx[21].color);
+			set_style(div, "background-color", /*sessionListEntry*/ ctx[23].color);
 			this.first = div;
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input0);
-			input0.checked = /*sessionListEntry*/ ctx[21].selected;
+			input0.checked = /*sessionListEntry*/ ctx[23].selected;
 			append(div, t0);
 			append(div, input1);
-			set_input_value(input1, /*sessionListEntry*/ ctx[21].session.title);
+			set_input_value(input1, /*sessionListEntry*/ ctx[23].session.title);
 			append(div, t1);
 
 			if (!mounted) {
 				dispose = [
 					listen(input0, "change", input0_change_handler),
 					listen(input1, "input", input1_input_handler),
-					listen(input1, "focus", /*focus_handler*/ ctx[9]),
+					listen(input1, "focus", /*focus_handler*/ ctx[11]),
 					listen(input1, "focusout", focusout_handler)
 				];
 
@@ -19160,19 +19160,19 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			ctx = new_ctx;
 
 			if (dirty & /*sessionList*/ 1) {
-				input0.checked = /*sessionListEntry*/ ctx[21].selected;
+				input0.checked = /*sessionListEntry*/ ctx[23].selected;
 			}
 
-			if (dirty & /*sessionList*/ 1 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[21].session.isMine)) {
+			if (dirty & /*sessionList*/ 1 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[23].session.isMine)) {
 				input1.disabled = input1_disabled_value;
 			}
 
-			if (dirty & /*sessionList*/ 1 && input1.value !== /*sessionListEntry*/ ctx[21].session.title) {
-				set_input_value(input1, /*sessionListEntry*/ ctx[21].session.title);
+			if (dirty & /*sessionList*/ 1 && input1.value !== /*sessionListEntry*/ ctx[23].session.title) {
+				set_input_value(input1, /*sessionListEntry*/ ctx[23].session.title);
 			}
 
 			if (dirty & /*sessionList*/ 1) {
-				set_style(div, "background-color", /*sessionListEntry*/ ctx[21].color);
+				set_style(div, "background-color", /*sessionListEntry*/ ctx[23].color);
 			}
 		},
 		d(detaching) {
@@ -19183,8 +19183,8 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (262:0) {#if currentlyNewSession.length == 0}
-function create_if_block_1(ctx) {
+// (302:0) {#if currentlyNewSession.length == 0}
+function create_if_block_2(ctx) {
 	let t;
 
 	return {
@@ -19200,15 +19200,15 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (265:0) {#if currentlyNewSession.length > 0}
-function create_if_block(ctx) {
+// (305:0) {#if currentlyNewSession.length > 0}
+function create_if_block_1(ctx) {
 	let h3;
 	let t1;
 	let input;
 	let t2;
 	let button0;
 	let t3;
-	let t4_value = /*currentlyNewSession*/ ctx[1].length + "";
+	let t4_value = /*currentlyNewSession*/ ctx[2].length + "";
 	let t4;
 	let t5;
 	let t6;
@@ -19239,7 +19239,7 @@ function create_if_block(ctx) {
 			insert(target, h3, anchor);
 			insert(target, t1, anchor);
 			insert(target, input, anchor);
-			set_input_value(input, /*currentlyNewSessionTitle*/ ctx[2]);
+			set_input_value(input, /*currentlyNewSessionTitle*/ ctx[3]);
 			insert(target, t2, anchor);
 			insert(target, button0, anchor);
 			append(button0, t3);
@@ -19250,22 +19250,22 @@ function create_if_block(ctx) {
 
 			if (!mounted) {
 				dispose = [
-					listen(input, "input", /*input_input_handler*/ ctx[11]),
-					listen(input, "focus", /*focus_handler_1*/ ctx[12]),
-					listen(input, "focusout", /*focusout_handler_1*/ ctx[13]),
-					listen(button0, "click", /*click_handler*/ ctx[14]),
-					listen(button1, "click", /*click_handler_1*/ ctx[15])
+					listen(input, "input", /*input_input_handler*/ ctx[13]),
+					listen(input, "focus", /*focus_handler_1*/ ctx[14]),
+					listen(input, "focusout", /*focusout_handler_1*/ ctx[15]),
+					listen(button0, "click", /*click_handler*/ ctx[16]),
+					listen(button1, "click", /*click_handler_1*/ ctx[17])
 				];
 
 				mounted = true;
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty & /*currentlyNewSessionTitle*/ 4 && input.value !== /*currentlyNewSessionTitle*/ ctx[2]) {
-				set_input_value(input, /*currentlyNewSessionTitle*/ ctx[2]);
+			if (dirty & /*currentlyNewSessionTitle*/ 8 && input.value !== /*currentlyNewSessionTitle*/ ctx[3]) {
+				set_input_value(input, /*currentlyNewSessionTitle*/ ctx[3]);
 			}
 
-			if (dirty & /*currentlyNewSession*/ 2 && t4_value !== (t4_value = /*currentlyNewSession*/ ctx[1].length + "")) set_data(t4, t4_value);
+			if (dirty & /*currentlyNewSession*/ 4 && t4_value !== (t4_value = /*currentlyNewSession*/ ctx[2].length + "")) set_data(t4, t4_value);
 		},
 		d(detaching) {
 			if (detaching) detach(h3);
@@ -19281,17 +19281,71 @@ function create_if_block(ctx) {
 	};
 }
 
+// (333:0) {#if sessionSelection.length > 0}
+function create_if_block(ctx) {
+	let h3;
+	let t1;
+	let button;
+	let t2;
+
+	let t3_value = (/*sessionSelection*/ ctx[1].length > 1
+	? `${/*sessionSelection*/ ctx[1].length} Sessions`
+	: "Session") + "";
+
+	let t3;
+	let mounted;
+	let dispose;
+
+	return {
+		c() {
+			h3 = internal_element("h3");
+			h3.textContent = "Delete Selected Annotations";
+			t1 = space();
+			button = internal_element("button");
+			t2 = internal_text("Delete ");
+			t3 = internal_text(t3_value);
+			attr(button, "class", "buttons");
+		},
+		m(target, anchor) {
+			insert(target, h3, anchor);
+			insert(target, t1, anchor);
+			insert(target, button, anchor);
+			append(button, t2);
+			append(button, t3);
+
+			if (!mounted) {
+				dispose = listen(button, "click", /*click_handler_2*/ ctx[18]);
+				mounted = true;
+			}
+		},
+		p(ctx, dirty) {
+			if (dirty & /*sessionSelection*/ 2 && t3_value !== (t3_value = (/*sessionSelection*/ ctx[1].length > 1
+			? `${/*sessionSelection*/ ctx[1].length} Sessions`
+			: "Session") + "")) set_data(t3, t3_value);
+		},
+		d(detaching) {
+			if (detaching) detach(h3);
+			if (detaching) detach(t1);
+			if (detaching) detach(button);
+			mounted = false;
+			dispose();
+		}
+	};
+}
+
 function SessionList_svelte_create_fragment(ctx) {
 	let h3;
 	let t1;
 	let t2;
 	let t3;
 	let t4;
-	let if_block3_anchor;
-	let if_block0 = /*sessionList*/ ctx[0].length == 0 && create_if_block_3(ctx);
-	let if_block1 = /*sessionList*/ ctx[0].length > 0 && create_if_block_2(ctx);
-	let if_block2 = /*currentlyNewSession*/ ctx[1].length == 0 && create_if_block_1(ctx);
-	let if_block3 = /*currentlyNewSession*/ ctx[1].length > 0 && create_if_block(ctx);
+	let t5;
+	let if_block4_anchor;
+	let if_block0 = /*sessionList*/ ctx[0].length == 0 && create_if_block_4(ctx);
+	let if_block1 = /*sessionList*/ ctx[0].length > 0 && create_if_block_3(ctx);
+	let if_block2 = /*currentlyNewSession*/ ctx[2].length == 0 && create_if_block_2(ctx);
+	let if_block3 = /*currentlyNewSession*/ ctx[2].length > 0 && create_if_block_1(ctx);
+	let if_block4 = /*sessionSelection*/ ctx[1].length > 0 && create_if_block(ctx);
 
 	return {
 		c() {
@@ -19305,7 +19359,9 @@ function SessionList_svelte_create_fragment(ctx) {
 			if (if_block2) if_block2.c();
 			t4 = space();
 			if (if_block3) if_block3.c();
-			if_block3_anchor = empty();
+			t5 = space();
+			if (if_block4) if_block4.c();
+			if_block4_anchor = empty();
 		},
 		m(target, anchor) {
 			insert(target, h3, anchor);
@@ -19317,14 +19373,16 @@ function SessionList_svelte_create_fragment(ctx) {
 			if (if_block2) if_block2.m(target, anchor);
 			insert(target, t4, anchor);
 			if (if_block3) if_block3.m(target, anchor);
-			insert(target, if_block3_anchor, anchor);
+			insert(target, t5, anchor);
+			if (if_block4) if_block4.m(target, anchor);
+			insert(target, if_block4_anchor, anchor);
 		},
 		p(ctx, [dirty]) {
 			if (/*sessionList*/ ctx[0].length == 0) {
 				if (if_block0) {
 					
 				} else {
-					if_block0 = create_if_block_3(ctx);
+					if_block0 = create_if_block_4(ctx);
 					if_block0.c();
 					if_block0.m(t2.parentNode, t2);
 				}
@@ -19337,7 +19395,7 @@ function SessionList_svelte_create_fragment(ctx) {
 				if (if_block1) {
 					if_block1.p(ctx, dirty);
 				} else {
-					if_block1 = create_if_block_2(ctx);
+					if_block1 = create_if_block_3(ctx);
 					if_block1.c();
 					if_block1.m(t3.parentNode, t3);
 				}
@@ -19346,11 +19404,11 @@ function SessionList_svelte_create_fragment(ctx) {
 				if_block1 = null;
 			}
 
-			if (/*currentlyNewSession*/ ctx[1].length == 0) {
+			if (/*currentlyNewSession*/ ctx[2].length == 0) {
 				if (if_block2) {
 					
 				} else {
-					if_block2 = create_if_block_1(ctx);
+					if_block2 = create_if_block_2(ctx);
 					if_block2.c();
 					if_block2.m(t4.parentNode, t4);
 				}
@@ -19359,17 +19417,30 @@ function SessionList_svelte_create_fragment(ctx) {
 				if_block2 = null;
 			}
 
-			if (/*currentlyNewSession*/ ctx[1].length > 0) {
+			if (/*currentlyNewSession*/ ctx[2].length > 0) {
 				if (if_block3) {
 					if_block3.p(ctx, dirty);
 				} else {
-					if_block3 = create_if_block(ctx);
+					if_block3 = create_if_block_1(ctx);
 					if_block3.c();
-					if_block3.m(if_block3_anchor.parentNode, if_block3_anchor);
+					if_block3.m(t5.parentNode, t5);
 				}
 			} else if (if_block3) {
 				if_block3.d(1);
 				if_block3 = null;
+			}
+
+			if (/*sessionSelection*/ ctx[1].length > 0) {
+				if (if_block4) {
+					if_block4.p(ctx, dirty);
+				} else {
+					if_block4 = create_if_block(ctx);
+					if_block4.c();
+					if_block4.m(if_block4_anchor.parentNode, if_block4_anchor);
+				}
+			} else if (if_block4) {
+				if_block4.d(1);
+				if_block4 = null;
 			}
 		},
 		i: noop,
@@ -19384,7 +19455,9 @@ function SessionList_svelte_create_fragment(ctx) {
 			if (if_block2) if_block2.d(detaching);
 			if (detaching) detach(t4);
 			if (if_block3) if_block3.d(detaching);
-			if (detaching) detach(if_block3_anchor);
+			if (detaching) detach(t5);
+			if (if_block4) if_block4.d(detaching);
+			if (detaching) detach(if_block4_anchor);
 		}
 	};
 }
@@ -19464,7 +19537,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		currentlyNewSession.push(annotation);
 
 		// https://svelte.dev/tutorial/updating-arrays-and-objects
-		$$invalidate(1, currentlyNewSession);
+		$$invalidate(2, currentlyNewSession);
 
 		appContainer.trigger("drawAnnotation", annotation);
 	}
@@ -19540,11 +19613,39 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 			sessionList.push(listEntry);
 			$$invalidate(0, sessionList);
-			$$invalidate(1, currentlyNewSession = []);
-			$$invalidate(2, currentlyNewSessionTitle = "");
+			$$invalidate(2, currentlyNewSession = []);
+			$$invalidate(3, currentlyNewSessionTitle = "");
 		}).catch(error => {
 			console.error("Error:", error);
 		});
+	}
+
+	function deleteSelectedSessions() {
+		let deleteSessionIds = [];
+		let newSessionList = [];
+
+		for (let i = 0; i < sessionList.length; i++) {
+			if (sessionList[i].selected === true) {
+				deleteSessionIds.push(sessionList[i].session.id);
+			} else {
+				// keep not-selected session
+				newSessionList.push(sessionList[i]); // remove from sessionList
+			}
+		}
+
+		let data = { deleteSessionIds };
+
+		fetch("/session/ajaxDeleteSessions", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(data)
+		}).then(response => response.json()).then(data => {
+			console.log("Success:", data);
+		}).catch(error => {
+			console.error("Error:", error);
+		});
+
+		$$invalidate(0, sessionList = newSessionList);
 	}
 
 	function input0_change_handler(each_value, sessionListEntry_index) {
@@ -19566,7 +19667,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 	function input_input_handler() {
 		currentlyNewSessionTitle = this.value;
-		$$invalidate(2, currentlyNewSessionTitle);
+		$$invalidate(3, currentlyNewSessionTitle);
 	}
 
 	const focus_handler_1 = () => appContainer.trigger("focusOnTextInput", true);
@@ -19584,34 +19685,40 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	};
 
 	const click_handler_1 = () => {
-		$$invalidate(1, currentlyNewSession = []);
-		$$invalidate(2, currentlyNewSessionTitle = "");
+		$$invalidate(2, currentlyNewSession = []);
+		$$invalidate(3, currentlyNewSessionTitle = "");
 		updateWaveFormCanvas();
 	};
 
+	const click_handler_2 = () => {
+		if (confirm("Are you sure? Deleting Annotations cannot be undone!")) {
+			console.log(sessionSelection);
+			deleteSelectedSessions();
+		}
+	}; //updateWaveFormCanvas();
+
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(6, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(8, recordingId = $$props.recordingId);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*sessionList, sessionSelection*/ 65537) {
+		if ($$self.$$.dirty & /*sessionList, sessionSelection*/ 3) {
 			/**
  * monitoring sessionList and sessionSelection and updating points on waveform
  */
 			$: {
 				sessionList;
 
-				// TODO: merge new selection with previous selection
 				// only update selection, when the selection changes. Not the label text!
 				let currentSelection = sessionList.filter(s => s.selected);
 
 				if (currentSelection.length != sessionSelection.length) {
-					$$invalidate(16, sessionSelection = currentSelection);
+					$$invalidate(1, sessionSelection = currentSelection);
 				}
 			}
 		}
 
-		if ($$self.$$.dirty & /*sessionSelection*/ 65536) {
+		if ($$self.$$.dirty & /*sessionSelection*/ 2) {
 			/**
  * update waveform canvas in case the selection of annotation sessions has changed
  */
@@ -19624,11 +19731,13 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 	return [
 		sessionList,
+		sessionSelection,
 		currentlyNewSession,
 		currentlyNewSessionTitle,
 		appContainer,
 		updateWaveFormCanvas,
 		saveCurrentlyNewSession,
+		deleteSelectedSessions,
 		recordingId,
 		input0_change_handler,
 		input1_input_handler,
@@ -19638,7 +19747,8 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		focus_handler_1,
 		focusout_handler_1,
 		click_handler,
-		click_handler_1
+		click_handler_1,
+		click_handler_2
 	];
 }
 
@@ -19646,7 +19756,7 @@ class SessionList extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-15zc6fa-style")) SessionList_svelte_add_css();
-		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 6 });
+		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 8 });
 	}
 }
 
