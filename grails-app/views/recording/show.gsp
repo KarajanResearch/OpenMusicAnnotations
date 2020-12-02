@@ -43,8 +43,6 @@
     <g:form resource="${this.recording}" method="DELETE">
         <fieldset class="buttons">
 
-
-
             <g:if test="${ this.isMine }">
 
                 <g:link class="edit" action="edit" resource="${this.recording}"><g:message code="default.button.edit.label" default="Edit" /></g:link>

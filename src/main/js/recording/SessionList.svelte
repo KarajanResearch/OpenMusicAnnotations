@@ -57,11 +57,25 @@
 
 
     function addAnnotation(annotation) {
+
+        // assign new temporary id
+        // prefix id to distinguish them from annotation.id DB-index
+        let tempId = "currentlyNew:" + (currentlyNewSession.length + 1).toString();
+
+        annotation.id = tempId;
+
         currentlyNewSession.push(annotation);
         // https://svelte.dev/tutorial/updating-arrays-and-objects
         currentlyNewSession = currentlyNewSession;
 
+
+
         appContainer.trigger("drawAnnotation", annotation);
+
+
+        // store id along with annotation in currentlyNewSession
+
+
 
     }
 
@@ -115,7 +129,7 @@
             for (let j = 0; j < session.annotations.length; j++) {
                 let annotation = session.annotations[j];
                 let point = {
-                    id: annotation.id,
+                    id: `${session.id}:${annotation.id}`,
                     time: annotation.momentOfPerception,
                     editable: session.isMine,
                     labelText: "" + annotation.bar + ":" + annotation.beat,
@@ -324,6 +338,13 @@
 </style>
 
 
+{#each currentlyNewSession as annotation}
+    {annotation.id}
+    {annotation.time}
+    {annotation.labelText}<br/>
+{/each}
+
+
 <h3>Annotations</h3>
 {#if sessionList.length == 0}
     No Annotations yet.
@@ -371,6 +392,12 @@
         <button class="buttons" on:click={() => {
         addToAnnotationSession();
     }}>Add {currentlyNewSession.length} Annotations</button>
+        <button class="buttons" on:click={() => {
+        currentlyNewSession = [];
+        currentlyNewSessionTitle = "";
+        updateWaveFormCanvas();
+        }}>Discard</button>
+
     {/if}
 
     <h3>New Annotations</h3>
@@ -397,7 +424,7 @@
         currentlyNewSessionTitle = "";
         updateWaveFormCanvas();
     }}>Discard</button>
-    
+
 {/if}
 
 

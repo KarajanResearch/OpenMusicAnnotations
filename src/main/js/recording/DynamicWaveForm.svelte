@@ -72,6 +72,15 @@
 
 
 
+        /**
+         * updating SessionList when points are moved (dragged)
+         */
+        peaks.on("points.dragend", function (point) {
+
+            console.log(point);
+
+
+        });
 
 
 
@@ -88,7 +97,14 @@
          * annotation has peaks.js point format: { time, editable, color, labelText, id }
          */
         appContainer.on("drawAnnotation", function (event, annotation) {
+
+            if (typeof annotation.id === "undefined") {
+                console.log("Error: annotation has no id");
+                return;
+            }
+
             peaks.points.add(annotation);
+
         });
         appContainer.on("clearAllAnnotations", function (event) {
             peaks.points.removeAll();
