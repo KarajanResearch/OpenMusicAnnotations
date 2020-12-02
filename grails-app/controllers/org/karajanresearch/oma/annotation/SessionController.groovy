@@ -215,18 +215,7 @@ class SessionController {
         }
 
         request.JSON.annotations.each {
-            def labelParts = it.labelText.tokenize(":")
-            def barNumber = Integer.parseInt(labelParts[0])
-            def beatNumber = Integer.parseInt(labelParts[1])
-            session.annotations.add(
-                new Annotation(
-                    type: "Tap",
-                    session: session,
-                    momentOfPerception: it.time,
-                    barNumber: barNumber,
-                    beatNumber: beatNumber
-                )
-            )
+            sessionService.addUiAnnotationToSession(it, session)
         }
 
         if (session.save(flush: true)) {
@@ -254,6 +243,33 @@ class SessionController {
 
         result = [success: "sessions deleted"]
         render result as JSON
+    }
+
+
+    /**
+     * adding new annotations to existing session via svelteUI
+     */
+    def ajaxAddToSession() {
+        def result
+        def session = Session.get(request.JSON.sessionId)
+        if (!session) {
+            result = [error: "no session found"]
+            render result as JSON
+            return
+        }
+
+        request.JSON.annotations.each {
+            sessionService.addUiAnnotationToSession(it, session)
+        }
+
+        if (session.save(flush: true)) {
+            result = [success: "session updated", session: sessionService.getUiStructure(session)]
+            render result as JSON
+        } else {
+            println session.errors
+            result = [error: "session not updated"]
+            render result as JSON
+        }
     }
 
 

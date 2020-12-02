@@ -18643,8 +18643,8 @@ if (false) {}
 
 function ToolBar_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-zuzjag-style";
-	style.textContent = "#toolbar_zoom.svelte-zuzjag{position:absolute;width:8em}#toolbar_click.svelte-zuzjag{position:absolute;height:100%;width:8em;left:9em}#toolbar_tap.svelte-zuzjag{position:absolute;height:100%;width:15em;left:18em}#toolbar_tap.svelte-zuzjag{position:absolute;height:100%;width:7em;left:18em}#toolbar_beat_per_bar.svelte-zuzjag{position:absolute;height:100%;width:17em;left:25em}#current_bar_offset_input.svelte-zuzjag{width:4em}#zoomSlider.svelte-zuzjag{direction:rtl;width:8em}.slider.svelte-zuzjag{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-zuzjag::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-zuzjag::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-zuzjag{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
+	style.id = "svelte-1vimodj-style";
+	style.textContent = "#toolbar_zoom.svelte-1vimodj{position:absolute;width:8em}#toolbar_click.svelte-1vimodj{position:absolute;height:100%;width:8em;left:9em}#toolbar_tap.svelte-1vimodj{position:absolute;height:100%;width:15em;left:18em}#toolbar_tap.svelte-1vimodj{position:absolute;height:100%;width:7em;left:18em}#toolbar_beat_per_bar.svelte-1vimodj{position:absolute;height:100%;width:18em;left:25em}#current_bar_offset_input.svelte-1vimodj{width:4em}#zoomSlider.svelte-1vimodj{direction:rtl;width:8em}.slider.svelte-1vimodj{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1vimodj::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1vimodj::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1vimodj{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
 	append(document.head, style);
 }
 
@@ -18742,27 +18742,27 @@ function ToolBar_svelte_create_fragment(ctx) {
 			t9 = internal_text("\n    Beats / Bar starting at\n        ");
 			input1 = internal_element("input");
 			attr(input0, "id", "zoomSlider");
-			attr(input0, "class", "slider svelte-zuzjag");
+			attr(input0, "class", "slider svelte-1vimodj");
 			attr(input0, "type", "range");
 			attr(input0, "min", "0");
 			attr(input0, "max", "7");
 			attr(input0, "step", "1");
 			attr(div0, "id", "toolbar_zoom");
-			attr(div0, "class", "vertical_center svelte-zuzjag");
-			attr(button0, "class", "buttons vertical_center svelte-zuzjag");
+			attr(div0, "class", "vertical_center svelte-1vimodj");
+			attr(button0, "class", "buttons vertical_center svelte-1vimodj");
 			attr(div1, "id", "toolbar_click");
-			attr(div1, "class", "svelte-zuzjag");
-			attr(button1, "class", "buttons vertical_center svelte-zuzjag");
+			attr(div1, "class", "svelte-1vimodj");
+			attr(button1, "class", "buttons vertical_center svelte-1vimodj");
 			attr(div2, "id", "toolbar_tap");
-			attr(div2, "class", "svelte-zuzjag");
+			attr(div2, "class", "svelte-1vimodj");
 			if (/*beatsPerBar*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[14].call(select));
 			attr(input1, "id", "current_bar_offset_input");
 			attr(input1, "type", "number");
 			attr(input1, "min", "1");
-			attr(input1, "class", "svelte-zuzjag");
-			attr(span, "class", "vertical_center svelte-zuzjag");
+			attr(input1, "class", "svelte-1vimodj");
+			attr(span, "class", "vertical_center svelte-1vimodj");
 			attr(div3, "id", "toolbar_beat_per_bar");
-			attr(div3, "class", "svelte-zuzjag");
+			attr(div3, "class", "svelte-1vimodj");
 		},
 		m(target, anchor) {
 			insert(target, div0, anchor);
@@ -18999,7 +18999,7 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-zuzjag-style")) ToolBar_svelte_add_css();
+		if (!document.getElementById("svelte-1vimodj-style")) ToolBar_svelte_add_css();
 		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 9 });
 	}
 }
@@ -19024,19 +19024,19 @@ function SessionList_svelte_add_css() {
 
 function SessionList_svelte_get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[23] = list[i];
-	child_ctx[24] = list;
-	child_ctx[25] = i;
+	child_ctx[25] = list[i];
+	child_ctx[26] = list;
+	child_ctx[27] = i;
 	return child_ctx;
 }
 
-// (280:0) {#if sessionList.length == 0}
-function create_if_block_4(ctx) {
+// (330:0) {#if sessionList.length == 0}
+function create_if_block_5(ctx) {
 	let t;
 
 	return {
 		c() {
-			t = internal_text("No Annotations yet");
+			t = internal_text("No Annotations yet.");
 		},
 		m(target, anchor) {
 			insert(target, t, anchor);
@@ -19047,13 +19047,13 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (284:0) {#if sessionList.length > 0}
-function create_if_block_3(ctx) {
+// (334:0) {#if sessionList.length > 0}
+function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
 	let each_1_lookup = new Map();
 	let each_value = /*sessionList*/ ctx[0];
-	const get_key = ctx => /*sessionListEntry*/ ctx[23].id;
+	const get_key = ctx => /*sessionListEntry*/ ctx[25].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = SessionList_svelte_get_each_context(ctx, each_value, i);
@@ -19095,7 +19095,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (286:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (336:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -19107,15 +19107,15 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	let dispose;
 
 	function input0_change_handler() {
-		/*input0_change_handler*/ ctx[9].call(input0, /*each_value*/ ctx[24], /*sessionListEntry_index*/ ctx[25]);
+		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[26], /*sessionListEntry_index*/ ctx[27]);
 	}
 
 	function input1_input_handler() {
-		/*input1_input_handler*/ ctx[10].call(input1, /*each_value*/ ctx[24], /*sessionListEntry_index*/ ctx[25]);
+		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[26], /*sessionListEntry_index*/ ctx[27]);
 	}
 
 	function focusout_handler() {
-		return /*focusout_handler*/ ctx[12](/*sessionListEntry*/ ctx[23]);
+		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[25]);
 	}
 
 	return {
@@ -19131,25 +19131,25 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			attr(input0, "type", "checkbox");
 			attr(input1, "class", "session_list_entry_title svelte-15zc6fa");
 			attr(input1, "placeholder", "Name for Annotations...");
-			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[23].session.isMine;
+			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[25].session.isMine;
 			attr(div, "class", "session_list_entry svelte-15zc6fa");
-			set_style(div, "background-color", /*sessionListEntry*/ ctx[23].color);
+			set_style(div, "background-color", /*sessionListEntry*/ ctx[25].color);
 			this.first = div;
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input0);
-			input0.checked = /*sessionListEntry*/ ctx[23].selected;
+			input0.checked = /*sessionListEntry*/ ctx[25].selected;
 			append(div, t0);
 			append(div, input1);
-			set_input_value(input1, /*sessionListEntry*/ ctx[23].session.title);
+			set_input_value(input1, /*sessionListEntry*/ ctx[25].session.title);
 			append(div, t1);
 
 			if (!mounted) {
 				dispose = [
 					listen(input0, "change", input0_change_handler),
 					listen(input1, "input", input1_input_handler),
-					listen(input1, "focus", /*focus_handler*/ ctx[11]),
+					listen(input1, "focus", /*focus_handler*/ ctx[12]),
 					listen(input1, "focusout", focusout_handler)
 				];
 
@@ -19160,19 +19160,19 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			ctx = new_ctx;
 
 			if (dirty & /*sessionList*/ 1) {
-				input0.checked = /*sessionListEntry*/ ctx[23].selected;
+				input0.checked = /*sessionListEntry*/ ctx[25].selected;
 			}
 
-			if (dirty & /*sessionList*/ 1 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[23].session.isMine)) {
+			if (dirty & /*sessionList*/ 1 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[25].session.isMine)) {
 				input1.disabled = input1_disabled_value;
 			}
 
-			if (dirty & /*sessionList*/ 1 && input1.value !== /*sessionListEntry*/ ctx[23].session.title) {
-				set_input_value(input1, /*sessionListEntry*/ ctx[23].session.title);
+			if (dirty & /*sessionList*/ 1 && input1.value !== /*sessionListEntry*/ ctx[25].session.title) {
+				set_input_value(input1, /*sessionListEntry*/ ctx[25].session.title);
 			}
 
 			if (dirty & /*sessionList*/ 1) {
-				set_style(div, "background-color", /*sessionListEntry*/ ctx[23].color);
+				set_style(div, "background-color", /*sessionListEntry*/ ctx[25].color);
 			}
 		},
 		d(detaching) {
@@ -19183,13 +19183,13 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (309:0) {#if currentlyNewSession.length == 0}
-function create_if_block_2(ctx) {
+// (359:0) {#if currentlyNewSession.length == 0}
+function create_if_block_3(ctx) {
 	let t;
 
 	return {
 		c() {
-			t = internal_text("Tap to add a new Annotations");
+			t = internal_text("Tap to add a new Annotations.");
 		},
 		m(target, anchor) {
 			insert(target, t, anchor);
@@ -19200,34 +19200,38 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (312:0) {#if currentlyNewSession.length > 0}
+// (367:0) {#if currentlyNewSession.length > 0}
 function create_if_block_1(ctx) {
+	let t0;
 	let h3;
-	let t1;
-	let input;
 	let t2;
-	let button0;
+	let input;
 	let t3;
-	let t4_value = /*currentlyNewSession*/ ctx[2].length + "";
+	let button0;
 	let t4;
+	let t5_value = /*currentlyNewSession*/ ctx[2].length + "";
 	let t5;
 	let t6;
+	let t7;
 	let button1;
 	let mounted;
 	let dispose;
+	let if_block = /*sessionSelection*/ ctx[1].length == 1 && /*sessionSelection*/ ctx[1][0].session.isMine === true && create_if_block_2(ctx);
 
 	return {
 		c() {
+			if (if_block) if_block.c();
+			t0 = space();
 			h3 = internal_element("h3");
 			h3.textContent = "New Annotations";
-			t1 = space();
-			input = internal_element("input");
 			t2 = space();
+			input = internal_element("input");
+			t3 = space();
 			button0 = internal_element("button");
-			t3 = internal_text("Save ");
-			t4 = internal_text(t4_value);
-			t5 = internal_text(" Annotations");
-			t6 = space();
+			t4 = internal_text("Save ");
+			t5 = internal_text(t5_value);
+			t6 = internal_text(" Annotations");
+			t7 = space();
 			button1 = internal_element("button");
 			button1.textContent = "Discard";
 			attr(input, "class", "session_list_entry_title svelte-15zc6fa");
@@ -19236,44 +19240,61 @@ function create_if_block_1(ctx) {
 			attr(button1, "class", "buttons");
 		},
 		m(target, anchor) {
+			if (if_block) if_block.m(target, anchor);
+			insert(target, t0, anchor);
 			insert(target, h3, anchor);
-			insert(target, t1, anchor);
+			insert(target, t2, anchor);
 			insert(target, input, anchor);
 			set_input_value(input, /*currentlyNewSessionTitle*/ ctx[3]);
-			insert(target, t2, anchor);
+			insert(target, t3, anchor);
 			insert(target, button0, anchor);
-			append(button0, t3);
 			append(button0, t4);
 			append(button0, t5);
-			insert(target, t6, anchor);
+			append(button0, t6);
+			insert(target, t7, anchor);
 			insert(target, button1, anchor);
 
 			if (!mounted) {
 				dispose = [
-					listen(input, "input", /*input_input_handler*/ ctx[13]),
-					listen(input, "focus", /*focus_handler_1*/ ctx[14]),
-					listen(input, "focusout", /*focusout_handler_1*/ ctx[15]),
-					listen(button0, "click", /*click_handler*/ ctx[16]),
-					listen(button1, "click", /*click_handler_1*/ ctx[17])
+					listen(input, "input", /*input_input_handler*/ ctx[15]),
+					listen(input, "focus", /*focus_handler_1*/ ctx[16]),
+					listen(input, "focusout", /*focusout_handler_1*/ ctx[17]),
+					listen(button0, "click", /*click_handler_1*/ ctx[18]),
+					listen(button1, "click", /*click_handler_2*/ ctx[19])
 				];
 
 				mounted = true;
 			}
 		},
 		p(ctx, dirty) {
+			if (/*sessionSelection*/ ctx[1].length == 1 && /*sessionSelection*/ ctx[1][0].session.isMine === true) {
+				if (if_block) {
+					if_block.p(ctx, dirty);
+				} else {
+					if_block = create_if_block_2(ctx);
+					if_block.c();
+					if_block.m(t0.parentNode, t0);
+				}
+			} else if (if_block) {
+				if_block.d(1);
+				if_block = null;
+			}
+
 			if (dirty & /*currentlyNewSessionTitle*/ 8 && input.value !== /*currentlyNewSessionTitle*/ ctx[3]) {
 				set_input_value(input, /*currentlyNewSessionTitle*/ ctx[3]);
 			}
 
-			if (dirty & /*currentlyNewSession*/ 4 && t4_value !== (t4_value = /*currentlyNewSession*/ ctx[2].length + "")) set_data(t4, t4_value);
+			if (dirty & /*currentlyNewSession*/ 4 && t5_value !== (t5_value = /*currentlyNewSession*/ ctx[2].length + "")) set_data(t5, t5_value);
 		},
 		d(detaching) {
+			if (if_block) if_block.d(detaching);
+			if (detaching) detach(t0);
 			if (detaching) detach(h3);
-			if (detaching) detach(t1);
-			if (detaching) detach(input);
 			if (detaching) detach(t2);
+			if (detaching) detach(input);
+			if (detaching) detach(t3);
 			if (detaching) detach(button0);
-			if (detaching) detach(t6);
+			if (detaching) detach(t7);
 			if (detaching) detach(button1);
 			mounted = false;
 			run_all(dispose);
@@ -19281,7 +19302,66 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (340:0) {#if sessionSelection.length > 0}
+// (371:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+function create_if_block_2(ctx) {
+	let h3;
+	let t0;
+	let t1_value = /*sessionSelection*/ ctx[1][0].session.title + "";
+	let t1;
+	let t2;
+	let t3;
+	let button;
+	let t4;
+	let t5_value = /*currentlyNewSession*/ ctx[2].length + "";
+	let t5;
+	let t6;
+	let mounted;
+	let dispose;
+
+	return {
+		c() {
+			h3 = internal_element("h3");
+			t0 = internal_text("Add to \"");
+			t1 = internal_text(t1_value);
+			t2 = internal_text("\"");
+			t3 = space();
+			button = internal_element("button");
+			t4 = internal_text("Add ");
+			t5 = internal_text(t5_value);
+			t6 = internal_text(" Annotations");
+			attr(button, "class", "buttons");
+		},
+		m(target, anchor) {
+			insert(target, h3, anchor);
+			append(h3, t0);
+			append(h3, t1);
+			append(h3, t2);
+			insert(target, t3, anchor);
+			insert(target, button, anchor);
+			append(button, t4);
+			append(button, t5);
+			append(button, t6);
+
+			if (!mounted) {
+				dispose = listen(button, "click", /*click_handler*/ ctx[14]);
+				mounted = true;
+			}
+		},
+		p(ctx, dirty) {
+			if (dirty & /*sessionSelection*/ 2 && t1_value !== (t1_value = /*sessionSelection*/ ctx[1][0].session.title + "")) set_data(t1, t1_value);
+			if (dirty & /*currentlyNewSession*/ 4 && t5_value !== (t5_value = /*currentlyNewSession*/ ctx[2].length + "")) set_data(t5, t5_value);
+		},
+		d(detaching) {
+			if (detaching) detach(h3);
+			if (detaching) detach(t3);
+			if (detaching) detach(button);
+			mounted = false;
+			dispose();
+		}
+	};
+}
+
+// (415:0) {#if sessionSelection.length > 0}
 function create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -19314,7 +19394,7 @@ function create_if_block(ctx) {
 			append(button, t3);
 
 			if (!mounted) {
-				dispose = listen(button, "click", /*click_handler_2*/ ctx[18]);
+				dispose = listen(button, "click", /*click_handler_3*/ ctx[20]);
 				mounted = true;
 			}
 		},
@@ -19341,9 +19421,9 @@ function SessionList_svelte_create_fragment(ctx) {
 	let t4;
 	let t5;
 	let if_block4_anchor;
-	let if_block0 = /*sessionList*/ ctx[0].length == 0 && create_if_block_4(ctx);
-	let if_block1 = /*sessionList*/ ctx[0].length > 0 && create_if_block_3(ctx);
-	let if_block2 = /*currentlyNewSession*/ ctx[2].length == 0 && create_if_block_2(ctx);
+	let if_block0 = /*sessionList*/ ctx[0].length == 0 && create_if_block_5(ctx);
+	let if_block1 = /*sessionList*/ ctx[0].length > 0 && create_if_block_4(ctx);
+	let if_block2 = /*currentlyNewSession*/ ctx[2].length == 0 && create_if_block_3(ctx);
 	let if_block3 = /*currentlyNewSession*/ ctx[2].length > 0 && create_if_block_1(ctx);
 	let if_block4 = /*sessionSelection*/ ctx[1].length > 0 && create_if_block(ctx);
 
@@ -19382,7 +19462,7 @@ function SessionList_svelte_create_fragment(ctx) {
 				if (if_block0) {
 					
 				} else {
-					if_block0 = create_if_block_4(ctx);
+					if_block0 = create_if_block_5(ctx);
 					if_block0.c();
 					if_block0.m(t2.parentNode, t2);
 				}
@@ -19395,7 +19475,7 @@ function SessionList_svelte_create_fragment(ctx) {
 				if (if_block1) {
 					if_block1.p(ctx, dirty);
 				} else {
-					if_block1 = create_if_block_3(ctx);
+					if_block1 = create_if_block_4(ctx);
 					if_block1.c();
 					if_block1.m(t3.parentNode, t3);
 				}
@@ -19408,7 +19488,7 @@ function SessionList_svelte_create_fragment(ctx) {
 				if (if_block2) {
 					
 				} else {
-					if_block2 = create_if_block_2(ctx);
+					if_block2 = create_if_block_3(ctx);
 					if_block2.c();
 					if_block2.m(t4.parentNode, t4);
 				}
@@ -19621,6 +19701,46 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	}
 
 	/**
+ * adds new annotations to existing session. Must be the only selected session
+ */
+	function addToAnnotationSession() {
+		if (sessionSelection.length != 1) {
+			console.log("single session must be selected");
+			return;
+		}
+
+		let session = sessionSelection[0];
+
+		let data = {
+			sessionId: session.id,
+			annotations: currentlyNewSession
+		};
+
+		fetch("/session/ajaxAddToSession", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(data)
+		}).then(response => response.json()).then(data => {
+			if (data.error) {
+				console.error("Error:", data.error);
+				return;
+			}
+
+			console.log("Success:", data.session);
+
+			// update session in UI
+			session.session = data.session;
+
+			($$invalidate(1, sessionSelection), $$invalidate(0, sessionList));
+			$$invalidate(0, sessionList);
+			$$invalidate(2, currentlyNewSession = []);
+			$$invalidate(3, currentlyNewSessionTitle = "");
+		}).catch(error => {
+			console.error("Error:", error);
+		});
+	}
+
+	/**
  * deleting sessions from backend
  */
 	function deleteSelectedSessions() {
@@ -19675,6 +19795,10 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		sessionTitleUpdate(sessionListEntry.id, sessionListEntry.session.title);
 	};
 
+	const click_handler = () => {
+		addToAnnotationSession();
+	};
+
 	function input_input_handler() {
 		currentlyNewSessionTitle = this.value;
 		$$invalidate(3, currentlyNewSessionTitle);
@@ -19686,7 +19810,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		appContainer.trigger("focusOnTextInput", false);
 	};
 
-	const click_handler = () => {
+	const click_handler_1 = () => {
 		if (currentlyNewSessionTitle === "") {
 			return alert("Please add a Name for new Annotations");
 		}
@@ -19694,13 +19818,13 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		saveCurrentlyNewSession();
 	};
 
-	const click_handler_1 = () => {
+	const click_handler_2 = () => {
 		$$invalidate(2, currentlyNewSession = []);
 		$$invalidate(3, currentlyNewSessionTitle = "");
 		updateWaveFormCanvas();
 	};
 
-	const click_handler_2 = () => {
+	const click_handler_3 = () => {
 		if (confirm("Are you sure? Deleting Annotations cannot be undone!")) {
 			console.log(sessionSelection);
 			deleteSelectedSessions();
@@ -19708,7 +19832,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	};
 
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(8, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(9, recordingId = $$props.recordingId);
 	};
 
 	$$self.$$.update = () => {
@@ -19747,18 +19871,20 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		appContainer,
 		updateWaveFormCanvas,
 		saveCurrentlyNewSession,
+		addToAnnotationSession,
 		deleteSelectedSessions,
 		recordingId,
 		input0_change_handler,
 		input1_input_handler,
 		focus_handler,
 		focusout_handler,
+		click_handler,
 		input_input_handler,
 		focus_handler_1,
 		focusout_handler_1,
-		click_handler,
 		click_handler_1,
-		click_handler_2
+		click_handler_2,
+		click_handler_3
 	];
 }
 
@@ -19766,7 +19892,7 @@ class SessionList extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-15zc6fa-style")) SessionList_svelte_add_css();
-		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 8 });
+		init(this, options, SessionList_svelte_instance, SessionList_svelte_create_fragment, safe_not_equal, { recordingId: 9 });
 	}
 }
 
@@ -19869,6 +19995,12 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 
 		peaks.zoom.setZoom(4);
 
+		/**
+ * registering waveform events
+ */
+		/**
+ * click the metronome when entering a point
+ */
 		peaks.on("points.enter", function (point) {
 			if (metronomeEnabled === false) return;
 			clickPlayer.pause();

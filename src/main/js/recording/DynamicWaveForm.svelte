@@ -56,12 +56,25 @@
         peaks.zoom.setZoom(4);
 
 
+        /**
+         * registering waveform events
+         */
+
+        /**
+         * click the metronome when entering a point
+         */
         peaks.on("points.enter", function (point) {
             if (metronomeEnabled === false) return;
             clickPlayer.pause();
             clickPlayer.currentTime = 0;
             clickPlayer.play();
         });
+
+
+
+
+
+
 
         /**
          * handler for changing the zoom level from tool menu

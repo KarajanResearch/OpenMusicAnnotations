@@ -111,7 +111,7 @@
         /* border: 1px solid black; */
         position: absolute;
         height: 100%;
-        width: 17em;
+        width: 18em;
         left: 25em;
     }
     #current_bar_offset_input {

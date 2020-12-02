@@ -204,6 +204,54 @@
 
     }
 
+    /**
+     * adds new annotations to existing session. Must be the only selected session
+     */
+    function addToAnnotationSession() {
+
+        if (sessionSelection.length != 1) {
+            console.log("single session must be selected");
+            return;
+        }
+
+        let session = sessionSelection[0];
+
+        let data = {
+            sessionId: session.id,
+            annotations: currentlyNewSession
+        };
+
+
+        fetch('/session/ajaxAddToSession', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.error) {
+                console.error('Error:', data.error);
+                return;
+            }
+
+            console.log('Success:', data.session);
+
+            // update session in UI
+            session.session = data.session;
+            sessionSelection = sessionSelection;
+            sessionList = sessionList;
+            currentlyNewSession = [];
+            currentlyNewSessionTitle = "";
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    }
+
 
     /**
      * deleting sessions from backend
@@ -278,7 +326,7 @@
 
 <h3>Annotations</h3>
 {#if sessionList.length == 0}
-    No Annotations yet
+    No Annotations yet.
 {/if}
 
 {#if sessionList.length > 0}
@@ -307,9 +355,24 @@
 {/if}
 
 {#if currentlyNewSession.length == 0}
-    Tap to add a new Annotations
+    Tap to add a new Annotations.
 {/if}
+
+
+
+
+
 {#if currentlyNewSession.length > 0}
+
+    {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+
+        <h3>Add to "{sessionSelection[0].session.title}"</h3>
+
+        <button class="buttons" on:click={() => {
+        addToAnnotationSession();
+    }}>Add {currentlyNewSession.length} Annotations</button>
+    {/if}
+
     <h3>New Annotations</h3>
 
     <input
@@ -334,6 +397,7 @@
         currentlyNewSessionTitle = "";
         updateWaveFormCanvas();
     }}>Discard</button>
+    
 {/if}
 
 

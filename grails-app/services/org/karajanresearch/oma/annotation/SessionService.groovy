@@ -53,4 +53,28 @@ class SessionService {
         ]
     }
 
+
+    /**
+     * converts UI annotation data structure to Annotation and adds it to session
+     * // TODO: dynamic type instead of Tap by default
+     * @param uiAnnotation
+     * @param session
+     */
+    def addUiAnnotationToSession(uiAnnotation, Session session) {
+
+        def labelParts = uiAnnotation.labelText.tokenize(":")
+        def barNumber = Integer.parseInt(labelParts[0])
+        def beatNumber = Integer.parseInt(labelParts[1])
+        session.annotations.add(
+            new Annotation(
+                type: "Tap",
+                session: session,
+                momentOfPerception: uiAnnotation.time,
+                barNumber: barNumber,
+                beatNumber: beatNumber
+            )
+        )
+
+    }
+
 }
