@@ -19036,7 +19036,7 @@ function get_each_context_1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (341:0) {#each currentlyNewSession as annotation}
+// (351:0) {#each currentlyNewSession as annotation}
 function create_each_block_1(ctx) {
 	let t0_value = /*annotation*/ ctx[29].id + "";
 	let t0;
@@ -19081,7 +19081,7 @@ function create_each_block_1(ctx) {
 	};
 }
 
-// (349:0) {#if sessionList.length == 0}
+// (359:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -19098,7 +19098,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (353:0) {#if sessionList.length > 0}
+// (363:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
@@ -19146,7 +19146,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (355:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (365:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -19234,7 +19234,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (378:0) {#if currentlyNewSession.length == 0}
+// (388:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -19251,7 +19251,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (386:0) {#if currentlyNewSession.length > 0}
+// (396:0) {#if currentlyNewSession.length > 0}
 function create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -19353,7 +19353,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (388:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (398:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -19426,7 +19426,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (431:0) {#if sessionSelection.length > 0}
+// (441:0) {#if sessionSelection.length > 0}
 function create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -19771,6 +19771,10 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 				appContainer.trigger("drawAnnotation", point);
 			}
 		}
+
+		for (let i = 0; i < currentlyNewSession.length; i++) {
+			appContainer.trigger("drawAnnotation", currentlyNewSession[i]);
+		}
 	}
 
 	/**
@@ -19961,6 +19965,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
  */
 			$: {
 				sessionList;
+				console.log("sessionList got triggered");
 
 				// only update selection, when the selection changes. Not the label text!
 				let currentSelection = sessionList.filter(s => s.selected);
@@ -19977,6 +19982,10 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
  */
 			$: {
 				sessionSelection;
+
+				// discard any new annotations, when session selection changes
+				console.log("sessionSelection got triggered");
+
 				updateWaveFormCanvas();
 			}
 		}

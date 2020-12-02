@@ -100,6 +100,8 @@
      */
     $: {
         sessionList;
+        console.log("sessionList got triggered");
+
         // only update selection, when the selection changes. Not the label text!
         let currentSelection = sessionList.filter(s => s.selected);
         if (currentSelection.length != sessionSelection.length) {
@@ -112,6 +114,8 @@
      */
     $: {
         sessionSelection;
+        // discard any new annotations, when session selection changes
+        console.log("sessionSelection got triggered");
         updateWaveFormCanvas();
     }
 
@@ -138,6 +142,12 @@
                 appContainer.trigger("drawAnnotation", point);
             }
         }
+
+        for (let i = 0; i < currentlyNewSession.length; i++) {
+            appContainer.trigger("drawAnnotation", currentlyNewSession[i]);
+        }
+
+
     }
 
 
