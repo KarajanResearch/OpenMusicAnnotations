@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import Annotation from "./Annotation.js";
 
     // id of the grails recording object passed from the outside
     export let recordingId;
@@ -57,13 +58,11 @@
         let barNumber = currentBar + currentBarOffset - 1;
 
         appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
-            let annotation = {
-                time: playerPosition,
-                editable: true,
-                labelText: "" + barNumber + ":" + currentBeat,
-                color: "#000000",
-                id: "" // will be added later, but create field already to support JIT-Compiler
-            };
+
+            let annotation = new Annotation(
+                "", playerPosition, true, `${barNumber}:${currentBeat}`, "#000000"
+            );
+
             // button "contains" the next beat to add.
             // 1. step. add beat to annotations
             appContainer.trigger("addAnnotationToNewSession", annotation);

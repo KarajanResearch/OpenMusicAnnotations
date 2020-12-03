@@ -1,5 +1,8 @@
 <script>
     import { onMount } from "svelte";
+    import { fade } from 'svelte/transition';
+    import AnnotationEditor from "./AnnotationEditor.svelte";
+    import Annotation from "./Annotation.js"
 
     // id of the grails recording object passed from the outside
     export let recordingId;
@@ -15,7 +18,6 @@
     let currentlyNewSession = [];
     let currentlyNewSessionTitle = "";
 
-
     let sessionColors = [
         "#8d8b90",
         "#f92d52",
@@ -29,6 +31,8 @@
         "#5752d0"
     ];
 
+
+    let annotationEditorVisible = true;
 
 
     onMount(async () => {
@@ -121,7 +125,7 @@
         // https://svelte.dev/tutorial/updating-arrays-and-objects
         currentlyNewSession = currentlyNewSession;
 
-        appContainer.trigger("drawAnnotation", annotation);
+        appContainer.trigger("drawAnnotation", annotation.peaksPoint());
     }
 
     /**
@@ -194,13 +198,15 @@
             // draw that session
             for (let j = 0; j < session.annotations.length; j++) {
                 let annotation = session.annotations[j];
-                let point = {
-                    id: `${session.id}:${annotation.id}`,
-                    time: annotation.momentOfPerception,
-                    editable: session.isMine,
-                    labelText: "" + annotation.bar + ":" + annotation.beat,
-                    color: color
-                }
+
+                let point = new Annotation(
+                    `${session.id}:${annotation.id}`,
+                    annotation.momentOfPerception,
+                    session.isMine,
+                    `${annotation.bar}:${annotation.beat}`,
+                    color
+                ).peaksPoint();
+
                 appContainer.trigger("drawAnnotation", point);
             }
         }
@@ -407,14 +413,23 @@
         transform: scale(2);
         width: 10%;
     }
+    #annotationEditor {
+        width: 100%;
+    }
 </style>
 
 
-{#each currentlyNewSession as annotation}
-    {annotation.id}
-    {annotation.time}
-    {annotation.labelText}<br/>
-{/each}
+<label>
+    <input type="checkbox" bind:checked={annotationEditorVisible}>
+    visible
+</label>
+
+
+{#if annotationEditorVisible}
+    <div id="annotationEditor" transition:fade>
+        <AnnotationEditor recordingId={recordingId} />
+    </div>
+{/if}
 
 
 <h3>Annotations</h3>
@@ -450,9 +465,6 @@
 {#if currentlyNewSession.length == 0}
     Tap to add a new Annotations.
 {/if}
-
-
-
 
 
 {#if currentlyNewSession.length > 0}
