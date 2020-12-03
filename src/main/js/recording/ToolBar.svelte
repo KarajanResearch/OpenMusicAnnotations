@@ -61,7 +61,8 @@
                 time: playerPosition,
                 editable: true,
                 labelText: "" + barNumber + ":" + currentBeat,
-                color: "#000000"
+                color: "#000000",
+                id: "" // will be added later, but create field already to support JIT-Compiler
             };
             // button "contains" the next beat to add.
             // 1. step. add beat to annotations

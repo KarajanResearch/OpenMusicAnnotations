@@ -18654,7 +18654,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (199:8) {#each beatsPerBarList as entry}
+// (200:8) {#each beatsPerBarList as entry}
 function create_each_block(ctx) {
 	let option;
 	let t0_value = /*entry*/ ctx[16] + "";
@@ -18904,7 +18904,9 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 				time: playerPosition,
 				editable: true,
 				labelText: "" + barNumber + ":" + currentBeat,
-				color: "#000000"
+				color: "#000000",
+				id: "", // will be added later, but create field already to support JIT-Compiler
+				
 			};
 
 			// button "contains" the next beat to add.
@@ -19036,7 +19038,7 @@ function get_each_context_1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (399:0) {#each currentlyNewSession as annotation}
+// (413:0) {#each currentlyNewSession as annotation}
 function create_each_block_1(ctx) {
 	let t0_value = /*annotation*/ ctx[30].id + "";
 	let t0;
@@ -19081,7 +19083,7 @@ function create_each_block_1(ctx) {
 	};
 }
 
-// (407:0) {#if sessionList.length == 0}
+// (421:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -19098,7 +19100,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (411:0) {#if sessionList.length > 0}
+// (425:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
@@ -19146,7 +19148,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (413:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (427:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -19234,7 +19236,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (436:0) {#if currentlyNewSession.length == 0}
+// (450:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -19251,7 +19253,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (444:0) {#if currentlyNewSession.length > 0}
+// (458:0) {#if currentlyNewSession.length > 0}
 function create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -19353,7 +19355,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (446:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (460:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -19426,7 +19428,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (489:0) {#if sessionSelection.length > 0}
+// (503:0) {#if sessionSelection.length > 0}
 function create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -19749,41 +19751,50 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(2, currentlyNewSession);
 
 		appContainer.trigger("drawAnnotation", annotation);
-	} // store id along with annotation in currentlyNewSession
+	}
 
 	/**
  * changing annotations after dragging, etc.
  * takes a peaks point and converts it to an annotation
  */
 	function updateAnnotationTime(point) {
-		// assign new temporary id
-		// prefix id to distinguish them from annotation.id DB-index
-		let tempId = point.id;
-
 		// locate annotation and update
-		console.log("update annotation");
-
-		console.log(point);
-
-		// tempIds must be parsed, because it is context sensitive
+		// point ids must be parsed, because they are context sensitive
 		// all annotation id's have format: [sessionId | "currentlyNew" ] ":" [annotationId | currentlyNewIndex]
-		let tempIdParts = tempId.split(":");
+		let tempIdParts = point.id.split(":");
 
 		let sessionId = 0;
 		let annotationId = 0;
 
 		if (tempIdParts[0] === "currentlyNew") {
-			console.log("currently new annotation changed");
+			// case: new annotation in currentlyNewSession
 			annotationId = parseInt(tempIdParts[1]);
 
 			// update currentlyNew data structure
 			$$invalidate(2, currentlyNewSession[annotationId].time = point.time, currentlyNewSession);
 		} else {
+			// case: existing annotation in existing session
 			sessionId = parseInt(tempIdParts[0]);
+
 			annotationId = parseInt(tempIdParts[1]);
+
+			let data = {
+				sessionId,
+				momentOfPerception: point.time,
+				annotationId
+			};
+
+			fetch("/annotation/ajaxUpdateAnnotationTime", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data)
+			}).then(response => response.json()).then(data => {
+				
+			}).catch(error => {
+				console.error("Error:", error); //console.log('Success:', data);
+			});
 		}
-	} // case: existing annotation in existing session
-	// case: new annotation in currentlyNewSession
+	}
 
 	/**
  * draws selected sessions to waveform canvas
@@ -19999,6 +20010,9 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 	$$self.$$.update = () => {
 		if ($$self.$$.dirty[0] & /*sessionList, sessionSelection*/ 3) {
+			/**
+ * reactive stuff
+ */
 			/**
  * monitoring sessionList and sessionSelection and updating points on waveform
  */

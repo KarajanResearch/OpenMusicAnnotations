@@ -47,6 +47,40 @@
 
     });
 
+
+    /**
+     * reactive stuff
+     */
+
+    /**
+     * monitoring sessionList and sessionSelection and updating points on waveform
+     */
+    $: {
+        sessionList;
+        console.log("sessionList got triggered");
+
+        // only update selection, when the selection changes. Not the label text!
+        let currentSelection = sessionList.filter(s => s.selected);
+        if (currentSelection.length != sessionSelection.length) {
+            sessionSelection = currentSelection;
+        }
+    }
+
+    /**
+     * update waveform canvas in case the selection of annotation sessions has changed
+     */
+    $: {
+        sessionSelection;
+        // discard any new annotations, when session selection changes
+        console.log("sessionSelection got triggered");
+        updateWaveFormCanvas();
+    }
+
+
+
+
+
+
     /**
      * maps an integer to a color in sessionColors
      */
@@ -87,15 +121,7 @@
         // https://svelte.dev/tutorial/updating-arrays-and-objects
         currentlyNewSession = currentlyNewSession;
 
-
-
         appContainer.trigger("drawAnnotation", annotation);
-
-
-        // store id along with annotation in currentlyNewSession
-
-
-
     }
 
     /**
@@ -103,69 +129,57 @@
      * takes a peaks point and converts it to an annotation
      */
     function updateAnnotationTime(point) {
-
-        // assign new temporary id
-        // prefix id to distinguish them from annotation.id DB-index
-        let tempId = point.id;
-
         // locate annotation and update
 
-        console.log("update annotation");
-        console.log(point);
-
-        // tempIds must be parsed, because it is context sensitive
+        // point ids must be parsed, because they are context sensitive
         // all annotation id's have format: [sessionId | "currentlyNew" ] ":" [annotationId | currentlyNewIndex]
-        let tempIdParts = tempId.split(":");
+        let tempIdParts = point.id.split(":");
 
         let sessionId = 0;
         let annotationId = 0;
 
         if (tempIdParts[0] === "currentlyNew") {
-            console.log("currently new annotation changed");
+            // case: new annotation in currentlyNewSession
+
             annotationId = parseInt(tempIdParts[1]);
             // update currentlyNew data structure
             currentlyNewSession[annotationId].time = point.time;
 
         } else {
+            // case: existing annotation in existing session
+
             sessionId = parseInt(tempIdParts[0]);
             annotationId = parseInt(tempIdParts[1]);
+
+            let data = {
+                sessionId: sessionId,
+                momentOfPerception: point.time,
+                annotationId: annotationId
+            };
+
+            fetch('/annotation/ajaxUpdateAnnotationTime', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    //console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+
         }
 
-
-
-        // case: existing annotation in existing session
-
-
-        // case: new annotation in currentlyNewSession
-
-
     }
 
 
 
-    /**
-     * monitoring sessionList and sessionSelection and updating points on waveform
-     */
-    $: {
-        sessionList;
-        console.log("sessionList got triggered");
 
-        // only update selection, when the selection changes. Not the label text!
-        let currentSelection = sessionList.filter(s => s.selected);
-        if (currentSelection.length != sessionSelection.length) {
-            sessionSelection = currentSelection;
-        }
-    }
-
-    /**
-     * update waveform canvas in case the selection of annotation sessions has changed
-     */
-    $: {
-        sessionSelection;
-        // discard any new annotations, when session selection changes
-        console.log("sessionSelection got triggered");
-        updateWaveFormCanvas();
-    }
 
 
     /**

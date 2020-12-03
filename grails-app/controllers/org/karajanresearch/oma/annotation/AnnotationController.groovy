@@ -1,5 +1,6 @@
 package org.karajanresearch.oma.annotation
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
@@ -14,6 +15,7 @@ class AnnotationController {
      * changed accidential 4/4 to 2/4 time signature
      * @return
      */
+    @Deprecated
     def quickFix() {
 
         return
@@ -44,6 +46,36 @@ class AnnotationController {
 
     }
 
+
+    /**
+     * updating moment of perception from svelte UI
+     */
+    @Secured(["ROLE_AUTHENTICATED"])
+    def ajaxUpdateAnnotationTime() {
+
+        Annotation annotation = Annotation.get(request.JSON.annotationId)
+        def result
+        if (!annotation) {
+            result = [error: "invalid annotation"]
+            render result as JSON
+            return
+        }
+
+        if (annotation.session.id != request.JSON.sessionId) {
+            result = [error: "assertion error: annotation not part of session"]
+            render result as JSON
+            return
+        }
+
+        annotation.momentOfPerception = request.JSON.momentOfPerception
+
+        if (!annotation.save(flush: true)) {
+            result = [error: "cannot save momentOfPerception of annotation"]
+        } else {
+            result = [success: "saved annotation"]
+        }
+        render result as JSON
+    }
 
     /*
 
