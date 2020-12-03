@@ -76,10 +76,8 @@
          * updating SessionList when points are moved (dragged)
          */
         peaks.on("points.dragend", function (point) {
-
-            console.log(point);
-
-
+            // let sessionList handle that
+            appContainer.trigger("updateAnnotationTime", point);
         });
 
 

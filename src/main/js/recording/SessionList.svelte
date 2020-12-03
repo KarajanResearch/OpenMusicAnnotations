@@ -11,6 +11,7 @@
     let sessionSelection = [];
 
     // new session, where new annotations are added
+    // array of annotations != peaks.point
     let currentlyNewSession = [];
     let currentlyNewSessionTitle = "";
 
@@ -27,6 +28,24 @@
         "#0376f7",
         "#5752d0"
     ];
+
+
+
+    onMount(async () => {
+        await fetchSessionList();
+
+        // attach event handler to receive new annotations
+        appContainer.on("addAnnotationToNewSession", function (event, annotation) {
+            // create new session, if necessary
+            addAnnotation(annotation);
+        });
+
+        // attach event handler to change existing annotations that were e.g. dragged
+        appContainer.on("updateAnnotationTime", function (event, point) {
+            updateAnnotationTime(point);
+        });
+
+    });
 
     /**
      * maps an integer to a color in sessionColors
@@ -60,7 +79,7 @@
 
         // assign new temporary id
         // prefix id to distinguish them from annotation.id DB-index
-        let tempId = "currentlyNew:" + (currentlyNewSession.length + 1).toString();
+        let tempId = "currentlyNew:" + (currentlyNewSession.length).toString();
 
         annotation.id = tempId;
 
@@ -79,20 +98,49 @@
 
     }
 
+    /**
+     * changing annotations after dragging, etc.
+     * takes a peaks point and converts it to an annotation
+     */
+    function updateAnnotationTime(point) {
 
-    onMount(async () => {
-        await fetchSessionList();
+        // assign new temporary id
+        // prefix id to distinguish them from annotation.id DB-index
+        let tempId = point.id;
 
-        // attach event handler to receive new annotations
-        appContainer.on("addAnnotationToNewSession", function (event, annotation) {
-            // peaks.points.add(annotation);
+        // locate annotation and update
 
-            // create new session, if necessary
-            addAnnotation(annotation);
+        console.log("update annotation");
+        console.log(point);
 
-        });
+        // tempIds must be parsed, because it is context sensitive
+        // all annotation id's have format: [sessionId | "currentlyNew" ] ":" [annotationId | currentlyNewIndex]
+        let tempIdParts = tempId.split(":");
 
-    });
+        let sessionId = 0;
+        let annotationId = 0;
+
+        if (tempIdParts[0] === "currentlyNew") {
+            console.log("currently new annotation changed");
+            annotationId = parseInt(tempIdParts[1]);
+            // update currentlyNew data structure
+            currentlyNewSession[annotationId].time = point.time;
+
+        } else {
+            sessionId = parseInt(tempIdParts[0]);
+            annotationId = parseInt(tempIdParts[1]);
+        }
+
+
+
+        // case: existing annotation in existing session
+
+
+        // case: new annotation in currentlyNewSession
+
+
+    }
+
 
 
     /**
