@@ -18,10 +18,12 @@ class UserController {
 
     static allowedMethods = [register: "POST"]
 
+    @Secured("ROLE_AUTHENTICATED")
     def index() { }
 
     // TODO: do not automatically activate account
     // notify user, once account was activated
+    @Secured("ROLE_ADMIN")
     def register() {
         if(!params.password.equals(params.repassword)) {
             flash.message = "Password and Re-Password not match"
