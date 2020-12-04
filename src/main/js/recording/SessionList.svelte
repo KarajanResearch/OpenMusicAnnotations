@@ -1,6 +1,5 @@
 <script>
     import { onMount } from "svelte";
-    import { fade } from 'svelte/transition';
     import AnnotationEditor from "./AnnotationEditor.svelte";
     import Annotation from "./Annotation.js"
 
@@ -30,9 +29,6 @@
         "#0376f7",
         "#5752d0"
     ];
-
-
-    let annotationEditorVisible = true;
 
 
     onMount(async () => {
@@ -198,6 +194,7 @@
             // draw that session
             for (let j = 0; j < session.annotations.length; j++) {
                 let annotation = session.annotations[j];
+
 
                 let point = new Annotation(
                     `${session.id}:${annotation.id}`,
@@ -419,17 +416,9 @@
 </style>
 
 
-<label>
-    <input type="checkbox" bind:checked={annotationEditorVisible}>
-    visible
-</label>
-
-
-{#if annotationEditorVisible}
-    <div id="annotationEditor" transition:fade>
-        <AnnotationEditor recordingId={recordingId} />
-    </div>
-{/if}
+<div id="annotationEditor">
+    <AnnotationEditor recordingId={recordingId} />
+</div>
 
 
 <h3>Annotations</h3>

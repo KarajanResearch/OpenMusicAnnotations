@@ -81,6 +81,16 @@
         });
 
 
+        /**
+         * editing annotations via double click: points.dblclick
+         */
+        peaks.on("points.dblclick", function (point) {
+            // let annotationEditor handle that
+            appContainer.trigger("editAnnotation", point);
+        });
+
+
+
 
 
         /**
