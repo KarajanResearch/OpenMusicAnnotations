@@ -48,6 +48,14 @@
         {#if (typeof(currentAnnotation) !== "undefined")}
             {currentAnnotation.toString()}
         {/if}
+
+
+        {#if (currentAnnotation.type === "tap")}
+        <br/>
+        Beat {currentAnnotation.beat} <br/>
+        Bar {currentAnnotation.bar}
+        {/if}
+
     </div>
 {/if}
 

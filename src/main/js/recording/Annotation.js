@@ -4,13 +4,22 @@
 
 export default class Annotation {
 
-    constructor({id = "", time = 0.0, editable = true, labelText = "", color="0x000000", kapiId = 0} = {}) {
+    constructor({id = "", time = 0.0, editable = true, labelText = "", color="0x000000", type = "tap"} = {}) {
         this.id = id;
         this.time = time;
         this.editable = editable;
         this.labelText = labelText;
         this.color = color;
-        this.kapiId = kapiId;
+        this.type = type;
+
+        // parsed data
+        this.bar = 0;
+        this.beat = 0;
+        if (this.type === "tap") {
+            let labelParts = this.labelText.split(":")
+            this.bar = parseInt(labelParts[0]);
+            this.beat = parseInt(labelParts[1]);
+        }
     }
 
     toString() {
@@ -41,5 +50,6 @@ export default class Annotation {
             color: point.color
         });
     }
+
 
 }

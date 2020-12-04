@@ -18642,13 +18642,22 @@ if (false) {}
 
 class Annotation {
 
-    constructor({id = "", time = 0.0, editable = true, labelText = "", color="0x000000", kapiId = 0} = {}) {
+    constructor({id = "", time = 0.0, editable = true, labelText = "", color="0x000000", type = "tap"} = {}) {
         this.id = id;
         this.time = time;
         this.editable = editable;
         this.labelText = labelText;
         this.color = color;
-        this.kapiId = kapiId;
+        this.type = type;
+
+        // parsed data
+        this.bar = 0;
+        this.beat = 0;
+        if (this.type === "tap") {
+            let labelParts = this.labelText.split(":")
+            this.bar = parseInt(labelParts[0]);
+            this.beat = parseInt(labelParts[1]);
+        }
     }
 
     toString() {
@@ -18679,6 +18688,7 @@ class Annotation {
             color: point.color
         });
     }
+
 
 }
 ;// CONCATENATED MODULE: ./src/main/js/recording/ToolBar.svelte
@@ -19392,9 +19402,11 @@ function create_if_block(ctx) {
 	let div;
 	let h3;
 	let t1;
+	let t2;
 	let div_transition;
 	let current;
-	let if_block = typeof /*currentAnnotation*/ ctx[0] !== "undefined" && create_if_block_1(ctx);
+	let if_block0 = typeof /*currentAnnotation*/ ctx[0] !== "undefined" && create_if_block_2(ctx);
+	let if_block1 = /*currentAnnotation*/ ctx[0].type === "tap" && create_if_block_1(ctx);
 
 	return {
 		c() {
@@ -19402,27 +19414,44 @@ function create_if_block(ctx) {
 			h3 = internal_element("h3");
 			h3.textContent = "Edit Annotation";
 			t1 = space();
-			if (if_block) if_block.c();
+			if (if_block0) if_block0.c();
+			t2 = space();
+			if (if_block1) if_block1.c();
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, h3);
 			append(div, t1);
-			if (if_block) if_block.m(div, null);
+			if (if_block0) if_block0.m(div, null);
+			append(div, t2);
+			if (if_block1) if_block1.m(div, null);
 			current = true;
 		},
 		p(ctx, dirty) {
 			if (typeof /*currentAnnotation*/ ctx[0] !== "undefined") {
-				if (if_block) {
-					if_block.p(ctx, dirty);
+				if (if_block0) {
+					if_block0.p(ctx, dirty);
 				} else {
-					if_block = create_if_block_1(ctx);
-					if_block.c();
-					if_block.m(div, null);
+					if_block0 = create_if_block_2(ctx);
+					if_block0.c();
+					if_block0.m(div, t2);
 				}
-			} else if (if_block) {
-				if_block.d(1);
-				if_block = null;
+			} else if (if_block0) {
+				if_block0.d(1);
+				if_block0 = null;
+			}
+
+			if (/*currentAnnotation*/ ctx[0].type === "tap") {
+				if (if_block1) {
+					if_block1.p(ctx, dirty);
+				} else {
+					if_block1 = create_if_block_1(ctx);
+					if_block1.c();
+					if_block1.m(div, null);
+				}
+			} else if (if_block1) {
+				if_block1.d(1);
+				if_block1 = null;
 			}
 		},
 		i(local) {
@@ -19442,14 +19471,15 @@ function create_if_block(ctx) {
 		},
 		d(detaching) {
 			if (detaching) detach(div);
-			if (if_block) if_block.d();
+			if (if_block0) if_block0.d();
+			if (if_block1) if_block1.d();
 			if (detaching && div_transition) div_transition.end();
 		}
 	};
 }
 
 // (48:8) {#if (typeof(currentAnnotation) !== "undefined")}
-function create_if_block_1(ctx) {
+function create_if_block_2(ctx) {
 	let t_value = /*currentAnnotation*/ ctx[0].toString() + "";
 	let t;
 
@@ -19465,6 +19495,53 @@ function create_if_block_1(ctx) {
 		},
 		d(detaching) {
 			if (detaching) detach(t);
+		}
+	};
+}
+
+// (53:8) {#if (currentAnnotation.type === "tap")}
+function create_if_block_1(ctx) {
+	let br0;
+	let t0;
+	let t1_value = /*currentAnnotation*/ ctx[0].beat + "";
+	let t1;
+	let t2;
+	let br1;
+	let t3;
+	let t4_value = /*currentAnnotation*/ ctx[0].bar + "";
+	let t4;
+
+	return {
+		c() {
+			br0 = internal_element("br");
+			t0 = internal_text("\n        Beat ");
+			t1 = internal_text(t1_value);
+			t2 = space();
+			br1 = internal_element("br");
+			t3 = internal_text("\n        Bar ");
+			t4 = internal_text(t4_value);
+		},
+		m(target, anchor) {
+			insert(target, br0, anchor);
+			insert(target, t0, anchor);
+			insert(target, t1, anchor);
+			insert(target, t2, anchor);
+			insert(target, br1, anchor);
+			insert(target, t3, anchor);
+			insert(target, t4, anchor);
+		},
+		p(ctx, dirty) {
+			if (dirty & /*currentAnnotation*/ 1 && t1_value !== (t1_value = /*currentAnnotation*/ ctx[0].beat + "")) set_data(t1, t1_value);
+			if (dirty & /*currentAnnotation*/ 1 && t4_value !== (t4_value = /*currentAnnotation*/ ctx[0].bar + "")) set_data(t4, t4_value);
+		},
+		d(detaching) {
+			if (detaching) detach(br0);
+			if (detaching) detach(t0);
+			if (detaching) detach(t1);
+			if (detaching) detach(t2);
+			if (detaching) detach(br1);
+			if (detaching) detach(t3);
+			if (detaching) detach(t4);
 		}
 	};
 }
@@ -19586,7 +19663,7 @@ function SessionList_svelte_get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (440:0) {#if sessionList.length == 0}
+// (444:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -19603,7 +19680,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (444:0) {#if sessionList.length > 0}
+// (448:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
@@ -19651,7 +19728,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (446:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (450:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -19739,7 +19816,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (469:0) {#if currentlyNewSession.length == 0}
+// (473:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -19756,7 +19833,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (474:0) {#if currentlyNewSession.length > 0}
+// (478:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -19772,7 +19849,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	let button1;
 	let mounted;
 	let dispose;
-	let if_block = /*sessionSelection*/ ctx[2].length == 1 && /*sessionSelection*/ ctx[2][0].session.isMine === true && create_if_block_2(ctx);
+	let if_block = /*sessionSelection*/ ctx[2].length == 1 && /*sessionSelection*/ ctx[2][0].session.isMine === true && SessionList_svelte_create_if_block_2(ctx);
 
 	return {
 		c() {
@@ -19827,7 +19904,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 				} else {
-					if_block = create_if_block_2(ctx);
+					if_block = SessionList_svelte_create_if_block_2(ctx);
 					if_block.c();
 					if_block.m(t0.parentNode, t0);
 				}
@@ -19858,8 +19935,8 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (476:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
-function create_if_block_2(ctx) {
+// (480:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
 	let t1_value = /*sessionSelection*/ ctx[2][0].session.title + "";
@@ -19931,7 +20008,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (519:0) {#if sessionSelection.length > 0}
+// (523:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -20231,6 +20308,10 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(1, sessionList = result);
 	}
 
+	/**
+ * updated the local session list after annotation has been updated at server
+ * Note: this one does not trigger a sessionList responsive update
+ */
 	function updateAnnotationInSessionList(sessionId, annotation) {
 		for (let i = 0; i < sessionList.length; i++) {
 			let listEntry = sessionList[i];
