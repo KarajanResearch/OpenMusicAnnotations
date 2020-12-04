@@ -61,7 +61,8 @@
 
             let annotation = new Annotation( {
                 time: playerPosition,
-                labelText: `${barNumber}:${currentBeat}`
+                bar: barNumber,
+                beat: currentBeat
             });
 
             // button "contains" the next beat to add.

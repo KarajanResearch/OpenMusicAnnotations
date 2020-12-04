@@ -24,19 +24,40 @@
             console.log("editing:");
             console.log(point);
 
-            console.log(Annotation.fromPeaksPoint(point));
+            console.log(point);
 
             visible = true;
-            currentAnnotation = Annotation.fromPeaksPoint(point);
+            currentAnnotation = point.annotation;
 
         });
 
-
     });
+
+    $: {
+        currentAnnotation.bar;
+        currentAnnotation.beat;
+
+        currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}`;
+
+        console.log(currentAnnotation);
+
+        if (typeof (currentAnnotation.peaksPoint.update) !== "undefined") {
+            currentAnnotation.peaksPoint.update({labelText: currentAnnotation.labelText});
+        }
+
+
+
+    }
 
 </script>
 
 <style>
+    #barNumber {
+        width: 4em;
+    }
+    #beatNumber {
+        width: 4em;
+    }
 
 </style>
 
@@ -52,9 +73,12 @@
 
         {#if (currentAnnotation.type === "tap")}
         <br/>
-        Beat {currentAnnotation.beat} <br/>
-        Bar {currentAnnotation.bar}
+        <label for="barNumber">Bar</label>
+        <input id="barNumber" type="number" bind:value={currentAnnotation.bar} min="1" />
+        <label for="beatNumber">Beat</label>
+        <input id="beatNumber" type="number" bind:value={currentAnnotation.beat} min="1" />
         {/if}
+
 
     </div>
 {/if}

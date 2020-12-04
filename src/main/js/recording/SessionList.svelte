@@ -37,12 +37,20 @@
         // attach event handler to receive new annotations
         appContainer.on("addAnnotationToNewSession", function (event, annotation) {
             // create new session, if necessary
-            addAnnotation(annotation);
+            addAnnotationToNewSession(annotation);
         });
 
         // attach event handler to change existing annotations that were e.g. dragged
         appContainer.on("updateAnnotationTime", function (event, point) {
-            updateAnnotationTime(point);
+            // updateAnnotationTime(point);
+
+            let annotation = Annotation.fromPeaksPoint(point);
+
+            updateAnnotationInLocalState(annotation);
+
+            annotation.setTime(); // persist to db
+
+
         });
 
     });
@@ -89,13 +97,21 @@
         return sessionColors[index % sessionColors.length];
     }
 
+    function convertGormSession(listEntry) {
+        // convert annotations to UI representation in Annotation.js
+        for (let j = 0; j < listEntry.session.annotations.length; j++) {
+            let gormAnnotation = listEntry.session.annotations[j];
+            let annotation = Annotation.fromGormAnnotation(gormAnnotation, listEntry.color);
+            listEntry.session.annotations[j] = annotation;
+        }
+    }
 
     async function fetchSessionList() {
         const res = await fetch("/recording/ajaxGetSessionList/" + recordingId);
         let response = await res.json();
         let result = []; // session id is the key of the map
         for (let i = 0; i < response.length; i++) {
-            let sessionId = response[i].id
+            let sessionId = parseInt(response[i].id);
             let listEntry = {
                 id: sessionId,
                 session: response[i],
@@ -103,6 +119,8 @@
                 selected: false,
                 dirty: false
             }
+            convertGormSession(listEntry);
+
             result.push(listEntry);
         }
         sessionList = result;
@@ -112,13 +130,19 @@
      * updated the local session list after annotation has been updated at server
      * Note: this one does not trigger a sessionList responsive update
      */
-    function updateAnnotationInSessionList(sessionId, annotation) {
+    function updateAnnotationInSessionList(annotation) {
+
+        console.log("updateAnnotationInSessionList");
+
         for (let i = 0; i < sessionList.length; i++) {
             let listEntry = sessionList[i];
-            if (listEntry.id == sessionId) {
+
+            if (listEntry.session.id === annotation.sessionId) {
+                console.log("found session");
                 // locate annotation
                 for (let j = 0; j < listEntry.session.annotations.length; j++) {
-                    if (listEntry.session.annotations[j].id == annotation.id) {
+
+                    if (listEntry.session.annotations[j].annotationId === annotation.annotationId) {
                         listEntry.session.annotations[j] = annotation;
                         return;
                     }
@@ -128,7 +152,7 @@
     }
 
 
-    function addAnnotation(annotation) {
+    function addAnnotationToNewSession(annotation) {
 
         // assign new temporary id
         // prefix id to distinguish them from annotation.id DB-index
@@ -140,19 +164,22 @@
         // https://svelte.dev/tutorial/updating-arrays-and-objects
         currentlyNewSession = currentlyNewSession;
 
-        appContainer.trigger("drawAnnotation", annotation.peaksPoint());
+        appContainer.trigger("drawAnnotation", annotation.getPeaksPoint());
     }
 
     /**
      * changing annotations after dragging, etc.
      * takes a peaks point and converts it to an annotation
      */
-    function updateAnnotationTime(point) {
+    function updateAnnotationInLocalState(annotation) {
         // locate annotation and update
+
+        console.log("updateAnnotationInLocalState");
+        console.log(annotation);
 
         // point ids must be parsed, because they are context sensitive
         // all annotation id's have format: [sessionId | "currentlyNew" ] ":" [annotationId | currentlyNewIndex]
-        let tempIdParts = point.id.split(":");
+        let tempIdParts = annotation.id.split(":");
 
         let sessionId = 0;
         let annotationId = 0;
@@ -162,37 +189,11 @@
 
             annotationId = parseInt(tempIdParts[1]);
             // update currentlyNew data structure
-            currentlyNewSession[annotationId].time = point.time;
+            currentlyNewSession[annotationId] = annotation;
 
         } else {
             // case: existing annotation in existing session
-
-            sessionId = parseInt(tempIdParts[0]);
-            annotationId = parseInt(tempIdParts[1]);
-
-            let data = {
-                sessionId: sessionId,
-                momentOfPerception: point.time,
-                annotationId: annotationId
-            };
-
-            fetch('/annotation/ajaxUpdateAnnotationTime', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    //console.log('Success:', data);
-                    updateAnnotationInSessionList(sessionId, data.annotation);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-
-
+            updateAnnotationInSessionList(annotation);
         }
 
     }
@@ -210,19 +211,12 @@
 
         for (let i = 0; i < sessionSelection.length; i++) {
             let session = sessionSelection[i].session;
-            let color = sessionSelection[i].color;
+            //let color = sessionSelection[i].color;
             // draw that session
             for (let j = 0; j < session.annotations.length; j++) {
                 let annotation = session.annotations[j];
 
-                let point = new Annotation({
-                    id: `${session.id}:${annotation.id}`,
-                    time: annotation.momentOfPerception,
-                    editable: session.isMine,
-                    labelText: `${annotation.bar}:${annotation.beat}`,
-                    color: color
-                }).peaksPoint();
-
+                let point = annotation.getPeaksPoint();
                 appContainer.trigger("drawAnnotation", point);
             }
         }
@@ -273,6 +267,10 @@
      */
     async function saveCurrentlyNewSession() {
 
+
+        console.log(currentlyNewSession);
+
+
         let data = {
             recordingId: recordingId,
             annotations: currentlyNewSession,
@@ -284,7 +282,14 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            /**
+             * use replace funtion to remove cyclic elements
+             */
+            body: JSON.stringify(data, function (key, val) {
+                if (key == "annotation") return;
+                if (key == "peaksPoint") return;
+                return val;
+            }),
         })
         .then(response => response.json())
         .then(data => {
@@ -300,6 +305,9 @@
                 selected: true,
                 dirty: false
             };
+
+            convertGormSession(listEntry);
+
             sessionList.push(listEntry);
             sessionList = sessionList;
             currentlyNewSession = [];
@@ -335,7 +343,14 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            /**
+             * use replace funtion to remove cyclic elements
+             */
+            body: JSON.stringify(data, function (key, val) {
+                if (key == "annotation") return;
+                if (key == "peaksPoint") return;
+                return val;
+            }),
         })
         .then(response => response.json())
         .then(data => {
@@ -348,9 +363,19 @@
             console.log('Success:', data.session);
 
             // update session in UI
-            session.session = data.session;
-            sessionSelection = sessionSelection;
+            //session.session = data.session;
+            for (let i = 0; i < sessionList.length; i++) {
+                let listEntry = sessionList[i];
+                if (listEntry.id === data.session.id) {
+                    listEntry.session = data.session;
+                    convertGormSession(listEntry);
+                    listEntry.selected = true;
+                }
+
+            }
+
             sessionList = sessionList;
+            sessionSelection = sessionSelection;
             currentlyNewSession = [];
             currentlyNewSessionTitle = "";
         })
@@ -434,6 +459,7 @@
     }
 </style>
 
+{currentlyNewSession}
 
 <div id="annotationEditor">
     <AnnotationEditor recordingId={recordingId} />
