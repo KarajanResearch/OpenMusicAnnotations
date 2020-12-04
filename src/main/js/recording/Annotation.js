@@ -4,12 +4,13 @@
 
 export default class Annotation {
 
-    constructor(id, time, editable, labelText, color) {
+    constructor({id = "", time = 0.0, editable = true, labelText = "", color="0x000000", kapiId = 0} = {}) {
         this.id = id;
         this.time = time;
         this.editable = editable;
         this.labelText = labelText;
         this.color = color;
+        this.kapiId = kapiId;
     }
 
     toString() {
@@ -32,7 +33,13 @@ export default class Annotation {
      * @param point
      */
     static fromPeaksPoint(point) {
-        return new Annotation(point.id, point.time, point.editable, point.labelText, point.color);
+        return new Annotation({
+            id: point.id,
+            time: point.time,
+            editable: point.editable,
+            labelText: point.labelText,
+            color: point.color
+        });
     }
 
 }

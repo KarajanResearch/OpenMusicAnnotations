@@ -18642,12 +18642,13 @@ if (false) {}
 
 class Annotation {
 
-    constructor(id, time, editable, labelText, color) {
+    constructor({id = "", time = 0.0, editable = true, labelText = "", color="0x000000", kapiId = 0} = {}) {
         this.id = id;
         this.time = time;
         this.editable = editable;
         this.labelText = labelText;
         this.color = color;
+        this.kapiId = kapiId;
     }
 
     toString() {
@@ -18670,7 +18671,13 @@ class Annotation {
      * @param point
      */
     static fromPeaksPoint(point) {
-        return new Annotation(point.id, point.time, point.editable, point.labelText, point.color);
+        return new Annotation({
+            id: point.id,
+            time: point.time,
+            editable: point.editable,
+            labelText: point.labelText,
+            color: point.color
+        });
     }
 
 }
@@ -18694,7 +18701,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (199:8) {#each beatsPerBarList as entry}
+// (200:8) {#each beatsPerBarList as entry}
 function create_each_block(ctx) {
 	let option;
 	let t0_value = /*entry*/ ctx[16] + "";
@@ -18940,7 +18947,10 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 		let barNumber = currentBar + currentBarOffset - 1;
 
 		appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
-			let annotation = new Annotation("", playerPosition, true, `${barNumber}:${currentBeat}`, "#000000");
+			let annotation = new Annotation({
+					time: playerPosition,
+					labelText: `${barNumber}:${currentBeat}`
+				});
 
 			// button "contains" the next beat to add.
 			// 1. step. add beat to annotations
@@ -19516,8 +19526,8 @@ function AnnotationEditor_svelte_create_fragment(ctx) {
 
 function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 	let { recordingId } = $$props;
-	let currentAnnotation;
-	let visible = false;
+	let currentAnnotation = new Annotation("", 0, true, "", "");
+	let visible = true;
 	const appContainer = window.$("#RecordingUiContainer-" + recordingId);
 
 	onMount(async () => {
@@ -19570,13 +19580,13 @@ function SessionList_svelte_add_css() {
 
 function SessionList_svelte_get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[27] = list[i];
-	child_ctx[28] = list;
-	child_ctx[29] = i;
+	child_ctx[28] = list[i];
+	child_ctx[29] = list;
+	child_ctx[30] = i;
 	return child_ctx;
 }
 
-// (425:0) {#if sessionList.length == 0}
+// (440:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -19593,13 +19603,13 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (429:0) {#if sessionList.length > 0}
+// (444:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
 	let each_1_lookup = new Map();
 	let each_value = /*sessionList*/ ctx[1];
-	const get_key = ctx => /*sessionListEntry*/ ctx[27].id;
+	const get_key = ctx => /*sessionListEntry*/ ctx[28].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = SessionList_svelte_get_each_context(ctx, each_value, i);
@@ -19641,7 +19651,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (431:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (446:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -19653,15 +19663,15 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	let dispose;
 
 	function input0_change_handler() {
-		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[28], /*sessionListEntry_index*/ ctx[29]);
+		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[29], /*sessionListEntry_index*/ ctx[30]);
 	}
 
 	function input1_input_handler() {
-		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[28], /*sessionListEntry_index*/ ctx[29]);
+		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[29], /*sessionListEntry_index*/ ctx[30]);
 	}
 
 	function focusout_handler() {
-		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[27]);
+		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[28]);
 	}
 
 	return {
@@ -19677,18 +19687,18 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			attr(input0, "type", "checkbox");
 			attr(input1, "class", "session_list_entry_title svelte-1dbcd0g");
 			attr(input1, "placeholder", "Name for Annotations...");
-			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[27].session.isMine;
+			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[28].session.isMine;
 			attr(div, "class", "session_list_entry svelte-1dbcd0g");
-			set_style(div, "background-color", /*sessionListEntry*/ ctx[27].color);
+			set_style(div, "background-color", /*sessionListEntry*/ ctx[28].color);
 			this.first = div;
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input0);
-			input0.checked = /*sessionListEntry*/ ctx[27].selected;
+			input0.checked = /*sessionListEntry*/ ctx[28].selected;
 			append(div, t0);
 			append(div, input1);
-			set_input_value(input1, /*sessionListEntry*/ ctx[27].session.title);
+			set_input_value(input1, /*sessionListEntry*/ ctx[28].session.title);
 			append(div, t1);
 
 			if (!mounted) {
@@ -19706,19 +19716,19 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			ctx = new_ctx;
 
 			if (dirty & /*sessionList*/ 2) {
-				input0.checked = /*sessionListEntry*/ ctx[27].selected;
+				input0.checked = /*sessionListEntry*/ ctx[28].selected;
 			}
 
-			if (dirty & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[27].session.isMine)) {
+			if (dirty & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[28].session.isMine)) {
 				input1.disabled = input1_disabled_value;
 			}
 
-			if (dirty & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[27].session.title) {
-				set_input_value(input1, /*sessionListEntry*/ ctx[27].session.title);
+			if (dirty & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[28].session.title) {
+				set_input_value(input1, /*sessionListEntry*/ ctx[28].session.title);
 			}
 
 			if (dirty & /*sessionList*/ 2) {
-				set_style(div, "background-color", /*sessionListEntry*/ ctx[27].color);
+				set_style(div, "background-color", /*sessionListEntry*/ ctx[28].color);
 			}
 		},
 		d(detaching) {
@@ -19729,7 +19739,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (454:0) {#if currentlyNewSession.length == 0}
+// (469:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -19746,7 +19756,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (459:0) {#if currentlyNewSession.length > 0}
+// (474:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -19848,7 +19858,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (461:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (476:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -19921,7 +19931,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (504:0) {#if sessionSelection.length > 0}
+// (519:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -20221,6 +20231,22 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(1, sessionList = result);
 	}
 
+	function updateAnnotationInSessionList(sessionId, annotation) {
+		for (let i = 0; i < sessionList.length; i++) {
+			let listEntry = sessionList[i];
+
+			if (listEntry.id == sessionId) {
+				// locate annotation
+				for (let j = 0; j < listEntry.session.annotations.length; j++) {
+					if (listEntry.session.annotations[j].id == annotation.id) {
+						listEntry.session.annotations[j] = annotation;
+						return;
+					}
+				}
+			}
+		}
+	}
+
 	function addAnnotation(annotation) {
 		// assign new temporary id
 		// prefix id to distinguish them from annotation.id DB-index
@@ -20271,9 +20297,10 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(data)
 			}).then(response => response.json()).then(data => {
-				
+				//console.log('Success:', data);
+				updateAnnotationInSessionList(sessionId, data.annotation);
 			}).catch(error => {
-				console.error("Error:", error); //console.log('Success:', data);
+				console.error("Error:", error);
 			});
 		}
 	}
@@ -20291,7 +20318,15 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			// draw that session
 			for (let j = 0; j < session.annotations.length; j++) {
 				let annotation = session.annotations[j];
-				let point = new Annotation(`${session.id}:${annotation.id}`, annotation.momentOfPerception, session.isMine, `${annotation.bar}:${annotation.beat}`, color).peaksPoint();
+
+				let point = new Annotation({
+						id: `${session.id}:${annotation.id}`,
+						time: annotation.momentOfPerception,
+						editable: session.isMine,
+						labelText: `${annotation.bar}:${annotation.beat}`,
+						color
+					}).peaksPoint();
+
 				appContainer.trigger("drawAnnotation", point);
 			}
 		}

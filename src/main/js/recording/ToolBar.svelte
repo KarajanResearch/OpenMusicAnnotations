@@ -59,9 +59,10 @@
 
         appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
 
-            let annotation = new Annotation(
-                "", playerPosition, true, `${barNumber}:${currentBeat}`, "#000000"
-            );
+            let annotation = new Annotation( {
+                time: playerPosition,
+                labelText: `${barNumber}:${currentBeat}`
+            });
 
             // button "contains" the next beat to add.
             // 1. step. add beat to annotations

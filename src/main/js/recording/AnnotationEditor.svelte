@@ -7,8 +7,8 @@
     //export let annotationId;
     export let recordingId;
 
-    let currentAnnotation;
-    let visible = false;
+    let currentAnnotation = new Annotation("", 0.0, true, "", "");
+    let visible = true;
 
     const appContainer = window.$("#RecordingUiContainer-" + recordingId);
 

@@ -108,6 +108,25 @@
         sessionList = result;
     }
 
+    /**
+     * updated the local session list after annotation has been updated at server
+     * Note: this one does not trigger a sessionList responsive update
+     */
+    function updateAnnotationInSessionList(sessionId, annotation) {
+        for (let i = 0; i < sessionList.length; i++) {
+            let listEntry = sessionList[i];
+            if (listEntry.id == sessionId) {
+                // locate annotation
+                for (let j = 0; j < listEntry.session.annotations.length; j++) {
+                    if (listEntry.session.annotations[j].id == annotation.id) {
+                        listEntry.session.annotations[j] = annotation;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
 
     function addAnnotation(annotation) {
 
@@ -167,6 +186,7 @@
                 .then(response => response.json())
                 .then(data => {
                     //console.log('Success:', data);
+                    updateAnnotationInSessionList(sessionId, data.annotation);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -195,14 +215,13 @@
             for (let j = 0; j < session.annotations.length; j++) {
                 let annotation = session.annotations[j];
 
-
-                let point = new Annotation(
-                    `${session.id}:${annotation.id}`,
-                    annotation.momentOfPerception,
-                    session.isMine,
-                    `${annotation.bar}:${annotation.beat}`,
-                    color
-                ).peaksPoint();
+                let point = new Annotation({
+                    id: `${session.id}:${annotation.id}`,
+                    time: annotation.momentOfPerception,
+                    editable: session.isMine,
+                    labelText: `${annotation.bar}:${annotation.beat}`,
+                    color: color
+                }).peaksPoint();
 
                 appContainer.trigger("drawAnnotation", point);
             }

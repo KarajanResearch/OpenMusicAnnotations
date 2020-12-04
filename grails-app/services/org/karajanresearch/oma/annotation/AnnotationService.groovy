@@ -1,18 +1,27 @@
 package org.karajanresearch.oma.annotation
 
-import grails.gorm.services.Service
+import grails.gorm.multitenancy.WithoutTenant
+import grails.gorm.transactions.Transactional
 
-@Service(Annotation)
-interface AnnotationService {
+@Transactional
+class AnnotationService {
 
-    Annotation get(Serializable id)
 
-    List<Annotation> list(Map args)
+    /**
+     * build data structure to use in svelte user interface
+     * @param session
+     * @return
+     */
+    def getUiStructure(Annotation a) {
+        return [
+            id: a.id,
+            type: a.type,
+            bar: a.barNumber,
+            beat: a.beatNumber,
+            momentOfPerception: a.momentOfPerception
+        ]
+    }
 
-    Long count()
 
-    void delete(Serializable id)
-
-    Annotation save(Annotation annotation)
 
 }

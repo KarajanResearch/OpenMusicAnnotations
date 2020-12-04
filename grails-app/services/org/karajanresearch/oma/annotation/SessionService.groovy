@@ -18,6 +18,8 @@ class SessionService {
 
     def springSecurityService
 
+    def annotationService
+
     @WithoutTenant
     Session get(Serializable id) {
         def session = Session.findByIdAndTenantId(id, springSecurityService.principal.id)
@@ -42,13 +44,7 @@ class SessionService {
             isShared: session.isShared,
             isMine: session.tenantId == springSecurityService.principal.id,
             annotations: session.annotations.collect { Annotation a ->
-                return [
-                    id: a.id,
-                    type: a.type,
-                    bar: a.barNumber,
-                    beat: a.beatNumber,
-                    momentOfPerception: a.momentOfPerception
-                ]
+                return annotationService.getUiStructure(a)
             }
         ]
     }

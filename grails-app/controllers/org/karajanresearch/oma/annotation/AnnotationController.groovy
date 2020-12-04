@@ -11,6 +11,9 @@ class AnnotationController {
     static scaffold = Annotation
 
 
+    def annotationService
+
+
     /**
      * changed accidential 4/4 to 2/4 time signature
      * @return
@@ -72,7 +75,7 @@ class AnnotationController {
         if (!annotation.save(flush: true)) {
             result = [error: "cannot save momentOfPerception of annotation"]
         } else {
-            result = [success: "saved annotation"]
+            result = [success: "saved annotation", annotation: annotationService.getUiStructure(annotation)]
         }
         render result as JSON
     }
