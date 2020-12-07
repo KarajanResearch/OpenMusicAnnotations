@@ -39,13 +39,14 @@
 
         currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}`;
 
+        currentAnnotation.save();
+
         console.log(currentAnnotation);
+
 
         if (typeof (currentAnnotation.peaksPoint.update) !== "undefined") {
             currentAnnotation.peaksPoint.update({labelText: currentAnnotation.labelText});
         }
-
-
 
     }
 

@@ -54,7 +54,7 @@ class AnnotationController {
      * updating moment of perception from svelte UI
      */
     @Secured(["ROLE_AUTHENTICATED"])
-    def ajaxUpdateAnnotationTime() {
+    def ajaxUpdateMomentOfPerception() {
 
         Annotation annotation = Annotation.get(request.JSON.annotationId)
         def result
@@ -74,6 +74,53 @@ class AnnotationController {
 
         if (!annotation.save(flush: true)) {
             result = [error: "cannot save momentOfPerception of annotation"]
+        } else {
+            result = [success: "saved annotation", annotation: annotationService.getUiStructure(annotation)]
+        }
+        render result as JSON
+    }
+
+    /**
+     * updating annotation from svelte UI
+     */
+    @Secured(["ROLE_AUTHENTICATED"])
+    def ajaxUpdate() {
+
+        println "ajaxUpdateStringValue"
+        println request.JSON
+
+
+
+        Annotation annotation = Annotation.get(request.JSON.annotationId)
+        def result
+        if (!annotation) {
+            result = [error: "invalid annotation"]
+            render result as JSON
+            return
+        }
+
+        if (annotation.session.id != request.JSON.sessionId) {
+            result = [error: "assertion error: annotation not part of session"]
+            render result as JSON
+            return
+        }
+
+        /*
+        sessionId: this.sessionId,
+                annotationId: this.annotationId,
+                labelText: this.labelText,
+                bar: this.bar,
+                beat: this.beat,
+                momentOfPerception: this.time
+         */
+
+        annotation.stringValue = request.JSON.labelText
+        annotation.barNumber = request.JSON.bar
+        annotation.beatNumber = request.JSON.beat
+        annotation.momentOfPerception = request.JSON.momentOfPerception
+
+        if (!annotation.save(flush: true)) {
+            result = [error: "cannot save stringValue of annotation"]
         } else {
             result = [success: "saved annotation", annotation: annotationService.getUiStructure(annotation)]
         }

@@ -18739,38 +18739,53 @@ class Annotation {
         return a;
     }
 
-/*
-    setLabelText(labelText) {
 
-        let sessionId = parseInt(tempIdParts[0]);
-        let annotationId = parseInt(tempIdParts[1]);
-
-        let data = {
-            sessionId: sessionId,
-            momentOfPerception: point.time,
-            annotationId: annotationId
-        };
-
-        fetch('/annotation/ajaxUpdateAnnotationTime', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => {
-                //console.log('Success:', data);
-                updateAnnotationInSessionList(sessionId, data.annotation);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-
+    /**
+     * check id to see, of annotation is new, or already part of some session
+     */
+    isCurrentlyNew() {
+        let tempIdParts = this.id.split(":");
+        if (tempIdParts[0] === "currentlyNew") {
+            return true;
+        } else {
+            return false;
+        }
     }
-*/
 
-    setTime() {
+    save() {
+
+        if (this.isCurrentlyNew()) {
+            //handle that, if necessary
+        } else {
+            let data = {
+                sessionId: this.sessionId,
+                annotationId: this.annotationId,
+                labelText: this.labelText,
+                bar: this.bar,
+                beat: this.beat,
+                momentOfPerception: this.time
+            };
+
+            fetch('/annotation/ajaxUpdate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // TODO: updateAnnotationInSessionList(sessionId, data.annotation);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+
+
+    saveTime() {
         // locate annotation and update
 
         // point ids must be parsed, because they are context sensitive
@@ -18802,7 +18817,7 @@ class Annotation {
                 annotationId: annotationId
             };
 
-            fetch('/annotation/ajaxUpdateAnnotationTime', {
+            fetch('/annotation/ajaxUpdateMomentOfPerception', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19539,7 +19554,7 @@ function AnnotationEditor_svelte_add_css() {
 	append(document.head, style);
 }
 
-// (65:0) {#if visible}
+// (66:0) {#if visible}
 function create_if_block(ctx) {
 	let div;
 	let h3;
@@ -19620,7 +19635,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (69:8) {#if (typeof(currentAnnotation) !== "undefined")}
+// (70:8) {#if (typeof(currentAnnotation) !== "undefined")}
 function create_if_block_2(ctx) {
 	let t_value = /*currentAnnotation*/ ctx[0].toString() + "";
 	let t;
@@ -19641,7 +19656,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (74:8) {#if (currentAnnotation.type === "tap")}
+// (75:8) {#if (currentAnnotation.type === "tap")}
 function create_if_block_1(ctx) {
 	let br;
 	let t0;
@@ -19821,6 +19836,7 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 				currentAnnotation.bar;
 				currentAnnotation.beat;
 				$$invalidate(0, currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}`, currentAnnotation);
+				currentAnnotation.save();
 				console.log(currentAnnotation);
 
 				if (typeof currentAnnotation.peaksPoint.update !== "undefined") {
@@ -19875,7 +19891,7 @@ function SessionList_svelte_get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (470:0) {#if sessionList.length == 0}
+// (471:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -19892,7 +19908,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (474:0) {#if sessionList.length > 0}
+// (475:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
@@ -19940,7 +19956,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (476:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (477:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -20028,7 +20044,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (499:0) {#if currentlyNewSession.length == 0}
+// (500:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -20045,7 +20061,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (504:0) {#if currentlyNewSession.length > 0}
+// (505:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -20147,7 +20163,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (506:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (507:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -20220,7 +20236,7 @@ function SessionList_svelte_create_if_block_2(ctx) {
 	};
 }
 
-// (549:0) {#if sessionSelection.length > 0}
+// (550:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -20496,10 +20512,11 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		// attach event handler to change existing annotations that were e.g. dragged
 		appContainer.on("updateAnnotationTime", function (event, point) {
 			// updateAnnotationTime(point);
-			let annotation = Annotation.fromPeaksPoint(point);
+			console.log(point);
 
-			updateAnnotationInLocalState(annotation);
-			annotation.setTime(); // persist to db
+			let annotation = point.annotation;
+			annotation.time = point._time;
+			annotation.save();
 		});
 	});
 

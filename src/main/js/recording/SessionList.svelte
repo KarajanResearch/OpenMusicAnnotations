@@ -42,15 +42,9 @@
 
         // attach event handler to change existing annotations that were e.g. dragged
         appContainer.on("updateAnnotationTime", function (event, point) {
-            // updateAnnotationTime(point);
-
-            let annotation = Annotation.fromPeaksPoint(point);
-
-            updateAnnotationInLocalState(annotation);
-
-            annotation.setTime(); // persist to db
-
-
+            let annotation = point.annotation;
+            annotation.time = point._time;
+            annotation.save();
         });
 
     });

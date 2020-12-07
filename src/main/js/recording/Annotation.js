@@ -102,12 +102,52 @@ export default class Annotation {
     }
 
 
-    setLabelText(labelText) {
-        
+    /**
+     * check id to see, of annotation is new, or already part of some session
+     */
+    isCurrentlyNew() {
+        let tempIdParts = this.id.split(":");
+        if (tempIdParts[0] === "currentlyNew") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    save() {
+
+        if (this.isCurrentlyNew()) {
+            //handle that, if necessary
+        } else {
+            let data = {
+                sessionId: this.sessionId,
+                annotationId: this.annotationId,
+                labelText: this.labelText,
+                bar: this.bar,
+                beat: this.beat,
+                momentOfPerception: this.time
+            };
+
+            fetch('/annotation/ajaxUpdate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // TODO: updateAnnotationInSessionList(sessionId, data.annotation);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
     }
 
 
-    setTime() {
+    saveTime() {
         // locate annotation and update
 
         // point ids must be parsed, because they are context sensitive
@@ -139,7 +179,7 @@ export default class Annotation {
                 annotationId: annotationId
             };
 
-            fetch('/annotation/ajaxUpdateAnnotationTime', {
+            fetch('/annotation/ajaxUpdateMomentOfPerception', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
