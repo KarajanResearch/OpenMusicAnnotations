@@ -86,6 +86,12 @@ export default class Annotation {
     }
 
 
+    /**
+     * converts a Annotation from middleware to JS-UI representation
+     * @param annotation
+     * @param color
+     * @returns {Annotation}
+     */
     static fromGormAnnotation(annotation, color) {
 
         let a = new Annotation({
@@ -114,6 +120,9 @@ export default class Annotation {
         }
     }
 
+    /**
+     * update in database
+     */
     save() {
 
         if (this.isCurrentlyNew()) {
@@ -138,7 +147,6 @@ export default class Annotation {
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
-                    // TODO: updateAnnotationInSessionList(sessionId, data.annotation);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -146,7 +154,38 @@ export default class Annotation {
         }
     }
 
+    /**
+     * remove from data base
+     */
+    delete() {
 
+        if (this.isCurrentlyNew()) {
+            //handle that, if necessary
+        } else {
+            let data = {
+                sessionId: this.sessionId,
+                annotationId: this.annotationId
+            };
+
+            fetch('/annotation/ajaxDelete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+    }
+
+/*
     saveTime() {
         // locate annotation and update
 
@@ -198,6 +237,7 @@ export default class Annotation {
         }
 
     }
+*/
 
 
 }

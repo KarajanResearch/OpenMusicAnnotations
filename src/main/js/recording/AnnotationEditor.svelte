@@ -46,6 +46,18 @@
 
     }
 
+    function deleteCurrentAnnotation() {
+
+        console.log("remove from local state in session list");
+        appContainer.trigger("deleteAnnotationFromSessionList", currentAnnotation);
+
+        console.log("remove from peaks.js");
+        appContainer.trigger("eraseAnnotation", currentAnnotation);
+
+        console.log("remove from database");
+        currentAnnotation.delete();
+    }
+
 </script>
 
 <style>
@@ -73,6 +85,15 @@
         <button class="buttons" on:click={e => {
             visible = false;
         }}>Done</button>
+        <h3>Delete this Annotation</h3>
+        <button class="buttons" on:click={e => {
+            if (confirm("Are you sure? Deleting Annotations cannot be undone!")) {
+                console.log(currentAnnotation);
+                deleteCurrentAnnotation();
+                visible = false;
+            }
+        }}>Delete</button>
+
 
     </div>
 {/if}

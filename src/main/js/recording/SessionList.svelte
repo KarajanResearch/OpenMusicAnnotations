@@ -47,6 +47,10 @@
             annotation.save();
         });
 
+        appContainer.on("deleteAnnotationFromSessionList", function (event, annotation) {
+            deleteAnnotationFromLocalState(annotation);
+        });
+
     });
 
 
@@ -188,6 +192,32 @@
         } else {
             // case: existing annotation in existing session
             updateAnnotationInSessionList(annotation);
+        }
+
+    }
+
+    function deleteAnnotationFromLocalState(annotation) {
+        console.log("deleteAnnotationFromLocalState");
+        console.log(annotation);
+
+        if (annotation.isCurrentlyNew()) {
+            currentlyNewSession = currentlyNewSession.filter(function (a) {
+                // keep everything, that is not "annotation" to delete
+                return a.id !== annotation.id;
+            });
+        } else {
+            // remove from session list
+            for (let i = 0; i < sessionList.length; i++) {
+                let listEntry = sessionList[i];
+
+                if (listEntry.session.id === annotation.sessionId) {
+                    console.log("found session");
+                    // keep everything, that is not "annotation" to delete
+                    listEntry.session.annotations = listEntry.session.annotations.filter(function (a) {
+                        return a.annotationId !== annotation.annotationId;
+                    });
+                }
+            }
         }
 
     }

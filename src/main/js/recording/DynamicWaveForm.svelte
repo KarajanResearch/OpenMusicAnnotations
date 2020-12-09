@@ -118,6 +118,10 @@
             peaks.points.removeAll();
         });
 
+        appContainer.on("eraseAnnotation", function (event, annotation) {
+            peaks.points.removeById(annotation.id);
+        });
+
 
         appContainer.on("toggleMetronome", function (event) {
             metronomeEnabled = !metronomeEnabled;

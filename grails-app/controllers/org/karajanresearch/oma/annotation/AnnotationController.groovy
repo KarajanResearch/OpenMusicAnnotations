@@ -99,6 +99,35 @@ class AnnotationController {
         render result as JSON
     }
 
+    /**
+     * deleting annotation from svelte UI
+     */
+    @Secured(["ROLE_AUTHENTICATED"])
+    def ajaxDelete() {
+
+        println "ajaxDelete"
+        println request.JSON
+
+        Annotation annotation = Annotation.get(request.JSON.annotationId)
+        def result
+        if (!annotation) {
+            result = [error: "invalid annotation"]
+            render result as JSON
+            return
+        }
+
+        if (annotation.session.id != request.JSON.sessionId) {
+            result = [error: "assertion error: annotation not part of session"]
+            render result as JSON
+            return
+        }
+
+        annotation.delete(flush: true)
+        result = [success: "annotation deleted"]
+        render result as JSON
+    }
+
+
     /*
 
     AnnotationService annotationService

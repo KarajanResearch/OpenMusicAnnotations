@@ -18724,6 +18724,12 @@ class Annotation {
     }
 
 
+    /**
+     * converts a Annotation from middleware to JS-UI representation
+     * @param annotation
+     * @param color
+     * @returns {Annotation}
+     */
     static fromGormAnnotation(annotation, color) {
 
         let a = new Annotation({
@@ -18752,6 +18758,9 @@ class Annotation {
         }
     }
 
+    /**
+     * update in database
+     */
     save() {
 
         if (this.isCurrentlyNew()) {
@@ -18776,7 +18785,6 @@ class Annotation {
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
-                    // TODO: updateAnnotationInSessionList(sessionId, data.annotation);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -18784,7 +18792,38 @@ class Annotation {
         }
     }
 
+    /**
+     * remove from data base
+     */
+    delete() {
 
+        if (this.isCurrentlyNew()) {
+            //handle that, if necessary
+        } else {
+            let data = {
+                sessionId: this.sessionId,
+                annotationId: this.annotationId
+            };
+
+            fetch('/annotation/ajaxDelete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+    }
+
+/*
     saveTime() {
         // locate annotation and update
 
@@ -18836,6 +18875,7 @@ class Annotation {
         }
 
     }
+*/
 
 
 }
@@ -19554,15 +19594,19 @@ function AnnotationEditor_svelte_add_css() {
 	append(document.head, style);
 }
 
-// (62:0) {#if visible}
+// (74:0) {#if visible}
 function create_if_block(ctx) {
 	let div;
-	let h3;
+	let h30;
 	let t1;
 	let t2;
 	let br;
 	let t3;
-	let button;
+	let button0;
+	let t5;
+	let h31;
+	let t7;
+	let button1;
 	let div_transition;
 	let current;
 	let mounted;
@@ -19572,30 +19616,45 @@ function create_if_block(ctx) {
 	return {
 		c() {
 			div = internal_element("div");
-			h3 = internal_element("h3");
-			h3.textContent = "Edit Annotation";
+			h30 = internal_element("h3");
+			h30.textContent = "Edit Annotation";
 			t1 = space();
 			if (if_block) if_block.c();
 			t2 = space();
 			br = internal_element("br");
 			t3 = space();
-			button = internal_element("button");
-			button.textContent = "Done";
-			attr(button, "class", "buttons");
+			button0 = internal_element("button");
+			button0.textContent = "Done";
+			t5 = space();
+			h31 = internal_element("h3");
+			h31.textContent = "Delete this Annotation";
+			t7 = space();
+			button1 = internal_element("button");
+			button1.textContent = "Delete";
+			attr(button0, "class", "buttons");
+			attr(button1, "class", "buttons");
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
-			append(div, h3);
+			append(div, h30);
 			append(div, t1);
 			if (if_block) if_block.m(div, null);
 			append(div, t2);
 			append(div, br);
 			append(div, t3);
-			append(div, button);
+			append(div, button0);
+			append(div, t5);
+			append(div, h31);
+			append(div, t7);
+			append(div, button1);
 			current = true;
 
 			if (!mounted) {
-				dispose = listen(button, "click", /*click_handler*/ ctx[5]);
+				dispose = [
+					listen(button0, "click", /*click_handler*/ ctx[6]),
+					listen(button1, "click", /*click_handler_1*/ ctx[7])
+				];
+
 				mounted = true;
 			}
 		},
@@ -19633,12 +19692,12 @@ function create_if_block(ctx) {
 			if (if_block) if_block.d();
 			if (detaching && div_transition) div_transition.end();
 			mounted = false;
-			dispose();
+			run_all(dispose);
 		}
 	};
 }
 
-// (66:8) {#if (currentAnnotation.type === "tap")}
+// (78:8) {#if (currentAnnotation.type === "tap")}
 function create_if_block_1(ctx) {
 	let label0;
 	let t1;
@@ -19685,8 +19744,8 @@ function create_if_block_1(ctx) {
 
 			if (!mounted) {
 				dispose = [
-					listen(input0, "input", /*input0_input_handler*/ ctx[3]),
-					listen(input1, "input", /*input1_input_handler*/ ctx[4])
+					listen(input0, "input", /*input0_input_handler*/ ctx[4]),
+					listen(input1, "input", /*input1_input_handler*/ ctx[5])
 				];
 
 				mounted = true;
@@ -19790,6 +19849,15 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 		});
 	});
 
+	function deleteCurrentAnnotation() {
+		console.log("remove from local state in session list");
+		appContainer.trigger("deleteAnnotationFromSessionList", currentAnnotation);
+		console.log("remove from peaks.js");
+		appContainer.trigger("eraseAnnotation", currentAnnotation);
+		console.log("remove from database");
+		currentAnnotation.delete();
+	}
+
 	function input0_input_handler() {
 		currentAnnotation.bar = to_number(this.value);
 		$$invalidate(0, currentAnnotation);
@@ -19804,8 +19872,16 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(1, visible = false);
 	};
 
+	const click_handler_1 = e => {
+		if (confirm("Are you sure? Deleting Annotations cannot be undone!")) {
+			console.log(currentAnnotation);
+			deleteCurrentAnnotation();
+			$$invalidate(1, visible = false);
+		}
+	};
+
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(2, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(3, recordingId = $$props.recordingId);
 	};
 
 	$$self.$$.update = () => {
@@ -19827,10 +19903,12 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 	return [
 		currentAnnotation,
 		visible,
+		deleteCurrentAnnotation,
 		recordingId,
 		input0_input_handler,
 		input1_input_handler,
-		click_handler
+		click_handler,
+		click_handler_1
 	];
 }
 
@@ -19838,7 +19916,7 @@ class AnnotationEditor extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-1erpani-style")) AnnotationEditor_svelte_add_css();
-		init(this, options, AnnotationEditor_svelte_instance, AnnotationEditor_svelte_create_fragment, safe_not_equal, { recordingId: 2 });
+		init(this, options, AnnotationEditor_svelte_instance, AnnotationEditor_svelte_create_fragment, safe_not_equal, { recordingId: 3 });
 	}
 }
 
@@ -19864,13 +19942,13 @@ function SessionList_svelte_add_css() {
 
 function SessionList_svelte_get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[29] = list[i];
-	child_ctx[30] = list;
-	child_ctx[31] = i;
+	child_ctx[30] = list[i];
+	child_ctx[31] = list;
+	child_ctx[32] = i;
 	return child_ctx;
 }
 
-// (465:0) {#if sessionList.length == 0}
+// (495:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -19887,13 +19965,13 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (469:0) {#if sessionList.length > 0}
+// (499:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
 	let each_1_lookup = new Map();
 	let each_value = /*sessionList*/ ctx[1];
-	const get_key = ctx => /*sessionListEntry*/ ctx[29].id;
+	const get_key = ctx => /*sessionListEntry*/ ctx[30].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = SessionList_svelte_get_each_context(ctx, each_value, i);
@@ -19935,7 +20013,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (471:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (501:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -19947,15 +20025,15 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	let dispose;
 
 	function input0_change_handler() {
-		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[30], /*sessionListEntry_index*/ ctx[31]);
+		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[31], /*sessionListEntry_index*/ ctx[32]);
 	}
 
 	function input1_input_handler() {
-		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[30], /*sessionListEntry_index*/ ctx[31]);
+		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[31], /*sessionListEntry_index*/ ctx[32]);
 	}
 
 	function focusout_handler() {
-		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[29]);
+		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[30]);
 	}
 
 	return {
@@ -19971,18 +20049,18 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			attr(input0, "type", "checkbox");
 			attr(input1, "class", "session_list_entry_title svelte-1dbcd0g");
 			attr(input1, "placeholder", "Name for Annotations...");
-			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[29].session.isMine;
+			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[30].session.isMine;
 			attr(div, "class", "session_list_entry svelte-1dbcd0g");
-			set_style(div, "background-color", /*sessionListEntry*/ ctx[29].color);
+			set_style(div, "background-color", /*sessionListEntry*/ ctx[30].color);
 			this.first = div;
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input0);
-			input0.checked = /*sessionListEntry*/ ctx[29].selected;
+			input0.checked = /*sessionListEntry*/ ctx[30].selected;
 			append(div, t0);
 			append(div, input1);
-			set_input_value(input1, /*sessionListEntry*/ ctx[29].session.title);
+			set_input_value(input1, /*sessionListEntry*/ ctx[30].session.title);
 			append(div, t1);
 
 			if (!mounted) {
@@ -20000,19 +20078,19 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			ctx = new_ctx;
 
 			if (dirty[0] & /*sessionList*/ 2) {
-				input0.checked = /*sessionListEntry*/ ctx[29].selected;
+				input0.checked = /*sessionListEntry*/ ctx[30].selected;
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[29].session.isMine)) {
+			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[30].session.isMine)) {
 				input1.disabled = input1_disabled_value;
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[29].session.title) {
-				set_input_value(input1, /*sessionListEntry*/ ctx[29].session.title);
+			if (dirty[0] & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[30].session.title) {
+				set_input_value(input1, /*sessionListEntry*/ ctx[30].session.title);
 			}
 
 			if (dirty[0] & /*sessionList*/ 2) {
-				set_style(div, "background-color", /*sessionListEntry*/ ctx[29].color);
+				set_style(div, "background-color", /*sessionListEntry*/ ctx[30].color);
 			}
 		},
 		d(detaching) {
@@ -20023,7 +20101,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (494:0) {#if currentlyNewSession.length == 0}
+// (524:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -20040,7 +20118,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (499:0) {#if currentlyNewSession.length > 0}
+// (529:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -20142,7 +20220,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (501:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (531:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -20215,7 +20293,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (544:0) {#if sessionSelection.length > 0}
+// (574:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -20485,6 +20563,10 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			annotation.time = point._time;
 			annotation.save();
 		});
+
+		appContainer.on("deleteAnnotationFromSessionList", function (event, annotation) {
+			deleteAnnotationFromLocalState(annotation);
+		});
 	});
 
 	/**
@@ -20591,6 +20673,32 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		} else {
 			// case: existing annotation in existing session
 			updateAnnotationInSessionList(annotation);
+		}
+	}
+
+	function deleteAnnotationFromLocalState(annotation) {
+		console.log("deleteAnnotationFromLocalState");
+		console.log(annotation);
+
+		if (annotation.isCurrentlyNew()) {
+			$$invalidate(3, currentlyNewSession = currentlyNewSession.filter(function (a) {
+				// keep everything, that is not "annotation" to delete
+				return a.id !== annotation.id;
+			}));
+		} else {
+			// remove from session list
+			for (let i = 0; i < sessionList.length; i++) {
+				let listEntry = sessionList[i];
+
+				if (listEntry.session.id === annotation.sessionId) {
+					console.log("found session");
+
+					// keep everything, that is not "annotation" to delete
+					listEntry.session.annotations = listEntry.session.annotations.filter(function (a) {
+						return a.annotationId !== annotation.annotationId;
+					});
+				}
+			}
 		}
 	}
 
@@ -21046,6 +21154,10 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 
 		appContainer.on("clearAllAnnotations", function (event) {
 			peaks.points.removeAll();
+		});
+
+		appContainer.on("eraseAnnotation", function (event, annotation) {
+			peaks.points.removeById(annotation.id);
 		});
 
 		appContainer.on("toggleMetronome", function (event) {
