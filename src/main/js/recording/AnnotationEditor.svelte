@@ -8,7 +8,7 @@
     export let recordingId;
 
     let currentAnnotation = new Annotation("", 0.0, true, "", "");
-    let visible = true;
+    let visible = false;
 
     const appContainer = window.$("#RecordingUiContainer-" + recordingId);
 
@@ -21,14 +21,10 @@
          */
         appContainer.on("editAnnotation", function (event, point){
 
-            console.log("editing:");
-            console.log(point);
-
-            console.log(point);
-
-            visible = true;
+            // save reference to point for online-editing
+            point.annotation.peaksPoint = point;
             currentAnnotation = point.annotation;
-
+            visible = true;
         });
 
     });
@@ -67,19 +63,16 @@
     <div transition:fade>
         <h3>Edit Annotation</h3>
 
-        {#if (typeof(currentAnnotation) !== "undefined")}
-            {currentAnnotation.toString()}
-        {/if}
-
-
         {#if (currentAnnotation.type === "tap")}
-        <br/>
         <label for="barNumber">Bar</label>
         <input id="barNumber" type="number" bind:value={currentAnnotation.bar} min="1" />
         <label for="beatNumber">Beat</label>
         <input id="beatNumber" type="number" bind:value={currentAnnotation.beat} min="1" />
         {/if}
-
+        <br/>
+        <button class="buttons" on:click={e => {
+            visible = false;
+        }}>Done</button>
 
     </div>
 {/if}

@@ -465,9 +465,12 @@ class RecordingController {
         render model as JSON
     }
 
+    /**
+     * fetch all readable sessions for a given recording
+     * @param id recording id. may be overwritten by params
+     * @return
+     */
     def ajaxGetSessionList(Long id) {
-        println "ajaxGetSessionList"
-        println params
 
         //override parameter, if given
         if (!id && params.recording) {
@@ -479,26 +482,9 @@ class RecordingController {
         def result = recording.annotationSessions.findAll {
             it.isShared || it.tenantId == springSecurityService.principal.id
         }.collect {session ->
-            /*
-            return [
-                id: session.id,
-                title: session.title,
-                isShared: session.isShared,
-                isMine: session.tenantId == springSecurityService.principal.id,
-                annotations: session.annotations.collect { Annotation a ->
-                    return [
-                        id: a.id,
-                        type: a.type,
-                        bar: a.barNumber,
-                        beat: a.beatNumber,
-                        momentOfPerception: a.momentOfPerception
-                    ]
-                }
-            ]
-             */
             return sessionService.getUiStructure(session)
-
-
+        }.sort {
+            it.id
         }
 
         render result as JSON

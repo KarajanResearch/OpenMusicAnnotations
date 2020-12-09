@@ -203,6 +203,7 @@
     function updateWaveFormCanvas() {
         appContainer.trigger("clearAllAnnotations");
 
+        // draw selected sessions
         for (let i = 0; i < sessionSelection.length; i++) {
             let session = sessionSelection[i].session;
             //let color = sessionSelection[i].color;
@@ -215,6 +216,7 @@
             }
         }
 
+        // draw currently new session
         for (let i = 0; i < currentlyNewSession.length; i++) {
             appContainer.trigger("drawAnnotation", currentlyNewSession[i]);
         }
@@ -453,7 +455,6 @@
     }
 </style>
 
-{currentlyNewSession}
 
 <div id="annotationEditor">
     <AnnotationEditor recordingId={recordingId} />

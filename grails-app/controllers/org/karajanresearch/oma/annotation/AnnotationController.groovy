@@ -50,35 +50,7 @@ class AnnotationController {
     }
 
 
-    /**
-     * updating moment of perception from svelte UI
-     */
-    @Secured(["ROLE_AUTHENTICATED"])
-    def ajaxUpdateMomentOfPerception() {
 
-        Annotation annotation = Annotation.get(request.JSON.annotationId)
-        def result
-        if (!annotation) {
-            result = [error: "invalid annotation"]
-            render result as JSON
-            return
-        }
-
-        if (annotation.session.id != request.JSON.sessionId) {
-            result = [error: "assertion error: annotation not part of session"]
-            render result as JSON
-            return
-        }
-
-        annotation.momentOfPerception = request.JSON.momentOfPerception
-
-        if (!annotation.save(flush: true)) {
-            result = [error: "cannot save momentOfPerception of annotation"]
-        } else {
-            result = [success: "saved annotation", annotation: annotationService.getUiStructure(annotation)]
-        }
-        render result as JSON
-    }
 
     /**
      * updating annotation from svelte UI
@@ -105,7 +77,7 @@ class AnnotationController {
             return
         }
 
-        /*
+        /* JSON payload sent from UI:
         sessionId: this.sessionId,
                 annotationId: this.annotationId,
                 labelText: this.labelText,
