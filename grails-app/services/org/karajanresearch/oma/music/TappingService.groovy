@@ -70,7 +70,7 @@ class TappingService {
     Annotation parseDataLine(String line) {
 
         // unify delimiters
-        println line
+        // println line
 
         if (line.contains(";")) {
             // german windows style delimiter
@@ -87,7 +87,7 @@ class TappingService {
 
         // now tokenize by unified tab delimiter
         def parts = line.tokenize("\t")
-        println parts
+        // println parts
 
         def numberOfColumns = parts.size()
 
@@ -115,7 +115,7 @@ class TappingService {
                 barNumber: bar,
                 beatNumber: beat
             )
-            println a
+            // println a
             return a
         }
 
@@ -139,7 +139,7 @@ class TappingService {
                 barNumber: bar,
                 beatNumber: beat
             )
-            println a
+            // println a
             return a
         }
 
