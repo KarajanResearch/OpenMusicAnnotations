@@ -12,7 +12,7 @@ export default class Annotation {
                     editable = true,
                     labelText = "",
                     color="0x000000",
-                    type = "tap",
+                    type = "Tap",
                     annotationId = 0,
                     sessionId = 0,
                     bar = 0,
@@ -30,7 +30,7 @@ export default class Annotation {
         // parsed data
         this.bar = bar;
         this.beat = beat;
-        if (this.type === "tap") {
+        if (this.type === "Tap") {
             this.labelText = `${bar}:${beat}`;
         }
 
@@ -58,6 +58,7 @@ export default class Annotation {
      * TODO: update once Annotation deviates from Point
      * @param point
      */
+    /*
     static fromPeaksPoint(point) {
 
         let peaksPointIdParts = point.id.split(":");
@@ -84,6 +85,7 @@ export default class Annotation {
         annotation.peaksPoint = point;
         return annotation;
     }
+     */
 
 
     /**
@@ -100,6 +102,7 @@ export default class Annotation {
             editable: annotation.isMine,
             bar: annotation.bar,
             beat: annotation.beat,
+            type: annotation.type,
             color: color,
             annotationId: annotation.id,
             sessionId: annotation.sessionId
@@ -185,59 +188,6 @@ export default class Annotation {
 
     }
 
-/*
-    saveTime() {
-        // locate annotation and update
-
-        // point ids must be parsed, because they are context sensitive
-        // all annotation id's have format: [sessionId | "currentlyNew" ] ":" [annotationId | currentlyNewIndex]
-        let tempIdParts = this.id.split(":");
-
-        let sessionId = 0;
-        let annotationId = 0;
-
-        if (tempIdParts[0] === "currentlyNew") {
-            // case: new annotation in currentlyNewSession
-
-            annotationId = parseInt(tempIdParts[1]);
-            // update currentlyNew data structure
-
-            console.log("cannot persist a currently new annotation");
-
-            // TODO: currentlyNewSession[annotationId].time = point.time;
-
-        } else {
-            // case: existing annotation in existing session
-
-            sessionId = parseInt(tempIdParts[0]);
-            annotationId = parseInt(tempIdParts[1]);
-
-            let data = {
-                sessionId: sessionId,
-                momentOfPerception: this.time,
-                annotationId: annotationId
-            };
-
-            fetch('/annotation/ajaxUpdateMomentOfPerception', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                    // TODO: updateAnnotationInSessionList(sessionId, data.annotation);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-
-        }
-
-    }
-*/
 
 
 }

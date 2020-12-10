@@ -6,8 +6,6 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class AnnotationService {
 
-
-    def sessionService
     def springSecurityService
 
     /**
@@ -20,13 +18,11 @@ class AnnotationService {
             id: a.id,
             sessionId: a.session.id,
             isMine: a.tenantId == springSecurityService.principal.id,
-            type: a.type,
+            type: a.annotationType.name,
             bar: a.barNumber,
             beat: a.beatNumber,
             momentOfPerception: a.momentOfPerception
         ]
     }
-
-
 
 }

@@ -2,7 +2,13 @@ package org.karajanresearch.oma.annotation
 
 import grails.gorm.MultiTenant
 
-
+/**
+ * representation of what is perceived in music.
+ *
+ * has a moment of perception
+ * has a type
+ * has a value
+ */
 class Annotation implements MultiTenant<Annotation>, Comparable {
 
     /**
@@ -22,16 +28,25 @@ class Annotation implements MultiTenant<Annotation>, Comparable {
      */
     double momentOfPerception
 
+    @Deprecated
+    String type
+
     /**
      * type of the event
      */
-    String type
+    AnnotationType annotationType
 
+    /**
+     * actual representation of an annotation. annotationType determines semantics of value fields
+     */
     Integer intValue
     Double doubleValue
     String stringValue
 
+
     /**
+     * fixed field semantics for bars and beats to organize music over time
+     *
      * For example. the third eighth note in bar 20 has: 20, 3, 8
      * Note that this bars are not necessarily related to bars of existing scores,
      * but rather a "virtual score" that describes the recording
@@ -50,7 +65,8 @@ class Annotation implements MultiTenant<Annotation>, Comparable {
 
     static constraints = {
         session nullable: false
-        type nullable: false
+        type nullable: true
+        annotationType nullable: false
         momentOfPerception nullable: false
         barNumber nullable: true
         beatNumber nullable: true
@@ -66,13 +82,14 @@ class Annotation implements MultiTenant<Annotation>, Comparable {
         momentOfPerception.compareTo(other.momentOfPerception)
     }
 
+    @Deprecated
     String toString() {
-        switch (type) {
+        switch (annotationType.name) {
             case "PdfPageChangeEvent":
-                return "${type}: page ${intValue} at at ${momentOfPerception}"
+                return "${annotationType.name}: page ${intValue} at at ${momentOfPerception}"
             break
             default:
-                return "${type}: beat ${beatNumber} at bar ${barNumber} at ${momentOfPerception}"
+                return "${annotationType.name}: beat ${beatNumber} at bar ${barNumber} at ${momentOfPerception}"
         }
 
     }

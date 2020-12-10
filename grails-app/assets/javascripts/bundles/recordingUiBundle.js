@@ -18650,7 +18650,7 @@ class Annotation {
                     editable = true,
                     labelText = "",
                     color="0x000000",
-                    type = "tap",
+                    type = "Tap",
                     annotationId = 0,
                     sessionId = 0,
                     bar = 0,
@@ -18668,7 +18668,7 @@ class Annotation {
         // parsed data
         this.bar = bar;
         this.beat = beat;
-        if (this.type === "tap") {
+        if (this.type === "Tap") {
             this.labelText = `${bar}:${beat}`;
         }
 
@@ -18696,6 +18696,7 @@ class Annotation {
      * TODO: update once Annotation deviates from Point
      * @param point
      */
+    /*
     static fromPeaksPoint(point) {
 
         let peaksPointIdParts = point.id.split(":");
@@ -18722,6 +18723,7 @@ class Annotation {
         annotation.peaksPoint = point;
         return annotation;
     }
+     */
 
 
     /**
@@ -18738,6 +18740,7 @@ class Annotation {
             editable: annotation.isMine,
             bar: annotation.bar,
             beat: annotation.beat,
+            type: annotation.type,
             color: color,
             annotationId: annotation.id,
             sessionId: annotation.sessionId
@@ -18823,59 +18826,6 @@ class Annotation {
 
     }
 
-/*
-    saveTime() {
-        // locate annotation and update
-
-        // point ids must be parsed, because they are context sensitive
-        // all annotation id's have format: [sessionId | "currentlyNew" ] ":" [annotationId | currentlyNewIndex]
-        let tempIdParts = this.id.split(":");
-
-        let sessionId = 0;
-        let annotationId = 0;
-
-        if (tempIdParts[0] === "currentlyNew") {
-            // case: new annotation in currentlyNewSession
-
-            annotationId = parseInt(tempIdParts[1]);
-            // update currentlyNew data structure
-
-            console.log("cannot persist a currently new annotation");
-
-            // TODO: currentlyNewSession[annotationId].time = point.time;
-
-        } else {
-            // case: existing annotation in existing session
-
-            sessionId = parseInt(tempIdParts[0]);
-            annotationId = parseInt(tempIdParts[1]);
-
-            let data = {
-                sessionId: sessionId,
-                momentOfPerception: this.time,
-                annotationId: annotationId
-            };
-
-            fetch('/annotation/ajaxUpdateMomentOfPerception', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                    // TODO: updateAnnotationInSessionList(sessionId, data.annotation);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-
-        }
-
-    }
-*/
 
 
 }
@@ -19611,7 +19561,7 @@ function create_if_block(ctx) {
 	let current;
 	let mounted;
 	let dispose;
-	let if_block = /*currentAnnotation*/ ctx[0].type === "tap" && create_if_block_1(ctx);
+	let if_block = /*currentAnnotation*/ ctx[0].type === "Tap" && create_if_block_1(ctx);
 
 	return {
 		c() {
@@ -19659,7 +19609,7 @@ function create_if_block(ctx) {
 			}
 		},
 		p(ctx, dirty) {
-			if (/*currentAnnotation*/ ctx[0].type === "tap") {
+			if (/*currentAnnotation*/ ctx[0].type === "Tap") {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 				} else {
@@ -19697,7 +19647,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (78:8) {#if (currentAnnotation.type === "tap")}
+// (78:8) {#if (currentAnnotation.type === "Tap")}
 function create_if_block_1(ctx) {
 	let label0;
 	let t1;
@@ -20537,15 +20487,15 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 	let sessionColors = [
 		"#8d8b90",
+		"#5752d0",
 		"#f92d52",
-		"#f93b2f",
-		"#f99205",
-		"#fcc803",
-		"#4ed55f",
-		"#5ac4f6",
-		"#36a6d6",
 		"#0376f7",
-		"#5752d0"
+		"#f93b2f",
+		"#36a6d6",
+		"#f99205",
+		"#5ac4f6",
+		"#fcc803",
+		"#4ed55f"
 	];
 
 	onMount(async () => {
@@ -20597,7 +20547,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			let listEntry = {
 				id: sessionId,
 				session: response[i],
-				color: pickColor(sessionId),
+				color: pickColor(i),
 				selected: false,
 				dirty: false
 			};
@@ -20762,7 +20712,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			let listEntry = {
 				id: session.id,
 				session,
-				color: pickColor(session.id),
+				color: pickColor(sessionList.length),
 				selected: true,
 				dirty: false
 			};

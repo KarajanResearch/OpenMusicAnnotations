@@ -63,7 +63,7 @@ class SessionService {
         def beatNumber = Integer.parseInt(labelParts[1])
         session.annotations.add(
             new Annotation(
-                type: "Tap",
+                annotationType: AnnotationType.findOrSaveWhere(name: uiAnnotation.type),
                 session: session,
                 momentOfPerception: uiAnnotation.time,
                 barNumber: barNumber,

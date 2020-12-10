@@ -19,15 +19,15 @@
 
     let sessionColors = [
         "#8d8b90",
+        "#5752d0",
         "#f92d52",
+        "#0376f7",
         "#f93b2f",
+        "#36a6d6",
         "#f99205",
+        "#5ac4f6",
         "#fcc803",
         "#4ed55f",
-        "#5ac4f6",
-        "#36a6d6",
-        "#0376f7",
-        "#5752d0"
     ];
 
 
@@ -113,7 +113,7 @@
             let listEntry = {
                 id: sessionId,
                 session: response[i],
-                color: pickColor(sessionId),
+                color: pickColor(i),
                 selected: false,
                 dirty: false
             }
@@ -327,7 +327,7 @@
             let listEntry = {
                 id: session.id,
                 session: session,
-                color: pickColor(session.id),
+                color: pickColor(sessionList.length),
                 selected: true,
                 dirty: false
             };

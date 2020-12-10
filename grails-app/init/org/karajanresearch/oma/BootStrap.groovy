@@ -1,6 +1,6 @@
 package org.karajanresearch.oma
 
-
+import org.karajanresearch.oma.annotation.AnnotationType
 import org.karajanresearch.oma.music.AbstractMusic
 import org.karajanresearch.oma.music.AbstractMusicPart
 import org.karajanresearch.oma.music.Composer
@@ -13,8 +13,8 @@ class BootStrap {
     def initSpringSecurity(servletContext) {
 
 
-        def adminRoleGroup = new RoleGroup(name: "GROUP_ADMIN").save()
-        def adminRole = new Role(authority: 'ROLE_ADMIN').save()
+        def adminRoleGroup = RoleGroup.findOrSaveWhere(name: "GROUP_ADMIN")
+        def adminRole = Role.findOrSaveWhere(authority: "ROLE_ADMIN")
 
         RoleGroupRole.findOrSaveWhere(roleGroup: adminRoleGroup, role: adminRole)
 
@@ -51,7 +51,20 @@ class BootStrap {
 
     def init = { servletContext ->
 
-        initSpringSecurity(servletContext)
+        // initSpringSecurity(servletContext)
+
+        // init annotation types
+
+        AnnotationType.findOrSaveWhere(name: "Tap")
+        AnnotationType.findOrSaveWhere(name: "Emotion")
+        AnnotationType.findOrSaveWhere(name: "Text")
+
+
+        AnnotationType.withSession {
+            it.flush()
+            it.clear()
+        }
+
 
     }
     def destroy = {

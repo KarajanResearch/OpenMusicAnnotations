@@ -75,7 +75,7 @@
     <div transition:fade>
         <h3>Edit Annotation</h3>
 
-        {#if (currentAnnotation.type === "tap")}
+        {#if (currentAnnotation.type === "Tap")}
         <label for="barNumber">Bar</label>
         <input id="barNumber" type="number" bind:value={currentAnnotation.bar} min="1" />
         <label for="beatNumber">Beat</label>
