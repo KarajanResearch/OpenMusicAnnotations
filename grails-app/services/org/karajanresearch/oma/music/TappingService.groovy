@@ -5,6 +5,7 @@ import grails.gorm.transactions.Transactional
 import grails.util.Environment
 import org.karajanresearch.oma.StorageBackendService
 import org.karajanresearch.oma.annotation.Annotation
+import org.karajanresearch.oma.annotation.AnnotationType
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.music.Recording
 import org.karajanresearch.oma.music.TappingFileCommand
@@ -110,7 +111,7 @@ class TappingService {
 
             def a = new Annotation(
                 momentOfPerception: timestamp,
-                type: "Tap",
+                annotationType: AnnotationType.findOrSaveWhere(name: "Tap"),
                 barNumber: bar,
                 beatNumber: beat
             )
@@ -134,7 +135,7 @@ class TappingService {
 
             def a = new Annotation(
                 momentOfPerception: timestamp,
-                type: "Tap",
+                annotationType: AnnotationType.findOrSaveWhere(name: "Tap"),
                 barNumber: bar,
                 beatNumber: beat
             )
