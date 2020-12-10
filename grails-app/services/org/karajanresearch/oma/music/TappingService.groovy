@@ -94,29 +94,38 @@ class TappingService {
         if (numberOfColumns == 3) {
             // timestamp \t tempo \t beat.bar
 
-            def timestamp = Double.parseDouble(parts[0])
-            def tempo = Double.parseDouble(parts[1])
+            try {
+                def timestamp = Double.parseDouble(parts[0])
+                def tempo = Double.parseDouble(parts[1])
 
-            def abstractMusicPosition = parts[2]
-            Long bar = 1
-            Long beat = 1
-            if (abstractMusicPosition.contains(".")) {
-                def beatbar = abstractMusicPosition.tokenize(".")  // the comma is no comma
-                bar = Long.parseLong(beatbar[0])
-                beat = Long.parseLong(beatbar[1])
-            } else {
-                bar = Long.parseLong(abstractMusicPosition)
+                def abstractMusicPosition = parts[2]
+                Long bar = 1
+                Long beat = 1
+                if (abstractMusicPosition.contains(".")) {
+                    def beatbar = abstractMusicPosition.tokenize(".")  // the comma is no comma
+                    bar = Long.parseLong(beatbar[0])
+                    beat = Long.parseLong(beatbar[1])
+                } else {
+                    bar = Long.parseLong(abstractMusicPosition)
+                }
+
+
+                def a = new Annotation(
+                    momentOfPerception: timestamp,
+                    annotationType: AnnotationType.findOrSaveWhere(name: "Tap"),
+                    barNumber: bar,
+                    beatNumber: beat
+                )
+                // println a
+                return a
+
+            } catch (Exception ex) {
+                println ex.message
+                println line
+                return null
             }
 
 
-            def a = new Annotation(
-                momentOfPerception: timestamp,
-                annotationType: AnnotationType.findOrSaveWhere(name: "Tap"),
-                barNumber: bar,
-                beatNumber: beat
-            )
-            // println a
-            return a
         }
 
         if (numberOfColumns == 2) {
