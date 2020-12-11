@@ -161,7 +161,7 @@
 
 
                     <f:field property="PartOfComposition">
-                        <g:textField name="abstractMusicPart" value="${this.interpretation.abstractMusicParts[0]?.title ? this.interpretation.abstractMusicParts[0]?.title : "First Movement"}" />
+                        <g:textField name="abstractMusicPart" value="${this.interpretation.abstractMusicParts[0]?.title ? this.interpretation.abstractMusicParts[0]?.title : "?. Movement"}" />
                     </f:field>
 
 
