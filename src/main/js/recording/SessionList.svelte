@@ -544,9 +544,7 @@
         placeholder="Add a Name for new Annotations..."
         bind:value={currentlyNewSessionTitle}
         on:focus={ () => appContainer.trigger("focusOnTextInput", true) }
-        on:focusout={ () => {
-            appContainer.trigger("focusOnTextInput", false);
-        }}
+        on:focusout={ () => appContainer.trigger("focusOnTextInput", false) }
     >
 
     <button class="buttons" on:click={() => {

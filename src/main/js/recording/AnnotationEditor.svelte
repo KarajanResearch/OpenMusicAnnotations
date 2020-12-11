@@ -42,7 +42,7 @@
             }
         }
 
-        currentAnnotation.save();
+        // currentAnnotation.save();
 
         console.log(currentAnnotation);
 
@@ -51,6 +51,15 @@
             currentAnnotation.peaksPoint.update({labelText: currentAnnotation.labelText});
         }
 
+    }
+
+    $: if(currentAnnotation.type === "Text") {
+        currentAnnotation.labelText = currentAnnotation.stringValue;
+        // currentAnnotation.save();
+        console.log(currentAnnotation);
+        if (typeof (currentAnnotation.peaksPoint.update) !== "undefined") {
+            currentAnnotation.peaksPoint.update({labelText: currentAnnotation.labelText});
+        }
     }
 
     function deleteCurrentAnnotation() {
@@ -88,8 +97,19 @@
         <label for="beatNumber">Beat</label>
         <input id="beatNumber" type="number" bind:value={currentAnnotation.beat} min="1" />
         {/if}
+
+        {#if (currentAnnotation.type === "Text")}
+            <label for="stringValue">Text</label>
+            <input id="stringValue"
+               bind:value={currentAnnotation.stringValue}
+               on:focus={ () => appContainer.trigger("focusOnTextInput", true) }
+               on:focusout={ () => appContainer.trigger("focusOnTextInput", false) }
+            >
+        {/if}
+
         <br/>
         <button class="buttons" on:click={e => {
+            currentAnnotation.save();
             visible = false;
         }}>Done</button>
         <h3>Delete this Annotation</h3>

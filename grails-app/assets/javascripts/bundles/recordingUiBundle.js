@@ -19529,24 +19529,26 @@ function AnnotationEditor_svelte_add_css() {
 	append(document.head, style);
 }
 
-// (81:0) {#if visible}
+// (90:0) {#if visible}
 function create_if_block(ctx) {
 	let div;
 	let h30;
 	let t1;
 	let t2;
-	let br;
 	let t3;
+	let br;
+	let t4;
 	let button0;
-	let t5;
+	let t6;
 	let h31;
-	let t7;
+	let t8;
 	let button1;
 	let div_transition;
 	let current;
 	let mounted;
 	let dispose;
-	let if_block = /*currentAnnotation*/ ctx[0].type === "Tap" && create_if_block_1(ctx);
+	let if_block0 = /*currentAnnotation*/ ctx[0].type === "Tap" && create_if_block_2(ctx);
+	let if_block1 = /*currentAnnotation*/ ctx[0].type === "Text" && create_if_block_1(ctx);
 
 	return {
 		c() {
@@ -19554,16 +19556,18 @@ function create_if_block(ctx) {
 			h30 = internal_element("h3");
 			h30.textContent = "Edit Annotation";
 			t1 = space();
-			if (if_block) if_block.c();
+			if (if_block0) if_block0.c();
 			t2 = space();
-			br = internal_element("br");
+			if (if_block1) if_block1.c();
 			t3 = space();
+			br = internal_element("br");
+			t4 = space();
 			button0 = internal_element("button");
 			button0.textContent = "Done";
-			t5 = space();
+			t6 = space();
 			h31 = internal_element("h3");
 			h31.textContent = "Delete this Annotation";
-			t7 = space();
+			t8 = space();
 			button1 = internal_element("button");
 			button1.textContent = "Delete";
 			attr(button0, "class", "buttons");
@@ -19573,21 +19577,23 @@ function create_if_block(ctx) {
 			insert(target, div, anchor);
 			append(div, h30);
 			append(div, t1);
-			if (if_block) if_block.m(div, null);
+			if (if_block0) if_block0.m(div, null);
 			append(div, t2);
-			append(div, br);
+			if (if_block1) if_block1.m(div, null);
 			append(div, t3);
+			append(div, br);
+			append(div, t4);
 			append(div, button0);
-			append(div, t5);
+			append(div, t6);
 			append(div, h31);
-			append(div, t7);
+			append(div, t8);
 			append(div, button1);
 			current = true;
 
 			if (!mounted) {
 				dispose = [
-					listen(button0, "click", /*click_handler*/ ctx[6]),
-					listen(button1, "click", /*click_handler_1*/ ctx[7])
+					listen(button0, "click", /*click_handler*/ ctx[10]),
+					listen(button1, "click", /*click_handler_1*/ ctx[11])
 				];
 
 				mounted = true;
@@ -19595,16 +19601,29 @@ function create_if_block(ctx) {
 		},
 		p(ctx, dirty) {
 			if (/*currentAnnotation*/ ctx[0].type === "Tap") {
-				if (if_block) {
-					if_block.p(ctx, dirty);
+				if (if_block0) {
+					if_block0.p(ctx, dirty);
 				} else {
-					if_block = create_if_block_1(ctx);
-					if_block.c();
-					if_block.m(div, t2);
+					if_block0 = create_if_block_2(ctx);
+					if_block0.c();
+					if_block0.m(div, t2);
 				}
-			} else if (if_block) {
-				if_block.d(1);
-				if_block = null;
+			} else if (if_block0) {
+				if_block0.d(1);
+				if_block0 = null;
+			}
+
+			if (/*currentAnnotation*/ ctx[0].type === "Text") {
+				if (if_block1) {
+					if_block1.p(ctx, dirty);
+				} else {
+					if_block1 = create_if_block_1(ctx);
+					if_block1.c();
+					if_block1.m(div, t3);
+				}
+			} else if (if_block1) {
+				if_block1.d(1);
+				if_block1 = null;
 			}
 		},
 		i(local) {
@@ -19624,7 +19643,8 @@ function create_if_block(ctx) {
 		},
 		d(detaching) {
 			if (detaching) detach(div);
-			if (if_block) if_block.d();
+			if (if_block0) if_block0.d();
+			if (if_block1) if_block1.d();
 			if (detaching && div_transition) div_transition.end();
 			mounted = false;
 			run_all(dispose);
@@ -19632,8 +19652,8 @@ function create_if_block(ctx) {
 	};
 }
 
-// (85:8) {#if (currentAnnotation.type === "Tap")}
-function create_if_block_1(ctx) {
+// (94:8) {#if (currentAnnotation.type === "Tap")}
+function create_if_block_2(ctx) {
 	let label0;
 	let t1;
 	let input0;
@@ -19679,8 +19699,8 @@ function create_if_block_1(ctx) {
 
 			if (!mounted) {
 				dispose = [
-					listen(input0, "input", /*input0_input_handler*/ ctx[4]),
-					listen(input1, "input", /*input1_input_handler*/ ctx[5])
+					listen(input0, "input", /*input0_input_handler*/ ctx[5]),
+					listen(input1, "input", /*input1_input_handler*/ ctx[6])
 				];
 
 				mounted = true;
@@ -19703,6 +19723,54 @@ function create_if_block_1(ctx) {
 			if (detaching) detach(label1);
 			if (detaching) detach(t4);
 			if (detaching) detach(input1);
+			mounted = false;
+			run_all(dispose);
+		}
+	};
+}
+
+// (101:8) {#if (currentAnnotation.type === "Text")}
+function create_if_block_1(ctx) {
+	let label;
+	let t1;
+	let input;
+	let mounted;
+	let dispose;
+
+	return {
+		c() {
+			label = internal_element("label");
+			label.textContent = "Text";
+			t1 = space();
+			input = internal_element("input");
+			attr(label, "for", "stringValue");
+			attr(input, "id", "stringValue");
+		},
+		m(target, anchor) {
+			insert(target, label, anchor);
+			insert(target, t1, anchor);
+			insert(target, input, anchor);
+			set_input_value(input, /*currentAnnotation*/ ctx[0].stringValue);
+
+			if (!mounted) {
+				dispose = [
+					listen(input, "input", /*input_input_handler*/ ctx[7]),
+					listen(input, "focus", /*focus_handler*/ ctx[8]),
+					listen(input, "focusout", /*focusout_handler*/ ctx[9])
+				];
+
+				mounted = true;
+			}
+		},
+		p(ctx, dirty) {
+			if (dirty & /*currentAnnotation*/ 1 && input.value !== /*currentAnnotation*/ ctx[0].stringValue) {
+				set_input_value(input, /*currentAnnotation*/ ctx[0].stringValue);
+			}
+		},
+		d(detaching) {
+			if (detaching) detach(label);
+			if (detaching) detach(t1);
+			if (detaching) detach(input);
 			mounted = false;
 			run_all(dispose);
 		}
@@ -19803,7 +19871,16 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(0, currentAnnotation);
 	}
 
+	function input_input_handler() {
+		currentAnnotation.stringValue = this.value;
+		$$invalidate(0, currentAnnotation);
+	}
+
+	const focus_handler = () => appContainer.trigger("focusOnTextInput", true);
+	const focusout_handler = () => appContainer.trigger("focusOnTextInput", false);
+
 	const click_handler = e => {
+		currentAnnotation.save();
 		$$invalidate(1, visible = false);
 	};
 
@@ -19816,7 +19893,7 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 	};
 
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(3, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(4, recordingId = $$props.recordingId);
 	};
 
 	$$self.$$.update = () => {
@@ -19833,7 +19910,20 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 					}
 				}
 
-				currentAnnotation.save();
+				// currentAnnotation.save();
+				console.log(currentAnnotation);
+
+				if (typeof currentAnnotation.peaksPoint.update !== "undefined") {
+					currentAnnotation.peaksPoint.update({ labelText: currentAnnotation.labelText });
+				}
+			}
+		}
+
+		if ($$self.$$.dirty & /*currentAnnotation*/ 1) {
+			$: if (currentAnnotation.type === "Text") {
+				$$invalidate(0, currentAnnotation.labelText = currentAnnotation.stringValue, currentAnnotation);
+
+				// currentAnnotation.save();
 				console.log(currentAnnotation);
 
 				if (typeof currentAnnotation.peaksPoint.update !== "undefined") {
@@ -19846,10 +19936,14 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 	return [
 		currentAnnotation,
 		visible,
+		appContainer,
 		deleteCurrentAnnotation,
 		recordingId,
 		input0_input_handler,
 		input1_input_handler,
+		input_input_handler,
+		focus_handler,
+		focusout_handler,
 		click_handler,
 		click_handler_1
 	];
@@ -19859,7 +19953,7 @@ class AnnotationEditor extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-1erpani-style")) AnnotationEditor_svelte_add_css();
-		init(this, options, AnnotationEditor_svelte_instance, AnnotationEditor_svelte_create_fragment, safe_not_equal, { recordingId: 3 });
+		init(this, options, AnnotationEditor_svelte_instance, AnnotationEditor_svelte_create_fragment, safe_not_equal, { recordingId: 4 });
 	}
 }
 
@@ -20077,7 +20171,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	let button1;
 	let mounted;
 	let dispose;
-	let if_block = /*sessionSelection*/ ctx[2].length == 1 && /*sessionSelection*/ ctx[2][0].session.isMine === true && create_if_block_2(ctx);
+	let if_block = /*sessionSelection*/ ctx[2].length == 1 && /*sessionSelection*/ ctx[2][0].session.isMine === true && SessionList_svelte_create_if_block_2(ctx);
 
 	return {
 		c() {
@@ -20132,7 +20226,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 				} else {
-					if_block = create_if_block_2(ctx);
+					if_block = SessionList_svelte_create_if_block_2(ctx);
 					if_block.c();
 					if_block.m(t0.parentNode, t0);
 				}
@@ -20164,7 +20258,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 }
 
 // (525:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
-function create_if_block_2(ctx) {
+function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
 	let t1_value = /*sessionSelection*/ ctx[2][0].session.title + "";
@@ -20236,7 +20330,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (568:0) {#if sessionSelection.length > 0}
+// (566:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -20842,10 +20936,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	}
 
 	const focus_handler_1 = () => appContainer.trigger("focusOnTextInput", true);
-
-	const focusout_handler_1 = () => {
-		appContainer.trigger("focusOnTextInput", false);
-	};
+	const focusout_handler_1 = () => appContainer.trigger("focusOnTextInput", false);
 
 	const click_handler_2 = () => {
 		if (currentlyNewSessionTitle === "") {
