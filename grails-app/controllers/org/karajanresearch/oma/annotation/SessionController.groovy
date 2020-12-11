@@ -110,6 +110,7 @@ class SessionController {
      * filling data table with annotations of given session
      * @return
      */
+    @Deprecated
     def ajaxGetAnnotations() {
         println "ajaxGetAnnotations"
         println params

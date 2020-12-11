@@ -89,7 +89,9 @@ class AnnotationController {
         annotation.stringValue = request.JSON.labelText
         annotation.barNumber = request.JSON.bar
         annotation.beatNumber = request.JSON.beat
+        annotation.subdivision = request.JSON.subdivision
         annotation.momentOfPerception = request.JSON.momentOfPerception
+        annotation.stringValue = request.JSON.stringValue
 
         if (!annotation.save(flush: true)) {
             result = [error: "cannot save stringValue of annotation"]

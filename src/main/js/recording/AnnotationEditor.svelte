@@ -33,7 +33,14 @@
         currentAnnotation.bar;
         currentAnnotation.beat;
 
-        currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}`;
+        if (currentAnnotation.type === "Tap") {
+
+            if (currentAnnotation.subdivision > 0) {
+                currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}:${currentAnnotation.subdivision}`;
+            } else {
+                currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}`;
+            }
+        }
 
         currentAnnotation.save();
 

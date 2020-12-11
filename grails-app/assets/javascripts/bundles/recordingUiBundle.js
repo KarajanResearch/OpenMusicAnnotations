@@ -18654,7 +18654,9 @@ class Annotation {
                     annotationId = 0,
                     sessionId = 0,
                     bar = 0,
-                    beat = 0
+                    beat = 0,
+                    subdivision = 0,
+                    stringValue = ""
                 } = {}) {
         this.id = id;
         this.time = time;
@@ -18668,8 +18670,21 @@ class Annotation {
         // parsed data
         this.bar = bar;
         this.beat = beat;
+        this.subdivision = subdivision;
+        this.stringValue = stringValue;
+
+        // create labels based on type
         if (this.type === "Tap") {
-            this.labelText = `${bar}:${beat}`;
+            if (this.subdivision > 0) {
+                this.labelText = `${bar}:${beat}:${subdivision}`;
+            } else {
+                this.labelText = `${bar}:${beat}`;
+            }
+        }
+        if (this.type === "Text") {
+            console.log("Type Text");
+            console.log(this);
+            this.labelText = this.stringValue;
         }
 
         // a reference to an existing peaks point
@@ -18691,40 +18706,6 @@ class Annotation {
         return this;
     }
 
-    /**
-     * converts from peaks.point to Annotation. Currently, it dies nothing too.
-     * TODO: update once Annotation deviates from Point
-     * @param point
-     */
-    /*
-    static fromPeaksPoint(point) {
-
-        let peaksPointIdParts = point.id.split(":");
-
-        let sessionId = 0;
-        let annotationId = 0;
-
-        if (peaksPointIdParts[0] === "currentlyNew") {
-            console.log("creating from currently new peaks point");
-        } else {
-            sessionId = parseInt(peaksPointIdParts[0]);
-            annotationId = parseInt(peaksPointIdParts[1]);
-        }
-
-        let annotation = new Annotation({
-            id: point.id,
-            time: point.time,
-            editable: point.editable,
-            labelText: point.labelText,
-            color: point.color,
-            annotationId: annotationId,
-            sessionId: sessionId
-        });
-        annotation.peaksPoint = point;
-        return annotation;
-    }
-     */
-
 
     /**
      * converts a Annotation from middleware to JS-UI representation
@@ -18740,6 +18721,8 @@ class Annotation {
             editable: annotation.isMine,
             bar: annotation.bar,
             beat: annotation.beat,
+            subdivision: annotation.subdivision,
+            stringValue: annotation.stringValue,
             type: annotation.type,
             color: color,
             annotationId: annotation.id,
@@ -18775,6 +18758,8 @@ class Annotation {
                 labelText: this.labelText,
                 bar: this.bar,
                 beat: this.beat,
+                subdivision: this.subdivision,
+                stringValue: this.stringValue,
                 momentOfPerception: this.time
             };
 
@@ -19544,7 +19529,7 @@ function AnnotationEditor_svelte_add_css() {
 	append(document.head, style);
 }
 
-// (74:0) {#if visible}
+// (81:0) {#if visible}
 function create_if_block(ctx) {
 	let div;
 	let h30;
@@ -19647,7 +19632,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (78:8) {#if (currentAnnotation.type === "Tap")}
+// (85:8) {#if (currentAnnotation.type === "Tap")}
 function create_if_block_1(ctx) {
 	let label0;
 	let t1;
@@ -19839,7 +19824,15 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 			$: {
 				currentAnnotation.bar;
 				currentAnnotation.beat;
-				$$invalidate(0, currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}`, currentAnnotation);
+
+				if (currentAnnotation.type === "Tap") {
+					if (currentAnnotation.subdivision > 0) {
+						$$invalidate(0, currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}:${currentAnnotation.subdivision}`, currentAnnotation);
+					} else {
+						$$invalidate(0, currentAnnotation.labelText = `${currentAnnotation.bar}:${currentAnnotation.beat}`, currentAnnotation);
+					}
+				}
+
 				currentAnnotation.save();
 				console.log(currentAnnotation);
 
@@ -19898,7 +19891,7 @@ function SessionList_svelte_get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (495:0) {#if sessionList.length == 0}
+// (489:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -19915,7 +19908,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (499:0) {#if sessionList.length > 0}
+// (493:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
@@ -19963,7 +19956,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (501:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (495:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -20051,7 +20044,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (524:0) {#if currentlyNewSession.length == 0}
+// (518:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -20068,7 +20061,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (529:0) {#if currentlyNewSession.length > 0}
+// (523:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -20170,7 +20163,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (531:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (525:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -20243,7 +20236,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (574:0) {#if sessionSelection.length > 0}
+// (568:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -20607,16 +20600,11 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 		console.log(annotation);
 
-		// point ids must be parsed, because they are context sensitive
-		// all annotation id's have format: [sessionId | "currentlyNew" ] ":" [annotationId | currentlyNewIndex]
-		let tempIdParts = annotation.id.split(":");
-
-		let sessionId = 0;
-		let annotationId = 0;
-
-		if (tempIdParts[0] === "currentlyNew") {
+		if (annotation.isCurrentlyNew()) {
 			// case: new annotation in currentlyNewSession
-			annotationId = parseInt(tempIdParts[1]);
+			let tempIdParts = annotation.id.split(":");
+
+			let annotationId = parseInt(tempIdParts[1]);
 
 			// update currentlyNew data structure
 			$$invalidate(3, currentlyNewSession[annotationId] = annotation, currentlyNewSession);

@@ -21,6 +21,8 @@ class AnnotationService {
             type: a.annotationType.name,
             bar: a.barNumber,
             beat: a.beatNumber,
+            subdivision: a.subdivision,
+            stringValue: a.stringValue,
             momentOfPerception: a.momentOfPerception
         ]
     }

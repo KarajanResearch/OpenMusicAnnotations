@@ -175,17 +175,11 @@
         console.log("updateAnnotationInLocalState");
         console.log(annotation);
 
-        // point ids must be parsed, because they are context sensitive
-        // all annotation id's have format: [sessionId | "currentlyNew" ] ":" [annotationId | currentlyNewIndex]
-        let tempIdParts = annotation.id.split(":");
 
-        let sessionId = 0;
-        let annotationId = 0;
-
-        if (tempIdParts[0] === "currentlyNew") {
+        if (annotation.isCurrentlyNew()) {
             // case: new annotation in currentlyNewSession
-
-            annotationId = parseInt(tempIdParts[1]);
+            let tempIdParts = annotation.id.split(":");
+            let annotationId = parseInt(tempIdParts[1]);
             // update currentlyNew data structure
             currentlyNewSession[annotationId] = annotation;
 

@@ -16,7 +16,9 @@ export default class Annotation {
                     annotationId = 0,
                     sessionId = 0,
                     bar = 0,
-                    beat = 0
+                    beat = 0,
+                    subdivision = 0,
+                    stringValue = ""
                 } = {}) {
         this.id = id;
         this.time = time;
@@ -30,8 +32,21 @@ export default class Annotation {
         // parsed data
         this.bar = bar;
         this.beat = beat;
+        this.subdivision = subdivision;
+        this.stringValue = stringValue;
+
+        // create labels based on type
         if (this.type === "Tap") {
-            this.labelText = `${bar}:${beat}`;
+            if (this.subdivision > 0) {
+                this.labelText = `${bar}:${beat}:${subdivision}`;
+            } else {
+                this.labelText = `${bar}:${beat}`;
+            }
+        }
+        if (this.type === "Text") {
+            console.log("Type Text");
+            console.log(this);
+            this.labelText = this.stringValue;
         }
 
         // a reference to an existing peaks point
@@ -53,40 +68,6 @@ export default class Annotation {
         return this;
     }
 
-    /**
-     * converts from peaks.point to Annotation. Currently, it dies nothing too.
-     * TODO: update once Annotation deviates from Point
-     * @param point
-     */
-    /*
-    static fromPeaksPoint(point) {
-
-        let peaksPointIdParts = point.id.split(":");
-
-        let sessionId = 0;
-        let annotationId = 0;
-
-        if (peaksPointIdParts[0] === "currentlyNew") {
-            console.log("creating from currently new peaks point");
-        } else {
-            sessionId = parseInt(peaksPointIdParts[0]);
-            annotationId = parseInt(peaksPointIdParts[1]);
-        }
-
-        let annotation = new Annotation({
-            id: point.id,
-            time: point.time,
-            editable: point.editable,
-            labelText: point.labelText,
-            color: point.color,
-            annotationId: annotationId,
-            sessionId: sessionId
-        });
-        annotation.peaksPoint = point;
-        return annotation;
-    }
-     */
-
 
     /**
      * converts a Annotation from middleware to JS-UI representation
@@ -102,6 +83,8 @@ export default class Annotation {
             editable: annotation.isMine,
             bar: annotation.bar,
             beat: annotation.beat,
+            subdivision: annotation.subdivision,
+            stringValue: annotation.stringValue,
             type: annotation.type,
             color: color,
             annotationId: annotation.id,
@@ -137,6 +120,8 @@ export default class Annotation {
                 labelText: this.labelText,
                 bar: this.bar,
                 beat: this.beat,
+                subdivision: this.subdivision,
+                stringValue: this.stringValue,
                 momentOfPerception: this.time
             };
 

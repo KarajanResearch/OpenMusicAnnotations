@@ -93,18 +93,24 @@ class TappingService {
 
         if (numberOfColumns == 3) {
             // timestamp \t tempo \t beat.bar
+            def timestamp = Double.parseDouble(parts[0])
+            def tempo = Double.parseDouble(parts[1])
+            def abstractMusicPosition = parts[2]
 
             try {
-                def timestamp = Double.parseDouble(parts[0])
-                def tempo = Double.parseDouble(parts[1])
 
-                def abstractMusicPosition = parts[2]
                 Long bar = 1
                 Long beat = 1
+                Long subdivision = 1
                 if (abstractMusicPosition.contains(".")) {
                     def beatbar = abstractMusicPosition.tokenize(".")  // the comma is no comma
                     bar = Long.parseLong(beatbar[0])
-                    beat = Long.parseLong(beatbar[1])
+                    if (beatbar.size() > 1) {
+                        beat = Long.parseLong(beatbar[1])
+                    }
+                    if (beatbar.size() > 2) {
+                        subdivision = Long.parseLong(beatbar[2])
+                    }
                 } else {
                     bar = Long.parseLong(abstractMusicPosition)
                 }
@@ -114,7 +120,8 @@ class TappingService {
                     momentOfPerception: timestamp,
                     annotationType: AnnotationType.findOrSaveWhere(name: "Tap"),
                     barNumber: bar,
-                    beatNumber: beat
+                    beatNumber: beat,
+                    subdivision: subdivision
                 )
                 // println a
                 return a
@@ -122,7 +129,14 @@ class TappingService {
             } catch (Exception ex) {
                 println ex.message
                 println line
-                return null
+                //fallback to a text annotation
+                def a = new Annotation(
+                    momentOfPerception: timestamp,
+                    annotationType: AnnotationType.findOrSaveWhere(name: "Text"),
+                    stringValue: "FixMe: " + abstractMusicPosition
+                )
+                // println a
+                return a
             }
 
 
@@ -132,24 +146,49 @@ class TappingService {
             // no tempo
             def timestamp = Double.parseDouble(parts[0])
             def abstractMusicPosition = parts[1]
-            Long bar = 1
-            Long beat = 1
-            if (abstractMusicPosition.contains(".")) {
-                def beatbar = abstractMusicPosition.tokenize(".")  // the comma is no comma
-                bar = Long.parseLong(beatbar[0])
-                beat = Long.parseLong(beatbar[1])
-            } else {
-                bar = Long.parseLong(abstractMusicPosition)
+
+            try {
+                Long bar = 1
+                Long beat = 1
+                Long subdivision = 1
+                if (abstractMusicPosition.contains(".")) {
+                    def beatbar = abstractMusicPosition.tokenize(".")  // the comma is no comma
+                    bar = Long.parseLong(beatbar[0])
+                    if (beatbar.size() > 1) {
+                        beat = Long.parseLong(beatbar[1])
+                    }
+                    if (beatbar.size() > 2) {
+                        subdivision = Long.parseLong(beatbar[2])
+                    }
+                } else {
+                    bar = Long.parseLong(abstractMusicPosition)
+                }
+
+                def a = new Annotation(
+                    momentOfPerception: timestamp,
+                    annotationType: AnnotationType.findOrSaveWhere(name: "Tap"),
+                    barNumber: bar,
+                    beatNumber: beat,
+                    subdivision: subdivision
+                )
+                // println a
+                return a
+            } catch (Exception ex) {
+                println ex.message
+
+                //fallback to a text annotation
+                def a = new Annotation(
+                    momentOfPerception: timestamp,
+                    annotationType: AnnotationType.findOrSaveWhere(name: "Text"),
+                    stringValue: "FixMe: " + abstractMusicPosition
+                )
+                // println a
+                return a
+
+
             }
 
-            def a = new Annotation(
-                momentOfPerception: timestamp,
-                annotationType: AnnotationType.findOrSaveWhere(name: "Tap"),
-                barNumber: bar,
-                beatNumber: beat
-            )
-            // println a
-            return a
+
         }
 
        return null

@@ -61,13 +61,17 @@ class SessionService {
         def labelParts = uiAnnotation.labelText.tokenize(":")
         def barNumber = Integer.parseInt(labelParts[0])
         def beatNumber = Integer.parseInt(labelParts[1])
+
+        //TODO: add other annotation types
+
         session.annotations.add(
             new Annotation(
                 annotationType: AnnotationType.findOrSaveWhere(name: uiAnnotation.type),
                 session: session,
                 momentOfPerception: uiAnnotation.time,
-                barNumber: barNumber,
-                beatNumber: beatNumber
+                barNumber: uiAnnotation.bar,
+                beatNumber: uiAnnotation.beat,
+                subdivision: uiAnnotation.subdivision
             )
         )
 
