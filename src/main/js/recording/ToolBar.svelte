@@ -6,6 +6,7 @@
     export let recordingId;
 
     const appContainer = window.$("#RecordingUiContainer-" + recordingId);
+    const clickPlayer = document.getElementById("click-sound-" + recordingId);
 
     /**
      * internal state
@@ -58,6 +59,13 @@
         let barNumber = currentBar + currentBarOffset - 1;
 
         appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
+
+            if (metronomeEnabled === true) {
+                console.log("click");
+                clickPlayer.pause();
+                clickPlayer.currentTime = 0;
+                clickPlayer.play();
+            }
 
             let annotation = new Annotation( {
                 time: playerPosition,
