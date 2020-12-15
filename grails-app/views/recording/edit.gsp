@@ -77,6 +77,8 @@
 
                             $("select#interpretation").val(interpretationId);
 
+                            document.getElementById("interpretation_form").submit();
+
                         }
                     }
                 ]
@@ -112,7 +114,7 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
-            <g:form resource="${this.recording}" method="PUT">
+            <g:form name="interpretation_form" resource="${this.recording}" method="PUT">
                 <g:hiddenField name="version" value="${this.recording?.version}" />
 
                 <fieldset class="form">
