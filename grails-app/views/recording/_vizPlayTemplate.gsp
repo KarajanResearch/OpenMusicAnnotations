@@ -4,7 +4,7 @@
 
 
 
-<asset:javascript src="node_modules/peaks.js/peaks.js"/>
+<asset:javascript src="node_modules_deprecated/peaks.js/peaks.js"/>
 
 
 <style type="text/css">

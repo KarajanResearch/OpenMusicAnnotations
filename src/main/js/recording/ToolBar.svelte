@@ -87,34 +87,28 @@
         /*border: 1px solid black;*/
         position: absolute;
         width: 8em;
+        left: 2em;
     }
     #toolbar_click {
         /* border: 1px solid black; */
         position: absolute;
         height: 100%;
         width: 8em;
-        left: 9em;
-    }
-    #toolbar_tap {
-        /* border: 1px solid black; */
-        position: absolute;
-        height: 100%;
-        width: 15em;
-        left: 18em;
+        left: 11em;
     }
     #toolbar_tap {
         /* border: 1px solid black; */
         position: absolute;
         height: 100%;
         width: 7em;
-        left: 18em;
+        left: 20em;
     }
     #toolbar_beat_per_bar {
         /* border: 1px solid black; */
         position: absolute;
         height: 100%;
-        width: 18em;
-        left: 25em;
+        width: 20em;
+        left: 27em;
     }
     #current_bar_offset_input {
         width: 4em;

@@ -501,6 +501,7 @@
                 >
                 <input
                     class="session_list_entry_title"
+                    title="{sessionListEntry.session.title}"
                     placeholder="Name for Annotations..."
                     bind:value={sessionListEntry.session.title}
                     disabled={!sessionListEntry.session.isMine}

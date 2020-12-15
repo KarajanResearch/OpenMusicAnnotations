@@ -18823,8 +18823,8 @@ class Annotation {
 
 function ToolBar_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1vimodj-style";
-	style.textContent = "#toolbar_zoom.svelte-1vimodj{position:absolute;width:8em}#toolbar_click.svelte-1vimodj{position:absolute;height:100%;width:8em;left:9em}#toolbar_tap.svelte-1vimodj{position:absolute;height:100%;width:15em;left:18em}#toolbar_tap.svelte-1vimodj{position:absolute;height:100%;width:7em;left:18em}#toolbar_beat_per_bar.svelte-1vimodj{position:absolute;height:100%;width:18em;left:25em}#current_bar_offset_input.svelte-1vimodj{width:4em}#zoomSlider.svelte-1vimodj{direction:rtl;width:8em}.slider.svelte-1vimodj{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1vimodj::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1vimodj::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1vimodj{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
+	style.id = "svelte-1nlh8xp-style";
+	style.textContent = "#toolbar_zoom.svelte-1nlh8xp{position:absolute;width:8em;left:2em}#toolbar_click.svelte-1nlh8xp{position:absolute;height:100%;width:8em;left:11em}#toolbar_tap.svelte-1nlh8xp{position:absolute;height:100%;width:7em;left:20em}#toolbar_beat_per_bar.svelte-1nlh8xp{position:absolute;height:100%;width:20em;left:27em}#current_bar_offset_input.svelte-1nlh8xp{width:4em}#zoomSlider.svelte-1nlh8xp{direction:rtl;width:8em}.slider.svelte-1nlh8xp{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1nlh8xp::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1nlh8xp::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1nlh8xp{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
 	append(document.head, style);
 }
 
@@ -18834,7 +18834,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (201:8) {#each beatsPerBarList as entry}
+// (195:8) {#each beatsPerBarList as entry}
 function create_each_block(ctx) {
 	let option;
 	let t0_value = /*entry*/ ctx[16] + "";
@@ -18922,27 +18922,27 @@ function ToolBar_svelte_create_fragment(ctx) {
 			t9 = internal_text("\n    Beats / Bar starting at\n        ");
 			input1 = internal_element("input");
 			attr(input0, "id", "zoomSlider");
-			attr(input0, "class", "slider svelte-1vimodj");
+			attr(input0, "class", "slider svelte-1nlh8xp");
 			attr(input0, "type", "range");
 			attr(input0, "min", "0");
 			attr(input0, "max", "7");
 			attr(input0, "step", "1");
 			attr(div0, "id", "toolbar_zoom");
-			attr(div0, "class", "vertical_center svelte-1vimodj");
-			attr(button0, "class", "buttons vertical_center svelte-1vimodj");
+			attr(div0, "class", "vertical_center svelte-1nlh8xp");
+			attr(button0, "class", "buttons vertical_center svelte-1nlh8xp");
 			attr(div1, "id", "toolbar_click");
-			attr(div1, "class", "svelte-1vimodj");
-			attr(button1, "class", "buttons vertical_center svelte-1vimodj");
+			attr(div1, "class", "svelte-1nlh8xp");
+			attr(button1, "class", "buttons vertical_center svelte-1nlh8xp");
 			attr(div2, "id", "toolbar_tap");
-			attr(div2, "class", "svelte-1vimodj");
+			attr(div2, "class", "svelte-1nlh8xp");
 			if (/*beatsPerBar*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[14].call(select));
 			attr(input1, "id", "current_bar_offset_input");
 			attr(input1, "type", "number");
 			attr(input1, "min", "1");
-			attr(input1, "class", "svelte-1vimodj");
-			attr(span, "class", "vertical_center svelte-1vimodj");
+			attr(input1, "class", "svelte-1nlh8xp");
+			attr(span, "class", "vertical_center svelte-1nlh8xp");
 			attr(div3, "id", "toolbar_beat_per_bar");
-			attr(div3, "class", "svelte-1vimodj");
+			attr(div3, "class", "svelte-1nlh8xp");
 		},
 		m(target, anchor) {
 			insert(target, div0, anchor);
@@ -19178,7 +19178,7 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1vimodj-style")) ToolBar_svelte_add_css();
+		if (!document.getElementById("svelte-1nlh8xp-style")) ToolBar_svelte_add_css();
 		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 9 });
 	}
 }
@@ -20056,6 +20056,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	let input0;
 	let t0;
 	let input1;
+	let input1_title_value;
 	let input1_disabled_value;
 	let t1;
 	let mounted;
@@ -20085,6 +20086,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			attr(input0, "class", "session_list_entry_checkbox svelte-1dbcd0g");
 			attr(input0, "type", "checkbox");
 			attr(input1, "class", "session_list_entry_title svelte-1dbcd0g");
+			attr(input1, "title", input1_title_value = /*sessionListEntry*/ ctx[30].session.title);
 			attr(input1, "placeholder", "Name for Annotations...");
 			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[30].session.isMine;
 			attr(div, "class", "session_list_entry svelte-1dbcd0g");
@@ -20118,6 +20120,10 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 				input0.checked = /*sessionListEntry*/ ctx[30].selected;
 			}
 
+			if (dirty[0] & /*sessionList*/ 2 && input1_title_value !== (input1_title_value = /*sessionListEntry*/ ctx[30].session.title)) {
+				attr(input1, "title", input1_title_value);
+			}
+
 			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[30].session.isMine)) {
 				input1.disabled = input1_disabled_value;
 			}
@@ -20138,7 +20144,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (518:0) {#if currentlyNewSession.length == 0}
+// (519:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -20155,7 +20161,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (523:0) {#if currentlyNewSession.length > 0}
+// (524:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -20257,7 +20263,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (525:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (526:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -20330,7 +20336,7 @@ function SessionList_svelte_create_if_block_2(ctx) {
 	};
 }
 
-// (566:0) {#if sessionSelection.length > 0}
+// (567:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
