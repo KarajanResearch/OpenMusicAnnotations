@@ -99,7 +99,9 @@
             </ul>
         </div>
         <div id="edit-interpretation" class="content scaffold-edit" role="main">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+            <h1>
+                <g:message code="default.edit.label" args="[entityName]" />
+            </h1>
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
@@ -174,5 +176,23 @@
                 </fieldset>
             </g:form>
         </div>
+
+
+
+        <div id="show-recordings" class="content scaffold-edit" role="main">
+            <h1>
+                Recordings of this Interpretation
+            </h1>
+            <g:each in="${this.interpretation.recordings}" var="recording">
+                ${recording} <g:link controller="recording" action="show" id="${recording.id}">(show recording)</g:link>
+                <br />
+            </g:each>
+
+        </div>
+
+
+
+
+
     </body>
 </html>
