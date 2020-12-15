@@ -18824,21 +18824,21 @@ const { document: ToolBar_svelte_document_1 } = globals;
 
 function ToolBar_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1nlh8xp-style";
-	style.textContent = "#toolbar_zoom.svelte-1nlh8xp{position:absolute;width:8em;left:2em}#toolbar_click.svelte-1nlh8xp{position:absolute;height:100%;width:8em;left:11em}#toolbar_tap.svelte-1nlh8xp{position:absolute;height:100%;width:7em;left:20em}#toolbar_beat_per_bar.svelte-1nlh8xp{position:absolute;height:100%;width:20em;left:27em}#current_bar_offset_input.svelte-1nlh8xp{width:4em}#zoomSlider.svelte-1nlh8xp{direction:rtl;width:8em}.slider.svelte-1nlh8xp{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1nlh8xp::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1nlh8xp::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1nlh8xp{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
+	style.id = "svelte-1j0mkyi-style";
+	style.textContent = "#toolbar_zoom.svelte-1j0mkyi{position:absolute;width:8em;left:2em}#toolbar_click.svelte-1j0mkyi{position:absolute;height:100%;width:8em;left:11em}#toolbar_tap.svelte-1j0mkyi{position:absolute;height:100%;width:7em;left:20em}#toolbar_beat_per_bar.svelte-1j0mkyi{border:1px solid black;position:absolute;height:100%;width:20em;left:27em}#current_bar_offset_input.svelte-1j0mkyi{width:4em}#toolbar_text_annotation.svelte-1j0mkyi{border:1px solid black;position:absolute;height:100%;width:38em;left:47em}#button_add_text.svelte-1j0mkyi{left:32em}#input_text_annotation.svelte-1j0mkyi{left:10em;width:22em}#zoomSlider.svelte-1j0mkyi{direction:rtl;width:8em}.slider.svelte-1j0mkyi{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1j0mkyi::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1j0mkyi::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1j0mkyi{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
 	append(ToolBar_svelte_document_1.head, style);
 }
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[17] = list[i];
+	child_ctx[23] = list[i];
 	return child_ctx;
 }
 
-// (203:8) {#each beatsPerBarList as entry}
+// (237:8) {#each beatsPerBarList as entry}
 function create_each_block(ctx) {
 	let option;
-	let t0_value = /*entry*/ ctx[17] + "";
+	let t0_value = /*entry*/ ctx[23] + "";
 	let t0;
 	let t1;
 	let option_value_value;
@@ -18848,7 +18848,7 @@ function create_each_block(ctx) {
 			option = internal_element("option");
 			t0 = internal_text(t0_value);
 			t1 = space();
-			option.__value = option_value_value = /*entry*/ ctx[17];
+			option.__value = option_value_value = /*entry*/ ctx[23];
 			option.value = option.__value;
 		},
 		m(target, anchor) {
@@ -18886,9 +18886,16 @@ function ToolBar_svelte_create_fragment(ctx) {
 	let select;
 	let t9;
 	let input1;
+	let t10;
+	let div4;
+	let label;
+	let t12;
+	let input2;
+	let t13;
+	let button2;
 	let mounted;
 	let dispose;
-	let each_value = /*beatsPerBarList*/ ctx[7];
+	let each_value = /*beatsPerBarList*/ ctx[8];
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
@@ -18922,28 +18929,45 @@ function ToolBar_svelte_create_fragment(ctx) {
 
 			t9 = internal_text("\n    Beats / Bar starting at\n        ");
 			input1 = internal_element("input");
+			t10 = space();
+			div4 = internal_element("div");
+			label = internal_element("label");
+			label.textContent = "Add Text Annotation:";
+			t12 = space();
+			input2 = internal_element("input");
+			t13 = space();
+			button2 = internal_element("button");
+			button2.textContent = "Add Text";
 			attr(input0, "id", "zoomSlider");
-			attr(input0, "class", "slider svelte-1nlh8xp");
+			attr(input0, "class", "slider svelte-1j0mkyi");
 			attr(input0, "type", "range");
 			attr(input0, "min", "0");
 			attr(input0, "max", "7");
 			attr(input0, "step", "1");
 			attr(div0, "id", "toolbar_zoom");
-			attr(div0, "class", "vertical_center svelte-1nlh8xp");
-			attr(button0, "class", "buttons vertical_center svelte-1nlh8xp");
+			attr(div0, "class", "vertical_center svelte-1j0mkyi");
+			attr(button0, "class", "buttons vertical_center svelte-1j0mkyi");
 			attr(div1, "id", "toolbar_click");
-			attr(div1, "class", "svelte-1nlh8xp");
-			attr(button1, "class", "buttons vertical_center svelte-1nlh8xp");
+			attr(div1, "class", "svelte-1j0mkyi");
+			attr(button1, "class", "buttons vertical_center svelte-1j0mkyi");
 			attr(div2, "id", "toolbar_tap");
-			attr(div2, "class", "svelte-1nlh8xp");
-			if (/*beatsPerBar*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[14].call(select));
+			attr(div2, "class", "svelte-1j0mkyi");
+			if (/*beatsPerBar*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[16].call(select));
 			attr(input1, "id", "current_bar_offset_input");
 			attr(input1, "type", "number");
 			attr(input1, "min", "1");
-			attr(input1, "class", "svelte-1nlh8xp");
-			attr(span, "class", "vertical_center svelte-1nlh8xp");
+			attr(input1, "class", "svelte-1j0mkyi");
+			attr(span, "class", "vertical_center svelte-1j0mkyi");
 			attr(div3, "id", "toolbar_beat_per_bar");
-			attr(div3, "class", "svelte-1nlh8xp");
+			attr(div3, "class", "svelte-1j0mkyi");
+			attr(label, "class", "vertical_center svelte-1j0mkyi");
+			attr(label, "for", "input_text_annotation");
+			attr(input2, "id", "input_text_annotation");
+			attr(input2, "class", "vertical_center svelte-1j0mkyi");
+			attr(button2, "id", "button_add_text");
+			attr(button2, "class", "buttons vertical_center svelte-1j0mkyi");
+			attr(div4, "id", "toolbar_text_annotation");
+			attr(div4, "class", "svelte-1j0mkyi");
 		},
 		m(target, anchor) {
 			insert(target, div0, anchor);
@@ -18974,16 +18998,28 @@ function ToolBar_svelte_create_fragment(ctx) {
 			append(span, t9);
 			append(span, input1);
 			set_input_value(input1, /*currentBarOffset*/ ctx[5]);
+			insert(target, t10, anchor);
+			insert(target, div4, anchor);
+			append(div4, label);
+			append(div4, t12);
+			append(div4, input2);
+			set_input_value(input2, /*textAnnotationStringValue*/ ctx[6]);
+			append(div4, t13);
+			append(div4, button2);
 
 			if (!mounted) {
 				dispose = [
-					listen(input0, "change", /*input0_change_input_handler*/ ctx[10]),
-					listen(input0, "input", /*input0_change_input_handler*/ ctx[10]),
-					listen(input0, "input", /*input_handler*/ ctx[11]),
-					listen(button0, "click", /*click_handler*/ ctx[12]),
-					listen(button1, "click", /*click_handler_1*/ ctx[13]),
-					listen(select, "change", /*select_change_handler*/ ctx[14]),
-					listen(input1, "input", /*input1_input_handler*/ ctx[15])
+					listen(input0, "change", /*input0_change_input_handler*/ ctx[12]),
+					listen(input0, "input", /*input0_change_input_handler*/ ctx[12]),
+					listen(input0, "input", /*input_handler*/ ctx[13]),
+					listen(button0, "click", /*click_handler*/ ctx[14]),
+					listen(button1, "click", /*click_handler_1*/ ctx[15]),
+					listen(select, "change", /*select_change_handler*/ ctx[16]),
+					listen(input1, "input", /*input1_input_handler*/ ctx[17]),
+					listen(input2, "input", /*input2_input_handler*/ ctx[18]),
+					listen(input2, "focus", /*focus_handler*/ ctx[19]),
+					listen(input2, "focusout", /*focusout_handler*/ ctx[20]),
+					listen(button2, "click", /*click_handler_2*/ ctx[21])
 				];
 
 				mounted = true;
@@ -18998,8 +19034,8 @@ function ToolBar_svelte_create_fragment(ctx) {
 			if (dirty & /*currentBar, currentBarOffset*/ 48 && t5_value !== (t5_value = /*currentBar*/ ctx[4] + /*currentBarOffset*/ ctx[5] - 1 + "")) set_data(t5, t5_value);
 			if (dirty & /*currentBeat*/ 8) set_data(t7, /*currentBeat*/ ctx[3]);
 
-			if (dirty & /*beatsPerBarList*/ 128) {
-				each_value = /*beatsPerBarList*/ ctx[7];
+			if (dirty & /*beatsPerBarList*/ 256) {
+				each_value = /*beatsPerBarList*/ ctx[8];
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
@@ -19021,12 +19057,16 @@ function ToolBar_svelte_create_fragment(ctx) {
 				each_blocks.length = each_value.length;
 			}
 
-			if (dirty & /*beatsPerBar, beatsPerBarList*/ 132) {
+			if (dirty & /*beatsPerBar, beatsPerBarList*/ 260) {
 				select_option(select, /*beatsPerBar*/ ctx[2]);
 			}
 
 			if (dirty & /*currentBarOffset*/ 32 && to_number(input1.value) !== /*currentBarOffset*/ ctx[5]) {
 				set_input_value(input1, /*currentBarOffset*/ ctx[5]);
+			}
+
+			if (dirty & /*textAnnotationStringValue*/ 64 && input2.value !== /*textAnnotationStringValue*/ ctx[6]) {
+				set_input_value(input2, /*textAnnotationStringValue*/ ctx[6]);
 			}
 		},
 		i: noop,
@@ -19040,6 +19080,8 @@ function ToolBar_svelte_create_fragment(ctx) {
 			if (detaching) detach(t8);
 			if (detaching) detach(div3);
 			destroy_each(each_blocks, detaching);
+			if (detaching) detach(t10);
+			if (detaching) detach(div4);
 			mounted = false;
 			run_all(dispose);
 		}
@@ -19070,6 +19112,7 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 	let currentBeat = 1;
 	let currentBar = 1;
 	let currentBarOffset = 1;
+	let textAnnotationStringValue = "";
 
 	onMount(async () => {
 		//attach tap event handler to appContext to receive keyboard input
@@ -19104,6 +19147,20 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(3, currentBeat = currentBeat + 1);
 	}
 
+	function addTextAnnotation(event) {
+		appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
+			let annotation = new Annotation({
+					time: playerPosition,
+					type: "Text",
+					stringValue: textAnnotationStringValue
+				});
+
+			// button "contains" the next beat to add.
+			// 1. step. add beat to annotations
+			appContainer.trigger("addAnnotationToNewSession", annotation);
+		});
+	}
+
 	function input0_change_input_handler() {
 		zoomLevel = to_number(this.value);
 		$$invalidate(0, zoomLevel);
@@ -19126,7 +19183,7 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 	function select_change_handler() {
 		beatsPerBar = select_value(this);
 		$$invalidate(2, beatsPerBar);
-		$$invalidate(7, beatsPerBarList);
+		$$invalidate(8, beatsPerBarList);
 	}
 
 	function input1_input_handler() {
@@ -19134,8 +19191,20 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(5, currentBarOffset);
 	}
 
+	function input2_input_handler() {
+		textAnnotationStringValue = this.value;
+		$$invalidate(6, textAnnotationStringValue);
+	}
+
+	const focus_handler = () => appContainer.trigger("focusOnTextInput", true);
+	const focusout_handler = () => appContainer.trigger("focusOnTextInput", false);
+
+	const click_handler_2 = e => {
+		addTextAnnotation(e);
+	};
+
 	$$self.$$set = $$props => {
-		if ("recordingId" in $$props) $$invalidate(9, recordingId = $$props.recordingId);
+		if ("recordingId" in $$props) $$invalidate(11, recordingId = $$props.recordingId);
 	};
 
 	$$self.$$.update = () => {
@@ -19171,24 +19240,30 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 		currentBeat,
 		currentBar,
 		currentBarOffset,
+		textAnnotationStringValue,
 		appContainer,
 		beatsPerBarList,
 		addNewAnnotation,
+		addTextAnnotation,
 		recordingId,
 		input0_change_input_handler,
 		input_handler,
 		click_handler,
 		click_handler_1,
 		select_change_handler,
-		input1_input_handler
+		input1_input_handler,
+		input2_input_handler,
+		focus_handler,
+		focusout_handler,
+		click_handler_2
 	];
 }
 
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!ToolBar_svelte_document_1.getElementById("svelte-1nlh8xp-style")) ToolBar_svelte_add_css();
-		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 9 });
+		if (!ToolBar_svelte_document_1.getElementById("svelte-1j0mkyi-style")) ToolBar_svelte_add_css();
+		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 11 });
 	}
 }
 
@@ -19994,7 +20069,7 @@ function SessionList_svelte_get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (489:0) {#if sessionList.length == 0}
+// (492:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -20011,7 +20086,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (493:0) {#if sessionList.length > 0}
+// (496:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
@@ -20059,7 +20134,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (495:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (498:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -20153,7 +20228,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (519:0) {#if currentlyNewSession.length == 0}
+// (522:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -20170,7 +20245,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (524:0) {#if currentlyNewSession.length > 0}
+// (527:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -20272,7 +20347,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (526:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (529:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -20345,7 +20420,7 @@ function SessionList_svelte_create_if_block_2(ctx) {
 	};
 }
 
-// (567:0) {#if sessionSelection.length > 0}
+// (570:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -20651,7 +20726,9 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 				session: response[i],
 				color: pickColor(i),
 				selected: false,
-				dirty: false
+				dirty: false, // not used rn
+				visible: false, // not used rn
+				
 			};
 
 			convertGormSession(listEntry);
@@ -20811,7 +20888,8 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 				session,
 				color: pickColor(sessionList.length),
 				selected: true,
-				dirty: false
+				dirty: false,
+				visible: false
 			};
 
 			convertGormSession(listEntry);
@@ -21007,7 +21085,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 				sessionSelection;
 
 				// discard any new annotations, when session selection changes
-				console.log("sessionSelection got triggered");
+				console.log("sessionSelection got triggered. updating waveform. Todo: improve performance");
 
 				updateWaveFormCanvas();
 			}

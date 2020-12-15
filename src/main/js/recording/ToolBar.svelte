@@ -43,6 +43,9 @@
         currentBar = 1;
     }
 
+
+    let textAnnotationStringValue = "";
+
     onMount(async () => {
 
         //attach tap event handler to appContext to receive keyboard input
@@ -83,6 +86,22 @@
 
     }
 
+    function addTextAnnotation(event) {
+        appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
+
+            let annotation = new Annotation( {
+                time: playerPosition,
+                type: "Text",
+                stringValue: textAnnotationStringValue
+            });
+
+            // button "contains" the next beat to add.
+            // 1. step. add beat to annotations
+            appContainer.trigger("addAnnotationToNewSession", annotation);
+        });
+
+    }
+
 
 
 
@@ -112,7 +131,7 @@
         left: 20em;
     }
     #toolbar_beat_per_bar {
-        /* border: 1px solid black; */
+        border: 1px solid black;
         position: absolute;
         height: 100%;
         width: 20em;
@@ -120,6 +139,21 @@
     }
     #current_bar_offset_input {
         width: 4em;
+    }
+
+    #toolbar_text_annotation {
+        border: 1px solid black;
+        position: absolute;
+        height: 100%;
+        width: 38em;
+        left: 47em;
+    }
+    #button_add_text {
+        left: 32em;
+    }
+    #input_text_annotation {
+        left: 10em;
+        width: 22em;
     }
 
 
@@ -213,3 +247,19 @@
 </div>
 
 
+<div id="toolbar_text_annotation">
+
+    <label class="vertical_center" for="input_text_annotation">Add Text Annotation:</label>
+    <input id="input_text_annotation" class="vertical_center"
+           bind:value={textAnnotationStringValue}
+           on:focus={ () => appContainer.trigger("focusOnTextInput", true) }
+           on:focusout={ () => appContainer.trigger("focusOnTextInput", false) }
+    >
+    <button id="button_add_text" class="buttons vertical_center" on:click={e => {
+
+        addTextAnnotation(e);
+        textAnnotationStringValue = "";
+
+    }}>Add Text</button>
+
+</div>

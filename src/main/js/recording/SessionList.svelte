@@ -78,7 +78,8 @@
     $: {
         sessionSelection;
         // discard any new annotations, when session selection changes
-        console.log("sessionSelection got triggered");
+        console.log("sessionSelection got triggered. updating waveform. Todo: improve performance");
+
         updateWaveFormCanvas();
     }
 
@@ -115,7 +116,8 @@
                 session: response[i],
                 color: pickColor(i),
                 selected: false,
-                dirty: false
+                dirty: false, // not used rn
+                visible: false // not used rn
             }
             convertGormSession(listEntry);
 
@@ -323,7 +325,8 @@
                 session: session,
                 color: pickColor(sessionList.length),
                 selected: true,
-                dirty: false
+                dirty: false,
+                visible: false
             };
 
             convertGormSession(listEntry);

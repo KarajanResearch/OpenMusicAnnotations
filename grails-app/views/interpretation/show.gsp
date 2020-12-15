@@ -17,6 +17,14 @@
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
+
+                <script type="application/javascript">
+                    function close_window() {
+                        window.close();
+                    }
+                </script>
+                <a href="javascript:javascript:close_window();">Close tab and go back</a>
+
             </g:if>
             <f:display bean="interpretation" order="title, recordings"/>
 
