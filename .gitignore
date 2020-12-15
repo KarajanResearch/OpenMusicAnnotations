@@ -16,3 +16,4 @@ jupyter-omaapi/input/.ipynb_checkpoints
 jupyter-omaapi/input/.omacache
 jupyter-omaapi/input/omacache
 jupyter-omaapi/input/*.pyc
+node_modules/
