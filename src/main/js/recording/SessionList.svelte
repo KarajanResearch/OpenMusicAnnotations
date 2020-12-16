@@ -62,14 +62,15 @@
      * monitoring sessionList and sessionSelection and updating points on waveform
      */
     $: {
-        sessionList;
         console.log("sessionList got triggered");
 
         // only update selection, when the selection changes. Not the label text!
         let currentSelection = sessionList.filter(s => s.selected);
         if (currentSelection.length != sessionSelection.length) {
+            //differences ?
             sessionSelection = currentSelection;
         }
+
     }
 
     /**
@@ -219,6 +220,62 @@
     }
 
 
+    /**
+     * incremental annotation rendering to work around slow points.add
+     */
+    function renderSessionIncrementally(session) {
+
+
+        // partition input
+        let numberOfAnnotations = session.annotations.length;
+
+
+        // devide in pieces of 50
+        let partSize = 50;
+
+        console.log(numberOfAnnotations);
+
+        for (let i = 0; i < (Math.floor(numberOfAnnotations / partSize) + 1); i++) {
+            console.log("Part: " + i);
+            let lowerBound = i * partSize;
+            let upperBound = (i + 1) * partSize;
+            upperBound = Math.min(upperBound, numberOfAnnotations - 1);
+
+            console.log("lower bound: " + lowerBound);
+            console.log("upper bound: " + upperBound);
+
+            let partition = session.annotations.slice(lowerBound, upperBound);
+
+
+            let res = renderAnnotationsAsyncBatch(partition);
+
+            console.log(res);
+
+        }
+    }
+
+    async function renderAnnotationsAsyncBatch(annotationBatch) {
+        console.log("renderAnnotationsAsyncBatch");
+
+        for (let j = 0; j < annotationBatch.length; j++) {
+            let annotation = annotationBatch[j];
+            let point = annotation.getPeaksPoint();
+            // let t3 = performance.now();
+            appContainer.trigger("drawAnnotation", point);
+            // let t4 = performance.now();
+            // console.log("drawAnnotation in " + (t4 - t3));
+        }
+
+        return "OK";
+    }
+
+
+    /**
+     * @param session object
+     * @param session.annotations array
+     *
+     *  params example: session = {annotations: []}
+     */
 
 
 
@@ -227,25 +284,34 @@
      * draws selected sessions to waveform canvas
      */
     function updateWaveFormCanvas() {
+
         appContainer.trigger("clearAllAnnotations");
+
+        // draw currently new session
+        console.log("draw that session: " + currentlyNewSession.title);
+        let t1 = performance.now();
+        for (let i = 0; i < currentlyNewSession.length; i++) {
+            appContainer.trigger("drawAnnotation", currentlyNewSession[i]);
+        }
+        let t2 = performance.now();
+        console.log("done in " + (t2 - t1));
+
 
         // draw selected sessions
         for (let i = 0; i < sessionSelection.length; i++) {
             let session = sessionSelection[i].session;
             //let color = sessionSelection[i].color;
             // draw that session
-            for (let j = 0; j < session.annotations.length; j++) {
-                let annotation = session.annotations[j];
+            console.log("draw that session: " + session.title);
+            t1 = performance.now();
+            //renderSessionAtOnce(session);
+            appContainer.trigger("drawSession", sessionSelection[i]);
+            //renderSessionIncrementally(session);
+            t2 = performance.now();
+            console.log("done in " + (t2 - t1));
 
-                let point = annotation.getPeaksPoint();
-                appContainer.trigger("drawAnnotation", point);
-            }
         }
 
-        // draw currently new session
-        for (let i = 0; i < currentlyNewSession.length; i++) {
-            appContainer.trigger("drawAnnotation", currentlyNewSession[i]);
-        }
 
 
     }

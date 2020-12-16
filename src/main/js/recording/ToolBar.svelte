@@ -131,7 +131,7 @@
         left: 20em;
     }
     #toolbar_beat_per_bar {
-        border: 1px solid black;
+        /* border: 1px solid black; */
         position: absolute;
         height: 100%;
         width: 20em;
@@ -142,7 +142,7 @@
     }
 
     #toolbar_text_annotation {
-        border: 1px solid black;
+        /* border: 1px solid black; */
         position: absolute;
         height: 100%;
         width: 38em;

@@ -1,6 +1,8 @@
 <script>
     import { onMount } from "svelte";
     import Peaks from 'peaks.js';
+    import Chart from "chart.js";
+    import Annotation from "./Annotation";
 
     // id of the grails recording object passed from the outside
     export let recordingId;
@@ -11,6 +13,11 @@
     let metronomeEnabled = true;
     let peaks = {};
 
+
+    let width = 1400;
+    let height = 200;
+
+    let tempoAnnotationSessions = [];
 
     onMount(async () => {
 
@@ -51,7 +58,31 @@
 
         peaks = Peaks.init(options, function(err, peaks) {
             // ...
+
+            console.log("Peaks View");
+
+
+            let view = peaks.views;
+            console.log(view);
+
+
+            width = peaks.views._overview._width;
+            height = peaks.views._overview._height;
+
+
+            let zoomview = peaks.views._zoomview;
+
+            console.log("zoomview");
+            console.log(zoomview);
+
+
+
+
+
+            // TODO: mark peaks init done to enable other features
         });
+
+
 
         peaks.zoom.setZoom(4);
 
@@ -59,6 +90,12 @@
         /**
          * registering waveform events
          */
+        peaks.on("zoom.update", function (currentZoomLevel, previousZoomLevel) {
+
+            console.log("Zoom " + previousZoomLevel + " -> " + currentZoomLevel);
+
+        });
+
 
         /**
          * click the metronome when entering a point
@@ -111,11 +148,69 @@
                 return;
             }
 
+            //let t1 = performance.now();
             peaks.points.add(annotation);
+            //let t2 = performance.now();
+            //console.log("   points.add: " + (t2-t1));
+
+
+        });
+        appContainer.on("drawSession", function (event, sessionListEntry) {
+
+            // tempo curve calculated on the fly
+            let tempoAnnotations = [];
+            let previousAnnotation = {};
+
+            for (let j = 0; j < sessionListEntry.session.annotations.length; j++) {
+                let annotation = sessionListEntry.session.annotations[j];
+
+                // console.log(annotation);
+
+                if (j > 0 && annotation.type === "Tap" && (
+                    annotation.subdivision === null || annotation.subdivision === 1
+                )) {
+                    let deltaTime = annotation.time - previousAnnotation.time;
+                    // console.log(deltaTime);
+                    let tempoAnnotation = new Annotation(
+                        {
+                            type: "Tempo",
+                            time: annotation.time,
+                            doubleValue: 60.0 / deltaTime,
+                            color: annotation.color
+                        }
+                    );
+
+                    tempoAnnotations.push(tempoAnnotation);
+                }
+                let point = annotation.getPeaksPoint();
+                let t3 = performance.now();
+                peaks.points.add(point);
+                let t4 = performance.now();
+                // console.log("drawAnnotation in " + (t4 - t3));
+
+                previousAnnotation = annotation;
+            }
+
+
+            // maybe return reference to layer per session for reuse
+
+            // draw tempogram
+
+            // check existing
+            tempoAnnotationSessions = [];
+            tempoAnnotationSessions.push({
+                sessionListEntry: sessionListEntry,
+                annotations: tempoAnnotations
+            });
+            renderTempoCurves();
+
+
+
 
         });
         appContainer.on("clearAllAnnotations", function (event) {
             peaks.points.removeAll();
+            tempoAnnotationSessions = [];
         });
 
         appContainer.on("eraseAnnotation", function (event, annotation) {
@@ -127,14 +222,144 @@
             metronomeEnabled = !metronomeEnabled;
         });
 
+
+
+        window.onresize = function(event) {
+            // console.log("window size changed:");
+            // console.log(peaks.views._overview._width);
+            width = peaks.views._overview._width;
+            height = peaks.views._overview._height;
+
+            console.log(height + " x " + width);
+
+        };
+
     });
 
 
+    $: {
+        width;
+        console.log("width changed:");
+        console.log(width);
+    }
+
+
+    const zeroPad = (num, places) => String(num).padStart(places, '0');
+
+    function secondsToMMSS(time) {
+        let minutes = Math.floor(time / 60);
+        let seconds = zeroPad((time % 60).toFixed(2), 2);
+        return `${minutes}:${seconds}`;
+    }
+
+    function renderTempoCurves() {
+
+        let maxDuration = peaks.player.getDuration();
+
+
+        let timeFormat = 'mm:ss';
+
+        var ctx = document.getElementById(`tempo-chart-overview_${recordingId}`);
+
+
+        for (let i = 0; i < tempoAnnotationSessions.length; i++) {
+
+            let chartData = [
+                {
+                    x: 0.0,
+                    y: 0.0
+                }
+            ];
+
+            tempoAnnotationSessions[i].annotations.map(function (val) {
+                chartData.push({
+                    x: val.time,
+                    y: val.doubleValue.toFixed(2)
+                });
+            });
+
+            chartData.push({
+                x: maxDuration,
+                y: 0.0
+            });
+
+            let chart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    datasets: [
+                        {
+                            label: "foo",
+                            display: false,
+                            data: chartData
+                        }
+                    ]
+                },
+
+                options: {
+                    title: {
+                        display: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                unit: "second",
+                            },
+                            distribution: "linear",
+                            scaleLabel: {
+                                display: false,
+                                // labelString: 'Time'
+                            },
+                            display: false,
+
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'BPM'
+                            },
+                            display: false
+                        }]
+                    },
+                }
+
+
+            });
+
+
+
+
+        }
+
+
+    }
 
 
 
 </script>
 
 
+<style>
+
+    .tempo-container {
+        border: 1px solid red;
+        height: 158px;
+        background: #01ff70;
+    }
+
+</style>
+
+
 <div id="zoomview-container_{recordingId}"/>
+
+
+
+<div id="tempo-container_{recordingId}" class="tempo-container">
+
+    <!--<canvas id="tempo-chart-zoomview_{recordingId}" width="{width}" height="79"></canvas>-->
+
+    <canvas id="tempo-chart-overview_{recordingId}" width="{width}" height="158"></canvas>
+
+</div>
 <div id="overview-container_{recordingId}"/>
+

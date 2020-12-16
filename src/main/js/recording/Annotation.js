@@ -18,7 +18,8 @@ export default class Annotation {
                     bar = 0,
                     beat = 0,
                     subdivision = 0,
-                    stringValue = ""
+                    stringValue = "",
+                    doubleValue = 0.0
                 } = {}) {
         this.id = id;
         this.time = time;
@@ -34,6 +35,7 @@ export default class Annotation {
         this.beat = beat;
         this.subdivision = subdivision;
         this.stringValue = stringValue;
+        this.doubleValue = doubleValue;
 
         // create labels based on type
         if (this.type === "Tap") {

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/KarajanResearch/OpenMusicAnnotations#readme",
   "dependencies": {
+    "chart.js": "^2.9.4",
     "jplayer": "^2.9.2",
     "peaks.js": "^0.22.0",
     "svelte": "^3.29.7",
