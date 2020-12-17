@@ -1,6 +1,6 @@
 
 <g:if test="${this.recording.interpretation}">
-    <h1>
+    <h3>
         <g:if test="${this.recording.interpretation.abstractMusicParts[0]}">
             Composition:
                 ${this.recording.interpretation.abstractMusicParts[0]},
@@ -13,14 +13,14 @@
         Title:
         <g:link controller="recording" action="edit" resource="${this.recording}">
             ${this.recording.title},</g:link>
-    </h1>
+    </h3>
 </g:if>
 <g:else>
-    <h1>${this.recording.title}
+    <h3>${this.recording.title}
     <g:link controller="recording" action="edit" id="${this.recording.id}">
         Add Metadata
     </g:link>
-    </h1>
+    </h3>
 </g:else>
 
 
