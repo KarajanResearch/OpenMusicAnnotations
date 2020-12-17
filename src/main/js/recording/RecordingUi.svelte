@@ -63,7 +63,7 @@
         /*border: 1px solid;*/
         position: relative;
         width: 100%;
-        height: 47em;
+        height: 44em;
     }
 
     #recording_ui_transport {
@@ -79,28 +79,23 @@
         height: 3.5em;
     }
     #recording_ui_trackbar {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: absolute;
+        border-right: 1.5px solid lightgray;
         top: 3.5em;
         width: 20%;
-        height: 32.5em;
+        height: 40em;
         overflow: auto;
     }
     #recording_ui_waveform {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: absolute;
         top: 3.5em;
         left: 20%;
         width: 80%;
         height: 40em;
     }
-    #recording_ui_footer {
-        border: 1px solid;
-        position: absolute;
-        left: 20%;
-        top: 44em;
-        width: 80%;
-    }
+
 
 </style>
 
@@ -134,9 +129,7 @@
             <DynamicWaveForm recordingId={recordingId} />
         </div>
 
-        <div id="recording_ui_footer">
-footer
-        </div>
+
     </div>
 {/if}
 

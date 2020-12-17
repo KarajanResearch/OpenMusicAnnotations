@@ -167,7 +167,7 @@
                 // console.log(annotation);
 
                 if (j > 0 && annotation.type === "Tap" && (
-                    annotation.subdivision === null || annotation.subdivision === 1
+                    annotation.subdivision === null || annotation.subdivision === 1 || annotation.subdivision === 0
                 )) {
                     let deltaTime = annotation.time - previousAnnotation.time;
                     // console.log(deltaTime);
@@ -183,9 +183,9 @@
                     tempoAnnotations.push(tempoAnnotation);
                 }
                 let point = annotation.getPeaksPoint();
-                let t3 = performance.now();
+                //let t3 = performance.now();
                 peaks.points.add(point);
-                let t4 = performance.now();
+                //let t4 = performance.now();
                 // console.log("drawAnnotation in " + (t4 - t3));
 
                 previousAnnotation = annotation;
@@ -252,12 +252,14 @@
         return `${minutes}:${seconds}`;
     }
 
+    let chart;
     function renderTempoCurves() {
 
         let maxDuration = peaks.player.getDuration();
 
-
-        let timeFormat = 'mm:ss';
+        if (typeof (chart) !== "undefined") {
+            chart.destroy();
+        }
 
         var ctx = document.getElementById(`tempo-chart-overview_${recordingId}`);
 
@@ -271,26 +273,34 @@
                 }
             ];
 
+            let color = tempoAnnotationSessions[i].annotations[0].color;
+            console.log(color);
+
             tempoAnnotationSessions[i].annotations.map(function (val) {
                 chartData.push({
-                    x: val.time,
+                    x: val.time * 1000, // to milliseconds
                     y: val.doubleValue.toFixed(2)
                 });
             });
 
             chartData.push({
-                x: maxDuration,
+                x: maxDuration * 1000, // to milliseconds
                 y: 0.0
             });
 
-            let chart = new Chart(ctx, {
+            // console.log(chartData);
+
+            chart = new Chart(ctx, {
                 type: "line",
                 data: {
                     datasets: [
                         {
-                            label: "foo",
+                            label: "Beats per Minute",
+                            /*backgroundColor: color,*/
+                            borderColor: color,
                             display: false,
-                            data: chartData
+                            data: chartData,
+                            pointStyle: "line"
                         }
                     ]
                 },
@@ -303,7 +313,9 @@
                         xAxes: [{
                             type: 'time',
                             time: {
-                                unit: "second",
+                                unit: "millisecond",
+                                stepSize: 1000,
+                                tooltipFormat: "[Time: ]m:ss.SSS" // https://www.tutorialspoint.com/momentjs/momentjs_format.htm
                             },
                             distribution: "linear",
                             scaleLabel: {
@@ -342,9 +354,9 @@
 <style>
 
     .tempo-container {
-        border: 1px solid red;
-        height: 158px;
-        background: #01ff70;
+        /*border: 1px solid red;*/
+        /*height: 158px;*/
+        /*background: #b3a3a3;*/
     }
 
 </style>
@@ -352,7 +364,7 @@
 
 <div id="zoomview-container_{recordingId}"/>
 
-
+<div id="overview-container_{recordingId}"/>
 
 <div id="tempo-container_{recordingId}" class="tempo-container">
 
@@ -361,5 +373,5 @@
     <canvas id="tempo-chart-overview_{recordingId}" width="{width}" height="158"></canvas>
 
 </div>
-<div id="overview-container_{recordingId}"/>
+
 
