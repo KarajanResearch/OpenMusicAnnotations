@@ -1,26 +1,40 @@
+<style type="text/css">
+
+    .recording-title {
+        
+    }
+
+</style>
+
 
 <g:if test="${this.recording.interpretation}">
-    <h3>
+    <p class="recording-title">
         <g:if test="${this.recording.interpretation.abstractMusicParts[0]}">
-            Composition:
+            <strong>
                 ${this.recording.interpretation.abstractMusicParts[0]},
+            </strong>
         </g:if>
 
         Interpretation:
         <g:link controller="interpretation" action="edit" resource="${this.recording.interpretation}">
-            ${this.recording.interpretation},</g:link>
+            <strong>
+                ${this.recording.interpretation},
+            </strong>
+        </g:link>
 
         Title:
         <g:link controller="recording" action="edit" resource="${this.recording}">
             ${this.recording.title},</g:link>
-    </h3>
+    </p>
 </g:if>
 <g:else>
-    <h3>${this.recording.title}
+    <p>${this.recording.title}
     <g:link controller="recording" action="edit" id="${this.recording.id}">
-        Add Metadata
+        <strong>
+            Add Metadata
+        </strong>
     </g:link>
-    </h3>
+    </p>
 </g:else>
 
 
