@@ -183,6 +183,9 @@
                     tempoAnnotations.push(tempoAnnotation);
                 }
                 let point = annotation.getPeaksPoint();
+
+                // reduce color
+
                 //let t3 = performance.now();
                 peaks.points.add(point);
                 //let t4 = performance.now();

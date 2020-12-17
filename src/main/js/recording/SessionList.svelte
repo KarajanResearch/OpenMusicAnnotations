@@ -30,6 +30,20 @@
         "#4ed55f",
     ];
 
+    let sessionColorsTransparent = [
+        "#acabb2",
+        "#7872e8",
+        "#f95572",
+        "#2f92ff",
+        "#f96159",
+        "#64aed4",
+        "#d1a06c",
+        "#8dc3ed",
+        "#ffeda7",
+        "#7fd189",
+    ];
+
+
 
     onMount(async () => {
         await fetchSessionList();
@@ -94,7 +108,7 @@
      */
     function pickColor(index) {
         // quasi round-robin ;)
-        return sessionColors[index % sessionColors.length];
+        return sessionColorsTransparent[index % sessionColorsTransparent.length];
     }
 
     function convertGormSession(listEntry) {

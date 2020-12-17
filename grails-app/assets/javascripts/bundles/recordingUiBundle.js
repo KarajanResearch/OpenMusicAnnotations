@@ -57280,13 +57280,13 @@ function SessionList_svelte_add_css() {
 
 function SessionList_svelte_get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[32] = list[i];
-	child_ctx[33] = list;
-	child_ctx[34] = i;
+	child_ctx[33] = list[i];
+	child_ctx[34] = list;
+	child_ctx[35] = i;
 	return child_ctx;
 }
 
-// (558:0) {#if sessionList.length == 0}
+// (572:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -57303,13 +57303,13 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (562:0) {#if sessionList.length > 0}
+// (576:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
 	let each_1_lookup = new Map();
 	let each_value = /*sessionList*/ ctx[1];
-	const get_key = ctx => /*sessionListEntry*/ ctx[32].id;
+	const get_key = ctx => /*sessionListEntry*/ ctx[33].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = SessionList_svelte_get_each_context(ctx, each_value, i);
@@ -57351,7 +57351,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (564:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (578:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -57364,15 +57364,15 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	let dispose;
 
 	function input0_change_handler() {
-		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[33], /*sessionListEntry_index*/ ctx[34]);
+		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[34], /*sessionListEntry_index*/ ctx[35]);
 	}
 
 	function input1_input_handler() {
-		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[33], /*sessionListEntry_index*/ ctx[34]);
+		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[34], /*sessionListEntry_index*/ ctx[35]);
 	}
 
 	function focusout_handler() {
-		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[32]);
+		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[33]);
 	}
 
 	return {
@@ -57387,20 +57387,20 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			attr(input0, "class", "session_list_entry_checkbox svelte-1dbcd0g");
 			attr(input0, "type", "checkbox");
 			attr(input1, "class", "session_list_entry_title svelte-1dbcd0g");
-			attr(input1, "title", input1_title_value = /*sessionListEntry*/ ctx[32].session.title);
+			attr(input1, "title", input1_title_value = /*sessionListEntry*/ ctx[33].session.title);
 			attr(input1, "placeholder", "Name for Annotations...");
-			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[32].session.isMine;
+			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[33].session.isMine;
 			attr(div, "class", "session_list_entry svelte-1dbcd0g");
-			set_style(div, "background-color", /*sessionListEntry*/ ctx[32].color);
+			set_style(div, "background-color", /*sessionListEntry*/ ctx[33].color);
 			this.first = div;
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input0);
-			input0.checked = /*sessionListEntry*/ ctx[32].selected;
+			input0.checked = /*sessionListEntry*/ ctx[33].selected;
 			append(div, t0);
 			append(div, input1);
-			set_input_value(input1, /*sessionListEntry*/ ctx[32].session.title);
+			set_input_value(input1, /*sessionListEntry*/ ctx[33].session.title);
 			append(div, t1);
 
 			if (!mounted) {
@@ -57418,23 +57418,23 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			ctx = new_ctx;
 
 			if (dirty[0] & /*sessionList*/ 2) {
-				input0.checked = /*sessionListEntry*/ ctx[32].selected;
+				input0.checked = /*sessionListEntry*/ ctx[33].selected;
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1_title_value !== (input1_title_value = /*sessionListEntry*/ ctx[32].session.title)) {
+			if (dirty[0] & /*sessionList*/ 2 && input1_title_value !== (input1_title_value = /*sessionListEntry*/ ctx[33].session.title)) {
 				attr(input1, "title", input1_title_value);
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[32].session.isMine)) {
+			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[33].session.isMine)) {
 				input1.disabled = input1_disabled_value;
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[32].session.title) {
-				set_input_value(input1, /*sessionListEntry*/ ctx[32].session.title);
+			if (dirty[0] & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[33].session.title) {
+				set_input_value(input1, /*sessionListEntry*/ ctx[33].session.title);
 			}
 
 			if (dirty[0] & /*sessionList*/ 2) {
-				set_style(div, "background-color", /*sessionListEntry*/ ctx[32].color);
+				set_style(div, "background-color", /*sessionListEntry*/ ctx[33].color);
 			}
 		},
 		d(detaching) {
@@ -57445,7 +57445,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (588:0) {#if currentlyNewSession.length == 0}
+// (602:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -57462,7 +57462,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (593:0) {#if currentlyNewSession.length > 0}
+// (607:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -57564,7 +57564,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (595:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (609:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -57637,7 +57637,7 @@ function SessionList_svelte_create_if_block_2(ctx) {
 	};
 }
 
-// (636:0) {#if sessionSelection.length > 0}
+// (650:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -57892,6 +57892,19 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		"#4ed55f"
 	];
 
+	let sessionColorsTransparent = [
+		"#acabb2",
+		"#7872e8",
+		"#f95572",
+		"#2f92ff",
+		"#f96159",
+		"#64aed4",
+		"#d1a06c",
+		"#8dc3ed",
+		"#ffeda7",
+		"#7fd189"
+	];
+
 	onMount(async () => {
 		await fetchSessionList();
 
@@ -57918,7 +57931,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
  */
 	function pickColor(index) {
 		// quasi round-robin ;)
-		return sessionColors[index % sessionColors.length];
+		return sessionColorsTransparent[index % sessionColorsTransparent.length];
 	}
 
 	function convertGormSession(listEntry) {
@@ -58629,6 +58642,7 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 
 				let point = annotation.getPeaksPoint();
 
+				// reduce color
 				//let t3 = performance.now();
 				peaks.points.add(point);
 
