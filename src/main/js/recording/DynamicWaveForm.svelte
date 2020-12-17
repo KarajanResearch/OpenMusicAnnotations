@@ -261,7 +261,13 @@
             chart.destroy();
         }
 
+
+        // let overview = document.getElementById(`overview-container_${recordingId}`);
+        // let canvas = overview.lastChild.lastChild;
+        // console.log(canvas);
+
         var ctx = document.getElementById(`tempo-chart-overview_${recordingId}`);
+
 
 
         for (let i = 0; i < tempoAnnotationSessions.length; i++) {
@@ -274,7 +280,7 @@
             ];
 
             let color = tempoAnnotationSessions[i].annotations[0].color;
-            console.log(color);
+            // console.log(color);
 
             tempoAnnotationSessions[i].annotations.map(function (val) {
                 chartData.push({
