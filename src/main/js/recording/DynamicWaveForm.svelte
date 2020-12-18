@@ -3,6 +3,8 @@
     import Peaks from 'peaks.js';
     import Chart from "chart.js";
     import Annotation from "./Annotation";
+    import CustomPointMarker from "./CustomPointMarker";
+    import SimplePointMarker from "./SimplePointMarker";
 
     // id of the grails recording object passed from the outside
     export let recordingId;
@@ -19,13 +21,31 @@
 
     let tempoAnnotationSessions = [];
 
+    let overview;
+    let zoomview;
+
+
+    function createPointMarker(options) {
+        if (options.view === 'zoomview') {
+            //return new CustomPointMarker(options, zoomview, overview);
+            return new SimplePointMarker(options, zoomview, overview);
+        }
+        else {
+            return new SimplePointMarker(options, zoomview, overview);
+        }
+    }
+
+
     onMount(async () => {
+
+        overview = document.getElementById('overview-container_'+recordingId);
+        zoomview= document.getElementById('zoomview-container_'+recordingId);
 
         // https://github.com/bbc/peaks.js#configuration
         const options = {
             containers: {
-                overview: document.getElementById('overview-container_'+recordingId),
-                zoomview: document.getElementById('zoomview-container_'+recordingId)
+                overview: overview,
+                zoomview: zoomview
             },
             mediaElement: document.getElementById('audio_element_' + recordingId),
             dataUri: {
@@ -53,6 +73,9 @@
             keyboard: true,
             // Keyboard nudge increment in seconds (left arrow/right arrow)
             nudgeIncrement: 0.01,
+
+            createPointMarker: createPointMarker
+
         };
 
 

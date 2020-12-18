@@ -62,7 +62,8 @@
     <h1 class="welcome">Documentation</h1>
 
     <h2 class="welcome">Adding your own Recordings</h2>
-    <iframe width="1015" height="571" src="https://www.youtube.com/embed/N_LR1BFODoM?rel=0&vq=hd1080" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    <iframe width="1015" height="571" src="https://www.youtube.com/embed/IouyKUbdSYM?rel=0&vq=hd1080" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
     <h2 class="welcome">Data Analysis with Python Notebooks</h2>
