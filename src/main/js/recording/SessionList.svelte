@@ -76,7 +76,7 @@
      * monitoring sessionList and sessionSelection and updating points on waveform
      */
     $: {
-        console.log("sessionList got triggered");
+        //console.log("sessionList got triggered");
 
         // only update selection, when the selection changes. Not the label text!
 
@@ -85,8 +85,13 @@
         let oldSelections = sessionSelection.length;
         let newSelections = currentSelection.length;
 
+        /**
+         * check, if the selection has changed to previous state.
+         * decide, if selection was added or removed to update canvas
+         */
         if (oldSelections === newSelections) {
             // selections have not changed
+            // do NOT update sessionSelection
         } else {
             if (oldSelections > newSelections) {
                 // selection reduced
@@ -101,9 +106,9 @@
                         }
                     }
                     if (stillexists === false) {
-                        console.log("removed id: " + oldSessionId);
+                        // console.log("removed id: " + oldSessionId);
                         // remove points from canvas
-                        clearAnnotationSession(sessionSelection[i].session);
+                        clearAnnotationSession(sessionSelection[i]);
                     }
                 }
             } else {
@@ -119,23 +124,19 @@
                         }
                     }
                     if (isnew === true) {
-                        console.log("added id: " + newSessionId);
+                        // console.log("added id: " + newSessionId);
                         // remove points from canvas
-                        drawAnnotationSession(currentSelection[i].session);
+                        drawAnnotationSession(currentSelection[i]);
                     }
                 }
 
             }
-
+            // update sessionSelection
             sessionSelection = currentSelection;
         }
 
 
-
-
-
-        console.log(sessionSelection);
-
+        // console.log(sessionSelection);
 
     }
 
@@ -143,9 +144,9 @@
      * update waveform canvas in case the selection of annotation sessions has changed
      */
     $: {
-        sessionSelection;
+        // sessionSelection;
         // discard any new annotations, when session selection changes
-        console.log("sessionSelection got triggered");
+        // console.log("sessionSelection got triggered");
 
         //updateWaveFormCanvas();
     }
@@ -159,15 +160,28 @@
 
 
     /**
-     * @param session object present in sessionListItem
+     * @param sessionListEntry object present in sessionSelection
      */
-    function clearAnnotationSession(session) {
-        console.log(`clearAnnotationSession(${session})`);
-
+    function clearAnnotationSession(sessionListEntry) {
+        console.log(`clearAnnotationSession(${sessionListEntry.id})`);
+        let t1 = performance.now();
+        sessionListEntry.session.annotations.map(function (annotation) {
+            appContainer.trigger("eraseAnnotation", annotation);
+        });
+        let t2 = performance.now();
+        console.log("done in " + (t2 - t1));
     }
 
-    function drawAnnotationSession(session) {
-        console.log(`drawAnnotationSession(${session})`);
+    function drawAnnotationSession(sessionListEntry) {
+        console.log(`drawAnnotationSession(${sessionListEntry.id})`);
+
+        console.log("draw that session: " + sessionListEntry.session.title);
+        let t1 = performance.now();
+        //renderSessionAtOnce(session);
+        appContainer.trigger("drawSession", sessionListEntry);
+        //renderSessionIncrementally(session);
+        let t2 = performance.now();
+        console.log("done in " + (t2 - t1));
 
     }
 
