@@ -57286,7 +57286,7 @@ function SessionList_svelte_get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (572:0) {#if sessionList.length == 0}
+// (690:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -57303,7 +57303,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (576:0) {#if sessionList.length > 0}
+// (694:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
@@ -57351,7 +57351,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (578:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (696:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -57445,7 +57445,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (602:0) {#if currentlyNewSession.length == 0}
+// (720:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -57462,7 +57462,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (607:0) {#if currentlyNewSession.length > 0}
+// (725:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -57564,7 +57564,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (609:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (727:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -57637,7 +57637,7 @@ function SessionList_svelte_create_if_block_2(ctx) {
 	};
 }
 
-// (650:0) {#if sessionSelection.length > 0}
+// (768:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -57850,6 +57850,20 @@ function SessionList_svelte_create_fragment(ctx) {
 	};
 }
 
+function clearAnnotationSession(session) {
+	console.log(`clearAnnotationSession(${session})`);
+}
+
+function drawAnnotationSession(session) {
+	console.log(`drawAnnotationSession(${session})`);
+}
+
+/**
+ * persist session title to server
+ * @param sessionId
+ * @param title
+ * @returns {Promise<void>}
+ */
 async function sessionTitleUpdate(sessionId, title) {
 	let data = { sessionId, title };
 
@@ -58359,10 +58373,108 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 				// only update selection, when the selection changes. Not the label text!
 				let currentSelection = sessionList.filter(s => s.selected);
 
-				if (currentSelection.length != sessionSelection.length) {
-					//differences ?
+				let oldSelections = sessionSelection.length;
+				let newSelections = currentSelection.length;
+
+				if (oldSelections === newSelections) {
+					
+				} else {
+					if (oldSelections > newSelections) {
+						// selection reduced
+						for (let i = 0; i < oldSelections; i++) {
+							let oldSessionId = sessionSelection[i].id; // selections have not changed
+							let stillexists = false;
+
+							for (let j = 0; j < newSelections; j++) {
+								let newSessionId = currentSelection[j].id;
+
+								if (newSessionId === oldSessionId) {
+									stillexists = true;
+									break;
+								}
+							}
+
+							if (stillexists === false) {
+								console.log("removed id: " + oldSessionId);
+
+								// remove points from canvas
+								clearAnnotationSession(sessionSelection[i].session);
+							}
+						}
+					} else {
+						// selection increased
+						for (let i = 0; i < newSelections; i++) {
+							let newSessionId = currentSelection[i].id;
+							let isnew = true;
+
+							for (let j = 0; j < oldSelections; j++) {
+								let oldSessionId = sessionSelection[j].id;
+
+								if (newSessionId === oldSessionId) {
+									isnew = false;
+									break;
+								}
+							}
+
+							if (isnew === true) {
+								console.log("added id: " + newSessionId);
+
+								// remove points from canvas
+								drawAnnotationSession(currentSelection[i].session);
+							}
+						}
+					}
+
 					$$invalidate(2, sessionSelection = currentSelection);
 				}
+
+				/*
+        let currentSelection = sessionList.filter(s => s.selected);
+
+        let newSessionSelection = [];
+
+        for (let i = 0; i < sessionSelection.length; i++) {
+
+            let oldItem = sessionSelection[i];
+            let stillExists = false;
+
+            for (let j = 0; j < currentSelection.length; j++) {
+                let newItem = currentSelection[j];
+                if (newItem.id === oldItem.id) {
+                    stillExists = true;
+                    break;
+                }
+            }
+
+            if (stillExists === false) {
+                // selection reduced
+
+                // remove points for this session
+                console.log("remove points for");
+                console.log(oldItem);
+
+
+            } else {
+                // still selected. keep it
+                newSessionSelection.push(oldItem);
+            }
+        }
+
+        for (let i = 0; i < currentSelection.length; i++) {
+
+            let newItem = currentSelection[i]
+
+            //FIXME! 
+            if (newSessionSelection.filter( s => s.id === newItem.id)) {
+                // this is new
+                console.log("new selection: ");
+                console.log(newItem);
+                newSessionSelection.push(newItem);
+            }
+        }
+        sessionSelection = currentSelection;
+*/
+				console.log(sessionSelection);
 			}
 		}
 
@@ -58375,11 +58487,13 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 				// discard any new annotations, when session selection changes
 				console.log("sessionSelection got triggered. updating waveform. Todo: improve performance");
-
-				updateWaveFormCanvas();
-			}
+			} //updateWaveFormCanvas();
 		}
 	};
+
+	$: {
+		
+	}
 
 	return [
 		recordingId,
@@ -58436,21 +58550,23 @@ class SimplePointMarker {
         this._options = options;
         this._zoomview = zoomview;
         this._overview = overview;
+
+        this._height = this._options.layer.getHeight();
     }
 
     init(group) {
         // (required, see below)
+
         this._group = group;
         this._line = new Konva.Line({
-            x:           0,
-            y:           0,
+            points: [0, this._height*(1/3), 0, this._height * (2/3)],
             stroke:      this._options.color,
             strokeWidth: 1
         });
 
         group.add(this._line);
 
-        this.fitToView();
+        //this.fitToView();
     }
 
 
@@ -58470,24 +58586,70 @@ class SimplePointMarker {
     }
 
     fitToView() {
-        let height = this._options.layer.getHeight();
+        this._height = this._options.layer.getHeight();
         // this._line.points([0.5, 0, 0.5, height]);
-        this._line.points([0, height*(1/3), 0, height * (2/3)]);
+        this._line.points([0, this._height*(1/3), 0, this._height * (2/3)]);
     }
 
+    /*
     timeUpdated() {
         // (optional, see below)
     }
+     */
 
+
+    /*
     destroy() {
         // (optional, see below)
-        console.log("TODO: destroy");
     }
+     */
+};
+
+
+;// CONCATENATED MODULE: ./src/main/js/recording/NullPointMarker.js
+// https://github.com/joeweiss/peaks.js/blob/master/customizing.md
+
+
+class NullPointMarker {
+    constructor(options, zoomview, overview) {
+        // (required, see below)
+        // this._options = options;
+    }
+
+    init(group) {
+        // (required, see below)
+
+
+    }
+
+
+    bindEventHandlers() {
+
+
+    }
+
+    fitToView() {
+
+    }
+
+    /*
+    timeUpdated() {
+        // (optional, see below)
+    }
+     */
+
+
+    /*
+    destroy() {
+        // (optional, see below)
+    }
+     */
 };
 
 
 ;// CONCATENATED MODULE: ./src/main/js/recording/DynamicWaveForm.svelte
 /* src/main/js/recording/DynamicWaveForm.svelte generated by Svelte v3.29.7 */
+
 
 
 
@@ -58579,11 +58741,24 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 	let zoomview;
 
 	function createPointMarker(options) {
+		// console.log(options);
 		if (options.view === "zoomview") {
 			//return new CustomPointMarker(options, zoomview, overview);
 			return new SimplePointMarker(options, zoomview, overview);
 		} else {
-			return new SimplePointMarker(options, zoomview, overview);
+			// filter offbeats and subdivisions
+			let p = options.point;
+
+			if (p.type === "Tap" && p.beat === 1) {
+				// none or only first subdivisions
+				if (p.subdivision === null || p.subdivision === 0 || p.subdivision === 1) {
+					return new SimplePointMarker(options, zoomview, overview);
+				}
+			} else if (p.type === "Text") {
+				return new SimplePointMarker(options, zoomview, overview);
+			}
+
+			return new NullPointMarker(options);
 		}
 	}
 
@@ -58785,9 +58960,12 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 
 		for (let i = 0; i < tempoAnnotationSessions.length; i++) {
 			let chartData = [{ x: 0, y: 0 }];
-			let color = tempoAnnotationSessions[i].annotations[0].color;
+			let color = "#000000";
 
-			// console.log(color);
+			if (typeof tempoAnnotationSessions[i].annotations[0] !== "undefined") {
+				color = tempoAnnotationSessions[i].annotations[0].color;
+			}
+
 			tempoAnnotationSessions[i].annotations.map(function (val) {
 				chartData.push({
 					x: val.time * 1000, // to milliseconds

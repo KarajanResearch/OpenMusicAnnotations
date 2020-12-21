@@ -5,6 +5,7 @@
     import Annotation from "./Annotation";
     import CustomPointMarker from "./CustomPointMarker";
     import SimplePointMarker from "./SimplePointMarker";
+    import NullPointMarker from "./NullPointMarker";
 
     // id of the grails recording object passed from the outside
     export let recordingId;
@@ -26,12 +27,26 @@
 
 
     function createPointMarker(options) {
+        // console.log(options);
         if (options.view === 'zoomview') {
             //return new CustomPointMarker(options, zoomview, overview);
             return new SimplePointMarker(options, zoomview, overview);
         }
         else {
-            return new SimplePointMarker(options, zoomview, overview);
+
+            // filter offbeats and subdivisions
+            let p = options.point;
+            if (p.type === "Tap" && p.beat === 1) {
+                // none or only first subdivisions
+                if (p.subdivision === null || p.subdivision === 0 || p.subdivision === 1) {
+                    return new SimplePointMarker(options, zoomview, overview);
+                }
+            } else if (p.type === "Text") {
+                return new SimplePointMarker(options, zoomview, overview);
+            }
+
+
+            return new NullPointMarker(options);
         }
     }
 
@@ -305,8 +320,10 @@
                 }
             ];
 
-            let color = tempoAnnotationSessions[i].annotations[0].color;
-            // console.log(color);
+            let color = "#000000";
+            if (typeof(tempoAnnotationSessions[i].annotations[0]) !== "undefined") {
+                color = tempoAnnotationSessions[i].annotations[0].color;
+            }
 
             tempoAnnotationSessions[i].annotations.map(function (val) {
                 chartData.push({

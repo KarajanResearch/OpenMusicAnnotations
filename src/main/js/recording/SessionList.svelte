@@ -79,11 +79,63 @@
         console.log("sessionList got triggered");
 
         // only update selection, when the selection changes. Not the label text!
+
         let currentSelection = sessionList.filter(s => s.selected);
-        if (currentSelection.length != sessionSelection.length) {
-            //differences ?
+
+        let oldSelections = sessionSelection.length;
+        let newSelections = currentSelection.length;
+
+        if (oldSelections === newSelections) {
+            // selections have not changed
+        } else {
+            if (oldSelections > newSelections) {
+                // selection reduced
+                for (let i = 0; i < oldSelections; i++) {
+                    let oldSessionId = sessionSelection[i].id;
+                    let stillexists = false;
+                    for (let j = 0; j < newSelections; j++) {
+                        let newSessionId = currentSelection[j].id;
+                        if (newSessionId === oldSessionId) {
+                            stillexists = true;
+                            break;
+                        }
+                    }
+                    if (stillexists === false) {
+                        console.log("removed id: " + oldSessionId);
+                        // remove points from canvas
+                        clearAnnotationSession(sessionSelection[i].session);
+                    }
+                }
+            } else {
+                // selection increased
+                for (let i = 0; i < newSelections; i++) {
+                    let newSessionId = currentSelection[i].id;
+                    let isnew = true;
+                    for (let j = 0; j < oldSelections; j++) {
+                        let oldSessionId = sessionSelection[j].id;
+                        if (newSessionId === oldSessionId) {
+                            isnew = false;
+                            break;
+                        }
+                    }
+                    if (isnew === true) {
+                        console.log("added id: " + newSessionId);
+                        // remove points from canvas
+                        drawAnnotationSession(currentSelection[i].session);
+                    }
+                }
+
+            }
+
             sessionSelection = currentSelection;
         }
+
+
+
+
+
+        console.log(sessionSelection);
+
 
     }
 
@@ -93,12 +145,31 @@
     $: {
         sessionSelection;
         // discard any new annotations, when session selection changes
-        console.log("sessionSelection got triggered. updating waveform. Todo: improve performance");
+        console.log("sessionSelection got triggered");
 
-        updateWaveFormCanvas();
+        //updateWaveFormCanvas();
     }
 
 
+    $: {
+
+    }
+
+
+
+
+    /**
+     * @param session object present in sessionListItem
+     */
+    function clearAnnotationSession(session) {
+        console.log(`clearAnnotationSession(${session})`);
+
+    }
+
+    function drawAnnotationSession(session) {
+        console.log(`drawAnnotationSession(${session})`);
+
+    }
 
 
 
