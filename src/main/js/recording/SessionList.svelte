@@ -152,12 +152,6 @@
     }
 
 
-    $: {
-
-    }
-
-
-
 
     /**
      * @param sessionListEntry object present in sessionSelection
@@ -174,15 +168,12 @@
 
     function drawAnnotationSession(sessionListEntry) {
         console.log(`drawAnnotationSession(${sessionListEntry.id})`);
-
-        console.log("draw that session: " + sessionListEntry.session.title);
         let t1 = performance.now();
         //renderSessionAtOnce(session);
         appContainer.trigger("drawSession", sessionListEntry);
         //renderSessionIncrementally(session);
         let t2 = performance.now();
         console.log("done in " + (t2 - t1));
-
     }
 
 
@@ -319,102 +310,6 @@
     }
 
 
-    /**
-     * incremental annotation rendering to work around slow points.add
-     */
-    function renderSessionIncrementally(session) {
-
-
-        // partition input
-        let numberOfAnnotations = session.annotations.length;
-
-
-        // devide in pieces of 50
-        let partSize = 50;
-
-        console.log(numberOfAnnotations);
-
-        for (let i = 0; i < (Math.floor(numberOfAnnotations / partSize) + 1); i++) {
-            console.log("Part: " + i);
-            let lowerBound = i * partSize;
-            let upperBound = (i + 1) * partSize;
-            upperBound = Math.min(upperBound, numberOfAnnotations - 1);
-
-            console.log("lower bound: " + lowerBound);
-            console.log("upper bound: " + upperBound);
-
-            let partition = session.annotations.slice(lowerBound, upperBound);
-
-
-            let res = renderAnnotationsAsyncBatch(partition);
-
-            console.log(res);
-
-        }
-    }
-
-    async function renderAnnotationsAsyncBatch(annotationBatch) {
-        console.log("renderAnnotationsAsyncBatch");
-
-        for (let j = 0; j < annotationBatch.length; j++) {
-            let annotation = annotationBatch[j];
-            let point = annotation.getPeaksPoint();
-            // let t3 = performance.now();
-            appContainer.trigger("drawAnnotation", point);
-            // let t4 = performance.now();
-            // console.log("drawAnnotation in " + (t4 - t3));
-        }
-
-        return "OK";
-    }
-
-
-    /**
-     * @param session object
-     * @param session.annotations array
-     *
-     *  params example: session = {annotations: []}
-     */
-
-
-
-
-    /**
-     * draws selected sessions to waveform canvas
-     */
-    function updateWaveFormCanvas() {
-
-        appContainer.trigger("clearAllAnnotations");
-
-        // draw currently new session
-        console.log("draw that session: " + currentlyNewSession.title);
-        let t1 = performance.now();
-        for (let i = 0; i < currentlyNewSession.length; i++) {
-            appContainer.trigger("drawAnnotation", currentlyNewSession[i]);
-        }
-        let t2 = performance.now();
-        console.log("done in " + (t2 - t1));
-
-
-        // draw selected sessions
-        for (let i = 0; i < sessionSelection.length; i++) {
-            let session = sessionSelection[i].session;
-            //let color = sessionSelection[i].color;
-            // draw that session
-            console.log("draw that session: " + session.title);
-            t1 = performance.now();
-            //renderSessionAtOnce(session);
-            appContainer.trigger("drawSession", sessionSelection[i]);
-            //renderSessionIncrementally(session);
-            t2 = performance.now();
-            console.log("done in " + (t2 - t1));
-
-        }
-
-
-
-    }
-
 
     /**
      * persist session title to server
@@ -498,8 +393,6 @@
 
             sessionList.push(listEntry);
             sessionList = sessionList;
-            currentlyNewSession = [];
-            currentlyNewSessionTitle = "";
 
         })
         .catch((error) => {
@@ -507,6 +400,23 @@
         });
 
     }
+
+
+    function resetCurrentlyNewSession() {
+
+        console.log("Discard");
+        clearAnnotationSession({
+            id: 0,
+            session: {
+                annotations: currentlyNewSession
+            }
+        });
+
+        currentlyNewSession = [];
+        currentlyNewSessionTitle = "";
+
+    }
+
 
     /**
      * adds new annotations to existing session. Must be the only selected session
@@ -554,18 +464,20 @@
             //session.session = data.session;
             for (let i = 0; i < sessionList.length; i++) {
                 let listEntry = sessionList[i];
+                // invalidate old entry
                 if (listEntry.id === data.session.id) {
+                    clearAnnotationSession(listEntry);
                     listEntry.session = data.session;
                     convertGormSession(listEntry);
                     listEntry.selected = true;
+                    drawAnnotationSession(listEntry);
                 }
 
             }
 
-            sessionList = sessionList;
-            sessionSelection = sessionSelection;
-            currentlyNewSession = [];
-            currentlyNewSessionTitle = "";
+            // sessionList = sessionList;
+            // sessionSelection = sessionSelection;
+
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -620,8 +532,6 @@
         // update UI immediately. deleting can run in the background
         sessionList = newSessionList;
     }
-
-
 
 
 </script>
@@ -696,12 +606,12 @@
         <h3>Add to "{sessionSelection[0].session.title}"</h3>
 
         <button class="buttons" on:click={() => {
-        addToAnnotationSession();
-    }}>Add {currentlyNewSession.length} Annotations</button>
+            addToAnnotationSession();
+            resetCurrentlyNewSession();
+        }}>Add {currentlyNewSession.length} Annotations</button>
+
         <button class="buttons" on:click={() => {
-        currentlyNewSession = [];
-        currentlyNewSessionTitle = "";
-        updateWaveFormCanvas();
+            resetCurrentlyNewSession();
         }}>Discard</button>
 
     {/if}
@@ -721,12 +631,11 @@
             return alert("Please add a Name for new Annotations");
         }
         saveCurrentlyNewSession();
+        resetCurrentlyNewSession();
     }}>Save {currentlyNewSession.length} Annotations</button>
 
     <button class="buttons" on:click={() => {
-        currentlyNewSession = [];
-        currentlyNewSessionTitle = "";
-        updateWaveFormCanvas();
+        resetCurrentlyNewSession();
     }}>Discard</button>
 
 {/if}

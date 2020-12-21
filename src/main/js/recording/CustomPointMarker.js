@@ -25,11 +25,14 @@ export default class CustomPointMarker {
             pointerWidth:     10,
             pointerHeight:    10,
             lineJoin:         'round',
+            /*
             shadowColor:      'black',
             shadowBlur:       10,
             shadowOffsetX:    3,
             shadowOffsetY:    3,
             shadowOpacity:    0.3
+
+             */
         });
 
         this._label.add(this._tag);
@@ -82,7 +85,7 @@ export default class CustomPointMarker {
         let height = this._options.layer.getHeight();
 
         let labelHeight = this._text.height() + 2 * this._text.padding();
-        let offsetTop = 14;
+        let offsetTop = 75;
         let offsetBottom = 26;
 
         this._group.y(offsetTop + labelHeight + 0.5);

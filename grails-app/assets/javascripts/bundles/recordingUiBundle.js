@@ -56040,8 +56040,8 @@ const { document: ToolBar_svelte_document_1 } = globals;
 
 function ToolBar_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1d7vgrm-style";
-	style.textContent = "#toolbar_zoom.svelte-1d7vgrm{position:absolute;width:8em;left:2em}#toolbar_click.svelte-1d7vgrm{position:absolute;height:100%;width:8em;left:11em}#toolbar_tap.svelte-1d7vgrm{position:absolute;height:100%;width:7em;left:20em}#toolbar_beat_per_bar.svelte-1d7vgrm{position:absolute;height:100%;width:20em;left:27em}#current_bar_offset_input.svelte-1d7vgrm{width:4em}#toolbar_text_annotation.svelte-1d7vgrm{position:absolute;height:100%;width:38em;left:47em}#button_add_text.svelte-1d7vgrm{left:32em}#input_text_annotation.svelte-1d7vgrm{left:10em;width:22em}#zoomSlider.svelte-1d7vgrm{direction:rtl;width:8em}.slider.svelte-1d7vgrm{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-1d7vgrm::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-1d7vgrm::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-1d7vgrm{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
+	style.id = "svelte-vr1r47-style";
+	style.textContent = "#toolbar_zoom.svelte-vr1r47{position:absolute;width:8em;left:2em}#toolbar_click.svelte-vr1r47{position:absolute;height:100%;width:8em;left:11em}#toolbar_tap.svelte-vr1r47{position:absolute;height:100%;width:7em;left:20em}#toolbar_beat_per_bar.svelte-vr1r47{position:absolute;height:100%;width:20em;left:27em}#current_bar_offset_input.svelte-vr1r47{width:4em}#toolbar_text_annotation.svelte-vr1r47{position:absolute;height:100%;width:38em;left:46em}#button_add_text.svelte-vr1r47{left:0em}#input_text_annotation.svelte-vr1r47{left:11em;width:26em}#zoomSlider.svelte-vr1r47{direction:rtl;width:8em}.slider.svelte-vr1r47{-webkit-appearance:none;width:100%;height:15px;border-radius:5px;background:#d3d3d3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s}.slider.svelte-vr1r47::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.slider.svelte-vr1r47::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}.vertical_center.svelte-vr1r47{margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}";
 	append(ToolBar_svelte_document_1.head, style);
 }
 
@@ -56051,7 +56051,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (237:8) {#each beatsPerBarList as entry}
+// (236:8) {#each beatsPerBarList as entry}
 function create_each_block(ctx) {
 	let option;
 	let t0_value = /*entry*/ ctx[23] + "";
@@ -56104,11 +56104,9 @@ function ToolBar_svelte_create_fragment(ctx) {
 	let input1;
 	let t10;
 	let div4;
-	let label;
+	let button2;
 	let t12;
 	let input2;
-	let t13;
-	let button2;
 	let mounted;
 	let dispose;
 	let each_value = /*beatsPerBarList*/ ctx[8];
@@ -56147,43 +56145,38 @@ function ToolBar_svelte_create_fragment(ctx) {
 			input1 = internal_element("input");
 			t10 = space();
 			div4 = internal_element("div");
-			label = internal_element("label");
-			label.textContent = "Add Text Annotation:";
+			button2 = internal_element("button");
+			button2.textContent = "Add Text Annotation:";
 			t12 = space();
 			input2 = internal_element("input");
-			t13 = space();
-			button2 = internal_element("button");
-			button2.textContent = "Add Text";
 			attr(input0, "id", "zoomSlider");
-			attr(input0, "class", "slider svelte-1d7vgrm");
+			attr(input0, "class", "slider svelte-vr1r47");
 			attr(input0, "type", "range");
 			attr(input0, "min", "0");
 			attr(input0, "max", "7");
 			attr(input0, "step", "1");
 			attr(div0, "id", "toolbar_zoom");
-			attr(div0, "class", "vertical_center svelte-1d7vgrm");
-			attr(button0, "class", "buttons vertical_center svelte-1d7vgrm");
+			attr(div0, "class", "vertical_center svelte-vr1r47");
+			attr(button0, "class", "buttons vertical_center svelte-vr1r47");
 			attr(div1, "id", "toolbar_click");
-			attr(div1, "class", "svelte-1d7vgrm");
-			attr(button1, "class", "buttons vertical_center svelte-1d7vgrm");
+			attr(div1, "class", "svelte-vr1r47");
+			attr(button1, "class", "buttons vertical_center svelte-vr1r47");
 			attr(div2, "id", "toolbar_tap");
-			attr(div2, "class", "svelte-1d7vgrm");
+			attr(div2, "class", "svelte-vr1r47");
 			if (/*beatsPerBar*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[16].call(select));
 			attr(input1, "id", "current_bar_offset_input");
 			attr(input1, "type", "number");
 			attr(input1, "min", "1");
-			attr(input1, "class", "svelte-1d7vgrm");
-			attr(span, "class", "vertical_center svelte-1d7vgrm");
+			attr(input1, "class", "svelte-vr1r47");
+			attr(span, "class", "vertical_center svelte-vr1r47");
 			attr(div3, "id", "toolbar_beat_per_bar");
-			attr(div3, "class", "svelte-1d7vgrm");
-			attr(label, "class", "vertical_center svelte-1d7vgrm");
-			attr(label, "for", "input_text_annotation");
-			attr(input2, "id", "input_text_annotation");
-			attr(input2, "class", "vertical_center svelte-1d7vgrm");
+			attr(div3, "class", "svelte-vr1r47");
 			attr(button2, "id", "button_add_text");
-			attr(button2, "class", "buttons vertical_center svelte-1d7vgrm");
+			attr(button2, "class", "buttons vertical_center svelte-vr1r47");
+			attr(input2, "id", "input_text_annotation");
+			attr(input2, "class", "vertical_center svelte-vr1r47");
 			attr(div4, "id", "toolbar_text_annotation");
-			attr(div4, "class", "svelte-1d7vgrm");
+			attr(div4, "class", "svelte-vr1r47");
 		},
 		m(target, anchor) {
 			insert(target, div0, anchor);
@@ -56216,12 +56209,10 @@ function ToolBar_svelte_create_fragment(ctx) {
 			set_input_value(input1, /*currentBarOffset*/ ctx[5]);
 			insert(target, t10, anchor);
 			insert(target, div4, anchor);
-			append(div4, label);
+			append(div4, button2);
 			append(div4, t12);
 			append(div4, input2);
 			set_input_value(input2, /*textAnnotationStringValue*/ ctx[6]);
-			append(div4, t13);
-			append(div4, button2);
 
 			if (!mounted) {
 				dispose = [
@@ -56232,10 +56223,10 @@ function ToolBar_svelte_create_fragment(ctx) {
 					listen(button1, "click", /*click_handler_1*/ ctx[15]),
 					listen(select, "change", /*select_change_handler*/ ctx[16]),
 					listen(input1, "input", /*input1_input_handler*/ ctx[17]),
-					listen(input2, "input", /*input2_input_handler*/ ctx[18]),
-					listen(input2, "focus", /*focus_handler*/ ctx[19]),
-					listen(input2, "focusout", /*focusout_handler*/ ctx[20]),
-					listen(button2, "click", /*click_handler_2*/ ctx[21])
+					listen(button2, "click", /*click_handler_2*/ ctx[18]),
+					listen(input2, "input", /*input2_input_handler*/ ctx[19]),
+					listen(input2, "focus", /*focus_handler*/ ctx[20]),
+					listen(input2, "focusout", /*focusout_handler*/ ctx[21])
 				];
 
 				mounted = true;
@@ -56342,7 +56333,6 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 
 		appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
 			if (metronomeEnabled === true) {
-				console.log("click");
 				clickPlayer.pause();
 				clickPlayer.currentTime = 0;
 				clickPlayer.play();
@@ -56407,6 +56397,11 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(5, currentBarOffset);
 	}
 
+	const click_handler_2 = e => {
+		addTextAnnotation(e);
+		$$invalidate(6, textAnnotationStringValue = "");
+	};
+
 	function input2_input_handler() {
 		textAnnotationStringValue = this.value;
 		$$invalidate(6, textAnnotationStringValue);
@@ -56414,11 +56409,6 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 
 	const focus_handler = () => appContainer.trigger("focusOnTextInput", true);
 	const focusout_handler = () => appContainer.trigger("focusOnTextInput", false);
-
-	const click_handler_2 = e => {
-		addTextAnnotation(e);
-		$$invalidate(6, textAnnotationStringValue = "");
-	};
 
 	$$self.$$set = $$props => {
 		if ("recordingId" in $$props) $$invalidate(11, recordingId = $$props.recordingId);
@@ -56469,17 +56459,17 @@ function ToolBar_svelte_instance($$self, $$props, $$invalidate) {
 		click_handler_1,
 		select_change_handler,
 		input1_input_handler,
+		click_handler_2,
 		input2_input_handler,
 		focus_handler,
-		focusout_handler,
-		click_handler_2
+		focusout_handler
 	];
 }
 
 class ToolBar extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!ToolBar_svelte_document_1.getElementById("svelte-1d7vgrm-style")) ToolBar_svelte_add_css();
+		if (!ToolBar_svelte_document_1.getElementById("svelte-vr1r47-style")) ToolBar_svelte_add_css();
 		init(this, options, ToolBar_svelte_instance, ToolBar_svelte_create_fragment, safe_not_equal, { recordingId: 11 });
 	}
 }
@@ -56825,24 +56815,22 @@ function crossfade(_a) {
 
 function AnnotationEditor_svelte_add_css() {
 	var style = internal_element("style");
-	style.id = "svelte-1erpani-style";
-	style.textContent = "#barNumber.svelte-1erpani{width:4em}#beatNumber.svelte-1erpani{width:4em}";
+	style.id = "svelte-17ct808-style";
+	style.textContent = "#barNumber.svelte-17ct808{width:4em}#beatNumber.svelte-17ct808{width:3em}#subDivision.svelte-17ct808{width:2em}";
 	append(document.head, style);
 }
 
-// (90:0) {#if visible}
+// (93:0) {#if visible}
 function create_if_block(ctx) {
 	let div;
-	let h30;
+	let t0;
 	let t1;
-	let t2;
-	let t3;
 	let br;
-	let t4;
+	let t2;
 	let button0;
+	let t4;
+	let h3;
 	let t6;
-	let h31;
-	let t8;
 	let button1;
 	let div_transition;
 	let current;
@@ -56854,21 +56842,18 @@ function create_if_block(ctx) {
 	return {
 		c() {
 			div = internal_element("div");
-			h30 = internal_element("h3");
-			h30.textContent = "Edit Annotation";
-			t1 = space();
 			if (if_block0) if_block0.c();
-			t2 = space();
+			t0 = space();
 			if (if_block1) if_block1.c();
-			t3 = space();
+			t1 = space();
 			br = internal_element("br");
-			t4 = space();
+			t2 = space();
 			button0 = internal_element("button");
 			button0.textContent = "Done";
+			t4 = space();
+			h3 = internal_element("h3");
+			h3.textContent = "Delete this Annotation";
 			t6 = space();
-			h31 = internal_element("h3");
-			h31.textContent = "Delete this Annotation";
-			t8 = space();
 			button1 = internal_element("button");
 			button1.textContent = "Delete";
 			attr(button0, "class", "buttons");
@@ -56876,25 +56861,23 @@ function create_if_block(ctx) {
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
-			append(div, h30);
-			append(div, t1);
 			if (if_block0) if_block0.m(div, null);
-			append(div, t2);
+			append(div, t0);
 			if (if_block1) if_block1.m(div, null);
-			append(div, t3);
+			append(div, t1);
 			append(div, br);
-			append(div, t4);
+			append(div, t2);
 			append(div, button0);
+			append(div, t4);
+			append(div, h3);
 			append(div, t6);
-			append(div, h31);
-			append(div, t8);
 			append(div, button1);
 			current = true;
 
 			if (!mounted) {
 				dispose = [
-					listen(button0, "click", /*click_handler*/ ctx[10]),
-					listen(button1, "click", /*click_handler_1*/ ctx[11])
+					listen(button0, "click", /*click_handler*/ ctx[11]),
+					listen(button1, "click", /*click_handler_1*/ ctx[12])
 				];
 
 				mounted = true;
@@ -56907,7 +56890,7 @@ function create_if_block(ctx) {
 				} else {
 					if_block0 = create_if_block_2(ctx);
 					if_block0.c();
-					if_block0.m(div, t2);
+					if_block0.m(div, t0);
 				}
 			} else if (if_block0) {
 				if_block0.d(1);
@@ -56920,7 +56903,7 @@ function create_if_block(ctx) {
 				} else {
 					if_block1 = create_if_block_1(ctx);
 					if_block1.c();
-					if_block1.m(div, t3);
+					if_block1.m(div, t1);
 				}
 			} else if (if_block1) {
 				if_block1.d(1);
@@ -56953,55 +56936,69 @@ function create_if_block(ctx) {
 	};
 }
 
-// (94:8) {#if (currentAnnotation.type === "Tap")}
+// (97:8) {#if (currentAnnotation.type === "Tap")}
 function create_if_block_2(ctx) {
-	let label0;
+	let h3;
 	let t1;
+	let label;
+	let t3;
+	let span;
 	let input0;
-	let t2;
-	let label1;
 	let t4;
 	let input1;
+	let t5;
+	let input2;
 	let mounted;
 	let dispose;
 
 	return {
 		c() {
-			label0 = internal_element("label");
-			label0.textContent = "Bar";
+			h3 = internal_element("h3");
+			h3.textContent = "Edit Tap";
 			t1 = space();
+			label = internal_element("label");
+			label.textContent = "Bar:Beat:Sub";
+			t3 = space();
+			span = internal_element("span");
 			input0 = internal_element("input");
-			t2 = space();
-			label1 = internal_element("label");
-			label1.textContent = "Beat";
-			t4 = space();
+			t4 = internal_text(":\n                ");
 			input1 = internal_element("input");
-			attr(label0, "for", "barNumber");
+			t5 = internal_text(":\n                ");
+			input2 = internal_element("input");
+			attr(label, "for", "barNumber");
 			attr(input0, "id", "barNumber");
 			attr(input0, "type", "number");
 			attr(input0, "min", "1");
-			attr(input0, "class", "svelte-1erpani");
-			attr(label1, "for", "beatNumber");
+			attr(input0, "class", "svelte-17ct808");
 			attr(input1, "id", "beatNumber");
 			attr(input1, "type", "number");
 			attr(input1, "min", "1");
-			attr(input1, "class", "svelte-1erpani");
+			attr(input1, "class", "svelte-17ct808");
+			attr(input2, "id", "subDivision");
+			attr(input2, "type", "number");
+			attr(input2, "min", "0");
+			attr(input2, "class", "svelte-17ct808");
 		},
 		m(target, anchor) {
-			insert(target, label0, anchor);
+			insert(target, h3, anchor);
 			insert(target, t1, anchor);
-			insert(target, input0, anchor);
+			insert(target, label, anchor);
+			insert(target, t3, anchor);
+			insert(target, span, anchor);
+			append(span, input0);
 			set_input_value(input0, /*currentAnnotation*/ ctx[0].bar);
-			insert(target, t2, anchor);
-			insert(target, label1, anchor);
-			insert(target, t4, anchor);
-			insert(target, input1, anchor);
+			append(span, t4);
+			append(span, input1);
 			set_input_value(input1, /*currentAnnotation*/ ctx[0].beat);
+			append(span, t5);
+			append(span, input2);
+			set_input_value(input2, /*currentAnnotation*/ ctx[0].subdivision);
 
 			if (!mounted) {
 				dispose = [
 					listen(input0, "input", /*input0_input_handler*/ ctx[5]),
-					listen(input1, "input", /*input1_input_handler*/ ctx[6])
+					listen(input1, "input", /*input1_input_handler*/ ctx[6]),
+					listen(input2, "input", /*input2_input_handler*/ ctx[7])
 				];
 
 				mounted = true;
@@ -57015,49 +57012,58 @@ function create_if_block_2(ctx) {
 			if (dirty & /*currentAnnotation*/ 1 && to_number(input1.value) !== /*currentAnnotation*/ ctx[0].beat) {
 				set_input_value(input1, /*currentAnnotation*/ ctx[0].beat);
 			}
+
+			if (dirty & /*currentAnnotation*/ 1 && to_number(input2.value) !== /*currentAnnotation*/ ctx[0].subdivision) {
+				set_input_value(input2, /*currentAnnotation*/ ctx[0].subdivision);
+			}
 		},
 		d(detaching) {
-			if (detaching) detach(label0);
+			if (detaching) detach(h3);
 			if (detaching) detach(t1);
-			if (detaching) detach(input0);
-			if (detaching) detach(t2);
-			if (detaching) detach(label1);
-			if (detaching) detach(t4);
-			if (detaching) detach(input1);
+			if (detaching) detach(label);
+			if (detaching) detach(t3);
+			if (detaching) detach(span);
 			mounted = false;
 			run_all(dispose);
 		}
 	};
 }
 
-// (101:8) {#if (currentAnnotation.type === "Text")}
+// (107:8) {#if (currentAnnotation.type === "Text")}
 function create_if_block_1(ctx) {
-	let label;
+	let h3;
 	let t1;
+	let label;
+	let t3;
 	let input;
 	let mounted;
 	let dispose;
 
 	return {
 		c() {
+			h3 = internal_element("h3");
+			h3.textContent = "Edit Text";
+			t1 = space();
 			label = internal_element("label");
 			label.textContent = "Text";
-			t1 = space();
+			t3 = space();
 			input = internal_element("input");
 			attr(label, "for", "stringValue");
 			attr(input, "id", "stringValue");
 		},
 		m(target, anchor) {
-			insert(target, label, anchor);
+			insert(target, h3, anchor);
 			insert(target, t1, anchor);
+			insert(target, label, anchor);
+			insert(target, t3, anchor);
 			insert(target, input, anchor);
 			set_input_value(input, /*currentAnnotation*/ ctx[0].stringValue);
 
 			if (!mounted) {
 				dispose = [
-					listen(input, "input", /*input_input_handler*/ ctx[7]),
-					listen(input, "focus", /*focus_handler*/ ctx[8]),
-					listen(input, "focusout", /*focusout_handler*/ ctx[9])
+					listen(input, "input", /*input_input_handler*/ ctx[8]),
+					listen(input, "focus", /*focus_handler*/ ctx[9]),
+					listen(input, "focusout", /*focusout_handler*/ ctx[10])
 				];
 
 				mounted = true;
@@ -57069,8 +57075,10 @@ function create_if_block_1(ctx) {
 			}
 		},
 		d(detaching) {
-			if (detaching) detach(label);
+			if (detaching) detach(h3);
 			if (detaching) detach(t1);
+			if (detaching) detach(label);
+			if (detaching) detach(t3);
 			if (detaching) detach(input);
 			mounted = false;
 			run_all(dispose);
@@ -57172,6 +57180,11 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 		$$invalidate(0, currentAnnotation);
 	}
 
+	function input2_input_handler() {
+		currentAnnotation.subdivision = to_number(this.value);
+		$$invalidate(0, currentAnnotation);
+	}
+
 	function input_input_handler() {
 		currentAnnotation.stringValue = this.value;
 		$$invalidate(0, currentAnnotation);
@@ -57242,6 +57255,7 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 		recordingId,
 		input0_input_handler,
 		input1_input_handler,
+		input2_input_handler,
 		input_input_handler,
 		focus_handler,
 		focusout_handler,
@@ -57253,7 +57267,7 @@ function AnnotationEditor_svelte_instance($$self, $$props, $$invalidate) {
 class AnnotationEditor extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1erpani-style")) AnnotationEditor_svelte_add_css();
+		if (!document.getElementById("svelte-17ct808-style")) AnnotationEditor_svelte_add_css();
 		init(this, options, AnnotationEditor_svelte_instance, AnnotationEditor_svelte_create_fragment, safe_not_equal, { recordingId: 4 });
 	}
 }
@@ -57280,13 +57294,13 @@ function SessionList_svelte_add_css() {
 
 function SessionList_svelte_get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[35] = list[i];
-	child_ctx[36] = list;
-	child_ctx[37] = i;
+	child_ctx[33] = list[i];
+	child_ctx[34] = list;
+	child_ctx[35] = i;
 	return child_ctx;
 }
 
-// (657:0) {#if sessionList.length == 0}
+// (567:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -57303,13 +57317,13 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (661:0) {#if sessionList.length > 0}
+// (571:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
 	let each_1_lookup = new Map();
 	let each_value = /*sessionList*/ ctx[1];
-	const get_key = ctx => /*sessionListEntry*/ ctx[35].id;
+	const get_key = ctx => /*sessionListEntry*/ ctx[33].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = SessionList_svelte_get_each_context(ctx, each_value, i);
@@ -57351,7 +57365,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (663:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (573:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -57364,15 +57378,15 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	let dispose;
 
 	function input0_change_handler() {
-		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[36], /*sessionListEntry_index*/ ctx[37]);
+		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[34], /*sessionListEntry_index*/ ctx[35]);
 	}
 
 	function input1_input_handler() {
-		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[36], /*sessionListEntry_index*/ ctx[37]);
+		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[34], /*sessionListEntry_index*/ ctx[35]);
 	}
 
 	function focusout_handler() {
-		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[35]);
+		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[33]);
 	}
 
 	return {
@@ -57387,20 +57401,20 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			attr(input0, "class", "session_list_entry_checkbox svelte-1dbcd0g");
 			attr(input0, "type", "checkbox");
 			attr(input1, "class", "session_list_entry_title svelte-1dbcd0g");
-			attr(input1, "title", input1_title_value = /*sessionListEntry*/ ctx[35].session.title);
+			attr(input1, "title", input1_title_value = /*sessionListEntry*/ ctx[33].session.title);
 			attr(input1, "placeholder", "Name for Annotations...");
-			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[35].session.isMine;
+			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[33].session.isMine;
 			attr(div, "class", "session_list_entry svelte-1dbcd0g");
-			set_style(div, "background-color", /*sessionListEntry*/ ctx[35].color);
+			set_style(div, "background-color", /*sessionListEntry*/ ctx[33].color);
 			this.first = div;
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input0);
-			input0.checked = /*sessionListEntry*/ ctx[35].selected;
+			input0.checked = /*sessionListEntry*/ ctx[33].selected;
 			append(div, t0);
 			append(div, input1);
-			set_input_value(input1, /*sessionListEntry*/ ctx[35].session.title);
+			set_input_value(input1, /*sessionListEntry*/ ctx[33].session.title);
 			append(div, t1);
 
 			if (!mounted) {
@@ -57418,23 +57432,23 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			ctx = new_ctx;
 
 			if (dirty[0] & /*sessionList*/ 2) {
-				input0.checked = /*sessionListEntry*/ ctx[35].selected;
+				input0.checked = /*sessionListEntry*/ ctx[33].selected;
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1_title_value !== (input1_title_value = /*sessionListEntry*/ ctx[35].session.title)) {
+			if (dirty[0] & /*sessionList*/ 2 && input1_title_value !== (input1_title_value = /*sessionListEntry*/ ctx[33].session.title)) {
 				attr(input1, "title", input1_title_value);
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[35].session.isMine)) {
+			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[33].session.isMine)) {
 				input1.disabled = input1_disabled_value;
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[35].session.title) {
-				set_input_value(input1, /*sessionListEntry*/ ctx[35].session.title);
+			if (dirty[0] & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[33].session.title) {
+				set_input_value(input1, /*sessionListEntry*/ ctx[33].session.title);
 			}
 
 			if (dirty[0] & /*sessionList*/ 2) {
-				set_style(div, "background-color", /*sessionListEntry*/ ctx[35].color);
+				set_style(div, "background-color", /*sessionListEntry*/ ctx[33].color);
 			}
 		},
 		d(detaching) {
@@ -57445,7 +57459,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (687:0) {#if currentlyNewSession.length == 0}
+// (597:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -57462,7 +57476,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (692:0) {#if currentlyNewSession.length > 0}
+// (602:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -57564,7 +57578,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (694:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (604:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -57637,7 +57651,7 @@ function SessionList_svelte_create_if_block_2(ctx) {
 	};
 }
 
-// (735:0) {#if sessionSelection.length > 0}
+// (644:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -57926,6 +57940,8 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		});
 	});
 
+	// console.log("sessionSelection got triggered");
+	//updateWaveFormCanvas();
 	/**
  * @param sessionListEntry object present in sessionSelection
  */
@@ -57943,7 +57959,6 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 	function drawAnnotationSession(sessionListEntry) {
 		console.log(`drawAnnotationSession(${sessionListEntry.id})`);
-		console.log("draw that session: " + sessionListEntry.session.title);
 		let t1 = performance.now();
 
 		//renderSessionAtOnce(session);
@@ -58086,90 +58101,6 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	}
 
 	/**
- * incremental annotation rendering to work around slow points.add
- */
-	function renderSessionIncrementally(session) {
-		// partition input
-		let numberOfAnnotations = session.annotations.length;
-
-		// devide in pieces of 50
-		let partSize = 50;
-
-		console.log(numberOfAnnotations);
-
-		for (let i = 0; i < Math.floor(numberOfAnnotations / partSize) + 1; i++) {
-			console.log("Part: " + i);
-			let lowerBound = i * partSize;
-			let upperBound = (i + 1) * partSize;
-			upperBound = Math.min(upperBound, numberOfAnnotations - 1);
-			console.log("lower bound: " + lowerBound);
-			console.log("upper bound: " + upperBound);
-			let partition = session.annotations.slice(lowerBound, upperBound);
-			let res = renderAnnotationsAsyncBatch(partition);
-			console.log(res);
-		}
-	}
-
-	async function renderAnnotationsAsyncBatch(annotationBatch) {
-		console.log("renderAnnotationsAsyncBatch");
-
-		for (let j = 0; j < annotationBatch.length; j++) {
-			let annotation = annotationBatch[j];
-			let point = annotation.getPeaksPoint();
-
-			// let t3 = performance.now();
-			appContainer.trigger("drawAnnotation", point);
-		} // let t4 = performance.now();
-		// console.log("drawAnnotation in " + (t4 - t3));
-
-		return "OK";
-	}
-
-	/**
- * @param session object
- * @param session.annotations array
- *
- *  params example: session = {annotations: []}
- */
-	/**
- * draws selected sessions to waveform canvas
- */
-	function updateWaveFormCanvas() {
-		appContainer.trigger("clearAllAnnotations");
-
-		// draw currently new session
-		console.log("draw that session: " + currentlyNewSession.title);
-
-		let t1 = performance.now();
-
-		for (let i = 0; i < currentlyNewSession.length; i++) {
-			appContainer.trigger("drawAnnotation", currentlyNewSession[i]);
-		}
-
-		let t2 = performance.now();
-		console.log("done in " + (t2 - t1));
-
-		// draw selected sessions
-		for (let i = 0; i < sessionSelection.length; i++) {
-			let session = sessionSelection[i].session;
-
-			//let color = sessionSelection[i].color;
-			// draw that session
-			console.log("draw that session: " + session.title);
-
-			t1 = performance.now();
-
-			//renderSessionAtOnce(session);
-			appContainer.trigger("drawSession", sessionSelection[i]);
-
-			//renderSessionIncrementally(session);
-			t2 = performance.now();
-
-			console.log("done in " + (t2 - t1));
-		}
-	}
-
-	/**
  * persist new session to server
  * @param sessionId
  * @param title
@@ -58213,11 +58144,21 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			convertGormSession(listEntry);
 			sessionList.push(listEntry);
 			$$invalidate(1, sessionList);
-			$$invalidate(3, currentlyNewSession = []);
-			$$invalidate(4, currentlyNewSessionTitle = "");
 		}).catch(error => {
 			console.error("Error:", error);
 		});
+	}
+
+	function resetCurrentlyNewSession() {
+		console.log("Discard");
+
+		clearAnnotationSession({
+			id: 0,
+			session: { annotations: currentlyNewSession }
+		});
+
+		$$invalidate(3, currentlyNewSession = []);
+		$$invalidate(4, currentlyNewSessionTitle = "");
 	}
 
 	/**
@@ -58260,19 +58201,18 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			for (let i = 0; i < sessionList.length; i++) {
 				let listEntry = sessionList[i];
 
+				// invalidate old entry
 				if (listEntry.id === data.session.id) {
+					clearAnnotationSession(listEntry);
 					listEntry.session = data.session;
 					convertGormSession(listEntry);
 					listEntry.selected = true;
+					drawAnnotationSession(listEntry);
 				}
 			}
-
-			$$invalidate(1, sessionList);
-			($$invalidate(2, sessionSelection), $$invalidate(1, sessionList));
-			$$invalidate(3, currentlyNewSession = []);
-			$$invalidate(4, currentlyNewSessionTitle = "");
 		}).catch(error => {
-			console.error("Error:", error);
+			console.error("Error:", error); // sessionList = sessionList;
+			// sessionSelection = sessionSelection;
 		});
 	}
 
@@ -58333,12 +58273,11 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 	const click_handler = () => {
 		addToAnnotationSession();
+		resetCurrentlyNewSession();
 	};
 
 	const click_handler_1 = () => {
-		$$invalidate(3, currentlyNewSession = []);
-		$$invalidate(4, currentlyNewSessionTitle = "");
-		updateWaveFormCanvas();
+		resetCurrentlyNewSession();
 	};
 
 	function input_input_handler() {
@@ -58355,12 +58294,11 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		}
 
 		saveCurrentlyNewSession();
+		resetCurrentlyNewSession();
 	};
 
 	const click_handler_3 = () => {
-		$$invalidate(3, currentlyNewSession = []);
-		$$invalidate(4, currentlyNewSessionTitle = "");
-		updateWaveFormCanvas();
+		resetCurrentlyNewSession();
 	};
 
 	const click_handler_4 = () => {
@@ -58454,12 +58392,6 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 	} // sessionSelection;
 	// discard any new annotations, when session selection changes
 
-	// console.log("sessionSelection got triggered");
-	//updateWaveFormCanvas();
-	$: {
-		
-	}
-
 	return [
 		recordingId,
 		sessionList,
@@ -58467,8 +58399,8 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		currentlyNewSession,
 		currentlyNewSessionTitle,
 		appContainer,
-		updateWaveFormCanvas,
 		saveCurrentlyNewSession,
+		resetCurrentlyNewSession,
 		addToAnnotationSession,
 		deleteSelectedSessions,
 		input0_change_handler,
@@ -58505,6 +58437,112 @@ var peaks_default = /*#__PURE__*/__webpack_require__.n(peaks_js_peaks);
 // EXTERNAL MODULE: ./node_modules/chart.js/dist/Chart.js
 var Chart = __webpack_require__(7757);
 var Chart_default = /*#__PURE__*/__webpack_require__.n(Chart);
+;// CONCATENATED MODULE: ./src/main/js/recording/CustomPointMarker.js
+// https://github.com/joeweiss/peaks.js/blob/master/customizing.md
+
+
+class CustomPointMarker {
+    constructor(options, zoomview, overview) {
+        // (required, see below)
+        this._options = options;
+        this._zoomview = zoomview;
+        this._overview = overview;
+    }
+
+    init(group) {
+        // (required, see below)
+        this._group = group;
+        this._label = new Konva.Label({
+            x: 0.5,
+            y: 0.5
+        });
+
+        this._tag = new Konva.Tag({
+            fill:             this._options.color,
+            stroke:           this._options.color,
+            strokeWidth:      1,
+            pointerDirection: 'down',
+            pointerWidth:     10,
+            pointerHeight:    10,
+            lineJoin:         'round',
+            /*
+            shadowColor:      'black',
+            shadowBlur:       10,
+            shadowOffsetX:    3,
+            shadowOffsetY:    3,
+            shadowOpacity:    0.3
+
+             */
+        });
+
+        this._label.add(this._tag);
+
+        this._text = new Konva.Text({
+            text:       this._options.point.labelText,
+            fontFamily: 'Calibri',
+            fontSize:   14,
+            padding:    5,
+            fill:       'white'
+        });
+
+        this._label.add(this._text);
+
+        // Vertical Line - create with default y and points, the real values
+        // are set in fitToView().
+        this._line = new Konva.Line({
+            x:           0,
+            y:           0,
+            stroke:      this._options.color,
+            strokeWidth: 1
+        });
+
+        group.add(this._label);
+        group.add(this._line);
+
+        this.fitToView();
+
+        this.bindEventHandlers();
+    }
+
+
+    bindEventHandlers() {
+
+        let container = this._zoomview;
+
+        this._group.on('mouseenter', function() {
+            container.style.cursor = 'move';
+        });
+
+        this._group.on('mouseleave', function() {
+            container.style.cursor = 'default';
+        });
+
+
+    }
+
+    fitToView() {
+        // (required, see below)
+        let height = this._options.layer.getHeight();
+
+        let labelHeight = this._text.height() + 2 * this._text.padding();
+        let offsetTop = 75;
+        let offsetBottom = 26;
+
+        this._group.y(offsetTop + labelHeight + 0.5);
+        this._line.points([0.5, 0, 0.5, height - labelHeight - offsetTop - offsetBottom]);
+    }
+
+    timeUpdated() {
+        // (optional, see below)
+    }
+
+    destroy() {
+        // (optional, see below)
+    }
+}
+
+
+
 ;// CONCATENATED MODULE: ./src/main/js/recording/SimplePointMarker.js
 // https://github.com/joeweiss/peaks.js/blob/master/customizing.md
 
@@ -58705,14 +58743,19 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 	let overview;
 	let zoomview;
 
+	/**
+ * overrides point markers for peaks.js
+ * @param options see peaks.js manual
+ * // https://github.com/joeweiss/peaks.js/blob/master/demo/custom-markers.html
+ * @returns {*}
+ */
 	function createPointMarker(options) {
 		// console.log(options);
 		if (options.view === "zoomview") {
-			//return new CustomPointMarker(options, zoomview, overview);
-			return new SimplePointMarker(options, zoomview, overview);
+			return new CustomPointMarker(options, zoomview, overview);
 		} else {
 			// filter offbeats and subdivisions
-			let p = options.point;
+			let p = options.point; //return new SimplePointMarker(options, zoomview, overview);
 
 			if (p.type === "Tap" && p.beat === 1) {
 				// none or only first subdivisions
@@ -58749,14 +58792,14 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 			// that shows what the zoomable view shows
 			overviewHighlightColor: "rgb(200,42,0)",
 			// Color of the play head text
-			playheadTextColor: "#666666",
+			playheadTextColor: "#555555",
 			showPlayheadTime: true,
 			axisLabelColor: "#333333",
 			// the color of a point marker
-			pointMarkerColor: "#CCCCCC",
+			// pointMarkerColor: '#CCCCCC',
 			keyboard: true,
 			// Keyboard nudge increment in seconds (left arrow/right arrow)
-			nudgeIncrement: 0.01,
+			// nudgeIncrement: 0.01,
 			createPointMarker
 		};
 

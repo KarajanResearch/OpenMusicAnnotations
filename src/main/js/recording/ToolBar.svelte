@@ -64,7 +64,6 @@
         appContainer.trigger("getAudioPlayerPosition", function (playerPosition) {
 
             if (metronomeEnabled === true) {
-                console.log("click");
                 clickPlayer.pause();
                 clickPlayer.currentTime = 0;
                 clickPlayer.play();
@@ -142,18 +141,18 @@
     }
 
     #toolbar_text_annotation {
-        /* border: 1px solid black; */
+        /*border: 1px solid black;*/
         position: absolute;
         height: 100%;
         width: 38em;
-        left: 47em;
+        left: 46em;
     }
     #button_add_text {
-        left: 32em;
+        left: 0em;
     }
     #input_text_annotation {
-        left: 10em;
-        width: 22em;
+        left: 11em;
+        width: 26em;
     }
 
 
@@ -249,17 +248,17 @@
 
 <div id="toolbar_text_annotation">
 
-    <label class="vertical_center" for="input_text_annotation">Add Text Annotation:</label>
-    <input id="input_text_annotation" class="vertical_center"
-           bind:value={textAnnotationStringValue}
-           on:focus={ () => appContainer.trigger("focusOnTextInput", true) }
-           on:focusout={ () => appContainer.trigger("focusOnTextInput", false) }
-    >
     <button id="button_add_text" class="buttons vertical_center" on:click={e => {
 
         addTextAnnotation(e);
         textAnnotationStringValue = "";
 
-    }}>Add Text</button>
+    }}>Add Text Annotation:</button>
+
+    <input id="input_text_annotation" class="vertical_center"
+           bind:value={textAnnotationStringValue}
+           on:focus={ () => appContainer.trigger("focusOnTextInput", true) }
+           on:focusout={ () => appContainer.trigger("focusOnTextInput", false) }
+    >
 
 </div>

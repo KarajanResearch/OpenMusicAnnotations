@@ -26,11 +26,17 @@
     let zoomview;
 
 
+    /**
+     * overrides point markers for peaks.js
+     * @param options see peaks.js manual
+     * // https://github.com/joeweiss/peaks.js/blob/master/demo/custom-markers.html
+     * @returns {*}
+     */
     function createPointMarker(options) {
         // console.log(options);
         if (options.view === 'zoomview') {
-            //return new CustomPointMarker(options, zoomview, overview);
-            return new SimplePointMarker(options, zoomview, overview);
+            return new CustomPointMarker(options, zoomview, overview);
+            //return new SimplePointMarker(options, zoomview, overview);
         }
         else {
 
@@ -78,16 +84,16 @@
             overviewHighlightColor: 'rgb(200,42,0)',
 
             // Color of the play head text
-            playheadTextColor: '#666666',
+            playheadTextColor: '#555555',
             showPlayheadTime: true,
             axisLabelColor: "#333333",
 
             // the color of a point marker
-            pointMarkerColor: '#CCCCCC',
+            // pointMarkerColor: '#CCCCCC',
 
             keyboard: true,
             // Keyboard nudge increment in seconds (left arrow/right arrow)
-            nudgeIncrement: 0.01,
+            // nudgeIncrement: 0.01,
 
             createPointMarker: createPointMarker
 

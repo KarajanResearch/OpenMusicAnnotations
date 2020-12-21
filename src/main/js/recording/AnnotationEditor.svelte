@@ -81,7 +81,10 @@
         width: 4em;
     }
     #beatNumber {
-        width: 4em;
+        width: 3em;
+    }
+    #subDivision {
+        width: 2em;
     }
 
 </style>
@@ -89,16 +92,20 @@
 
 {#if visible}
     <div transition:fade>
-        <h3>Edit Annotation</h3>
+
 
         {#if (currentAnnotation.type === "Tap")}
-        <label for="barNumber">Bar</label>
-        <input id="barNumber" type="number" bind:value={currentAnnotation.bar} min="1" />
-        <label for="beatNumber">Beat</label>
-        <input id="beatNumber" type="number" bind:value={currentAnnotation.beat} min="1" />
+            <h3>Edit Tap</h3>
+            <label for="barNumber">Bar:Beat:Sub</label>
+            <span>
+                <input id="barNumber" type="number" bind:value={currentAnnotation.bar} min="1" />:
+                <input id="beatNumber" type="number" bind:value={currentAnnotation.beat} min="1" />:
+                <input id="subDivision" type="number" bind:value={currentAnnotation.subdivision} min="0" />
+            </span>
         {/if}
 
         {#if (currentAnnotation.type === "Text")}
+            <h3>Edit Text</h3>
             <label for="stringValue">Text</label>
             <input id="stringValue"
                bind:value={currentAnnotation.stringValue}
