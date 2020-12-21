@@ -95,7 +95,7 @@
 
 
         {#if (currentAnnotation.type === "Tap")}
-            <h3>Edit Tap</h3>
+            <h3>Edit Tap: {currentAnnotation.labelText}</h3>
             <label for="barNumber">Bar:Beat:Sub</label>
             <span>
                 <input id="barNumber" type="number" bind:value={currentAnnotation.bar} min="1" />:

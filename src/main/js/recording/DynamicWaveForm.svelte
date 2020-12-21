@@ -20,10 +20,15 @@
     let width = 1400;
     let height = 200;
 
-    let tempoAnnotationSessions = [];
+    // let tempoAnnotationSessions = [];
 
     let overview;
     let zoomview;
+
+
+    let tempoChartDatasets;
+
+
 
 
     /**
@@ -61,6 +66,9 @@
 
         overview = document.getElementById('overview-container_'+recordingId);
         zoomview= document.getElementById('zoomview-container_'+recordingId);
+
+        tempoChartDatasets = new Map();
+
 
         // https://github.com/bbc/peaks.js#configuration
         const options = {
@@ -201,63 +209,61 @@
         });
         appContainer.on("drawSession", function (event, sessionListEntry) {
 
-            // tempo curve calculated on the fly
-            let tempoAnnotations = [];
-            let previousAnnotation = {};
 
             for (let j = 0; j < sessionListEntry.session.annotations.length; j++) {
                 let annotation = sessionListEntry.session.annotations[j];
-
-                // console.log(annotation);
-
-                if (j > 0 && annotation.type === "Tap" && (
-                    annotation.subdivision === null || annotation.subdivision === 1 || annotation.subdivision === 0
-                )) {
-                    let deltaTime = annotation.time - previousAnnotation.time;
-                    // console.log(deltaTime);
-                    let tempoAnnotation = new Annotation(
-                        {
-                            type: "Tempo",
-                            time: annotation.time,
-                            doubleValue: 60.0 / deltaTime,
-                            color: annotation.color
-                        }
-                    );
-
-                    tempoAnnotations.push(tempoAnnotation);
-                }
-                let point = annotation.getPeaksPoint();
-
-                // reduce color
-
-                //let t3 = performance.now();
-                peaks.points.add(point);
-                //let t4 = performance.now();
-                // console.log("drawAnnotation in " + (t4 - t3));
-
-                previousAnnotation = annotation;
+                peaks.points.add(annotation);
             }
 
-
-            // maybe return reference to layer per session for reuse
-
-            // draw tempogram
-
-            // check existing
-            tempoAnnotationSessions = [];
-            tempoAnnotationSessions.push({
-                sessionListEntry: sessionListEntry,
-                annotations: tempoAnnotations
-            });
-            renderTempoCurves();
-
-
-
-
+            //renderTempoCurves();
         });
+
+        appContainer.on("drawTempoCurve", function (event, sessionListEntry) {
+
+            let maxDuration = peaks.player.getDuration();
+
+            let chartData = [
+                {
+                    x: 0.0,
+                    y: 0.0
+                }
+            ];
+
+            sessionListEntry.tempoAnnotations.map(function (val) {
+                chartData.push({
+                    x: val.time * 1000, // to milliseconds
+                    y: val.doubleValue.toFixed(2)
+                });
+            });
+
+            chartData.push({
+                x: maxDuration * 1000, // to milliseconds
+                y: 0.0
+            });
+
+            let dataset = {
+                label: sessionListEntry.session.title,
+                /*backgroundColor: color,*/
+                borderColor: sessionListEntry.color,
+                display: false,
+                data: chartData,
+                pointStyle: "line"
+            };
+
+            tempoChartDatasets.set(sessionListEntry.id, dataset);
+            drawTempoCurve(sessionListEntry);
+        });
+        appContainer.on("removeTempoCurve", function (event, sessionListEntry) {
+            //drawTempoCurve(sessionListEntry);
+            tempoChartDatasets.delete(sessionListEntry.id);
+            drawTempoCurve(sessionListEntry);
+        });
+
+        
+
         appContainer.on("clearAllAnnotations", function (event) {
             peaks.points.removeAll();
-            tempoAnnotationSessions = [];
+            // tempoAnnotationSessions = [];
         });
 
         appContainer.on("eraseAnnotation", function (event, annotation) {
@@ -300,9 +306,9 @@
     }
 
     let chart;
-    function renderTempoCurves() {
+    function drawTempoCurve(sessionListEntry) {
 
-        let maxDuration = peaks.player.getDuration();
+
 
         if (typeof (chart) !== "undefined") {
             chart.destroy();
@@ -317,86 +323,56 @@
 
 
 
-        for (let i = 0; i < tempoAnnotationSessions.length; i++) {
+        let datasets = []
 
-            let chartData = [
-                {
-                    x: 0.0,
-                    y: 0.0
-                }
-            ];
+        tempoChartDatasets.forEach( function (value, key) {
+            console.log(key);
+            console.log(value);
+            datasets.push(value);
+        });
 
-            let color = "#000000";
-            if (typeof(tempoAnnotationSessions[i].annotations[0]) !== "undefined") {
-                color = tempoAnnotationSessions[i].annotations[0].color;
+        chart = new Chart(ctx, {
+            type: "line",
+            data: {
+                datasets: datasets
+            },
+
+            options: {
+                title: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: "millisecond",
+                            stepSize: 1000,
+                            tooltipFormat: "[Time: ]m:ss.SSS" // https://www.tutorialspoint.com/momentjs/momentjs_format.htm
+                        },
+                        distribution: "linear",
+                        scaleLabel: {
+                            display: false,
+                            // labelString: 'Time'
+                        },
+                        display: false,
+
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'BPM'
+                        },
+                        display: false
+                    }]
+                },
             }
 
-            tempoAnnotationSessions[i].annotations.map(function (val) {
-                chartData.push({
-                    x: val.time * 1000, // to milliseconds
-                    y: val.doubleValue.toFixed(2)
-                });
-            });
 
-            chartData.push({
-                x: maxDuration * 1000, // to milliseconds
-                y: 0.0
-            });
-
-            // console.log(chartData);
-
-            chart = new Chart(ctx, {
-                type: "line",
-                data: {
-                    datasets: [
-                        {
-                            label: "Beats per Minute",
-                            /*backgroundColor: color,*/
-                            borderColor: color,
-                            display: false,
-                            data: chartData,
-                            pointStyle: "line"
-                        }
-                    ]
-                },
-
-                options: {
-                    title: {
-                        display: false
-                    },
-                    scales: {
-                        xAxes: [{
-                            type: 'time',
-                            time: {
-                                unit: "millisecond",
-                                stepSize: 1000,
-                                tooltipFormat: "[Time: ]m:ss.SSS" // https://www.tutorialspoint.com/momentjs/momentjs_format.htm
-                            },
-                            distribution: "linear",
-                            scaleLabel: {
-                                display: false,
-                                // labelString: 'Time'
-                            },
-                            display: false,
-
-                        }],
-                        yAxes: [{
-                            scaleLabel: {
-                                display: false,
-                                labelString: 'BPM'
-                            },
-                            display: false
-                        }]
-                    },
-                }
-
-
-            });
+        });
 
 
 
 
-        }
 
 
     }

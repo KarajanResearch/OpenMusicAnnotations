@@ -56939,14 +56939,17 @@ function create_if_block(ctx) {
 // (97:8) {#if (currentAnnotation.type === "Tap")}
 function create_if_block_2(ctx) {
 	let h3;
+	let t0;
+	let t1_value = /*currentAnnotation*/ ctx[0].labelText + "";
 	let t1;
+	let t2;
 	let label;
-	let t3;
+	let t4;
 	let span;
 	let input0;
-	let t4;
-	let input1;
 	let t5;
+	let input1;
+	let t6;
 	let input2;
 	let mounted;
 	let dispose;
@@ -56954,16 +56957,17 @@ function create_if_block_2(ctx) {
 	return {
 		c() {
 			h3 = internal_element("h3");
-			h3.textContent = "Edit Tap";
-			t1 = space();
+			t0 = internal_text("Edit Tap: ");
+			t1 = internal_text(t1_value);
+			t2 = space();
 			label = internal_element("label");
 			label.textContent = "Bar:Beat:Sub";
-			t3 = space();
+			t4 = space();
 			span = internal_element("span");
 			input0 = internal_element("input");
-			t4 = internal_text(":\n                ");
-			input1 = internal_element("input");
 			t5 = internal_text(":\n                ");
+			input1 = internal_element("input");
+			t6 = internal_text(":\n                ");
 			input2 = internal_element("input");
 			attr(label, "for", "barNumber");
 			attr(input0, "id", "barNumber");
@@ -56981,16 +56985,18 @@ function create_if_block_2(ctx) {
 		},
 		m(target, anchor) {
 			insert(target, h3, anchor);
-			insert(target, t1, anchor);
+			append(h3, t0);
+			append(h3, t1);
+			insert(target, t2, anchor);
 			insert(target, label, anchor);
-			insert(target, t3, anchor);
+			insert(target, t4, anchor);
 			insert(target, span, anchor);
 			append(span, input0);
 			set_input_value(input0, /*currentAnnotation*/ ctx[0].bar);
-			append(span, t4);
+			append(span, t5);
 			append(span, input1);
 			set_input_value(input1, /*currentAnnotation*/ ctx[0].beat);
-			append(span, t5);
+			append(span, t6);
 			append(span, input2);
 			set_input_value(input2, /*currentAnnotation*/ ctx[0].subdivision);
 
@@ -57005,6 +57011,8 @@ function create_if_block_2(ctx) {
 			}
 		},
 		p(ctx, dirty) {
+			if (dirty & /*currentAnnotation*/ 1 && t1_value !== (t1_value = /*currentAnnotation*/ ctx[0].labelText + "")) set_data(t1, t1_value);
+
 			if (dirty & /*currentAnnotation*/ 1 && to_number(input0.value) !== /*currentAnnotation*/ ctx[0].bar) {
 				set_input_value(input0, /*currentAnnotation*/ ctx[0].bar);
 			}
@@ -57019,9 +57027,9 @@ function create_if_block_2(ctx) {
 		},
 		d(detaching) {
 			if (detaching) detach(h3);
-			if (detaching) detach(t1);
+			if (detaching) detach(t2);
 			if (detaching) detach(label);
-			if (detaching) detach(t3);
+			if (detaching) detach(t4);
 			if (detaching) detach(span);
 			mounted = false;
 			run_all(dispose);
@@ -57294,13 +57302,13 @@ function SessionList_svelte_add_css() {
 
 function SessionList_svelte_get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[33] = list[i];
-	child_ctx[34] = list;
-	child_ctx[35] = i;
+	child_ctx[34] = list[i];
+	child_ctx[35] = list;
+	child_ctx[36] = i;
 	return child_ctx;
 }
 
-// (567:0) {#if sessionList.length == 0}
+// (610:0) {#if sessionList.length == 0}
 function create_if_block_5(ctx) {
 	let t;
 
@@ -57317,13 +57325,13 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (571:0) {#if sessionList.length > 0}
+// (614:0) {#if sessionList.length > 0}
 function create_if_block_4(ctx) {
 	let div;
 	let each_blocks = [];
 	let each_1_lookup = new Map();
 	let each_value = /*sessionList*/ ctx[1];
-	const get_key = ctx => /*sessionListEntry*/ ctx[33].id;
+	const get_key = ctx => /*sessionListEntry*/ ctx[34].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = SessionList_svelte_get_each_context(ctx, each_value, i);
@@ -57365,7 +57373,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (573:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
+// (616:8) {#each sessionList as sessionListEntry (sessionListEntry.id)}
 function SessionList_svelte_create_each_block(key_1, ctx) {
 	let div;
 	let input0;
@@ -57378,15 +57386,15 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	let dispose;
 
 	function input0_change_handler() {
-		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[34], /*sessionListEntry_index*/ ctx[35]);
+		/*input0_change_handler*/ ctx[10].call(input0, /*each_value*/ ctx[35], /*sessionListEntry_index*/ ctx[36]);
 	}
 
 	function input1_input_handler() {
-		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[34], /*sessionListEntry_index*/ ctx[35]);
+		/*input1_input_handler*/ ctx[11].call(input1, /*each_value*/ ctx[35], /*sessionListEntry_index*/ ctx[36]);
 	}
 
 	function focusout_handler() {
-		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[33]);
+		return /*focusout_handler*/ ctx[13](/*sessionListEntry*/ ctx[34]);
 	}
 
 	return {
@@ -57401,20 +57409,20 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			attr(input0, "class", "session_list_entry_checkbox svelte-1dbcd0g");
 			attr(input0, "type", "checkbox");
 			attr(input1, "class", "session_list_entry_title svelte-1dbcd0g");
-			attr(input1, "title", input1_title_value = /*sessionListEntry*/ ctx[33].session.title);
+			attr(input1, "title", input1_title_value = /*sessionListEntry*/ ctx[34].session.title);
 			attr(input1, "placeholder", "Name for Annotations...");
-			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[33].session.isMine;
+			input1.disabled = input1_disabled_value = !/*sessionListEntry*/ ctx[34].session.isMine;
 			attr(div, "class", "session_list_entry svelte-1dbcd0g");
-			set_style(div, "background-color", /*sessionListEntry*/ ctx[33].color);
+			set_style(div, "background-color", /*sessionListEntry*/ ctx[34].color);
 			this.first = div;
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input0);
-			input0.checked = /*sessionListEntry*/ ctx[33].selected;
+			input0.checked = /*sessionListEntry*/ ctx[34].selected;
 			append(div, t0);
 			append(div, input1);
-			set_input_value(input1, /*sessionListEntry*/ ctx[33].session.title);
+			set_input_value(input1, /*sessionListEntry*/ ctx[34].session.title);
 			append(div, t1);
 
 			if (!mounted) {
@@ -57432,23 +57440,23 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 			ctx = new_ctx;
 
 			if (dirty[0] & /*sessionList*/ 2) {
-				input0.checked = /*sessionListEntry*/ ctx[33].selected;
+				input0.checked = /*sessionListEntry*/ ctx[34].selected;
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1_title_value !== (input1_title_value = /*sessionListEntry*/ ctx[33].session.title)) {
+			if (dirty[0] & /*sessionList*/ 2 && input1_title_value !== (input1_title_value = /*sessionListEntry*/ ctx[34].session.title)) {
 				attr(input1, "title", input1_title_value);
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[33].session.isMine)) {
+			if (dirty[0] & /*sessionList*/ 2 && input1_disabled_value !== (input1_disabled_value = !/*sessionListEntry*/ ctx[34].session.isMine)) {
 				input1.disabled = input1_disabled_value;
 			}
 
-			if (dirty[0] & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[33].session.title) {
-				set_input_value(input1, /*sessionListEntry*/ ctx[33].session.title);
+			if (dirty[0] & /*sessionList*/ 2 && input1.value !== /*sessionListEntry*/ ctx[34].session.title) {
+				set_input_value(input1, /*sessionListEntry*/ ctx[34].session.title);
 			}
 
 			if (dirty[0] & /*sessionList*/ 2) {
-				set_style(div, "background-color", /*sessionListEntry*/ ctx[33].color);
+				set_style(div, "background-color", /*sessionListEntry*/ ctx[34].color);
 			}
 		},
 		d(detaching) {
@@ -57459,7 +57467,7 @@ function SessionList_svelte_create_each_block(key_1, ctx) {
 	};
 }
 
-// (597:0) {#if currentlyNewSession.length == 0}
+// (640:0) {#if currentlyNewSession.length == 0}
 function create_if_block_3(ctx) {
 	let t;
 
@@ -57476,7 +57484,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (602:0) {#if currentlyNewSession.length > 0}
+// (645:0) {#if currentlyNewSession.length > 0}
 function SessionList_svelte_create_if_block_1(ctx) {
 	let t0;
 	let h3;
@@ -57578,7 +57586,7 @@ function SessionList_svelte_create_if_block_1(ctx) {
 	};
 }
 
-// (604:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
+// (647:4) {#if (sessionSelection.length == 1) && (sessionSelection[0].session.isMine === true) }
 function SessionList_svelte_create_if_block_2(ctx) {
 	let h3;
 	let t0;
@@ -57651,7 +57659,7 @@ function SessionList_svelte_create_if_block_2(ctx) {
 	};
 }
 
-// (644:0) {#if sessionSelection.length > 0}
+// (687:0) {#if sessionSelection.length > 0}
 function SessionList_svelte_create_if_block(ctx) {
 	let h3;
 	let t1;
@@ -57955,6 +57963,7 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 
 		let t2 = performance.now();
 		console.log("done in " + (t2 - t1));
+		appContainer.trigger("removeTempoCurve", sessionListEntry);
 	}
 
 	function drawAnnotationSession(sessionListEntry) {
@@ -57968,6 +57977,9 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		let t2 = performance.now();
 
 		console.log("done in " + (t2 - t1));
+
+		// TODO: better place to call?
+		appContainer.trigger("drawTempoCurve", sessionListEntry);
 	}
 
 	/**
@@ -57978,6 +57990,31 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 		return sessionColorsTransparent[index % sessionColorsTransparent.length];
 	}
 
+	function createTempoData(sessionListEntry) {
+		sessionListEntry.tempoAnnotations = [];
+		let previousAnnotation = {};
+
+		for (let j = 0; j < sessionListEntry.session.annotations.length; j++) {
+			let annotation = sessionListEntry.session.annotations[j];
+
+			if (j > 0 && annotation.type === "Tap" && (annotation.subdivision === null || annotation.subdivision === 1 || annotation.subdivision === 0)) {
+				let deltaTime = annotation.time - previousAnnotation.time;
+
+				// console.log(deltaTime);
+				let tempoAnnotation = new Annotation({
+						type: "Tempo",
+						time: annotation.time,
+						doubleValue: 60 / deltaTime,
+						color: annotation.color
+					});
+
+				sessionListEntry.tempoAnnotations.push(tempoAnnotation);
+			}
+
+			previousAnnotation = annotation;
+		}
+	}
+
 	function convertGormSession(listEntry) {
 		// convert annotations to UI representation in Annotation.js
 		for (let j = 0; j < listEntry.session.annotations.length; j++) {
@@ -57985,6 +58022,11 @@ function SessionList_svelte_instance($$self, $$props, $$invalidate) {
 			let annotation = Annotation.fromGormAnnotation(gormAnnotation, listEntry.color);
 			listEntry.session.annotations[j] = annotation;
 		}
+
+		// calculate Tempo Curve
+		createTempoData(listEntry);
+
+		console.log(listEntry.tempoAnnotations);
 	}
 
 	async function fetchSessionList() {
@@ -58739,9 +58781,12 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 	let peaks = {};
 	let width = 1400;
 	let height = 200;
-	let tempoAnnotationSessions = [];
+
+	// let tempoAnnotationSessions = [];
 	let overview;
+
 	let zoomview;
+	let tempoChartDatasets;
 
 	/**
  * overrides point markers for peaks.js
@@ -58773,6 +58818,7 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 	onMount(async () => {
 		overview = document.getElementById("overview-container_" + recordingId);
 		zoomview = document.getElementById("zoomview-container_" + recordingId);
+		tempoChartDatasets = new Map();
 
 		// https://github.com/bbc/peaks.js#configuration
 		const options = {
@@ -58874,57 +58920,51 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 		//console.log("   points.add: " + (t2-t1));
 
 		appContainer.on("drawSession", function (event, sessionListEntry) {
-			// tempo curve calculated on the fly
-			let tempoAnnotations = [];
-
-			let previousAnnotation = {};
-
 			for (let j = 0; j < sessionListEntry.session.annotations.length; j++) {
 				let annotation = sessionListEntry.session.annotations[j];
-
-				// console.log(annotation);
-				if (j > 0 && annotation.type === "Tap" && (annotation.subdivision === null || annotation.subdivision === 1 || annotation.subdivision === 0)) {
-					let deltaTime = annotation.time - previousAnnotation.time;
-
-					// console.log(deltaTime);
-					let tempoAnnotation = new Annotation({
-							type: "Tempo",
-							time: annotation.time,
-							doubleValue: 60 / deltaTime,
-							color: annotation.color
-						});
-
-					tempoAnnotations.push(tempoAnnotation);
-				}
-
-				let point = annotation.getPeaksPoint();
-
-				// reduce color
-				//let t3 = performance.now();
-				peaks.points.add(point);
-
-				//let t4 = performance.now();
-				// console.log("drawAnnotation in " + (t4 - t3));
-				previousAnnotation = annotation;
+				peaks.points.add(annotation);
 			}
+		}); //renderTempoCurves();
 
-			// maybe return reference to layer per session for reuse
-			// draw tempogram
-			// check existing
-			tempoAnnotationSessions = [];
+		appContainer.on("drawTempoCurve", function (event, sessionListEntry) {
+			let maxDuration = peaks.player.getDuration();
+			let chartData = [{ x: 0, y: 0 }];
 
-			tempoAnnotationSessions.push({
-				sessionListEntry,
-				annotations: tempoAnnotations
+			sessionListEntry.tempoAnnotations.map(function (val) {
+				chartData.push({
+					x: val.time * 1000, // to milliseconds
+					y: val.doubleValue.toFixed(2)
+				});
 			});
 
-			renderTempoCurves();
+			chartData.push({
+				x: maxDuration * 1000, // to milliseconds
+				y: 0
+			});
+
+			let dataset = {
+				label: sessionListEntry.session.title,
+				/*backgroundColor: color,*/
+				borderColor: sessionListEntry.color,
+				display: false,
+				data: chartData,
+				pointStyle: "line"
+			};
+
+			tempoChartDatasets.set(sessionListEntry.id, dataset);
+			drawTempoCurve(sessionListEntry);
+		});
+
+		appContainer.on("removeTempoCurve", function (event, sessionListEntry) {
+			//drawTempoCurve(sessionListEntry);
+			tempoChartDatasets.delete(sessionListEntry.id);
+
+			drawTempoCurve(sessionListEntry);
 		});
 
 		appContainer.on("clearAllAnnotations", function (event) {
 			peaks.points.removeAll();
-			tempoAnnotationSessions = [];
-		});
+		}); // tempoAnnotationSessions = [];
 
 		appContainer.on("eraseAnnotation", function (event, annotation) {
 			peaks.points.removeById(annotation.id);
@@ -58954,9 +58994,7 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 
 	let chart;
 
-	function renderTempoCurves() {
-		let maxDuration = peaks.player.getDuration();
-
+	function drawTempoCurve(sessionListEntry) {
 		if (typeof chart !== "undefined") {
 			chart.destroy();
 		}
@@ -58966,69 +59004,44 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 		// console.log(canvas);
 		var ctx = document.getElementById(`tempo-chart-overview_${recordingId}`);
 
-		for (let i = 0; i < tempoAnnotationSessions.length; i++) {
-			let chartData = [{ x: 0, y: 0 }];
-			let color = "#000000";
+		let datasets = [];
 
-			if (typeof tempoAnnotationSessions[i].annotations[0] !== "undefined") {
-				color = tempoAnnotationSessions[i].annotations[0].color;
-			}
+		tempoChartDatasets.forEach(function (value, key) {
+			console.log(key);
+			console.log(value);
+			datasets.push(value);
+		});
 
-			tempoAnnotationSessions[i].annotations.map(function (val) {
-				chartData.push({
-					x: val.time * 1000, // to milliseconds
-					y: val.doubleValue.toFixed(2)
-				});
-			});
-
-			chartData.push({
-				x: maxDuration * 1000, // to milliseconds
-				y: 0
-			});
-
-			// console.log(chartData);
-			chart = new (Chart_default())(ctx,
-			{
-					type: "line",
-					data: {
-						datasets: [
+		chart = new (Chart_default())(ctx,
+		{
+				type: "line",
+				data: { datasets },
+				options: {
+					title: { display: false },
+					scales: {
+						xAxes: [
 							{
-								label: "Beats per Minute",
-								/*backgroundColor: color,*/
-								borderColor: color,
-								display: false,
-								data: chartData,
-								pointStyle: "line"
+								type: "time",
+								time: {
+									unit: "millisecond",
+									stepSize: 1000,
+									tooltipFormat: "[Time: ]m:ss.SSS", // https://www.tutorialspoint.com/momentjs/momentjs_format.htm
+									
+								},
+								distribution: "linear",
+								scaleLabel: { display: false }, // labelString: 'Time'
+								display: false
+							}
+						],
+						yAxes: [
+							{
+								scaleLabel: { display: false, labelString: "BPM" },
+								display: false
 							}
 						]
-					},
-					options: {
-						title: { display: false },
-						scales: {
-							xAxes: [
-								{
-									type: "time",
-									time: {
-										unit: "millisecond",
-										stepSize: 1000,
-										tooltipFormat: "[Time: ]m:ss.SSS", // https://www.tutorialspoint.com/momentjs/momentjs_format.htm
-										
-									},
-									distribution: "linear",
-									scaleLabel: { display: false }, // labelString: 'Time'
-									display: false
-								}
-							],
-							yAxes: [
-								{
-									scaleLabel: { display: false, labelString: "BPM" },
-									display: false
-								}
-							]
-						}
 					}
-				});
-		}
+				}
+			});
 	}
 
 	$$self.$$set = $$props => {

@@ -164,6 +164,8 @@
         });
         let t2 = performance.now();
         console.log("done in " + (t2 - t1));
+
+        appContainer.trigger("removeTempoCurve", sessionListEntry);
     }
 
     function drawAnnotationSession(sessionListEntry) {
@@ -174,9 +176,10 @@
         //renderSessionIncrementally(session);
         let t2 = performance.now();
         console.log("done in " + (t2 - t1));
+
+        // TODO: better place to call?
+        appContainer.trigger("drawTempoCurve", sessionListEntry);
     }
-
-
 
 
     /**
@@ -187,6 +190,38 @@
         return sessionColorsTransparent[index % sessionColorsTransparent.length];
     }
 
+
+    function createTempoData(sessionListEntry) {
+
+        sessionListEntry.tempoAnnotations = [];
+        let previousAnnotation = {};
+
+        for (let j = 0; j < sessionListEntry.session.annotations.length; j++) {
+            let annotation = sessionListEntry.session.annotations[j];
+
+            if (j > 0 && annotation.type === "Tap" && (
+                annotation.subdivision === null || annotation.subdivision === 1 || annotation.subdivision === 0
+            )) {
+                let deltaTime = annotation.time - previousAnnotation.time;
+                // console.log(deltaTime);
+                let tempoAnnotation = new Annotation(
+                    {
+                        type: "Tempo",
+                        time: annotation.time,
+                        doubleValue: 60.0 / deltaTime,
+                        color: annotation.color
+                    }
+                );
+
+                sessionListEntry.tempoAnnotations.push(tempoAnnotation);
+            }
+            previousAnnotation = annotation;
+        }
+
+
+    }
+
+
     function convertGormSession(listEntry) {
         // convert annotations to UI representation in Annotation.js
         for (let j = 0; j < listEntry.session.annotations.length; j++) {
@@ -194,6 +229,14 @@
             let annotation = Annotation.fromGormAnnotation(gormAnnotation, listEntry.color);
             listEntry.session.annotations[j] = annotation;
         }
+
+        // calculate Tempo Curve
+        createTempoData(listEntry);
+
+        console.log(listEntry.tempoAnnotations);
+
+
+
     }
 
     async function fetchSessionList() {
