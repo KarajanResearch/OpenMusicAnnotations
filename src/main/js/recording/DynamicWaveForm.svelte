@@ -80,13 +80,13 @@
             dataUri: {
                 json: '/recording/getPeaksFile/' + recordingId
             },
-            height: 200,
+            height: 290,
             zoomLevels: [32, 64, 128, 256, 512, 1024, 2048, 4096],
             emitCueEvents: true, /* https://github.com/bbc/peaks.js#events */
             // Color for the zoomable waveform
-            zoomWaveformColor: 'rgba(0, 225, 128, 1)',
+            zoomWaveformColor: 'rgba(0,150,0,1)',
             // Color for the overview waveform
-            overviewWaveformColor: 'rgba(0,150,0,1)',
+            overviewWaveformColor: 'rgba(0, 225, 128, 1)',
             // Color for the overview waveform rectangle
             // that shows what the zoomable view shows
             overviewHighlightColor: 'rgb(200,42,0)',
@@ -259,7 +259,7 @@
             drawTempoCurve(sessionListEntry);
         });
 
-        
+
 
         appContainer.on("clearAllAnnotations", function (event) {
             peaks.points.removeAll();
@@ -309,17 +309,17 @@
     function drawTempoCurve(sessionListEntry) {
 
 
-
         if (typeof (chart) !== "undefined") {
             chart.destroy();
         }
 
 
         // let overview = document.getElementById(`overview-container_${recordingId}`);
-        // let canvas = overview.lastChild.lastChild;
+        //let canvas = overview.lastChild.lastChild;
         // console.log(canvas);
 
-        var ctx = document.getElementById(`tempo-chart-overview_${recordingId}`);
+        let ctx = document.getElementById(`tempo-chart-overview_${recordingId}`);
+        //let ctx = canvas;
 
 
 
@@ -378,16 +378,27 @@
     }
 
 
+    function tempoChartOverviewClicked(event) {
+        console.log(event);
+
+
+
+    }
+
+
 
 </script>
 
 
 <style>
 
-    .tempo-container {
-        /*border: 1px solid red;*/
+    .tempo-container-overview {
+        /*border: 2px solid red;*/
         /*height: 158px;*/
         /*background: #b3a3a3;*/
+        position: relative;
+        top: -21em;
+        pointer-events: none;
     }
 
 </style>
@@ -397,12 +408,14 @@
 
 <div id="overview-container_{recordingId}"/>
 
-<div id="tempo-container_{recordingId}" class="tempo-container">
 
-    <!--<canvas id="tempo-chart-zoomview_{recordingId}" width="{width}" height="79"></canvas>-->
+<canvas on:mousedown={tempoChartOverviewClicked} class="tempo-container-overview" id="tempo-chart-overview_{recordingId}" width="{width}" height="158"></canvas>
 
-    <canvas id="tempo-chart-overview_{recordingId}" width="{width}" height="158"></canvas>
+<!--
+<div id="tempo-container_{recordingId}" >
+
+    <canvas class="tempo-container" id="tempo-chart-zoomview_{recordingId}" width="{width}" height="79"></canvas>
 
 </div>
-
+-->
 
