@@ -17,3 +17,5 @@ jupyter-omaapi/input/.omacache
 jupyter-omaapi/input/omacache
 jupyter-omaapi/input/*.pyc
 node_modules/
+grails-app/conf/app-config.properties
+grails-app/conf/application.yml
