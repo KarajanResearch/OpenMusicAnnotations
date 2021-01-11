@@ -58865,7 +58865,7 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 			dataUri: {
 				json: "/recording/getPeaksFile/" + recordingId
 			},
-			height: 200,
+			height: 260,
 			zoomLevels: [32, 64, 128, 256, 512, 1024, 2048, 4096],
 			emitCueEvents: true, /* https://github.com/bbc/peaks.js#events */
 			// Color for the zoomable waveform
@@ -58912,14 +58912,6 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 		peaks.on("zoom.update", function (currentZoomLevel, previousZoomLevel) {
 			console.log("Zoom " + previousZoomLevel + " -> " + currentZoomLevel);
 			$$invalidate(10, zoomLevel = currentZoomLevel);
-			console.log(peaks.zoom);
-
-			if (typeof peaks.zoom !== "undefined") {
-				if (typeof peaks.views !== "undefined") {
-					let view = peaks.views.getView("zoomview");
-					view.fitToContainer();
-				}
-			}
 		});
 
 		/**

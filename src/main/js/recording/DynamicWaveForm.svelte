@@ -91,7 +91,7 @@
             dataUri: {
                 json: '/recording/getPeaksFile/' + recordingId
             },
-            height: 200,
+            height: 260,
             zoomLevels: [32, 64, 128, 256, 512, 1024, 2048, 4096],
             emitCueEvents: true, /* https://github.com/bbc/peaks.js#events */
             // Color for the zoomable waveform
