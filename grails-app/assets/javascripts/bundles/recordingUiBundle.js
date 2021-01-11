@@ -59073,11 +59073,13 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 						],
 						yAxes: [
 							{
+								ticks: { min: 0 },
 								scaleLabel: { display: false, labelString: "BPM" },
 								display: false
 							}
 						]
-					}
+					},
+					animation: { duration: 0 }
 				}
 			});
 
@@ -59092,25 +59094,12 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 		let datasets = [];
 
 		tempoChartDatasets.forEach(function (value, key) {
-			console.log(key);
-			console.log(value);
+			// console.log(key);
+			// console.log(value);
 			datasets.push(value);
 		});
 
 		let zoomFilteredDatasets = [];
-
-		let zoomfitDummySet = {
-			label: "Tempo Curve Zoom",
-			/*backgroundColor: color,*/
-			display: false,
-			data: [
-				{ x: zoomViewStartSeconds * 1000, y: 0 },
-				{ x: zoomViewEndSeconds * 1000, y: 0 }
-			],
-			pointStyle: "line"
-		};
-
-		zoomFilteredDatasets.push(zoomfitDummySet);
 
 		for (let i = 0; i < datasets.length; i++) {
 			let datasetClone = {};
@@ -59119,8 +59108,29 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 				datasetClone[key] = datasets[i][key];
 			}
 
-			datasetClone.data = datasets[i].data.filter(function (val) {
+			datasetClone.data = [];
+
+			let filteredData = datasets[i].data.filter(function (val) {
 				return zoomViewStartSeconds * 1000 < val.x && zoomViewEndSeconds * 1000 > val.x;
+			});
+
+			if (filteredData.length < 1) {
+				continue;
+			}
+
+			datasetClone.data.push({
+				x: zoomViewStartSeconds * 1000,
+				y: filteredData[0].y
+			});
+
+			for (let i = 0; i < filteredData.length; i++) {
+				// console.log(filteredData[i]);
+				datasetClone.data.push(filteredData[i]);
+			}
+
+			datasetClone.data.push({
+				x: zoomViewEndSeconds * 1000,
+				y: filteredData[filteredData.length - 1].y
 			});
 
 			datasetClone.pointStyle = "circle";
