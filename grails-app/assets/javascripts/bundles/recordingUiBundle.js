@@ -58819,6 +58819,7 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 	let zoomview;
 	let zoomViewStartSeconds = 0;
 	let zoomViewEndSeconds = 10;
+	let zoomLevel = 512;
 	let tempoChartDatasets;
 
 	/**
@@ -58830,10 +58831,14 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 	function createPointMarker(options) {
 		// console.log(options);
 		if (options.view === "zoomview") {
-			return new CustomPointMarker(options, zoomview, overview);
+			if (zoomLevel > 1024) {
+				return new SimplePointMarker(options, zoomview, overview);
+			} else {
+				return new CustomPointMarker(options, zoomview, overview);
+			}
 		} else {
 			// filter offbeats and subdivisions
-			let p = options.point; //return new SimplePointMarker(options, zoomview, overview);
+			let p = options.point; //
 
 			if (p.type === "Tap" && p.beat === 1) {
 				// none or only first subdivisions
@@ -58906,6 +58911,15 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
  */
 		peaks.on("zoom.update", function (currentZoomLevel, previousZoomLevel) {
 			console.log("Zoom " + previousZoomLevel + " -> " + currentZoomLevel);
+			$$invalidate(10, zoomLevel = currentZoomLevel);
+			console.log(peaks.zoom);
+
+			if (typeof peaks.zoom !== "undefined") {
+				if (typeof peaks.views !== "undefined") {
+					let view = peaks.views.getView("zoomview");
+					view.fitToContainer();
+				}
+			}
 		});
 
 		/**
@@ -59167,6 +59181,12 @@ function DynamicWaveForm_svelte_instance($$self, $$props, $$invalidate) {
 	};
 
 	$$self.$$.update = () => {
+		if ($$self.$$.dirty & /*zoomLevel*/ 1024) {
+			$: {
+				zoomLevel;
+			}
+		}
+
 		if ($$self.$$.dirty & /*width*/ 2) {
 			$: {
 				width;

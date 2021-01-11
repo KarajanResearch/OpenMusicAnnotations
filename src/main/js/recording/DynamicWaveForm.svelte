@@ -28,6 +28,7 @@
 
     let zoomViewStartSeconds = 0.0;
     let zoomViewEndSeconds = 10.0;
+    let zoomLevel = 512;
 
 
 
@@ -45,8 +46,13 @@
     function createPointMarker(options) {
         // console.log(options);
         if (options.view === 'zoomview') {
-            return new CustomPointMarker(options, zoomview, overview);
-            //return new SimplePointMarker(options, zoomview, overview);
+
+            if (zoomLevel > 1024) {
+                return new SimplePointMarker(options, zoomview, overview);
+            } else {
+                return new CustomPointMarker(options, zoomview, overview);
+            }
+            //
         }
         else {
 
@@ -155,9 +161,8 @@
          * registering waveform events
          */
         peaks.on("zoom.update", function (currentZoomLevel, previousZoomLevel) {
-
             console.log("Zoom " + previousZoomLevel + " -> " + currentZoomLevel);
-
+            zoomLevel = currentZoomLevel;
         });
 
 
@@ -318,6 +323,11 @@
 
     });
 
+    $: {
+        zoomLevel;
+
+
+    }
 
     $: {
         width;
