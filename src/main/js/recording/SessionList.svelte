@@ -233,10 +233,6 @@
         // calculate Tempo Curve
         createTempoData(listEntry);
 
-        console.log(listEntry.tempoAnnotations);
-
-
-
     }
 
     async function fetchSessionList() {

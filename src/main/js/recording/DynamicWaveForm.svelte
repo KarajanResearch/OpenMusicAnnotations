@@ -26,6 +26,11 @@
     let zoomview;
 
 
+    let zoomViewStartSeconds = 0.0;
+    let zoomViewEndSeconds = 10.0;
+
+
+
     let tempoChartDatasets;
 
 
@@ -80,7 +85,7 @@
             dataUri: {
                 json: '/recording/getPeaksFile/' + recordingId
             },
-            height: 290,
+            height: 200,
             zoomLevels: [32, 64, 128, 256, 512, 1024, 2048, 4096],
             emitCueEvents: true, /* https://github.com/bbc/peaks.js#events */
             // Color for the zoomable waveform
@@ -111,7 +116,7 @@
         peaks = Peaks.init(options, function(err, peaks) {
             // ...
 
-            console.log("Peaks View");
+            // console.log("Peaks View");
 
 
             let view = peaks.views;
@@ -124,8 +129,8 @@
 
             let zoomview = peaks.views._zoomview;
 
-            console.log("zoomview");
-            console.log(zoomview);
+            // console.log("zoomview");
+            // console.log(zoomview);
 
 
 
@@ -138,6 +143,13 @@
 
         peaks.zoom.setZoom(4);
 
+
+
+        peaks.on("peaks.ready", function () {
+
+            console.log("Ready ");
+
+        });
 
         /**
          * registering waveform events
@@ -176,6 +188,23 @@
         peaks.on("points.dblclick", function (point) {
             // let annotationEditor handle that
             appContainer.trigger("editAnnotation", point);
+        });
+
+
+        /**
+         * note: zoomview.displaying is not documented in peaks.js
+         */
+        peaks.on("zoomview.displaying", function (startInSeconds, endInSeconds) {
+            // let annotationEditor handle that
+            // console.log(startInSeconds);
+            // console.log(endInSeconds);
+
+            zoomViewStartSeconds = startInSeconds;
+            zoomViewEndSeconds = endInSeconds;
+
+            updateZoomDataCurve();
+
+            // console.log("zoomview.displaying");
         });
 
 
@@ -292,8 +321,8 @@
 
     $: {
         width;
-        console.log("width changed:");
-        console.log(width);
+        // console.log("width changed:");
+        // console.log(width);
     }
 
 
@@ -305,31 +334,13 @@
         return `${minutes}:${seconds}`;
     }
 
-    let chart;
-    function drawTempoCurve(sessionListEntry) {
 
-
+    let dataChartZoomview;
+    let dataChartOverview;
+    function renderDataContext(chart, datasets, ctx) {
         if (typeof (chart) !== "undefined") {
             chart.destroy();
         }
-
-
-        // let overview = document.getElementById(`overview-container_${recordingId}`);
-        //let canvas = overview.lastChild.lastChild;
-        // console.log(canvas);
-
-        let ctx = document.getElementById(`tempo-chart-overview_${recordingId}`);
-        //let ctx = canvas;
-
-
-
-        let datasets = []
-
-        tempoChartDatasets.forEach( function (value, key) {
-            console.log(key);
-            console.log(value);
-            datasets.push(value);
-        });
 
         chart = new Chart(ctx, {
             type: "line",
@@ -369,20 +380,105 @@
 
 
         });
+        return chart;
+
+    }
+
+
+    function updateZoomDataCurve() {
+
+        let zoomCtx = document.getElementById(`datachart-container-zoomview_${recordingId}`);
+
+        // filter datasets
+
+        //TODO: filter in one go
+        let datasets = [];
+
+        tempoChartDatasets.forEach( function (value, key) {
+            console.log(key);
+            console.log(value);
+            datasets.push(value);
+        });
+
+        let zoomFilteredDatasets = [];
+
+        let zoomfitDummySet = {
+            label: "Tempo Curve Zoom",
+            /*backgroundColor: color,*/
+            display: false,
+            data: [
+                {x: zoomViewStartSeconds * 1000, y: 0.0},
+                {x: zoomViewEndSeconds * 1000, y: 0.0},
+            ],
+            pointStyle: "line"
+        };
+
+        zoomFilteredDatasets.push(zoomfitDummySet);
+
+        for (let i = 0; i < datasets.length; i++) {
+
+            let datasetClone = {};
+            for (let key in datasets[i]) {
+                datasetClone[key] = datasets[i][key];
+            }
+            datasetClone.data = datasets[i].data.filter(function(val) {
+                return (
+                    zoomViewStartSeconds * 1000 < val.x &&
+                    zoomViewEndSeconds * 1000 > val.x
+                );
+            });
+
+            datasetClone.pointStyle = "circle";
+
+            zoomFilteredDatasets.push(datasetClone);
+        }
 
 
 
+        dataChartZoomview = renderDataContext(dataChartZoomview, zoomFilteredDatasets, zoomCtx);
 
 
 
     }
 
 
+    function drawTempoCurve(sessionListEntry) {
+
+
+        // let overview = document.getElementById(`overview-container_${recordingId}`);
+        //let canvas = overview.lastChild.lastChild;
+        // console.log(canvas);
+
+        let ctx = document.getElementById(`datachart-container-overview_${recordingId}`);
+        //let ctx = canvas;
+
+
+
+        let datasets = [];
+
+        tempoChartDatasets.forEach( function (value, key) {
+            console.log(key);
+            console.log(value);
+            datasets.push(value);
+        });
+
+        // drop last sample
+        //let last = datasets.pop();
+
+        dataChartOverview = renderDataContext(dataChartOverview, datasets, ctx);
+
+        updateZoomDataCurve();
+
+    }
+
+
     function tempoChartOverviewClicked(event) {
         console.log(event);
+    }
 
 
-
+    function dataChartZoomviewClicked(event) {
+        console.log(event);
     }
 
 
@@ -392,13 +488,13 @@
 
 <style>
 
-    .tempo-container-overview {
+    .datachart-container-overview {
         /*border: 2px solid red;*/
         /*height: 158px;*/
         /*background: #b3a3a3;*/
-        position: relative;
-        top: -21em;
-        pointer-events: none;
+        /* position: relative; */
+        /* top: -21em; */
+        /* pointer-events: none; */
     }
 
 </style>
@@ -406,10 +502,12 @@
 
 <div id="zoomview-container_{recordingId}"/>
 
+<canvas on:mousedown={dataChartZoomviewClicked} class="datachart-container-zoomview" id="datachart-container-zoomview_{recordingId}" width="{width}" height="180"></canvas>
+
 <div id="overview-container_{recordingId}"/>
 
 
-<canvas on:mousedown={tempoChartOverviewClicked} class="tempo-container-overview" id="tempo-chart-overview_{recordingId}" width="{width}" height="158"></canvas>
+<canvas on:mousedown={tempoChartOverviewClicked} class="datachart-container-overview" id="datachart-container-overview_{recordingId}" width="{width}" height="180"></canvas>
 
 <!--
 <div id="tempo-container_{recordingId}" >

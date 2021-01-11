@@ -862,7 +862,7 @@ class RecordingController {
 
         def recordingList = Recording.findAllByTenantIdOrIsShared(springSecurityService.principal.id, true).collect {
 
-            println it
+            // println it
 
             return [
                 id: it.id,
