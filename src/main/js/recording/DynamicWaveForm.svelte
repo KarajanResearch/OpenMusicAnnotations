@@ -517,6 +517,7 @@
         /* position: relative; */
         /* top: -21em; */
         /* pointer-events: none; */
+        /* height: 5em; */
     }
 
 </style>
@@ -529,7 +530,7 @@
 <div id="overview-container_{recordingId}"/>
 
 
-<canvas on:mousedown={tempoChartOverviewClicked} class="datachart-container-overview" id="datachart-container-overview_{recordingId}" width="{width}" height="180"></canvas>
+<canvas on:mousedown={tempoChartOverviewClicked} class="datachart-container-overview" id="datachart-container-overview_{recordingId}" width="{width}" height="180" ></canvas>
 
 <!--
 <div id="tempo-container_{recordingId}" >

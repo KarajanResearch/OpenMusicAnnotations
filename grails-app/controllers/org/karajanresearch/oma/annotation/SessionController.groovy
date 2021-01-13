@@ -37,7 +37,7 @@ class SessionController {
                 id: it.id,
                 recordingTitle: it.recording.title,
                 //composerName: it.recording.interpretation?.abstractMusicParts[0]?.abstractMusic?.composer.toString(),
-                abstractMusicTitle: it.recording.interpretation?.abstractMusicParts[0].toString(),
+                abstractMusicTitle: it.recording.interpretation?.abstractMusicParts? it.recording.interpretation?.abstractMusicParts[0].toString(): "",
                 interpretationTitle: it.recording.interpretation.toString(),
                 title: it.title,
                 isShared: sharingState

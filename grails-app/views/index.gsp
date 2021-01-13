@@ -48,15 +48,17 @@
     <p>
         Welcome to the Open Music Annotation Cloud, a database for any type of terms, tags, or attributes that humans associate with audible music.
     </p>
+    <!--
     <h2 class="welcome">
         <g:link controller="user" action="index">Create Account</g:link> or <g:link controller="login" action="auth">Login</g:link> to get started.
     </h2>
     <p>
         All data you add is private to you by default.
     </p>
+    -->
 
     <h2 class="welcome">
-         <g:link controller="recording" action="index">Browse and Edit Recordings</g:link> and <g:link controller="session" action="index">view available Open Music Annotations</g:link>.
+         <g:link controller="recording" action="index">Browse and Edit Recordings</g:link>.
     </h2>
 
     <h1 class="welcome">Documentation</h1>

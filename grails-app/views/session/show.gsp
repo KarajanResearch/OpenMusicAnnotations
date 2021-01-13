@@ -84,6 +84,19 @@
 
             </ul>
         </div>
+
+
+    <div>
+        <g:render template="sessionOceanUiContainerTemplate" model="[session: this.session]" />
+        <!-- invoce once, after all UI containers are set up -->
+        <asset:javascript src="bundles/sessionOceanUi-bundle.js" />
+    </div>
+
+
+    <hr/>
+
+
+
         <div id="show-session" class="content scaffold-show" role="main">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
@@ -137,5 +150,9 @@
                 </fieldset>
             </g:form>
         </div>
+
+
+
+
     </body>
 </html>

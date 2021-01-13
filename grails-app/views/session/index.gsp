@@ -47,8 +47,8 @@
 
 
                     $(window).focus(function() {
-                        console.log('welcome (back)');
-                        location.reload();
+                        // console.log('welcome (back)');
+                        // location.reload();
                     });
 
 

@@ -35,7 +35,7 @@
 
     <g:render template="recordingUiContainerTemplate" model="[recording: this.recording, showScore: false, isMine: this.isMine]" />
 <!-- invoce once, after all UI containers are set up -->
-    <asset:javascript src="bundles/recordingUiBundle.js" />
+    <asset:javascript src="bundles/recordingUi-bundle.js" />
 
 
 

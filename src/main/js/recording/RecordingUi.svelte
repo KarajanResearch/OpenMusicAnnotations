@@ -60,7 +60,7 @@
 
 <style>
     #recording_ui_container {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: relative;
         width: 100%;
         height: 64em;
@@ -88,7 +88,7 @@
         overflow: auto;
     }
     #recording_ui_waveform {
-        border: 1px solid;
+        /*border: 1px solid;*/
         position: absolute;
         top: 3.5em;
         left: 20%;

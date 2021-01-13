@@ -29,7 +29,10 @@ const path = require('path');
 // https://github.com/sveltejs/svelte-loader
 
 module.exports = {
-    entry: './src/main/js/recordingUi.js',
+    entry: {
+        recordingUi: './src/main/js/recordingUi.js',
+        sessionOceanUi: './src/main/js/sessionOceanUi.js'
+    },
 
     resolve: {
         alias: {
@@ -55,7 +58,7 @@ module.exports = {
     },
 
     output: {
-        filename: 'recordingUiBundle.js',
+        filename: "[name]-bundle.js",
         path: path.resolve(__dirname, 'grails-app/assets/javascripts/bundles'),
         publicPath: '/assets/',
     },
