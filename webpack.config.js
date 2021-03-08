@@ -31,7 +31,7 @@ const path = require('path');
 module.exports = {
     entry: {
         recordingUi: './src/main/js/recordingUi.js',
-        sessionOceanUi: './src/main/js/sessionOceanUi.js'
+        spotifyPlayerUi: './src/main/js/spotifyPlayerUi.js'
     },
 
     resolve: {

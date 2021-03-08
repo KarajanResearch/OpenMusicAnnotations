@@ -39,8 +39,15 @@ dependencies {
     // https://github.com/agorapulse/grails-aws-sdk/tree/master/grails-aws-sdk-s3
     compile 'org.grails.plugins:aws-sdk-s3:2.2.12'
 
+
+    // Spotify API
+    // compile 'se.michaelthelin.spotify:spotify-web-api-java:6.5.1'
+
+    compile 'se.michaelthelin.spotify:spotify-web-api-java:6.5.1'
+    // compile files('lib/spotify-web-api-java-6.5.1.jar')
+
     // HttpBuilder
-    //compile 'org.grails.plugins:http-builder-helper:1.1.0'
+    compile 'org.grails.plugins:http-builder-helper:1.1.0'
 
     // Spring Security
     compile 'org.grails.plugins:spring-security-core:3.2.3'
@@ -49,11 +56,10 @@ dependencies {
 
 
     // ARCCloud SDK
-    compile files('lib/commons-codec-1.10.jar')
+    // compile files('lib/commons-codec-1.10.jar')
     // help for the .so dependency:
     // https://stackoverflow.com/questions/16683775/include-so-library-in-apk-in-android-studio
-
-    compile fileTree(dir: "$buildDir/libacrcloud_extr_tool", include: 'libacrcloud_extr_tool.jar')
+    // compile fileTree(dir: "$buildDir/libacrcloud_extr_tool", include: 'libacrcloud_extr_tool.jar')
 
 
     // Postgres
@@ -105,7 +111,7 @@ bootRun {
 
     // adding library path to native ACRCloud
     // https://stackoverflow.com/questions/661320/how-to-add-native-library-to-java-library-path-with-eclipse-launch-instead-of#2309723
-    jvmArgs("-Djava.library.path=lib")
+    // jvmArgs("-Djava.library.path=lib")
 
 
     addResources = true
@@ -121,16 +127,16 @@ tasks.withType(Test) {
 }
 
 // including native library for ACRCloud
-task nativeLibsToJar(type: Zip, description: 'create a jar archive of the native libs') {
-    destinationDir file("$buildDir/libacrcloud_extr_tool")
-    baseName 'libacrcloud_extr_tool'
-    extension 'jar'
-    from fileTree(dir: 'lib', include: '**/*.so')
-    into 'lib/'
-}
+//task nativeLibsToJar(type: Zip, description: 'create a jar archive of the native libs') {
+//    destinationDir file("$buildDir/libacrcloud_extr_tool")
+//    baseName 'libacrcloud_extr_tool'
+//    extension 'jar'
+//    from fileTree(dir: 'lib', include: '**/*.so')
+//    into 'lib/'
+// }
 
 tasks.withType(JavaCompile) {
-    compileTask -> compileTask.dependsOn(nativeLibsToJar)
+    // compileTask -> compileTask.dependsOn(nativeLibsToJar)
 }
 
 assets {

@@ -1,11 +1,15 @@
 package org.karajanresearch.oma.music
 
 import grails.converters.JSON
+import grails.core.GrailsApplication
 import grails.gorm.multitenancy.WithoutTenant
 import grails.gorm.transactions.Transactional
+import org.apache.http.entity.ContentType
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.annotation.SessionService
+import groovyx.net.http.HTTPBuilder
+import groovyx.net.http.ContentType
 
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
@@ -501,6 +505,119 @@ class RecordingController {
 
         render view: "show", model: model
     }
+
+
+    def spotifyCallback() {
+
+        println "spotifyCallback"
+        println params
+
+        def spotifyCredentials = [
+            clientId: grailsApplication.config.getProperty("oma.spotify.clientId"),
+            clientSecret: grailsApplication.config.getProperty("oma.spotify.clientSecret"),
+            redirectUri: grailsApplication.config.getProperty("oma.spotify.redirectUri")
+        ]
+
+        def uri = 'https://accounts.spotify.com'
+
+        def http = new HTTPBuilder()
+
+        http.headers["Authorization"] = "Basic ${"$spotifyCredentials.clientId:$spotifyCredentials.clientSecret".bytes.encodeBase64()}"
+
+        println http.headers
+
+        http.post() {
+            uri.path = "https://accounts.spotify.com/api/token"
+            requestContentType = ContentType.JSON
+
+            body = [
+                form: [
+                code: params.code,
+                redirect_uri: "http://localhost:8080/recording/spotifyCallback", //spotifyCredentials.redirectUri,
+                grant_type: 'authorization_code'
+                ],
+            ]
+
+            response.success = { resp ->
+                println "Success! ${resp.status}"
+            }
+
+            response.failure = { resp ->
+                println "Request failed with status ${resp.status}"
+            }
+
+        }
+
+
+
+        render "OK"
+
+    }
+
+    GrailsApplication grailsApplication
+    def spotify(Long id) {
+        /*
+        oma.spotify.clientId: d74e15db41414d1d9282661e02710def
+oma.spotify.clientSecret: 98071941018d458883bd288494a66256
+oma.spotify.redirectUri: https://oma.digital
+
+        def uri = "https://accounts.spotify.com"
+
+
+        def http = new HTTPBuilder(uri)
+
+        http.get(path: "/authorize", query: [
+            response_type: 'code',
+            client_id: spotifyCredentials.clientId,
+            scope: "user-read-private user-read-email",
+            redirect_uri: spotifyCredentials.redirectUri,
+            state: "jepzji5vceipn7gz"
+
+
+
+        * */
+
+        def spotifyCredentials = [
+            clientId: grailsApplication.config.getProperty("oma.spotify.clientId"),
+            clientSecret: grailsApplication.config.getProperty("oma.spotify.clientSecret"),
+            redirectUri: grailsApplication.config.getProperty("oma.spotify.redirectUri")
+        ]
+
+        redirect(uri: "https://accounts.spotify.com/authorize", params:  [
+            response_type: 'code',
+            client_id: spotifyCredentials.clientId,
+            scope: "user-read-private user-read-email",
+            redirect_uri: "http://localhost:8080/recording/spotifyCallback", // spotifyCredentials.redirectUri,
+            state: "jepzji5vceipn7gz"] )
+
+
+        return
+
+
+
+        // careful! manual multi tenancy
+
+        Recording recording = recordingService.get(id)
+
+        def model = [
+            recording: recording,
+            isMine: recordingService.isMine(recording),
+        ]
+
+        render view: "showSpotify", model: model
+    }
+
+    SpotifyApiService spotifyApiService
+    def ajaxGetSpotifyToken() {
+
+        def model = [
+            spotifyToken: spotifyApiService.getToken()
+        ]
+
+        render model as JSON
+    }
+
+
 
 /*
     AnnotationStatisticsService annotationStatisticsService

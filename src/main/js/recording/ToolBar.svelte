@@ -119,7 +119,7 @@
         /* border: 1px solid black; */
         position: absolute;
         height: 100%;
-        width: 8em;
+        width: 9em;
         left: 11em;
     }
     #toolbar_tap {
