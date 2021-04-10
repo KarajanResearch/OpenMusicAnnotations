@@ -1000,6 +1000,9 @@ oma.spotify.redirectUri: https://oma.digital
         if (!recording) return notFound()
 
         recording.isShared = true
+        recording.annotationSessions.each {
+            it.isShared = true
+        }
         if (!recording.save(flush: true)) {
             println recording.errors
             flash.message = recording.errors
@@ -1012,6 +1015,9 @@ oma.spotify.redirectUri: https://oma.digital
         if (!recording) return notFound()
 
         recording.isShared = false
+        recording.annotationSessions.each {
+            it.isShared = false
+        }
         if (!recording.save(flush: true)) {
             println recording.errors
             flash.message = recording.errors
