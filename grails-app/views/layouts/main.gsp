@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>
-        <g:layoutTitle default="Open Music Annotations"/>
+        <g:layoutTitle default="Karajan Research"/>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
@@ -22,7 +22,7 @@
     <!--<a class="navbar-brand" href="/#"><asset:image src="grails.svg" alt="Grails Logo"/></a>-->
     <a class="navbar-brand" href="/#"><asset:image height="48px" src="icon-color.png" alt="OMA Logo"/></a>
 
-    <a href="/#">Open Music Annotations</a>
+    <a href="/#">Karajan Research</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -31,12 +31,54 @@
         <ul class="nav navbar-nav ml-auto">
             <g:pageProperty name="page.nav"/>
 
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    Activities
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <g:each var="c" in="${[
+                            [   controller: "static",
+                                action: "conference2019",
+                                tag: "Conference 2019"
+                            ],
+
+
+                    ] }">
+                        <li class="controller">
+                            <g:link controller="${c.controller}" action="${c.action}">${c.tag}</g:link>
+                        </li>
+                    </g:each>
+                </ul>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    Projects
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <g:each var="c" in="${[
+                            [   controller: "static",
+                                action: "",
+                                tag: "FWF Project"
+                            ],
+
+
+                    ] }">
+                        <li class="controller">
+                            <g:link controller="${c.controller}" action="${c.action}">${c.tag}</g:link>
+                        </li>
+                    </g:each>
+                </ul>
+            </li>
 
 
 
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    Menu
+                    Applications
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
