@@ -13,7 +13,7 @@
 <hr />
 
 <div class="hero-container">
-    <asset:image src="HeaderWeb2019.jpg" />
+    <asset:image src="index-header.jpg" />
 </div>
 
 

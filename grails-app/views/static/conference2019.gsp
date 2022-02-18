@@ -25,15 +25,19 @@
 
     <p>
 
-        asdf
-        a
-        asdf
-        a
-        sdf
 
-        asd
-        f
+
+        As part of the research project, this conference aims to provide a platform for bringing together a wide variety of disciplines and perspectives to explore and broaden the field of interpretation research. In line with the wider research project, this event will particularly focus on innovative and computer-assisted approaches to interpretation research. By connecting traditional methods of historical musicology, musical performance studies, and music-psychological questions (among other disciplines), this conference will expand our understanding of Karajan’s interpretations in particular, and how conductors shape music in general and how we experience it.
+
+
     </p>
+
+
+    <p>
+
+        Download
+    </p>
+
 
 
 

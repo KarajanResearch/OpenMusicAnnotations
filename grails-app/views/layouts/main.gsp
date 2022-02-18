@@ -42,6 +42,10 @@
                                 action: "conference2019",
                                 tag: "Conference 2019"
                             ],
+                            [   controller: "static",
+                                action: "fwfproject",
+                                tag: "FWF Project"
+                            ],
 
 
                     ] }">
@@ -55,14 +59,14 @@
 
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    Projects
+                    Research Data
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <g:each var="c" in="${[
                             [   controller: "static",
-                                action: "",
-                                tag: "FWF Project"
+                                action: "data",
+                                tag: "Annotations"
                             ],
 
 
