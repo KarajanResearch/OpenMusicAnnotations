@@ -46,6 +46,10 @@
                                 action: "fwfproject",
                                 tag: "FWF Project"
                             ],
+                            [   controller: "static",
+                                action: "people",
+                                tag: "People"
+                            ],
 
 
                     ] }">
@@ -64,8 +68,8 @@
                 </a>
                 <ul class="dropdown-menu">
                     <g:each var="c" in="${[
-                            [   controller: "static",
-                                action: "data",
+                            [   controller: "data",
+                                action: "index",
                                 tag: "Annotations"
                             ],
 
