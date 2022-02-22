@@ -63,7 +63,7 @@
     -->
 
     <h2 class="welcome">
-         <g:link controller="recording" action="index">Browse and Edit Recordings</g:link>.
+         <g:link controller="data" action="index">Browse Research Data</g:link>.
     </h2>
 
     <h1 class="welcome">Documentation</h1>

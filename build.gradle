@@ -49,6 +49,7 @@ dependencies {
     // HttpBuilder
     compile 'org.grails.plugins:http-builder-helper:1.1.0'
 
+
     // Spring Security
     compile 'org.grails.plugins:spring-security-core:3.2.3'
     compile "org.grails.plugins:spring-security-rest:${springSecurityRestVersion}"

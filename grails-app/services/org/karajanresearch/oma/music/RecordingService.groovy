@@ -58,6 +58,7 @@ class RecordingService {
 
 
     Boolean isMine(Recording recording) {
+        if (!recording) return false
         return springSecurityService.principal.id == recording.tenantId
     }
 

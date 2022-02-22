@@ -24,6 +24,7 @@ class AbstractMusic implements MultiTenant<AbstractMusic> {
 
 
     String toString() {
-        return composer.toString() + ": " + title
+        // return composer.toString() + ": " + title
+        return title
     }
 }

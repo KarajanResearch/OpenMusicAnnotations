@@ -9,6 +9,7 @@ import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.annotation.SessionService
 import groovyx.net.http.HTTPBuilder
+
 import groovyx.net.http.ContentType
 
 import static org.springframework.http.HttpStatus.*
@@ -500,6 +501,8 @@ class RecordingController {
         // careful! manual multi tenancy
 
         Recording recording = recordingService.get(id)
+
+        if (!recording) return notFound()
 
         def model = [recording: recording, isMine: recordingService.isMine(recording)]
 
