@@ -62,24 +62,9 @@
     </p>
     -->
 
-    <h2 class="welcome">
+    <h1 class="welcome">
          <g:link controller="data" action="index">Browse Research Data</g:link>.
-    </h2>
-
-    <h1 class="welcome">Documentation</h1>
-
-    <h2 class="welcome">Adding your own Recordings</h2>
-
-    <iframe width="1015" height="571" src="https://www.youtube.com/embed/IouyKUbdSYM?rel=0&vq=hd1080" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
-    <h2 class="welcome">Data Analysis with Python Notebooks</h2>
-
-    <p>
-        Watch the video and have a look at the tutorials at <a href="https://github.com/KarajanResearch/oma-jupyter-tutorials" title="Tutorials on Github" target="_blank">Github</a>.
-    </p>
-    <iframe width="1015" height="571" src="https://www.youtube.com/embed/FJ6h4ce9J2w?rel=0&vq=hd1080" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+    </h1>
 
 
 
