@@ -7,7 +7,7 @@
         <!-- LOAD AFTER jquery -->
 
 
-        <asset:javascript src="jszip.min.js" />
+        <asset:javascript src="jszip.js" />
         <asset:stylesheet src="datatables/datatables.min.css" />
         <asset:javascript src="datatables/datatables.min.js" />
 
@@ -30,7 +30,7 @@
                     <th>Composer</th>
                     <th>Composition</th>
                     <th>Interpretation</th>
-                    <th>Recording</th>
+                    <th>Tools</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -90,7 +90,8 @@
                                     targets: 2,
                                     render: function (data, type, row) {
                                         // console.log(row.trackId);
-                                        return '<a href="/recording/show/' + row.id + '" target="_blank" >' + data + '</a>';
+                                        //return '<a href="/recording/show/' + row.id + '" target="_blank" >' + data + '</a>';
+                                        return data;
                                     }
                                 },
                                 {
@@ -103,6 +104,7 @@
 
 
                             buttons: [
+                                /*
                                 {
                                     text: 'Compare',
                                     action: function(e, dt, node, config) {
@@ -120,6 +122,7 @@
                                         window.location.href = encodeURI(url);
                                     }
                                 },
+                                */
                                 /*
                                 {
                                     text: 'Python',
@@ -143,20 +146,25 @@
                                 {
                                     text: 'Download Selected',
                                     action: function(e, dt, node, config) {
-                                        /*
-                                        console.log("Compare");
+
                                         var rows = table.rows( { selected: true } );
-
                                         let data = rows.data();
-                                        let recordingId = data[0].id;
 
-                                        let url = "${createLink(controller:'recording',action:'show')}";
-                                        url = url + "/" + recordingId.toString();
+                                        if (data.length < 1) {
+                                            return alert("Please select at least 1 row!");
+                                        }
+
+                                        let ids = data.map(x => x.id).join();
+
+                                        let url = "${createLink(controller:'data',action:'download')}";
+
+                                        url = url + "?id=" + ids;
+
                                         console.log(url);
 
-                                        window.location.href = encodeURI(url);
-                                        */
-                                        alert("Download in progress...")
+                                        window.open(encodeURI(url), '_blank').focus();
+
+                                        //alert("Download in progress...");
                                     }
                                 }
                             ]
