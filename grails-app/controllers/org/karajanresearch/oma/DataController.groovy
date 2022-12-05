@@ -59,7 +59,48 @@ class DataController {
 
 
     @WithoutTenant
-    def download() {
+    def toSpreadSheet() {
+        def result = Recording.executeQuery("""
+            select
+                recording.id, 
+                recording.title, 
+                interpretation.title, 
+                abstractMusicParts.title,
+                composer.name,
+                abstractMusic.title
+            from Recording recording
+            join recording.interpretation interpretation
+            join interpretation.abstractMusicParts abstractMusicParts
+            join abstractMusicParts.abstractMusic abstractMusic
+            join abstractMusic.composer composer
+            
+        """
+        ).collect {
+
+            def compositionTitle = it[5]
+            if (it[3]) {
+                compositionTitle = compositionTitle + ": " + it[3]
+            }
+
+            return [
+                id: it[0],
+                composerName: it[4],
+                abstractMusicTitle: it[5],
+                abstractMusicPartTitle: it[3],
+                interpretationTitle: it[2],
+                title: it[1]
+            ]
+        }
+
+
+        render result as JSON
+
+    }
+
+
+
+    @WithoutTenant
+    def downloadJson() {
         println params
         def ids = params.id.tokenize(",")
 

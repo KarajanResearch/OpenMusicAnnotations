@@ -30,7 +30,6 @@
                     <th>Composer</th>
                     <th>Composition</th>
                     <th>Interpretation</th>
-                    <th>Tools</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,8 +66,7 @@
                             columns: [
                                 {data: "composerName"},
                                 {data: 'abstractMusicTitle'},
-                                {data: 'interpretationTitle'},
-                                {data: 'title'}
+                                {data: 'interpretationTitle'}
                             ],
                             columnDefs: [
                                 {
@@ -93,12 +91,6 @@
                                         //return '<a href="/recording/show/' + row.id + '" target="_blank" >' + data + '</a>';
                                         return data;
                                     }
-                                },
-                                {
-                                    searchPanes: {
-                                        show: false,
-                                    },
-                                    targets: 3
                                 }
                             ],
 
@@ -144,7 +136,7 @@
                                 },
                                 */
                                 {
-                                    text: 'Download Selected',
+                                    text: 'Download Selection as JSON',
                                     action: function(e, dt, node, config) {
 
                                         var rows = table.rows( { selected: true } );
@@ -156,7 +148,7 @@
 
                                         let ids = data.map(x => x.id).join();
 
-                                        let url = "${createLink(controller:'data',action:'download')}";
+                                        let url = "${createLink(controller:'data',action:'downloadJson')}";
 
                                         url = url + "?id=" + ids;
 
