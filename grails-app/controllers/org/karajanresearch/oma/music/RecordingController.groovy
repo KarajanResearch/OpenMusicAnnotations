@@ -2,15 +2,13 @@ package org.karajanresearch.oma.music
 
 import grails.converters.JSON
 import grails.core.GrailsApplication
-import grails.gorm.multitenancy.WithoutTenant
 import grails.gorm.transactions.Transactional
-import org.apache.http.entity.ContentType
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
-import org.karajanresearch.oma.annotation.SessionService
-import groovyx.net.http.HTTPBuilder
 
-import groovyx.net.http.ContentType
+//import groovyx.net.http.HTTPBuilder
+
+//import groovyx.net.http.ContentType
 
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
@@ -25,36 +23,6 @@ class RecordingController {
     def recordingService
     def tappingService
     def sessionService
-
-
-    @Secured("ROLE_AUTHENTICATED")
-    @WithoutTenant
-    def quickfixTenants() {
-
-        def numberOfFixes = 0
-
-        def a = Annotation.findAllByTenantIdIsNull([max: 1000]).each {
-            //println it
-            it.tenantId = it.session.tenantId
-            if (!it.save()) {
-                println it.errors
-            }
-            println it
-            numberOfFixes += 1
-        }
-
-        println "flushing"
-
-        Annotation.withSession {
-            it.flush()
-            it.clear()
-        }
-
-        println "delivering"
-
-        render a as JSON
-
-    }
 
 
     /**
@@ -109,12 +77,6 @@ class RecordingController {
             return
         }
 
-        // check permissions
-        if (annotation.session.tenantId != springSecurityService.principal.id) {
-            println "permission denied"
-            def result = [error: "Permission denied"]
-            render result as JSON
-        }
 
         try {
 
@@ -134,31 +96,6 @@ class RecordingController {
         }
     }
 
-    def ajaxDeleteAnnotation() {
-        println "ajaxDeleteAnnotation"
-        println params
-
-        def annotation = Annotation.get(params.annotation)
-
-        if (!annotation) return notFound()
-
-        // check permissions
-        if (annotation.session.tenantId != springSecurityService.principal.id) {
-            println "permission denied"
-            def result = [error: "Permission denied"]
-            render result as JSON
-        }
-
-        try {
-            annotation.delete(flush: true)
-        } catch (Exception ex) {
-            println ex.message
-        }
-
-        def result = [success: "Alright"]
-        render result as JSON
-
-    }
 
     def ajaxCreateAnnotation() {
         println "ajaxCreateAnnotation"
@@ -484,9 +421,7 @@ class RecordingController {
 
         def recording = recordingService.get(id)
 
-        def result = recording.annotationSessions.findAll {
-            it.isShared || it.tenantId == springSecurityService.principal.id
-        }.collect {session ->
+        def result = recording.annotationSessions.collect {session ->
             return sessionService.getUiStructure(session)
         }.sort {
             it.id
@@ -509,7 +444,7 @@ class RecordingController {
         render view: "show", model: model
     }
 
-
+/*
     def spotifyCallback() {
 
         println "spotifyCallback"
@@ -556,29 +491,11 @@ class RecordingController {
         render "OK"
 
     }
+*/
 
     GrailsApplication grailsApplication
+    /*
     def spotify(Long id) {
-        /*
-        oma.spotify.clientId: d74e15db41414d1d9282661e02710def
-oma.spotify.clientSecret: 98071941018d458883bd288494a66256
-oma.spotify.redirectUri: https://oma.digital
-
-        def uri = "https://accounts.spotify.com"
-
-
-        def http = new HTTPBuilder(uri)
-
-        http.get(path: "/authorize", query: [
-            response_type: 'code',
-            client_id: spotifyCredentials.clientId,
-            scope: "user-read-private user-read-email",
-            redirect_uri: spotifyCredentials.redirectUri,
-            state: "jepzji5vceipn7gz"
-
-
-
-        * */
 
         def spotifyCredentials = [
             clientId: grailsApplication.config.getProperty("oma.spotify.clientId"),
@@ -609,6 +526,8 @@ oma.spotify.redirectUri: https://oma.digital
 
         render view: "showSpotify", model: model
     }
+
+     */
 
     SpotifyApiService spotifyApiService
     def ajaxGetSpotifyToken() {
@@ -977,10 +896,9 @@ oma.spotify.redirectUri: https://oma.digital
 
 
     def springSecurityService
-    @WithoutTenant
     def ajaxIndex() {
 
-        def recordingList = Recording.findAllByTenantIdOrIsShared(springSecurityService.principal.id, true).collect {
+        def recordingList = Recording.findAllByIsAuthored( true).collect {
 
             // println it
 

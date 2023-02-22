@@ -1,16 +1,9 @@
 package org.karajanresearch.oma.music
 
-import grails.gorm.MultiTenant
-import org.karajanresearch.oma.Role
-import org.karajanresearch.oma.User
 
-class Interpretation implements MultiTenant<Interpretation> {
-    /**
-     * the tenantId is the id (Long) of the currently logged in user
-     */
-    Long tenantId
+class Interpretation {
 
-
+    Boolean isAuthored
     String title
 
     Date changedAt
@@ -24,6 +17,7 @@ class Interpretation implements MultiTenant<Interpretation> {
     static constraints = {
         title nullable: false
         changedAt nullable: true
+        isAuthored nullable: true
     }
 
     String tokenizeParts() {

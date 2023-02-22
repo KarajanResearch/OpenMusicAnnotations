@@ -1,7 +1,5 @@
 package org.karajanresearch.oma.annotation
 
-import grails.gorm.MultiTenant
-
 /**
  * representation of what is perceived in music.
  *
@@ -9,12 +7,8 @@ import grails.gorm.MultiTenant
  * has a type
  * has a value
  */
-class Annotation implements MultiTenant<Annotation>, Comparable {
+class Annotation implements Comparable {
 
-    /**
-     * the tenantId is the id (Long) of the currently logged in user
-     */
-    Long tenantId
 
     /**
      * Annotations are grouped. many tappings in one go, session, listening

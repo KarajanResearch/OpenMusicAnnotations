@@ -1,17 +1,11 @@
 package org.karajanresearch.oma.music
 
-import grails.gorm.MultiTenant
-import org.karajanresearch.oma.User
+class Composer {
 
-
-class Composer implements MultiTenant<Composer> {
-    /**
-     * the tenantId is the id (Long) of the currently logged in user
-     */
-    Long tenantId
 
     String name
     String wikipediaEnUrl
+    Boolean isAuthored
 
 
     static mapping = {
@@ -24,6 +18,7 @@ class Composer implements MultiTenant<Composer> {
         name nullable: false
         compositions nullable: true
         wikipediaEnUrl nullable: true
+        isAuthored nullable: true
     }
 
     String toString() {

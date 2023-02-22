@@ -128,8 +128,6 @@
         <div id="recording_ui_waveform">
             <DynamicWaveForm recordingId={recordingId} />
         </div>
-
-
     </div>
 {/if}
 

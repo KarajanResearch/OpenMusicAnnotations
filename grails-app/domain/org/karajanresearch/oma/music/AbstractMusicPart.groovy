@@ -1,18 +1,14 @@
 package org.karajanresearch.oma.music
 
-import grails.gorm.MultiTenant
-import org.karajanresearch.oma.Role
-import org.karajanresearch.oma.User
 import org.karajanresearch.oma.annotation.Session
 
 /**
  * the sheet music representation of the interpretation
  */
-class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
-    /**
-     * the tenantId is the id (Long) of the currently logged in user
-     */
-    Long tenantId
+class AbstractMusicPart  {
+
+
+    Boolean isAuthored
 
     /**
      * parts can have optional names
@@ -63,6 +59,7 @@ class AbstractMusicPart implements MultiTenant<AbstractMusicPart> {
         barNumberOffset nullable: true
         numberOfBars nullable: true
         pdfPageChangeAnnotationSession nullable: true
+        isAuthored nullable: true
     }
 
     String toString() {

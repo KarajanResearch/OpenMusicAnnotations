@@ -1,16 +1,12 @@
 package org.karajanresearch.oma.music
 
-import grails.gorm.MultiTenant
-import org.karajanresearch.oma.Role
-import org.karajanresearch.oma.User
+
 import org.karajanresearch.oma.annotation.Session
 
-class Recording implements MultiTenant<Recording> {
-    /**
-     * the tenantId is the id (Long) of the currently logged in user
-     */
-    Long tenantId
+class Recording {
 
+
+    Boolean isAuthored
 
     //Long id
 
@@ -56,6 +52,7 @@ class Recording implements MultiTenant<Recording> {
         beats nullable: true
         tempo nullable: true
         isShared nullable: true
+        isAuthored nullable: true
     }
 
     String toString() {

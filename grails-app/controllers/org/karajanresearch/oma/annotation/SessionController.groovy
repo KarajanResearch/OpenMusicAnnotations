@@ -18,31 +18,9 @@ class SessionController {
     SessionService sessionService
 
 
-    @WithoutTenant
     def ajaxIndex() {
 
-        def sessionList = Session.findAllByTenantIdOrIsShared(springSecurityService.principal.id, true).collect {
-            Boolean isMine = it.tenantId == springSecurityService.principal.id
-
-            def sharingState = "private" // the default
-            if (isMine) {
-                if (it.isShared) {
-                    sharingState = "shared"
-                }
-            } else {
-                sharingState = "read-only"
-            }
-
-            return [
-                id: it.id,
-                recordingTitle: it.recording.title,
-                //composerName: it.recording.interpretation?.abstractMusicParts[0]?.abstractMusic?.composer.toString(),
-                abstractMusicTitle: it.recording.interpretation?.abstractMusicParts? it.recording.interpretation?.abstractMusicParts[0].toString(): "",
-                interpretationTitle: it.recording.interpretation.toString(),
-                title: it.title,
-                isShared: sharingState
-            ]
-        }
+        def sessionList = []
 
         render sessionList as JSON
 
@@ -55,7 +33,7 @@ class SessionController {
 
         if (!session) return notFound()
 
-        def isMine = (session.tenantId == springSecurityService.principal.id)
+        def isMine = false
 
         render (view: "show", model: [session: session, isMine: isMine ])
     }

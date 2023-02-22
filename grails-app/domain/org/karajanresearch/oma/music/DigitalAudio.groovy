@@ -1,12 +1,6 @@
 package org.karajanresearch.oma.music
 
-import grails.gorm.MultiTenant
-
-class DigitalAudio implements MultiTenant<DigitalAudio> {
-    /**
-     * the tenantId is the id (Long) of the currently logged in user
-     */
-    Long tenantId
+class DigitalAudio {
 
     /**
      * used for updates from user, in case the name is the same as an existing one
