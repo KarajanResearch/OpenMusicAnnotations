@@ -3,8 +3,10 @@ package org.karajanresearch.oma
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import org.karajanresearch.oma.annotation.Annotation
+import org.karajanresearch.oma.annotation.AnnotationService
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.music.AbstractMusic
+import org.karajanresearch.oma.music.AbstractMusicPart
 import org.karajanresearch.oma.music.Composer
 import org.karajanresearch.oma.music.Recording
 import org.karajanresearch.oma.music.RecordingService
@@ -15,6 +17,42 @@ import com.xlson.groovycsv.CsvParser
 @Secured("permitAll")
 class DataController {
 
+
+
+
+    def getWorks() {
+        println params
+
+        def namedParams = [
+            composerId: Long.parseLong(params.composerId)
+        ]
+
+        def result = AbstractMusic.executeQuery("""
+            
+            select
+                abstractMusic.id,
+                abstractMusic.title,
+                abstractMusic.subTitle
+            
+            from AbstractMusic abstractMusic
+            join abstractMusic.composer as composer
+            where
+                composer.id = :composerId
+                and abstractMusic.isAuthored = true
+                
+                
+            order by abstractMusic.title
+
+        """, namedParams).collect {
+            return [
+                id: it[0],
+                title: it[1],
+                subTitle: it[2]
+            ]
+        }
+
+        render result as JSON
+    }
 
     def getComposers() {
         println params
@@ -31,7 +69,6 @@ class DataController {
                 
             order by composer.name
 
-
         """).collect {
             return [
                 id: it[0],
@@ -45,50 +82,102 @@ class DataController {
     def getRecordings() {
         println params
 
+        println "query start: " + new Date()
+
         def result = Recording.executeQuery("""
             select
-                abstractMusicParts.id,
+                recording.id,
                 composer.name,
                 composer.id,
                 abstractMusic.title,
                 abstractMusic.subTitle,
-                abstractMusicParts.title,
-                count(recording.id)
+                abstractMusicPart.title,
+                count(recording.id),
+                interpretation.title,
+                abstractMusic.id
             from Recording recording
             join recording.interpretation interpretation
-            join interpretation.abstractMusicParts abstractMusicParts
-            join abstractMusicParts.abstractMusic abstractMusic
+            join interpretation.abstractMusicParts abstractMusicPart
+            join abstractMusicPart.abstractMusic abstractMusic
             join abstractMusic.composer composer
             
             where recording.isAuthored = true
             
-            group by abstractMusicParts.id, composer.name,
+            group by recording.id, composer.name,
                 composer.id,
                 abstractMusic.title,
                 abstractMusic.subTitle,
-                abstractMusicParts.title
+                abstractMusicPart.title,
+                interpretation.title,
+                abstractMusic.id
                 
-            order by composer.name, abstractMusic.title, abstractMusic.subTitle
+            order by composer.name, abstractMusic.title, abstractMusic.subTitle, abstractMusicPart.title, interpretation.title
         """
         ).collect {
 
 
 
             return [
-                abstractMusicPartId: it[0],
+                recordingId: it[0],
                 composerName: it[1],
                 composerId: it[2],
                 workTitle: it[3],
                 workSubTitle: it[4],
                 partTitle: it[5],
-                numRecordings: it[6]
-
+                numRecordings: it[6],
+                interpretationTitle: it[7],
+                workId: it[8]
             ]
         }
+
+        println "query finished: " + new Date()
+
 
         render result as JSON
     }
 
+
+    AnnotationService annotationService
+    def getAnnotations() {
+        println params
+
+        def namedParams = [
+            sessionId: Long.parseLong(params.sessionId)
+        ]
+
+        def result = Session.executeQuery("""
+            
+            select
+                session.id,
+                annotation.id,
+                annotation.momentOfPerception,
+                annotation.barNumber,
+                annotation.beatNumber
+            
+            from Session session
+                join session.annotations as annotation
+                join annotation.annotationType as annotationType
+            
+            where
+                session.id = :sessionId
+                and annotationType.name like 'Tap'
+                
+            order by
+                annotation.momentOfPerception
+            
+        """, namedParams).collect{
+            return [
+                sessionId: it[0],
+                annotationId: it[1],
+                momentOfPerception: it[2],
+                barNumber: it[3],
+                beatNumber: it[4]
+            ]
+        }
+
+
+        render result as JSON
+    }
 
 
     def index(Integer max) {
@@ -355,15 +444,68 @@ class DataController {
                         println other.errors
                     }
                 }
+            }
+        }
+
+        render "OK"
+    }
+
+
+    @Secured("ROLE_ADMIN")
+    def fixWorks() {
+
+        def uniqueWorks = []
+
+        AbstractMusic.list().each { abstractMusic ->
+
+            def work = [
+                composerId: abstractMusic.composer.id,
+                workTitle: abstractMusic.title
+            ]
+
+            if (!uniqueWorks.contains(work)) {
+                uniqueWorks.add(work)
+            }
+        }
+
+        uniqueWorks.each { uniqueWork ->
+
+            def works = AbstractMusic.findAllByComposerAndTitle(
+                Composer.get(uniqueWork.composerId), uniqueWork.workTitle
+            )
+
+
+            def first = works.pop()
+
+            println first.id
+            println works
+
+            works.each { AbstractMusic obsoleteWork ->
+
+                AbstractMusicPart.findAllByAbstractMusic(obsoleteWork).each {
+                    it.abstractMusic = first
+
+                    if (!it.save(flush: true)) {
+                        println it.errors
+                    } else {
+                        println it
+                    }
+
+                }
+
+                if (!obsoleteWork.delete(flush: true)) {
+                    println obsoleteWork.errors
+                }
 
             }
+
+
 
         }
 
 
 
-        render "OK"
-
+        render uniqueWorks as JSON
     }
 
 }
