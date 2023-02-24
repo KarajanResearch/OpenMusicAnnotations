@@ -94,12 +94,14 @@ class DataController {
                 abstractMusicPart.title,
                 count(recording.id),
                 interpretation.title,
-                abstractMusic.id
+                abstractMusic.id,
+                max(session.id)
             from Recording recording
             join recording.interpretation interpretation
             join interpretation.abstractMusicParts abstractMusicPart
             join abstractMusicPart.abstractMusic abstractMusic
             join abstractMusic.composer composer
+            join recording.annotationSessions session
             
             where recording.isAuthored = true
             
@@ -115,8 +117,6 @@ class DataController {
         """
         ).collect {
 
-
-
             return [
                 recordingId: it[0],
                 composerName: it[1],
@@ -126,7 +126,8 @@ class DataController {
                 partTitle: it[5],
                 numRecordings: it[6],
                 interpretationTitle: it[7],
-                workId: it[8]
+                workId: it[8],
+                sessionId: it[9]
             ]
         }
 
@@ -147,12 +148,13 @@ class DataController {
 
         def result = Session.executeQuery("""
             
-            select
+            select 
                 session.id,
                 annotation.id,
                 annotation.momentOfPerception,
                 annotation.barNumber,
-                annotation.beatNumber
+                annotation.beatNumber,
+                session.title
             
             from Session session
                 join session.annotations as annotation
@@ -171,7 +173,9 @@ class DataController {
                 annotationId: it[1],
                 momentOfPerception: it[2],
                 barNumber: it[3],
-                beatNumber: it[4]
+                beatNumber: it[4],
+                bpm: 0.0,
+                title: it[5]
             ]
         }
 
@@ -180,9 +184,8 @@ class DataController {
     }
 
 
-    def index(Integer max) {
-
-        render(view: "index", model:[recordingList: []])
+    def index() {
+        render(view: "ui")
     }
 
     @Deprecated
