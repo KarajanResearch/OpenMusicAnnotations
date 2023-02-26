@@ -22,7 +22,7 @@ class AbstractMusic {
 
 
     String toString() {
-        return composer.toString() + ": " + title + (subTitle? ": " + subTitle : "")
+        return title + (subTitle? ": " + subTitle : "")
         //return title
     }
 }

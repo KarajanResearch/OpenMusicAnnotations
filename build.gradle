@@ -51,6 +51,9 @@ dependencies {
     // csv parser
     compile "com.xlson.groovycsv:groovycsv:1.3"
 
+    //data output to excel
+    compile 'org.grails.plugins:excel-export:2.1'
+
     // Postgres
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
 

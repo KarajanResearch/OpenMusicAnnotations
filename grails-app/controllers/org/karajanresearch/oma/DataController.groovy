@@ -13,7 +13,6 @@ import org.karajanresearch.oma.music.RecordingService
 import com.xlson.groovycsv.CsvParser
 
 
-
 @Secured("permitAll")
 class DataController {
 
@@ -378,6 +377,45 @@ class DataController {
         render result as JSON
     }
 
+    def downloadCsv() {
+        println params
+        def ids = params.id.tokenize(",")
+
+        List<Long> recordingIds = ids.each {
+            return Long.parseLong(it)
+        }
+
+
+        def result = Recording.findAllByIdInList(recordingIds).collect {
+            def compositionTitle = it.interpretation.abstractMusicParts[0].abstractMusic.title
+            if (it.interpretation.abstractMusicParts[0].title) {
+                compositionTitle = compositionTitle + ": " + it.interpretation.abstractMusicParts[0].title
+            }
+
+            return [
+                id: it.id,
+                abstractMusicTitle: compositionTitle,
+                composerName: it.interpretation.abstractMusicParts[0].abstractMusic.composer.name,
+                interpretationTitle: it.interpretation.title,
+                sessions: it.annotationSessions.collect { Session session ->
+                    return [
+                        title: session.title,
+                        annotations: session.annotations.sort{Annotation a -> a.momentOfPerception }.collect { Annotation annotation ->
+                            return [
+                                type: annotation.annotationType.name,
+                                bar: annotation.barNumber,
+                                beat: annotation.beatNumber,
+                                momentOfPerception: annotation.momentOfPerception
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+
+        render result as JSON
+    }
+
     RecordingService recordingService
     @Secured("ROLE_ADMIN")
     def getPeaksFile(Long id) {
@@ -509,5 +547,35 @@ class DataController {
 
         render uniqueWorks as JSON
     }
+
+
+
+
+    def downloadBasket() {
+        println params
+        // recording ids
+        def ids = params.id.tokenize(",")
+
+        List<Long> recordingIds = ids.each {
+            return Long.parseLong(it)
+        }
+
+        def recordings = Recording.findAllByIdInList(recordingIds)
+
+        def file = recordingService.bundleDownload(recordings)
+        def outputFileName = "KarajanResearchDataSet.zip"
+
+        response.setContentType("application/zip")
+        response.setHeader("Content-Length", file.size().toString())
+        response.setHeader("Content-Disposition", "Attachment;Filename=\"${outputFileName}\"")
+
+
+        def outputStream = response.getOutputStream()
+        outputStream << file.newInputStream()
+        outputStream.flush()
+        outputStream.close()
+
+    }
+
 
 }

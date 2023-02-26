@@ -16,12 +16,29 @@
     </head>
     <body>
 
-    <iframe
-            src="https://tempo-data.oma.digital/"
-            title="UI"
-            width="100%"
-            height="100%">
-    </iframe>
+    <%
+        String env = grails.util.Environment.current.name
+    %>
+
+    <g:if test="${env == 'development'}">
+        <iframe
+                src="http://localhost:5173/browse"
+                title="UI"
+                width="100%"
+                height="100%">
+        </iframe>
+    </g:if>
+    <g:else>
+        <iframe
+                src="https://tempo-data.oma.digital/browse"
+                title="UI"
+                width="100%"
+                height="100%">
+        </iframe>
+    </g:else>
+
+
+
 
     </body>
 </html>

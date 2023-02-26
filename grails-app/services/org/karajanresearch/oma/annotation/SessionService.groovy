@@ -6,6 +6,44 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class SessionService {
 
+
+    def getCsvFile(Session session) {
+
+        def data = [[
+            "annotationType",
+            "momentOfPerception",
+            "barNumber",
+            "beatNumber",
+            "subdivision"
+        ]]
+
+        session.annotations.each { Annotation annotation ->
+            data.push(
+                [
+                    annotation.annotationType.name,
+                    annotation.momentOfPerception,
+                    annotation.barNumber,
+                    annotation.beatNumber,
+                    annotation.subdivision
+                ]
+            )
+        }
+        File.createTempFile("temp",".csv").with {csvFile ->
+            // Include the line below if you want the file to be automatically deleted when the
+            // JVM exits
+            deleteOnExit()
+
+            println absolutePath
+
+            // https://groovy.apache.org/blog/reading-and-writing-csv-files
+            csvFile.text = data*.join(",").join(System.lineSeparator())
+
+            return csvFile
+        }
+
+    }
+
+
     /**
      * @WithoutTenant
      *     Session multiTenantManagedGet(Long id) {*         def session = Session.findByIdAndTenantId(id, springSecurityService.principal.id)
@@ -21,6 +59,7 @@ class SessionService {
     def annotationService
 
     @WithoutTenant
+    @Deprecated
     Session get(Serializable id) {
         def session = Session.findByIdAndTenantId(id, springSecurityService.principal.id)
         if (!session) {

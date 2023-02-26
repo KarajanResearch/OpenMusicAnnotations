@@ -1,6 +1,5 @@
 package org.karajanresearch.oma.music
 
-import com.amazonaws.services.s3.model.CannedAccessControlList
 import grails.core.GrailsApplication
 import grails.gorm.multitenancy.WithoutTenant
 import grails.gorm.transactions.Transactional
@@ -9,13 +8,103 @@ import grails.util.Environment
 import org.karajanresearch.oma.StorageBackendService
 import org.karajanresearch.oma.annotation.Annotation
 import org.karajanresearch.oma.annotation.Session
+import org.karajanresearch.oma.annotation.SessionService
 import org.karajanresearch.oma.annotation.desc.AnnotationStatisticsService
-import org.springframework.web.multipart.MultipartFile
-
+import pl.touk.excel.export.XlsxExporter
 import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 @Transactional
 class RecordingService {
+
+
+    SessionService sessionService
+    def bundleDownload(recordings) {
+        // create zip file
+        File.createTempFile("KarajanResearchDataset", ".zip").with {zipFile ->
+            deleteOnExit()
+
+            ZipOutputStream zipOutput = new ZipOutputStream(zipFile.newOutputStream())
+
+            // add files to zip
+            // add excel file
+
+            recordings.each { recording ->
+
+                // a file per session
+                recording.annotationSessions.each {session ->
+
+                    File file = sessionService.getCsvFile(session)
+
+
+                    def parts = file.absolutePath.tokenize('.')
+                    def extension = parts.last()
+
+
+
+                    def zipEntryName =
+                        "sessionId-" + session.id.toString() + "-" + session.recording.toString() + "." + extension
+
+
+                    zipOutput.putNextEntry(new ZipEntry(zipEntryName))
+
+                    Path input = Paths.get(file.absolutePath)
+
+                    Files.copy(input, zipOutput)
+                    zipOutput.closeEntry()
+
+                }
+            }
+
+
+            def excelFile = File.createTempFile("metadata-", ".xlsx")
+            // excel file
+
+
+            def excelFileData = []
+            recordings.each{
+                it.annotationSessions.each { session ->
+                    excelFileData.push([
+                        sessionId: session.id,
+                        composer: session.recording.interpretation.abstractMusicParts[0].abstractMusic.composer.name,
+                        work: session.recording.interpretation.abstractMusicParts[0].abstractMusic.toString(),
+                        part: session.recording.interpretation.abstractMusicParts[0].title,
+                        interpretationTitle: session.recording.interpretation.toString()
+                    ])
+                }
+            }
+
+            def headers = []
+            headers.addAll(excelFileData[0].keySet())
+
+            new XlsxExporter().with {
+                sheet("CsvFileDescription").with {
+                    fillHeader(headers)
+                    add(excelFileData, headers)
+                }
+                save(excelFile.newOutputStream())
+            }
+
+
+            zipOutput.putNextEntry(new ZipEntry("DatasetDescription.xlsx"))
+            Path input = Paths.get(excelFile.absolutePath)
+            Files.copy(input, zipOutput)
+            zipOutput.closeEntry()
+
+
+            zipOutput.close()
+
+
+            return zipFile
+        }
+    }
+
+
+
+
 /*
     Recording get(Serializable id)
 
