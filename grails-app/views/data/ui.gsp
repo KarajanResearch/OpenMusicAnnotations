@@ -17,7 +17,7 @@
     <body>
 
     <iframe
-            src="http://oma-frontend-tempo.s3-website.eu-central-1.amazonaws.com/"
+            src="https://tempo-data.oma.digital/"
             title="UI"
             width="100%"
             height="100%">
