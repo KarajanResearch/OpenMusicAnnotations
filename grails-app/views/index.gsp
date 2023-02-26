@@ -20,10 +20,10 @@
 
 <div id="welcomeScreen">
 
-    <h1 class="welcome">Karajan Research Projects</h1>
+    <h1 class="welcome">Open Music Annotations</h1>
 
 
-    <h2 class="welcome">Towards Interdisciplinary, Computer-assisted Analysis of Musical Interpretation: Herbert von Karajan</h2>
+    <h2 class="welcome">FWF Project: Towards Interdisciplinary, Computer-assisted Analysis of Musical Interpretation: Herbert von Karajan</h2>
 
 
     <h3 class="welcome">A Study of Herbert von Karajan</h3>
@@ -48,45 +48,18 @@
     </div>
 
 
-
-
     <p>
         Welcome to the Open Music Annotation Cloud, a database for any type of terms, tags, or attributes that humans associate with audible music.
     </p>
-    <!--
-    <h2 class="welcome">
-        <g:link controller="user" action="index">Create Account</g:link> or <g:link controller="login" action="auth">Login</g:link> to get started.
-    </h2>
-    <p>
-        All data you add is private to you by default.
-    </p>
-    -->
 
     <h1 class="welcome">
-         <g:link controller="data" action="index">Browse Research Data</g:link>.
+         <g:link controller="data" action="index">Browse Research Data</g:link>
     </h1>
 
+    <h1 class="welcome">
+        <a href="https://karajan-research.org">karajan-research.org</a>
+    </h1>
 
-
-
-    <!--
-    <h3>Misc.</h3>
-    <ul>
-        <li>adding annotations</li>
-        <li>the classical music catalog</li>
-        <li>written-first v.s. recorded-first music</li>
-    </ul>
-
-
-
-    <h2 class="welcome">Notes for Programmers</h2>
-    <ul>
-        <li>introduction to musical data</li>
-        <li>API of oma.cloud</li>
-        <li>musical python notebooks</li>
-    </ul>
-
--->
 
 
 </div>

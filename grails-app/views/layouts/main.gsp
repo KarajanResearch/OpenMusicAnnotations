@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>
-        <g:layoutTitle default="Karajan Research"/>
+    Karajan Research: Open Music Annotations
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
@@ -19,10 +19,9 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-static-top" role="navigation">
-    <!--<a class="navbar-brand" href="/#"><asset:image src="grails.svg" alt="Grails Logo"/></a>-->
     <a class="navbar-brand" href="/#"><asset:image height="48px" src="icon-color.png" alt="OMA Logo"/></a>
 
-    <a href="/#">Karajan Research</a>
+    <a href="/#">Karajan Research: Open Music Annotations</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -31,46 +30,17 @@
         <ul class="nav navbar-nav ml-auto">
             <g:pageProperty name="page.nav"/>
 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    Activities
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <g:each var="c" in="${[
-                            [   controller: "static",
-                                action: "conference2019",
-                                tag: "Conference 2019"
-                            ],
-                            [   controller: "static",
-                                action: "fwfproject",
-                                tag: "FWF Project"
-                            ],
-                            [   controller: "static",
-                                action: "people",
-                                tag: "People"
-                            ],
-
-
-                    ] }">
-                        <li class="controller">
-                            <g:link controller="${c.controller}" action="${c.action}">${c.tag}</g:link>
-                        </li>
-                    </g:each>
-                </ul>
-            </li>
-
 
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    Research Data
+                    Browse Data
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <g:each var="c" in="${[
                             [   controller: "data",
                                 action: "index",
-                                tag: "Annotations"
+                                tag: "Tempo Annotations"
                             ],
 
 
@@ -84,40 +54,7 @@
 
 
 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    Applications
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <g:each var="c" in="${[
-                            [   controller: "recording",
-                                action: "index",
-                                tag: message(code: 'default.menu.recording.label', default: 'Recordings')
-                            ],
 
-                            [   controller: "session",
-                                action: "index",
-                                tag: 'Annotation Sessions'
-                            ],
-
-                            [
-                                controller: "user", action: "show",
-                                tag: message(code: 'default.menu.user.label', default: 'My Account')
-                            ],
-
-                            [
-                                controller: "logout",
-                                    action: "index",
-                                    tag: message(code: 'default.menu.logout.label', default: 'Logout')
-                            ]
-                    ] }">
-                        <li class="controller">
-                            <g:link controller="${c.controller}" action="${c.action}">${c.tag}</g:link>
-                        </li>
-                    </g:each>
-                </ul>
-            </li>
 
         </ul>
     </div>
