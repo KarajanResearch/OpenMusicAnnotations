@@ -30,7 +30,7 @@
     </g:if>
     <g:else>
         <iframe
-                src="https://tempo-data.oma.digital/browse"
+                src="https://tempo-data.oma.digital/browse.html"
                 title="UI"
                 width="100%"
                 height="100%">
