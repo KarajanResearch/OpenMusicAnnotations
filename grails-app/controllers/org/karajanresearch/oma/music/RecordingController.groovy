@@ -529,15 +529,7 @@ class RecordingController {
 
      */
 
-    SpotifyApiService spotifyApiService
-    def ajaxGetSpotifyToken() {
 
-        def model = [
-            spotifyToken: spotifyApiService.getToken()
-        ]
-
-        render model as JSON
-    }
 
 
 

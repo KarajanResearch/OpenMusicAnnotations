@@ -18,8 +18,6 @@ import com.xlson.groovycsv.CsvParser
 class DataController {
 
 
-
-
     def getWorks() {
         println params
 
@@ -381,6 +379,7 @@ class DataController {
     }
 
     RecordingService recordingService
+    @Secured("ROLE_ADMIN")
     def getPeaksFile(Long id) {
 
         println "getPeaksFile: " + id
