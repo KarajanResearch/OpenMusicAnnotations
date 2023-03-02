@@ -17,6 +17,7 @@ import com.xlson.groovycsv.CsvParser
 class DataController {
 
 
+
     def getWorks() {
         println params
 
@@ -92,7 +93,10 @@ class DataController {
                 count(recording.id),
                 interpretation.title,
                 abstractMusic.id,
-                max(session.id)
+                max(session.id),
+                interpretation.conductor,
+                interpretation.orchestra,
+                interpretation.year
             from Recording recording
             join recording.interpretation interpretation
             join interpretation.abstractMusicParts abstractMusicPart
@@ -108,7 +112,10 @@ class DataController {
                 abstractMusic.subTitle,
                 abstractMusicPart.title,
                 interpretation.title,
-                abstractMusic.id
+                abstractMusic.id,
+                interpretation.conductor,
+                interpretation.orchestra,
+                interpretation.year
                 
             order by composer.name, abstractMusic.title, abstractMusic.subTitle, abstractMusicPart.title, interpretation.title
         """
@@ -124,7 +131,10 @@ class DataController {
                 numRecordings: it[6],
                 interpretationTitle: it[7],
                 workId: it[8],
-                sessionId: it[9]
+                sessionId: it[9],
+                conductor: it[10],
+                orchestra: it[11],
+                year: it[12]
             ]
         }
 
@@ -135,7 +145,6 @@ class DataController {
     }
 
 
-    AnnotationService annotationService
     def getAnnotations() {
         println params
 
@@ -184,6 +193,18 @@ class DataController {
     def index() {
         render(view: "ui")
     }
+
+    @Secured("ROLE_ADMIN")
+    def session() {
+        render(view: "session")
+    }
+
+
+    @Secured("ROLE_ADMIN")
+    def getSomething() {
+        render params as JSON
+    }
+
 
     @Deprecated
     def ajaxIndex() {
@@ -319,10 +340,15 @@ class DataController {
                 it.abstractMusic.title = csvLine["korrigierter work"]
                 it.abstractMusic.subTitle = csvLine["NEU: work number"]
                 it.abstractMusic.isAuthored = true
-                it.title = csvLine["korrigierter section"]
+                it.title = csvLine["korrigierte section"] != "[leer]" ? csvLine["korrigierte section"] : null
                 it.isAuthored = true
             }
             recording.isAuthored = true
+
+            recording.interpretation.conductor = csvLine["Conductor"]
+            recording.interpretation.orchestra = csvLine["Orchestra"]
+            recording.interpretation.year = csvLine["Year"] ? Integer.parseInt(csvLine["Year"]): null
+
 
             if (!recording.save(flush: true)) {
                 println recording.errors
@@ -333,11 +359,10 @@ class DataController {
         }
 
         render result as JSON
-
     }
 
 
-
+    @Deprecated
     def downloadJson() {
         println params
         def ids = params.id.tokenize(",")

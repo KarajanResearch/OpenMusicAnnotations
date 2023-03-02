@@ -17,7 +17,9 @@ class SessionService {
             "subdivision"
         ]]
 
-        session.annotations.each { Annotation annotation ->
+        session.annotations.findAll{ Annotation annotation ->
+            annotation.annotationType.name == "Tap"
+        }.each { Annotation annotation ->
             data.push(
                 [
                     annotation.annotationType.name,
@@ -28,19 +30,15 @@ class SessionService {
                 ]
             )
         }
+
         File.createTempFile("temp",".csv").with {csvFile ->
             // Include the line below if you want the file to be automatically deleted when the
             // JVM exits
             deleteOnExit()
-
-            println absolutePath
-
             // https://groovy.apache.org/blog/reading-and-writing-csv-files
             csvFile.text = data*.join(",").join(System.lineSeparator())
-
             return csvFile
         }
-
     }
 
 

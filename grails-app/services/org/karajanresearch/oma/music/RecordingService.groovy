@@ -46,7 +46,7 @@ class RecordingService {
 
 
                     def zipEntryName =
-                        "sessionId-" + session.id.toString() + "-" + session.recording.toString() + "." + extension
+                        "sessionId-" + session.id.toString() + "." + extension
 
 
                     zipOutput.putNextEntry(new ZipEntry(zipEntryName))

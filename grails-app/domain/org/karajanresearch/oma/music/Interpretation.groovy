@@ -8,6 +8,11 @@ class Interpretation {
 
     Date changedAt
 
+    String orchestra
+    String conductor
+    Integer year
+
+
     /**
      * from a single interpretation == performance, one can create many recordings. usually one, though
      * A single interpretation may consist of many different parts of many different pieces
@@ -18,6 +23,9 @@ class Interpretation {
         title nullable: false
         changedAt nullable: true
         isAuthored nullable: true
+        orchestra nullable: true
+        conductor nullable: true
+        year nullable: true
     }
 
     String tokenizeParts() {
