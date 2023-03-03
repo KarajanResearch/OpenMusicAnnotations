@@ -2,10 +2,49 @@ package org.karajanresearch.oma.annotation
 
 import grails.gorm.multitenancy.WithoutTenant
 import grails.gorm.transactions.Transactional
+import pl.touk.excel.export.XlsxExporter
 
 @Transactional
 class SessionService {
 
+    def getExcelFile(Session session) {
+
+        def data = []
+
+        session.annotations.findAll{ Annotation annotation ->
+            annotation.annotationType.name == "Tap"
+        }.each { Annotation annotation ->
+            data.push(
+                [
+                    annotationType: annotation.annotationType.name,
+                    momentOfPerception: annotation.momentOfPerception,
+                    barNumber: annotation.barNumber,
+                    beatNumber: annotation.beatNumber,
+                    subdivision: annotation.subdivision
+                ]
+            )
+        }
+
+        File.createTempFile("sessionId " + session.id, ".xlsx").with { excelFile ->
+
+            def headers = []
+            headers.addAll(data[0].keySet())
+
+            new XlsxExporter().with {
+                sheet("CsvFileDescription").with {
+                    fillHeader(headers)
+                    add(data, headers)
+                }
+                save(excelFile.newOutputStream())
+            }
+
+            return excelFile
+
+        }
+        // excel file
+
+
+    }
 
     def getCsvFile(Session session) {
 

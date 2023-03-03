@@ -2,8 +2,6 @@ package org.karajanresearch.oma
 
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
-import org.karajanresearch.oma.annotation.Annotation
-import org.karajanresearch.oma.annotation.AnnotationService
 import org.karajanresearch.oma.annotation.Session
 import org.karajanresearch.oma.music.AbstractMusic
 import org.karajanresearch.oma.music.AbstractMusicPart
@@ -96,7 +94,8 @@ class DataController {
                 max(session.id),
                 interpretation.conductor,
                 interpretation.orchestra,
-                interpretation.year
+                interpretation.year,
+                count(session.id)
             from Recording recording
             join recording.interpretation interpretation
             join interpretation.abstractMusicParts abstractMusicPart
@@ -134,9 +133,11 @@ class DataController {
                 sessionId: it[9],
                 conductor: it[10],
                 orchestra: it[11],
-                year: it[12]
+                year: it[12],
+                numberOfSessions: it[13]
             ]
         }
+
 
         println "query finished: " + new Date()
 
@@ -194,58 +195,10 @@ class DataController {
         render(view: "ui")
     }
 
+    //testing
     @Secured("ROLE_ADMIN")
     def session() {
         render(view: "session")
-    }
-
-
-    @Secured("ROLE_ADMIN")
-    def getSomething() {
-        render params as JSON
-    }
-
-
-    @Deprecated
-    def ajaxIndex() {
-
-        println params
-
-        def result = Recording.executeQuery("""
-            select
-                recording.id, 
-                recording.title, 
-                interpretation.title, 
-                abstractMusicParts.title,
-                composer.name,
-                abstractMusic.title
-            from Recording recording
-            join recording.interpretation interpretation
-            join interpretation.abstractMusicParts abstractMusicParts
-            join abstractMusicParts.abstractMusic abstractMusic
-            join abstractMusic.composer composer
-            
-        """
-        ).collect {
-
-            def compositionTitle = it[5]
-            if (it[3]) {
-                compositionTitle = compositionTitle + ": " + it[3]
-            }
-
-            return [
-                id: it[0],
-                title: it[1],
-                interpretationTitle: it[2],
-                abstractMusicTitle: compositionTitle,
-                composerName: it[4]
-            ]
-        }
-
-
-        render result as JSON
-
-
     }
 
 
@@ -304,6 +257,7 @@ class DataController {
         def csvData = new CsvParser().parse(csvFile.newReader())
 
         LinkedHashMap<Integer, Object> result = [:]
+
         while (csvData.hasNext()) {
             def line = csvData.next()
 
@@ -362,85 +316,6 @@ class DataController {
     }
 
 
-    @Deprecated
-    def downloadJson() {
-        println params
-        def ids = params.id.tokenize(",")
-
-        List<Long> recordingIds = ids.each {
-            return Long.parseLong(it)
-        }
-
-
-        def result = Recording.findAllByIdInList(recordingIds).collect {
-            def compositionTitle = it.interpretation.abstractMusicParts[0].abstractMusic.title
-            if (it.interpretation.abstractMusicParts[0].title) {
-                compositionTitle = compositionTitle + ": " + it.interpretation.abstractMusicParts[0].title
-            }
-
-            return [
-                id: it.id,
-                abstractMusicTitle: compositionTitle,
-                composerName: it.interpretation.abstractMusicParts[0].abstractMusic.composer.name,
-                interpretationTitle: it.interpretation.title,
-                sessions: it.annotationSessions.collect { Session session ->
-                    return [
-                        title: session.title,
-                        annotations: session.annotations.sort{Annotation a -> a.momentOfPerception }.collect { Annotation annotation ->
-                            return [
-                                type: annotation.annotationType.name,
-                                bar: annotation.barNumber,
-                                beat: annotation.beatNumber,
-                                momentOfPerception: annotation.momentOfPerception
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-
-        render result as JSON
-    }
-
-    def downloadCsv() {
-        println params
-        def ids = params.id.tokenize(",")
-
-        List<Long> recordingIds = ids.each {
-            return Long.parseLong(it)
-        }
-
-
-        def result = Recording.findAllByIdInList(recordingIds).collect {
-            def compositionTitle = it.interpretation.abstractMusicParts[0].abstractMusic.title
-            if (it.interpretation.abstractMusicParts[0].title) {
-                compositionTitle = compositionTitle + ": " + it.interpretation.abstractMusicParts[0].title
-            }
-
-            return [
-                id: it.id,
-                abstractMusicTitle: compositionTitle,
-                composerName: it.interpretation.abstractMusicParts[0].abstractMusic.composer.name,
-                interpretationTitle: it.interpretation.title,
-                sessions: it.annotationSessions.collect { Session session ->
-                    return [
-                        title: session.title,
-                        annotations: session.annotations.sort{Annotation a -> a.momentOfPerception }.collect { Annotation annotation ->
-                            return [
-                                type: annotation.annotationType.name,
-                                bar: annotation.barNumber,
-                                beat: annotation.beatNumber,
-                                momentOfPerception: annotation.momentOfPerception
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-
-        render result as JSON
-    }
-
     RecordingService recordingService
     @Secured("ROLE_ADMIN")
     def getPeaksFile(Long id) {
@@ -471,8 +346,6 @@ class DataController {
 
 
     }
-
-
 
 
     @Secured("ROLE_ADMIN")
@@ -587,7 +460,7 @@ class DataController {
 
         def recordings = Recording.findAllByIdInList(recordingIds)
 
-        def file = recordingService.bundleDownload(recordings)
+        def file = recordingService.bundleDownload(recordings, params.fmt)
         def outputFileName = "KarajanResearchDataSet.zip"
 
         response.setContentType("application/zip")

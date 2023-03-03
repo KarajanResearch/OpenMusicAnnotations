@@ -22,7 +22,7 @@ class RecordingService {
 
 
     SessionService sessionService
-    def bundleDownload(recordings) {
+    def bundleDownload(recordings, String format) {
         // create zip file
         File.createTempFile("KarajanResearchDataset", ".zip").with {zipFile ->
             deleteOnExit()
@@ -37,12 +37,17 @@ class RecordingService {
                 // a file per session
                 recording.annotationSessions.each {session ->
 
-                    File file = sessionService.getCsvFile(session)
+                    File file
+
+                    if (format == 'xlsx') {
+                        file = sessionService.getExcelFile(session)
+                    } else {
+                        file = sessionService.getCsvFile(session)
+                    }
 
 
                     def parts = file.absolutePath.tokenize('.')
                     def extension = parts.last()
-
 
 
                     def zipEntryName =
