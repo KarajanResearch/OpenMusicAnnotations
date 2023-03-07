@@ -31,9 +31,7 @@ The minimum interpretation information in the Open Music Annotation Cloud is a C
 
 ### Using Open Music Annotation Cloud
 
-THe Open Music Annotation Cloud is online at https://oma.cloud
-
-[Watch this tutorial on adding beats and text annotation information](https://youtube.com)
+THe Open Music Annotation Cloud is online at https://oma.digital
 
 
 ## Developer Docs
