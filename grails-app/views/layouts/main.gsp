@@ -74,17 +74,27 @@
             <asset:image src="documentation.svg" alt="Grails Documentation" class="float-left"/>
         </a>
         <strong class="centered"><a href="https://github.com/KarajanResearch/OpenMusicAnnotations" target="_blank">Documentation</a></strong>
-        <p>Documentation for all the features <a href="https://github.com/KarajanResearch/OpenMusicAnnotations" target="_blank">Github</a>.</p>
+        <p><a href="https://github.com/KarajanResearch/OpenMusicAnnotations" target="_blank">Github</a>.</p>
 
     </div>
+
+
 
     <div class="col">
         <a href="https://karajan-research.org/" target="_blank">
             <asset:image src="slack.svg" alt="Slack" class="float-left"/>
         </a>
         <strong class="centered"><a href="https://karajan-research.org/" target="_blank">Join the Community</a></strong>
-        <p>Get feedback and share your experience with the community <a href="https://karajan-research.org/" target="_blank">@ Karajan Research</a>.</p>
+        <p><a href="https://karajan-research.org/" target="_blank">@ Karajan Research</a>.</p>
     </div>
+
+    <div class="col">
+        <a href="/imprint" >
+            <span style="width: 100%; text-align: center;">Imprint and Privacy</span>
+        </a>
+
+    </div>
+
 </div>
 
 

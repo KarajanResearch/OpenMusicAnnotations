@@ -22,7 +22,7 @@
 
     <g:if test="${env == 'development'}">
         <iframe
-                src="http://localhost:5173/browse"
+                src="http://localhost:5174/browse"
                 title="UI"
                 width="100%"
                 height="100%">
@@ -36,9 +36,6 @@
                 height="100%">
         </iframe>
     </g:else>
-
-
-
 
     </body>
 </html>

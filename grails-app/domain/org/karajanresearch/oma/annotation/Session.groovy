@@ -49,6 +49,6 @@ class Session {
     }
 
     String toString() {
-        return title
+        return recording.interpretation.toString()
     }
 }

@@ -33,6 +33,9 @@ class Interpretation {
     }
 
     String toString() {
+        if (orchestra && conductor && year) {
+            return conductor + " - " + orchestra + " - " + year
+        }
         return title // + "(" + tokenizeParts() + ")"
     }
 }
