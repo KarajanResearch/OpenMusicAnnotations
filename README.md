@@ -18,8 +18,6 @@ On the other hand, music can happen very differently from the classic approach. 
 
 The minimum recording information in the Open Music Annotation Cloud is a title and a WAV file. Information about the interpretation, the composition, and the composer is optional, but recommended for classical pieces.
 
-[Watch this tutorial on adding recordings and interpretation information](https://youtube.com)
-
 ### What is an Interpretation
 
 The same classical composition performed by different conductors and different orchestras sound different. For classical music lovers, that differences often make them prefer one conductors interpretation over some other conductors interpretation.
